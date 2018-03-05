@@ -2,43 +2,46 @@
     <div class="row">
         <div class="col">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header" role="button" data-toggle="collapse" :data-target="collapseHref" aria-expanded="true">
                     Version {{ software.version }}
                 </div>
-                <div class="card-body">
 
-                    <div class="row">
-                        <div class="col">
-                            <ul class="list-unstyled">
-                                <li>
-                                    <a :href="software.file.url">
-                                        <i class="fa fa-cloud-download-alt"></i> Download {{ software.file.file_name }}
-                                    </a>
-                                    <span class="label label-default">{{ software.file.human_readable_size }}</span>
-                                </li>
-                                <li>
-                                    <div v-show="software.notes" class="well">
-                                        {{ software.notes }}
+                <div class="collapse" :id="collapseId">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col">
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <a :href="software.file.url">
+                                            <i class="fa fa-cloud-download-alt"></i> Download {{ software.file.file_name }}
+                                        </a>
+                                        <span class="label label-default">{{ software.file.human_readable_size }}</span>
+                                    </li>
+                                    <li>
+                                        <div v-show="software.notes" class="well">
+                                            {{ software.notes }}
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <modal :title="software.version" :to-be-deleted="software" @delete-object="deleteObject()">
+                                    <div slot="body">
+                                        <p>Are you sure you wish to delete <strong>{{ software.file.file_name }}</strong>?</p>
                                     </div>
-                                </li>
-                            </ul>
+                                </modal>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col">
-                            <modal :title="software.version" :to-be-deleted="software" @delete-object="deleteObject()">
-                                <div slot="body">
-                                    <p>Are you sure you wish to delete <strong>{{ software.file.file_name }}</strong>?</p>
-                                </div>
-                            </modal>
-                        </div>
-                    </div>
+                        <ont-software-profiles :software="software"></ont-software-profiles>
 
-                    <ont-software-profiles :software="software"></ont-software-profiles>
+                    </div><!-- /card-body -->
+                </div><!-- /collapse -->
 
-                </div>
-                <div class="card-footer"></div>
             </div>
         </div>
     </div>
@@ -61,19 +64,19 @@
 
         computed: {
             collapseHref: function() {
-                return '#collapse-'+this.software.id;
+                return '#collapse-software-'+this.software.id;
             },
             collapseId: function() {
-                return 'collapse-'+this.software.id;
+                return 'collapse-software-'+this.software.id;
             },
             deleteModalId: function() {
-                return 'delete-modal-'+this.software.id;
+                return 'delete-modal-software-'+this.software.id;
             },
             deleteModalRef: function() {
-                return 'delete-modal-ref-'+this.software.id;
+                return 'delete-modal-ref-software-'+this.software.id;
             },
             headingId: function() {
-                return 'heading-'+this.software.id;
+                return 'heading-software-'+this.software.id;
             }
         },
 

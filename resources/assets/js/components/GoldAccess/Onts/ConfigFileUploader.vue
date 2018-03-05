@@ -22,25 +22,26 @@
                 <div :id="collapseId" class="col collapse" :data-toggle="uploadAreaIsOpen">
                     <div class="row">
                         <div class="col">
-                            <div class="card">
+                            <div class="card mb-3">
                                 <div class="card-body">
-                                    <form :id="dropzoneId" :action="uploadUrl" class="dropzone"></form>
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <form :id="dropzoneId" :action="uploadUrl" class="dropzone"></form>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2" v-if="readyForUpload">
+                                        <div class="col">
+                                            <button type="button" class="btn btn-dark float-right" @click="processQueue()"><span class="fas fa-cloud-upload-alt"></span> Upload</button>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col">
 
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="row mt-2" v-if="readyForUpload">
-                <div class="col">
-                    <button type="button" class="btn btn-dark" @click="processQueue()"><span class="fas fa-cloud-upload-alt"></span> Upload</button>
                 </div>
             </div>
 

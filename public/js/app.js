@@ -53751,7 +53751,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "media" }, [
-    _c("span", { staticClass: "fas fa-2x fa-file mr-3" }),
+    _c("span", { staticClass: "fas fa-2x fa-cloud-upload-alt mr-3" }),
     _vm._v(" "),
     _c("div", { staticClass: "media-body" }, [
       _c("div", { staticClass: "row" }, [
@@ -57384,7 +57384,7 @@ var render = function() {
         _c("div", { staticClass: "collapse", attrs: { id: _vm.collapseId } }, [
           _c("div", { staticClass: "card-body" }, [
             _c("div", { staticClass: "media" }, [
-              _c("span", { staticClass: "fas fa-2x fa-file mr-3" }),
+              _c("span", { staticClass: "fas fa-2x fa-cloud-upload-alt mr-3" }),
               _vm._v(" "),
               _c("div", { staticClass: "media-body" }, [
                 _c("div", { staticClass: "row" }, [
@@ -57514,6 +57514,7 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_dropzone__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_dropzone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_dropzone__);
+//
 //
 //
 //
@@ -57880,44 +57881,48 @@ var render = function() {
           [
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col" }, [
-                _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: "card mb-3" }, [
                   _c("div", { staticClass: "card-body" }, [
-                    _c("form", {
-                      staticClass: "dropzone",
-                      attrs: { id: _vm.dropzoneId, action: _vm.uploadUrl }
-                    })
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col" }, [
+                        _c("form", {
+                          staticClass: "dropzone",
+                          attrs: { id: _vm.dropzoneId, action: _vm.uploadUrl }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm.readyForUpload
+                      ? _c("div", { staticClass: "row mt-2" }, [
+                          _c("div", { staticClass: "col" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-dark float-right",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.processQueue()
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "fas fa-cloud-upload-alt"
+                                }),
+                                _vm._v(" Upload")
+                              ]
+                            )
+                          ])
+                        ])
+                      : _vm._e()
                   ])
                 ])
               ])
-            ]),
-            _vm._v(" "),
-            _vm._m(0)
+            ])
           ]
         )
       ]),
-      _vm._v(" "),
-      _vm.readyForUpload
-        ? _c("div", { staticClass: "row mt-2" }, [
-            _c("div", { staticClass: "col" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-dark",
-                  attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      _vm.processQueue()
-                    }
-                  }
-                },
-                [
-                  _c("span", { staticClass: "fas fa-cloud-upload-alt" }),
-                  _vm._v(" Upload")
-                ]
-              )
-            ])
-          ])
-        : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col" }, [
@@ -57935,7 +57940,7 @@ var render = function() {
                 [
                   _c("div", { staticClass: "dz-details mb-3" }, [
                     _c("div", { staticClass: "media" }, [
-                      _vm._m(1),
+                      _vm._m(0),
                       _vm._v(" "),
                       _c("div", { staticClass: "media-body" }, [
                         _c("div", { staticClass: "row" }, [
@@ -58025,7 +58030,7 @@ var render = function() {
                           ])
                         ]),
                         _vm._v(" "),
-                        _vm._m(2)
+                        _vm._m(1)
                       ])
                     ])
                   ])
@@ -58064,7 +58069,7 @@ var render = function() {
                     [_vm._v("Success")]
                   ),
                   _vm._v(" "),
-                  _vm._m(3)
+                  _vm._m(2)
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
@@ -58083,14 +58088,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col" })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -58260,7 +58257,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col" }, [
-      _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "card mb-3" }, [
         _c(
           "div",
           {
@@ -58588,6 +58585,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
@@ -58612,25 +58612,25 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
 
     computed: {
         collapseHref: function collapseHref() {
-            return '#collapse-' + this.dropzoneId;
+            return '#collapse-softwarefileuploader-' + this.dropzoneId;
         },
         collapseId: function collapseId() {
-            return 'collapse-' + this.dropzoneId;
+            return 'collapse-softwarefileuploader-' + this.dropzoneId;
         },
         dropzoneHref: function dropzoneHref() {
             return '#' + this.dropzoneId;
         },
         modalHref: function modalHref() {
-            return '#modal-' + this.dropzoneId;
+            return '#modal-softwarefileuploader-' + this.dropzoneId;
         },
         modalId: function modalId() {
-            return 'modal-' + this.dropzoneId;
+            return 'modal-softwarefileuploader-' + this.dropzoneId;
         },
         modalLabel: function modalLabel() {
-            return 'modal-' + this.dropzoneId + '-label';
+            return 'modal-softwarefileuploader-' + this.dropzoneId + '-label';
         },
         previewTemplateId: function previewTemplateId() {
-            return 'preview-template-' + this.dropzoneId;
+            return 'preview-template-softwarefileuploader-' + this.dropzoneId;
         }
     },
 
@@ -58799,44 +58799,48 @@ var render = function() {
           [
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col" }, [
-                _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: "card mb-3" }, [
                   _c("div", { staticClass: "card-body" }, [
-                    _c("form", {
-                      staticClass: "dropzone",
-                      attrs: { id: _vm.dropzoneId, action: _vm.uploadUrl }
-                    })
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col" }, [
+                        _c("form", {
+                          staticClass: "dropzone",
+                          attrs: { id: _vm.dropzoneId, action: _vm.uploadUrl }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm.readyForUpload
+                      ? _c("div", { staticClass: "row mt-2" }, [
+                          _c("div", { staticClass: "col" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-dark float-right",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.processQueue()
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "fas fa-cloud-upload-alt"
+                                }),
+                                _vm._v(" Upload")
+                              ]
+                            )
+                          ])
+                        ])
+                      : _vm._e()
                   ])
                 ])
               ])
-            ]),
-            _vm._v(" "),
-            _vm._m(0)
+            ])
           ]
         )
       ]),
-      _vm._v(" "),
-      _vm.readyForUpload
-        ? _c("div", { staticClass: "row mt-2" }, [
-            _c("div", { staticClass: "col" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-dark",
-                  attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      _vm.processQueue()
-                    }
-                  }
-                },
-                [
-                  _c("span", { staticClass: "fas fa-cloud-upload-alt" }),
-                  _vm._v(" Upload")
-                ]
-              )
-            ])
-          ])
-        : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col" }, [
@@ -58854,7 +58858,7 @@ var render = function() {
                 [
                   _c("div", { staticClass: "dz-details mb-3" }, [
                     _c("div", { staticClass: "media" }, [
-                      _vm._m(1),
+                      _vm._m(0),
                       _vm._v(" "),
                       _c("div", { staticClass: "media-body" }, [
                         _c("div", { staticClass: "row" }, [
@@ -58944,7 +58948,7 @@ var render = function() {
                           ])
                         ]),
                         _vm._v(" "),
-                        _vm._m(2)
+                        _vm._m(1)
                       ])
                     ])
                   ])
@@ -58980,15 +58984,15 @@ var render = function() {
                       staticClass: "modal-title",
                       attrs: { id: _vm.modalLabel }
                     },
-                    [_vm._v("Deleted")]
+                    [_vm._v("Success")]
                   ),
                   _vm._v(" "),
-                  _vm._m(3)
+                  _vm._m(2)
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-body" }, [
                   _vm._v(
-                    "\n                        The file was successfully deleted.\n                    "
+                    "\n                        The file was successfully uploaded.\n                    "
                   )
                 ]),
                 _vm._v(" "),
@@ -59002,14 +59006,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col" })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

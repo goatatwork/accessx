@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col">
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-header" role="button" data-toggle="collapse" :data-target="collapseHref" aria-expanded="true">
                     Version {{ software.version }}
                 </div>

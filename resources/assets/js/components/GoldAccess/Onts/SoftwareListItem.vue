@@ -11,29 +11,27 @@
 
                         <div class="row">
                             <div class="col">
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <a :href="software.file.url">
-                                            <i class="fa fa-cloud-download-alt"></i> Download {{ software.file.file_name }}
-                                        </a>
-                                        <span class="label label-default">{{ software.file.human_readable_size }}</span>
-                                    </li>
-                                    <li>
-                                        <div v-show="software.notes" class="well">
-                                            {{ software.notes }}
+                                <div class="media">
+                                    <span class="fas fa-2x fa-cloud-download-alt mr-3"></span>
+                                    <div class="media-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <a :href="software.file.url">{{ software.file.file_name }}</a>
+                                                <small><span class="font-italic">{{ software.file.human_readable_size }}</span></small>
+                                            </div>
+                                            <div class="col">
+                                                {{ software.notes }}
+                                            </div>
                                         </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col">
-                                <modal :title="software.version" :to-be-deleted="software" @delete-object="deleteObject()">
-                                    <div slot="body">
-                                        <p>Are you sure you wish to delete <strong>{{ software.file.file_name }}</strong>?</p>
                                     </div>
-                                </modal>
+                                    <div class="media-right">
+                                        <delete-modal :title="software.version" :to-be-deleted="software" v-on:delete-the-object="deleteTheObject()">
+                                            <div slot="body">
+                                                <p>Are you sure you wish to delete <strong>{{ software.file.file_name }}</strong>?</p>
+                                            </div>
+                                        </delete-modal>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -48,9 +46,7 @@
 </template>
 
 <script>
-    var DeleteModal = Vue.extend(require('../Core/DeleteModal.vue'));
     var OntSoftwareProfiles = Vue.extend(require('./OntSoftwareProfiles.vue'));
-
 
     export default {
         props: {
@@ -58,7 +54,6 @@
         },
 
         components: {
-            'modal': DeleteModal,
             'ont-software-profiles': OntSoftwareProfiles,
         },
 
@@ -81,7 +76,7 @@
         },
 
         methods: {
-            deleteObject: function() {
+            deleteTheObject: function() {
                 axios.delete('/api/onts/ont_software/'+this.software.id).then( (response) => {
                     EventBus.$emit('ont-software-was-deleted', this.software);
                 }).catch((error) => {

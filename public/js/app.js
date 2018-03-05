@@ -57046,10 +57046,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
-var DeleteModal = Vue.extend(__webpack_require__(3));
 var OntSoftwareProfiles = Vue.extend(__webpack_require__(89));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -57058,7 +57055,6 @@ var OntSoftwareProfiles = Vue.extend(__webpack_require__(89));
     },
 
     components: {
-        'modal': DeleteModal,
         'ont-software-profiles': OntSoftwareProfiles
     },
 
@@ -57081,7 +57077,7 @@ var OntSoftwareProfiles = Vue.extend(__webpack_require__(89));
     },
 
     methods: {
-        deleteObject: function deleteObject() {
+        deleteTheObject: function deleteTheObject() {
             var _this = this;
 
             axios.delete('/api/onts/ont_software/' + this.software.id).then(function (response) {
@@ -57311,16 +57307,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-var DeleteModal = Vue.extend(__webpack_require__(3));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
         profile: {}
-    },
-
-    components: {
-        'modal': DeleteModal
     },
 
     computed: {
@@ -57339,7 +57339,7 @@ var DeleteModal = Vue.extend(__webpack_require__(3));
     },
 
     methods: {
-        deleteObject: function deleteObject() {
+        deleteTheObject: function deleteTheObject() {
             var _this = this;
 
             axios.delete('/api/onts/ont_profiles/' + this.profile.id).then(function (response) {
@@ -57383,31 +57383,47 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "collapse", attrs: { id: _vm.collapseId } }, [
           _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col" }, [
-                _vm._v(
-                  "\n                            " +
-                    _vm._s(_vm.profile.notes) +
-                    "\n                        "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "media" }, [
+              _c("span", { staticClass: "fas fa-2x fa-file mr-3" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "media-body" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col" }, [
+                    _c("a", { attrs: { href: _vm.profile.file.url } }, [
+                      _vm._v(_vm._s(_vm.profile.file.file_name))
+                    ]),
+                    _vm._v(" "),
+                    _c("small", [
+                      _c("span", { staticClass: "font-italic" }, [
+                        _vm._v(_vm._s(_vm.profile.file.human_readable_size))
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col" }, [
+                    _vm._v(
+                      "\n                                    " +
+                        _vm._s(_vm.profile.notes) +
+                        "\n                                "
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "col" },
+                { staticClass: "media-right" },
                 [
                   _c(
-                    "modal",
+                    "delete-modal",
                     {
                       attrs: {
                         title: _vm.profile.file.file_name,
                         "to-be-deleted": _vm.profile
                       },
                       on: {
-                        "delete-object": function($event) {
-                          _vm.deleteObject()
+                        "delete-the-object": function($event) {
+                          _vm.deleteTheObject()
                         }
                       }
                     },
@@ -58272,82 +58288,75 @@ var render = function() {
             [
               _c("div", { staticClass: "row" }, [
                 _c("div", { staticClass: "col" }, [
-                  _c("ul", { staticClass: "list-unstyled" }, [
-                    _c("li", [
-                      _c("a", { attrs: { href: _vm.software.file.url } }, [
-                        _c("i", { staticClass: "fa fa-cloud-download-alt" }),
-                        _vm._v(
-                          " Download " +
-                            _vm._s(_vm.software.file.file_name) +
-                            "\n                                    "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "label label-default" }, [
-                        _vm._v(_vm._s(_vm.software.file.human_readable_size))
+                  _c("div", { staticClass: "media" }, [
+                    _c("span", {
+                      staticClass: "fas fa-2x fa-cloud-download-alt mr-3"
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "media-body" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col" }, [
+                          _c("a", { attrs: { href: _vm.software.file.url } }, [
+                            _vm._v(_vm._s(_vm.software.file.file_name))
+                          ]),
+                          _vm._v(" "),
+                          _c("small", [
+                            _c("span", { staticClass: "font-italic" }, [
+                              _vm._v(
+                                _vm._s(_vm.software.file.human_readable_size)
+                              )
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col" }, [
+                          _vm._v(
+                            "\n                                            " +
+                              _vm._s(_vm.software.notes) +
+                              "\n                                        "
+                          )
+                        ])
                       ])
                     ]),
                     _vm._v(" "),
-                    _c("li", [
-                      _c(
-                        "div",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: _vm.software.notes,
-                              expression: "software.notes"
+                    _c(
+                      "div",
+                      { staticClass: "media-right" },
+                      [
+                        _c(
+                          "delete-modal",
+                          {
+                            attrs: {
+                              title: _vm.software.version,
+                              "to-be-deleted": _vm.software
+                            },
+                            on: {
+                              "delete-the-object": function($event) {
+                                _vm.deleteTheObject()
+                              }
                             }
-                          ],
-                          staticClass: "well"
-                        },
-                        [
-                          _vm._v(
-                            "\n                                        " +
-                              _vm._s(_vm.software.notes) +
-                              "\n                                    "
-                          )
-                        ]
-                      )
-                    ])
+                          },
+                          [
+                            _c(
+                              "div",
+                              { attrs: { slot: "body" }, slot: "body" },
+                              [
+                                _c("p", [
+                                  _vm._v("Are you sure you wish to delete "),
+                                  _c("strong", [
+                                    _vm._v(_vm._s(_vm.software.file.file_name))
+                                  ]),
+                                  _vm._v("?")
+                                ])
+                              ]
+                            )
+                          ]
+                        )
+                      ],
+                      1
+                    )
                   ])
                 ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c(
-                  "div",
-                  { staticClass: "col" },
-                  [
-                    _c(
-                      "modal",
-                      {
-                        attrs: {
-                          title: _vm.software.version,
-                          "to-be-deleted": _vm.software
-                        },
-                        on: {
-                          "delete-object": function($event) {
-                            _vm.deleteObject()
-                          }
-                        }
-                      },
-                      [
-                        _c("div", { attrs: { slot: "body" }, slot: "body" }, [
-                          _c("p", [
-                            _vm._v("Are you sure you wish to delete "),
-                            _c("strong", [
-                              _vm._v(_vm._s(_vm.software.file.file_name))
-                            ]),
-                            _vm._v("?")
-                          ])
-                        ])
-                      ]
-                    )
-                  ],
-                  1
-                )
               ]),
               _vm._v(" "),
               _c("ont-software-profiles", { attrs: { software: _vm.software } })

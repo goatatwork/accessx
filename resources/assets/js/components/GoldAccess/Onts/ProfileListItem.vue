@@ -8,20 +8,29 @@
 
                 <div class="collapse" :id="collapseId">
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                {{ profile.notes }}
+
+                        <div class="media">
+                            <span class="fas fa-2x fa-file mr-3"></span>
+                            <div class="media-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <a :href="profile.file.url">{{ profile.file.file_name }}</a>
+                                        <small><span class="font-italic">{{ profile.file.human_readable_size }}</span></small>
+                                    </div>
+                                    <div class="col">
+                                        {{ profile.notes }}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <modal :title="profile.file.file_name" :to-be-deleted="profile" @delete-object="deleteObject()">
+                            <div class="media-right">
+                                <delete-modal :title="profile.file.file_name" :to-be-deleted="profile" v-on:delete-the-object="deleteTheObject()">
                                     <div slot="body">
                                         <p>Are you sure you wish to delete <strong>{{ profile.file.file_name }}</strong>?</p>
                                     </div>
-                                </modal>
+                                </delete-modal>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -31,15 +40,10 @@
 </template>
 
 <script>
-    var DeleteModal = Vue.extend(require('../Core/DeleteModal.vue'));
 
     export default {
         props: {
             profile: {},
-        },
-
-        components: {
-            'modal': DeleteModal,
         },
 
         computed: {
@@ -58,7 +62,7 @@
         },
 
         methods: {
-            deleteObject: function() {
+            deleteTheObject: function() {
                 axios.delete('/api/onts/ont_profiles/'+this.profile.id).then( (response) => {
                     EventBus.$emit('ont-profile-was-deleted', this.profile);
                 }).catch((error) => {

@@ -14,7 +14,9 @@ class ProvisioningRecordController extends Controller
      */
     public function index()
     {
-        //
+        $provisioning_records = ProvisioningRecord::all();
+
+        return view('provisioning.index')->with('provisioning_records', $provisioning_records);
     }
 
     /**

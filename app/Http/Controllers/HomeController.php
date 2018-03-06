@@ -26,8 +26,9 @@ class HomeController extends Controller
         $stats = [
             'customers_count' => \App\Customer::count(),
             'aggregators_count' => \App\Aggregator::count(),
-            'dhcp_shared_networks_count' => \App\DhcpSharedNetwork::count(),
+            'dhcp_subnets_count' => \App\Subnet::count(),
             'onts_count' => \App\Ont::count(),
+            'provisioning_records_count' => \App\ProvisioningRecord::count(),
         ];
         return view('home')->with('stats', $stats);
     }

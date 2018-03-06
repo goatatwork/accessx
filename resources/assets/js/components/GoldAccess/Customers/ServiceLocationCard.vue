@@ -1,10 +1,9 @@
 <template>
-    <div class="panel panel-default carousel-panel">
-        <div class="panel-heading">
+    <div class="card">
+        <div class="card-header">
             {{ locationTitle }}
         </div>
-        <div class="panel-body">
-
+        <div class="card-body">
             <ul class="list-unstyled">
                 <li>
                     <strong>POC:</strong> {{ location.poc_name }}
@@ -42,7 +41,6 @@
                     </div>
                 </li>
             </ul>
-
         </div>
     </div>
 </template>

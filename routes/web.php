@@ -17,6 +17,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'provisioning'], function() {
+    Route::get('/', 'ProvisioningRecordController@index');
     Route::get('service_locations/{service_location}/show', 'ServiceLocationProvisioningController@show');
     Route::get('service_locations/{service_location}/create', 'ServiceLocationProvisioningController@create');
 });

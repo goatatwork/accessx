@@ -62,6 +62,16 @@
                                             <div class="row mb-3">
                                                 <div class="col-6">
 
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            @if($service_location->has_provisioning_records)
+                                                                <a href="/provisioning/service_locations/{{ $service_location->id }}/show">See Provisioning Record</a>
+                                                            @else
+                                                                <a href="/provisioning/service_locations/{{ $service_location->id }}/create">Provision Service Here</a>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+
                                                     <address>
                                                         <strong>Location: {{ $service_location->id }} {{ $service_location->name }}</strong><br>
                                                         @if($service_location->poc_name)

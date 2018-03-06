@@ -10,44 +10,78 @@
         </ol>
     </nav>
 
-</div>
+    <div class="row justify-content-center">
 
-<div class="container">
-    <div class="row mt-5">
-        <div class="col-md-8 offset-md-2">
+        <div class="col-2">
             <div class="card">
-                <div class="card-header">Dashboard</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    <ul class="list-unstyled">
-                        <li>You have...</li>
-                        <li>
-                            {{ $stats['customers_count'] }} customers.
-                            <a href="/customers">SHOW ME THE CUSTOMERS</a>
-                        </li>
-                        <li>
-                            {{ $stats['aggregators_count'] }} aggregators.
-                            <a href="/infrastructure/aggregators">SHOW ME THE AGGREGATORS</a>
-                        </li>
-                        <li>
-                            {{ $stats['dhcp_shared_networks_count'] }} DHCP shared networks.
-                            <a href="/dhcp">SHOW ME THE SHARED NETWORKS</a>
-                        </li>
-                        <li>
-                            {{ $stats['onts_count'] }} ONTs.
-                            <a href="/onts">SHOW ME THE ONTs</a>
-                        </li>
-                    </ul>
-
+                <a href="/customers" class="text-dark">
+                    <div class="card-header text-center">
+                        <span class="fas fa-4x fa-users mb-3"></span><br>
+                        <span class="h5">CUSTOMERS</span>
+                    </div>
+                </a>
+                <div class="card-body text-center">
+                    <span class="h2">{{ $stats['customers_count'] }}</span>
                 </div>
             </div>
         </div>
+
+        <div class="col-2">
+            <div class="card">
+                <a href="/provisioning" class="text-dark">
+                    <div class="card-header text-center">
+                        <span class="fas fa-4x fa-sitemap mb-3"></span><br>
+                        <span class="h5">PROVISIONED</span>
+                    </div>
+                </a>
+                <div class="card-body text-center">
+                    <span class="h2">{{ $stats['provisioning_records_count'] }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-2">
+            <div class="card">
+                <a href="/infrastructure/aggregators" class="text-dark">
+                    <div class="card-header text-center">
+                        <span class="fas fa-4x fa-server mb-3"></span><br>
+                        <span class="h5">AGGREGATORS</span>
+                    </div>
+                </a>
+                <div class="card-body text-center">
+                    <span class="h2">{{ $stats['aggregators_count'] }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-2">
+            <div class="card">
+                <a href="/dhcp" class="text-dark">
+                    <div class="card-header text-center">
+                        <span class="fas fa-4x fa-cloud mb-3"></span><br>
+                        <span class="h5">DHCP SUBNETS</span>
+                    </div>
+                </a>
+                <div class="card-body text-center">
+                    <span class="h2">{{ $stats['dhcp_subnets_count'] }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-2">
+            <div class="card">
+                <a href="/onts" class="text-dark">
+                    <div class="card-header text-center">
+                        <span class="fas fa-4x fa-hdd mb-3"></span><br>
+                        <span class="h5">ONTs</span>
+                    </div>
+                </a>
+                <div class="card-body text-center">
+                    <span class="h2">{{ $stats['onts_count'] }}</span>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 

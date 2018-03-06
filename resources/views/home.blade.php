@@ -43,6 +43,10 @@
                             {{ $stats['onts_count'] }} ONTs.
                             <a href="/onts">SHOW ME THE ONTs</a>
                         </li>
+                        <li>
+                            {{ $stats['provisioning_records_count'] }} Provisioning Records.
+                            <a href="/provisioning">SHOW ME THE PROVISIONING RECORDS</a>
+                        </li>
                     </ul>
 
                 </div>

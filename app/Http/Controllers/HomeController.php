@@ -28,6 +28,7 @@ class HomeController extends Controller
             'aggregators_count' => \App\Aggregator::count(),
             'dhcp_shared_networks_count' => \App\DhcpSharedNetwork::count(),
             'onts_count' => \App\Ont::count(),
+            'provisioning_records_count' => \App\ProvisioningRecord::count(),
         ];
         return view('home')->with('stats', $stats);
     }

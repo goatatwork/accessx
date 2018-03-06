@@ -22,27 +22,30 @@
                 <div :id="collapseId" class="col collapse" :data-toggle="uploadAreaIsOpen">
                     <div class="row">
                         <div class="col">
-                            <div class="card">
+                            <div class="card mb-3">
                                 <div class="card-body">
-                                    <form :id="dropzoneId" :action="uploadUrl" class="dropzone"></form>
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <form :id="dropzoneId" :action="uploadUrl" class="dropzone"></form>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2" v-if="readyForUpload">
+                                        <div class="col">
+                                            <button type="button" class="btn btn-dark float-right" @click="processQueue()"><span class="fas fa-cloud-upload-alt"></span> Upload</button>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col">
-
-                        </div>
-                    </div>
 
                 </div>
             </div>
 
-            <div class="row mt-2" v-if="readyForUpload">
-                <div class="col">
-                    <button type="button" class="btn btn-dark" @click="processQueue()"><span class="fas fa-cloud-upload-alt"></span> Upload</button>
-                </div>
-            </div>
+
 
             <div class="row">
                 <div class="col">
@@ -133,13 +136,13 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5  :id="modalLabel" class="modal-title">Deleted</h5>
+                            <h5  :id="modalLabel" class="modal-title">Success</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            The file was successfully deleted.
+                            The file was successfully uploaded.
                         </div>
                         <div class="modal-footer">
                                 <!-- <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button> -->
@@ -177,25 +180,25 @@
 
         computed: {
             collapseHref: function() {
-                return '#collapse-'+this.dropzoneId;
+                return '#collapse-softwarefileuploader-'+this.dropzoneId;
             },
             collapseId: function() {
-                return 'collapse-'+this.dropzoneId;
+                return 'collapse-softwarefileuploader-'+this.dropzoneId;
             },
             dropzoneHref: function() {
                 return '#'+this.dropzoneId;
             },
             modalHref: function() {
-                return '#modal-'+this.dropzoneId;
+                return '#modal-softwarefileuploader-'+this.dropzoneId;
             },
             modalId: function() {
-                return 'modal-'+this.dropzoneId;
+                return 'modal-softwarefileuploader-'+this.dropzoneId;
             },
             modalLabel: function() {
-                return 'modal-'+this.dropzoneId+'-label';
+                return 'modal-softwarefileuploader-'+this.dropzoneId+'-label';
             },
             previewTemplateId: function() {
-                return 'preview-template-'+this.dropzoneId;
+                return 'preview-template-softwarefileuploader-'+this.dropzoneId;
             }
         },
 

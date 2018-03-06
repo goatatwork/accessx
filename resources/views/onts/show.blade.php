@@ -17,8 +17,8 @@
         <ont-card :ont="{{ $ont }}"></ont-card>
 
         <div class="col-9">
-            <div class="card mt-3">
-                <div class="card-header">
+            <div class="card mt-3 mb-3 border-light">
+                <div class="card-header bg-dark text-light">
                     <span class="h5">Files for the {{ $ont->model_number }}</span>
                 </div>
                 <div class="card-body">
@@ -43,14 +43,11 @@
 
                 </div> <!-- /card body -->
             </div> <!-- /card -->
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col">
             <ont-software :ont="{{ $ont }}"></ont-software>
         </div>
     </div>
+
 </div>
 
 <!-- <show-ont-page :ont="{{ $ont }}"></show-ont-page> -->

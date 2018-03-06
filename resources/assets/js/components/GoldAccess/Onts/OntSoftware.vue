@@ -2,24 +2,27 @@
     <div class="row">
         <div class="col-md-12">
 
-            <div class="row">
-                <div class="col-md-12">
-
+            <div class="card border-light">
+                <div class="card-header bg-dark text-light">
+                    SOFTWARE FOR {{ ont.model_number }}
                 </div>
-            </div>
+                <div class="card-body">
 
-            <div v-if="!software.length" class="row">
-                <div class="col-md-6 col-md-offset-3">
-                    <div class="well flex-center">
-                        THERE ARE IS NO SOFTWARE HERE
+                    <div v-if="!software.length" class="row">
+                        <div class="col-md-6 col-md-offset-3">
+                            <div class="well flex-center">
+                                THERE IS NO SOFTWARE HERE
+                            </div>
+                        </div>
                     </div>
+
+                    <file-uploader :upload-url="fileUploadUrl" :dropzone-id="dropzoneId"></file-uploader>
+
+
+                    <software-list-item v-for="version in software" :software="version" :key="version.id"></software-list-item>
+
                 </div>
             </div>
-
-            <file-uploader :upload-url="fileUploadUrl" :dropzone-id="dropzoneId"></file-uploader>
-
-
-            <software-list-item v-for="version in software" :software="version" :key="version.id"></software-list-item>
 
         </div>
     </div>

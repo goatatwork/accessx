@@ -1,6 +1,6 @@
 <template>
     <div class="media">
-        <span class="fas fa-2x fa-file mr-3"></span>
+        <span class="fas fa-2x fa-cloud-upload-alt mr-3"></span>
         <div class="media-body">
             <div class="row">
                 <div class="col">

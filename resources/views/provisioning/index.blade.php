@@ -13,10 +13,8 @@
 
     <div class="row">
         <div class="col">
-
             <div class="card">
                 <div class="card-body">
-
                     <div class="row">
                         <div class="col">
                             <dl>
@@ -28,12 +26,13 @@
                             <a href="/provisioning/create" class="btn btn-secondary float-right">Provisioning A Service</a>
                         </div>
                     </div>
-
                 </div>
             </div>
-
         </div>
     </div>
+
+    <provisioning-records-table :provisioning-records="{{ $provisioning_records->toJson() }}"></provisioning-records-table>
+
 </div>
 
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ProvisioningRecord;
 use Illuminate\Http\Request;
+use App\Http\Resources\ProvisioningRecordForTable;
 
 class ProvisioningRecordController extends Controller
 {
@@ -14,7 +15,7 @@ class ProvisioningRecordController extends Controller
      */
     public function index()
     {
-        $provisioning_records = ProvisioningRecord::all();
+        $provisioning_records = ProvisioningRecordForTable::collection(ProvisioningRecord::all());
 
         return view('provisioning.index')->with('provisioning_records', $provisioning_records);
     }

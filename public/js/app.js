@@ -17923,6 +17923,7 @@ Vue.component('show-ont-page', __webpack_require__(109));
 // When this one is complete, and show-dhcp-network-page can be removed.
 Vue.component('add-subnet-accordion-card', __webpack_require__(112));
 
+Vue.component('provisioning-records-table', __webpack_require__(141));
 Vue.component('provision-by-service-location', __webpack_require__(119));
 
 window.EventBus = new Vue({});
@@ -62345,6 +62346,419 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 135 */,
+/* 136 */,
+/* 137 */,
+/* 138 */,
+/* 139 */,
+/* 140 */,
+/* 141 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(142)
+/* template */
+var __vue_template__ = __webpack_require__(143)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/GoldAccess/Provisioning/ProvisioningRecordsTable.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-56b1d167", Component.options)
+  } else {
+    hotAPI.reload("data-v-56b1d167", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 142 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var ProvisioningRecordTableRow = Vue.extend(__webpack_require__(144));
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        provisioningRecords: {}
+    },
+
+    data: function data() {
+        return {
+            sortKey: 'id',
+            sortOrder: 'asc'
+        };
+    },
+
+    components: {
+        'provisioning-record-table-row': ProvisioningRecordTableRow
+    },
+
+    computed: {
+        provisioningRecordsSorted: function provisioningRecordsSorted() {
+            return _.orderBy(this.provisioningRecords, this.sortKey, this.sortOrder);
+        }
+    },
+
+    methods: {
+        sortBy: function sortBy(field) {
+            console.log(field);
+            if (field == this.sortKey) {
+                this.sortOrder = this.sortOrder == 'asc' ? 'desc' : 'asc';
+            } else {
+                this.sortKey = field;
+                this.sortOrder = 'asc';
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 143 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col" }, [
+      _c("table", { staticClass: "table" }, [
+        _c("thead", [
+          _c("tr", [
+            _c(
+              "th",
+              {
+                on: {
+                  click: function($event) {
+                    _vm.sortBy("customer")
+                  }
+                }
+              },
+              [_vm._v("Customer "), _c("span", { staticClass: "fas fa-sort" })]
+            ),
+            _vm._v(" "),
+            _c(
+              "th",
+              {
+                on: {
+                  click: function($event) {
+                    _vm.sortBy("address")
+                  }
+                }
+              },
+              [
+                _vm._v("Location "),
+                _c("span", {
+                  staticClass: "fas fa-sort",
+                  on: {
+                    click: function($event) {
+                      _vm.sortBy("address")
+                    }
+                  }
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "th",
+              {
+                on: {
+                  click: function($event) {
+                    _vm.sortBy("package")
+                  }
+                }
+              },
+              [
+                _vm._v("Package "),
+                _c("span", {
+                  staticClass: "fas fa-sort",
+                  on: {
+                    click: function($event) {
+                      _vm.sortBy("package")
+                    }
+                  }
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "th",
+              {
+                on: {
+                  click: function($event) {
+                    _vm.sortBy("management_ip")
+                  }
+                }
+              },
+              [
+                _vm._v("Management IP "),
+                _c("span", {
+                  staticClass: "fas fa-sort",
+                  on: {
+                    click: function($event) {
+                      _vm.sortBy("management_ip")
+                    }
+                  }
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "th",
+              {
+                on: {
+                  click: function($event) {
+                    _vm.sortBy("port")
+                  }
+                }
+              },
+              [
+                _vm._v("NetLocation "),
+                _c("span", {
+                  staticClass: "fas fa-sort",
+                  on: {
+                    click: function($event) {
+                      _vm.sortBy("port")
+                    }
+                  }
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "th",
+              {
+                on: {
+                  click: function($event) {
+                    _vm.sortBy("ont")
+                  }
+                }
+              },
+              [
+                _vm._v("ONT "),
+                _c("span", {
+                  staticClass: "fas fa-sort",
+                  on: {
+                    click: function($event) {
+                      _vm.sortBy("ont")
+                    }
+                  }
+                })
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.provisioningRecordsSorted, function(record) {
+            return _c("provisioning-record-table-row", {
+              key: record.id,
+              tag: "tr",
+              attrs: { record: record }
+            })
+          })
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-56b1d167", module.exports)
+  }
+}
+
+/***/ }),
+/* 144 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(145)
+/* template */
+var __vue_template__ = __webpack_require__(146)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/GoldAccess/Provisioning/ProvisioningRecordTableRow.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7c2d6818", Component.options)
+  } else {
+    hotAPI.reload("data-v-7c2d6818", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 145 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        record: {}
+    }
+});
+
+/***/ }),
+/* 146 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("tr", [
+    _c("td", [
+      _c("a", { attrs: { href: _vm.record.customer_url } }, [
+        _vm._v("\n            " + _vm._s(_vm.record.customer) + "\n        ")
+      ])
+    ]),
+    _vm._v(" "),
+    _c("td", [
+      _c("a", { attrs: { href: _vm.record.service_location_url } }, [
+        _vm._v("\n            " + _vm._s(_vm.record.address) + "\n        ")
+      ])
+    ]),
+    _vm._v(" "),
+    _c("td", [_vm._v(_vm._s(_vm.record.package))]),
+    _vm._v(" "),
+    _c("td", [_vm._v(_vm._s(_vm.record.management_ip))]),
+    _vm._v(" "),
+    _c("td", [
+      _vm._v("\n        " + _vm._s(_vm.record.aggregator) + "\n        "),
+      _c("span", { staticClass: "fas fa-long-arrow-alt-right" }),
+      _vm._v("\n        Slot " + _vm._s(_vm.record.slot) + "\n        "),
+      _c("span", { staticClass: "fas fa-long-arrow-alt-right" }),
+      _vm._v("\n        Port " + _vm._s(_vm.record.port) + "\n    ")
+    ]),
+    _vm._v(" "),
+    _c("td", [_vm._v(_vm._s(_vm.record.ont))])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7c2d6818", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

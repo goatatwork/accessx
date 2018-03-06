@@ -62,3 +62,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'infrastructure'], function() 
     Route::post('slots/{slot}/populate', 'SlotPopulationController@store');
     Route::post('slots/{slot}/unpopulate', 'SlotPopulationController@destroy');
 });
+
+Route::get('test', function() {
+    return \App\Http\Resources\ProvisioningRecordForTable::collection(\App\ProvisioningRecord::all());
+});

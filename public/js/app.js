@@ -62699,6 +62699,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -62715,9 +62723,17 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("tr", [
-    _c("td", [_vm._v(_vm._s(_vm.record.customer))]),
+    _c("td", [
+      _c("a", { attrs: { href: _vm.record.customer_url } }, [
+        _vm._v("\n            " + _vm._s(_vm.record.customer) + "\n        ")
+      ])
+    ]),
     _vm._v(" "),
-    _c("td", [_vm._v(_vm._s(_vm.record.address))]),
+    _c("td", [
+      _c("a", { attrs: { href: _vm.record.service_location_url } }, [
+        _vm._v("\n            " + _vm._s(_vm.record.address) + "\n        ")
+      ])
+    ]),
     _vm._v(" "),
     _c("td", [_vm._v(_vm._s(_vm.record.package))]),
     _vm._v(" "),

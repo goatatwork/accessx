@@ -17880,7 +17880,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(20);
-module.exports = __webpack_require__(134);
+module.exports = __webpack_require__(140);
 
 
 /***/ }),
@@ -17923,8 +17923,8 @@ Vue.component('show-ont-page', __webpack_require__(109));
 // When this one is complete, and show-dhcp-network-page can be removed.
 Vue.component('add-subnet-accordion-card', __webpack_require__(112));
 
-Vue.component('provisioning-records-table', __webpack_require__(141));
-Vue.component('provision-by-service-location', __webpack_require__(119));
+Vue.component('provisioning-records-table', __webpack_require__(119));
+Vue.component('provision-by-service-location', __webpack_require__(125));
 
 window.EventBus = new Vue({});
 
@@ -61079,7 +61079,7 @@ var normalizeComponent = __webpack_require__(0)
 /* script */
 var __vue_script__ = __webpack_require__(120)
 /* template */
-var __vue_template__ = __webpack_require__(133)
+var __vue_template__ = __webpack_require__(124)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -61096,7 +61096,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/GoldAccess/Provisioning/ProvisionByServiceLocation.vue"
+Component.options.__file = "resources/assets/js/components/GoldAccess/Provisioning/ProvisioningRecordsTable.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -61105,9 +61105,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6a4989e8", Component.options)
+    hotAPI.createRecord("data-v-56b1d167", Component.options)
   } else {
-    hotAPI.reload("data-v-6a4989e8", Component.options)
+    hotAPI.reload("data-v-56b1d167", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -61146,18 +61146,42 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
-var ServiceLocationCard = Vue.extend(__webpack_require__(17));
-var ProvisionByServiceLocationForm = Vue.extend(__webpack_require__(121));
+var ProvisioningRecordTableRow = Vue.extend(__webpack_require__(121));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
-        location: {}
+        provisioningRecords: {}
+    },
+
+    data: function data() {
+        return {
+            sortKey: 'id',
+            sortOrder: 'asc'
+        };
     },
 
     components: {
-        'service-location-card': ServiceLocationCard,
-        'provision-by-service-location-form': ProvisionByServiceLocationForm
+        'provisioning-record-table-row': ProvisioningRecordTableRow
+    },
+
+    computed: {
+        provisioningRecordsSorted: function provisioningRecordsSorted() {
+            return _.orderBy(this.provisioningRecords, this.sortKey, this.sortOrder);
+        }
+    },
+
+    methods: {
+        sortBy: function sortBy(field) {
+            console.log(field);
+            if (field == this.sortKey) {
+                this.sortOrder = this.sortOrder == 'asc' ? 'desc' : 'asc';
+            } else {
+                this.sortKey = field;
+                this.sortOrder = 'asc';
+            }
+        }
     }
 });
 
@@ -61170,7 +61194,7 @@ var normalizeComponent = __webpack_require__(0)
 /* script */
 var __vue_script__ = __webpack_require__(122)
 /* template */
-var __vue_template__ = __webpack_require__(132)
+var __vue_template__ = __webpack_require__(123)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -61187,7 +61211,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/GoldAccess/Provisioning/ProvisionByServiceLocationForm.vue"
+Component.options.__file = "resources/assets/js/components/GoldAccess/Provisioning/ProvisioningRecordTableRow.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -61196,9 +61220,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6ba84ff0", Component.options)
+    hotAPI.createRecord("data-v-7c2d6818", Component.options)
   } else {
-    hotAPI.reload("data-v-6ba84ff0", Component.options)
+    hotAPI.reload("data-v-7c2d6818", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -61239,98 +61263,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-var OntSelector = Vue.extend(__webpack_require__(123));
-var AggregatorSelector = Vue.extend(__webpack_require__(126));
-var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(129));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
-        location: {}
-    },
-
-    components: {
-        'ont-selector': OntSelector,
-        'aggregator-selector': AggregatorSelector,
-        'dhcp-management-network-selector': DhcpManagementNetworkSelector
-    },
-
-    data: function data() {
-        return {
-            form: {
-                service_location_id: this.location.id,
-                ont_profile_id: '',
-                port_id: '',
-                ip_address_id: '',
-                len: '',
-                circuit_id: '',
-                notes: ''
-            }
-        };
-    },
-
-    created: function created() {
-        this.initializeEventBus();
-    },
-
-    beforeDestroy: function beforeDestroy() {
-        EventBus.$off();
-    },
-
-    methods: {
-        cancelForm: function cancelForm() {
-            this.resetForm();
-            window.location.href = "/customers/" + this.location.customer_id;
-        },
-        initializeEventBus: function initializeEventBus() {
-            EventBus.$on('provisioning-profile-was-selected', function (profileId) {
-                this.form.ont_profile_id = profileId;
-            }.bind(this));
-            EventBus.$on('provisioning-port-was-selected', function (portId) {
-                this.form.port_id = portId;
-            }.bind(this));
-            EventBus.$on('provisioning-ip-address-was-selected', function (ipAddressId) {
-                this.form.ip_address_id = ipAddressId;
-            }.bind(this));
-        },
-        resetForm: function resetForm() {
-            this.form = {
-                service_location_id: this.location.id,
-                ont_profile_id: '',
-                port_id: '',
-                ip_address_id: '',
-                len: '',
-                circuit_id: '',
-                notes: ''
-            };
-        },
-        submitForm: function submitForm() {
-            var _this = this;
-
-            axios.post('/api/provisioning', this.form).then(function (response) {
-                _this.resetForm();
-                window.location.href = "/provisioning/service_locations/" + _this.location.id + "/show";
-            }).catch(function (error) {
-                console.log(error.response.data);
-            });
-        }
+        record: {}
     }
 });
 
@@ -61338,1138 +61274,50 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(129));
 /* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(124)
-/* template */
-var __vue_template__ = __webpack_require__(125)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/GoldAccess/Provisioning/OntSelector.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("tr", [
+    _c("td", [
+      _c("a", { attrs: { href: _vm.record.customer_url } }, [
+        _vm._v("\n            " + _vm._s(_vm.record.customer) + "\n        ")
+      ])
+    ]),
+    _vm._v(" "),
+    _c("td", [
+      _c("a", { attrs: { href: _vm.record.service_location_url } }, [
+        _vm._v("\n            " + _vm._s(_vm.record.address) + "\n        ")
+      ])
+    ]),
+    _vm._v(" "),
+    _c("td", [_vm._v(_vm._s(_vm.record.package))]),
+    _vm._v(" "),
+    _c("td", [_vm._v(_vm._s(_vm.record.management_ip))]),
+    _vm._v(" "),
+    _c("td", [
+      _vm._v("\n        " + _vm._s(_vm.record.aggregator) + "\n        "),
+      _c("span", { staticClass: "fas fa-long-arrow-alt-right" }),
+      _vm._v("\n        Slot " + _vm._s(_vm.record.slot) + "\n        "),
+      _c("span", { staticClass: "fas fa-long-arrow-alt-right" }),
+      _vm._v("\n        Port " + _vm._s(_vm.record.port) + "\n    ")
+    ]),
+    _vm._v(" "),
+    _c("td", [_vm._v(_vm._s(_vm.record.ont))])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
   module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-628ec594", Component.options)
-  } else {
-    hotAPI.reload("data-v-628ec594", Component.options)
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7c2d6818", module.exports)
   }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
+}
 
 /***/ }),
 /* 124 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            onts: {},
-            ont_software: {},
-            ont_profiles: {}
-        };
-    },
-
-    created: function created() {
-        this.fetchOnts();
-    },
-
-    methods: {
-        fetchOnts: function fetchOnts() {
-            var _this = this;
-
-            axios.get('/api/onts').then(function (response) {
-                _this.onts = response.data;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        fetchOntProfiles: function fetchOntProfiles(softwareId) {
-            var _this2 = this;
-
-            axios.get('/api/onts/ont_software/' + softwareId + '/ont_profiles').then(function (response) {
-                _this2.ont_profiles = response.data;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        fetchOntSoftware: function fetchOntSoftware(ontId) {
-            var _this3 = this;
-
-            axios.get('/api/onts/' + ontId + '/software').then(function (response) {
-                _this3.ont_software = response.data;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        ontWasSelected: function ontWasSelected(ontId) {
-            this.ont_software = {};
-            this.ont_profiles = {};
-            if (ontId == 0) {
-                return;
-            }
-            this.fetchOntSoftware(ontId);
-        },
-        profileWasSelected: function profileWasSelected(profileId) {
-            console.log('Profile ' + profileId + ' was selected.');
-            EventBus.$emit('provisioning-profile-was-selected', profileId);
-            // this is the id value we need so do something usefull with it
-        },
-        softwareWasSelected: function softwareWasSelected(softwareId) {
-            this.ont_profiles = {};
-            if (softwareId == 0) {
-                return;
-            }
-            this.fetchOntProfiles(softwareId);
-        }
-    }
-});
-
-/***/ }),
-/* 125 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-12" }, [
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "ont_id" } }, [_vm._v("ONT")]),
-        _vm._v(" "),
-        _c(
-          "select",
-          {
-            staticClass: "form-control",
-            attrs: { name: "ont_id" },
-            on: {
-              change: function($event) {
-                _vm.ontWasSelected($event.target.value)
-              }
-            }
-          },
-          [
-            _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
-            _vm._v(" "),
-            _vm._l(_vm.onts, function(ont) {
-              return _c("option", { domProps: { value: ont.id } }, [
-                _vm._v(_vm._s(ont.model_number))
-              ])
-            })
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.ont_software.length,
-              expression: "ont_software.length"
-            }
-          ],
-          staticClass: "form-group"
-        },
-        [
-          _c("label", { attrs: { for: "ont_software_id" } }, [
-            _vm._v("ONT Software")
-          ]),
-          _vm._v(" "),
-          _c(
-            "select",
-            {
-              staticClass: "form-control",
-              attrs: { name: "ont_software_id" },
-              on: {
-                change: function($event) {
-                  _vm.softwareWasSelected($event.target.value)
-                }
-              }
-            },
-            [
-              _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
-              _vm._v(" "),
-              _vm._l(_vm.ont_software, function(software) {
-                return _c("option", { domProps: { value: software.id } }, [
-                  _vm._v("Version " + _vm._s(software.version))
-                ])
-              })
-            ],
-            2
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.ont_profiles.length,
-              expression: "ont_profiles.length"
-            }
-          ],
-          staticClass: "form-group"
-        },
-        [
-          _c("label", { attrs: { for: "ont_profile_id" } }, [
-            _vm._v("ONT Profile")
-          ]),
-          _vm._v(" "),
-          _c(
-            "select",
-            {
-              staticClass: "form-control",
-              attrs: { name: "ont_profile_id" },
-              on: {
-                change: function($event) {
-                  _vm.profileWasSelected($event.target.value)
-                }
-              }
-            },
-            [
-              _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
-              _vm._v(" "),
-              _vm._l(_vm.ont_profiles, function(profile) {
-                return _c("option", { domProps: { value: profile.id } }, [
-                  _vm._v(_vm._s(profile.name))
-                ])
-              })
-            ],
-            2
-          )
-        ]
-      )
-    ])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-628ec594", module.exports)
-  }
-}
-
-/***/ }),
-/* 126 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(127)
-/* template */
-var __vue_template__ = __webpack_require__(128)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/GoldAccess/Provisioning/AggregatorSelector.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-dd937a14", Component.options)
-  } else {
-    hotAPI.reload("data-v-dd937a14", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 127 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            aggregators: {},
-            slots: {},
-            ports: {}
-        };
-    },
-
-    created: function created() {
-        this.fetchAggregators();
-    },
-
-    methods: {
-        fetchAggregators: function fetchAggregators() {
-            var _this = this;
-
-            axios.get('/api/infrastructure/aggregators').then(function (response) {
-                _this.aggregators = response.data;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        fetchPorts: function fetchPorts(slotId) {
-            var _this2 = this;
-
-            axios.get('/api/infrastructure/slots/' + slotId + '/ports').then(function (response) {
-                _this2.ports = response.data;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        fetchSlots: function fetchSlots(aggregatorId) {
-            var _this3 = this;
-
-            axios.get('/api/infrastructure/aggregators/' + aggregatorId + '/slots').then(function (response) {
-                _this3.slots = response.data;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        aggregatorWasSelected: function aggregatorWasSelected(aggregatorId) {
-            this.slots = {};
-            this.ports = {};
-            if (aggregatorId == 0) {
-                return;
-            }
-            this.fetchSlots(aggregatorId);
-        },
-        portWasSelected: function portWasSelected(portId) {
-            console.log('Port ' + portId + ' was selected.');
-            EventBus.$emit('provisioning-port-was-selected', portId);
-            // this is the id value we need so do something usefull with it
-        },
-        slotWasSelected: function slotWasSelected(slotId) {
-            this.ports = {};
-            if (slotId == 0) {
-                return;
-            }
-            this.fetchPorts(slotId);
-        }
-    }
-});
-
-/***/ }),
-/* 128 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-12" }, [
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "aggregator_id" } }, [
-          _vm._v("Aggregator")
-        ]),
-        _vm._v(" "),
-        _c(
-          "select",
-          {
-            staticClass: "form-control",
-            attrs: { name: "aggregator_id" },
-            on: {
-              change: function($event) {
-                _vm.aggregatorWasSelected($event.target.value)
-              }
-            }
-          },
-          [
-            _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
-            _vm._v(" "),
-            _vm._l(_vm.aggregators, function(aggregator) {
-              return _c("option", { domProps: { value: aggregator.id } }, [
-                _vm._v(_vm._s(aggregator.name))
-              ])
-            })
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.slots.length,
-              expression: "slots.length"
-            }
-          ],
-          staticClass: "form-group"
-        },
-        [
-          _c("label", { attrs: { for: "slot_id" } }, [_vm._v("Slot")]),
-          _vm._v(" "),
-          _c(
-            "select",
-            {
-              staticClass: "form-control",
-              attrs: { name: "slot_id" },
-              on: {
-                change: function($event) {
-                  _vm.slotWasSelected($event.target.value)
-                }
-              }
-            },
-            [
-              _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
-              _vm._v(" "),
-              _vm._l(_vm.slots, function(aSlot) {
-                return _c("option", { domProps: { value: aSlot.id } }, [
-                  _vm._v("Slot " + _vm._s(aSlot.slot_number))
-                ])
-              })
-            ],
-            2
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.ports.length,
-              expression: "ports.length"
-            }
-          ],
-          staticClass: "form-group"
-        },
-        [
-          _c("label", { attrs: { for: "port_id" } }, [_vm._v("Ports")]),
-          _vm._v(" "),
-          _c(
-            "select",
-            {
-              staticClass: "form-control",
-              attrs: { name: "port_id" },
-              on: {
-                change: function($event) {
-                  _vm.portWasSelected($event.target.value)
-                }
-              }
-            },
-            [
-              _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
-              _vm._v(" "),
-              _vm._l(_vm.ports, function(port) {
-                return _c("option", { domProps: { value: port.id } }, [
-                  _vm._v("Port " + _vm._s(port.port_number))
-                ])
-              })
-            ],
-            2
-          )
-        ]
-      )
-    ])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-dd937a14", module.exports)
-  }
-}
-
-/***/ }),
-/* 129 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(130)
-/* template */
-var __vue_template__ = __webpack_require__(131)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/GoldAccess/Provisioning/DhcpManagementNetworkSelector.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5181893b", Component.options)
-  } else {
-    hotAPI.reload("data-v-5181893b", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 130 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            management_networks: {},
-            ip_addresses: {}
-            // ont_profiles: {},
-        };
-    },
-
-    created: function created() {
-        this.fetchManagementNetworks();
-    },
-
-    methods: {
-        fetchManagementNetworks: function fetchManagementNetworks() {
-            var _this = this;
-
-            axios.get('/api/dhcp/dhcp_shared_networks').then(function (response) {
-                _this.management_networks = response.data;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        fetchIpAddresses: function fetchIpAddresses(dhcpSharedNetworkId) {
-            var _this2 = this;
-
-            axios.get('/api/dhcp/dhcp_shared_networks/' + dhcpSharedNetworkId + '/ip_addresses').then(function (response) {
-                _this2.ip_addresses = response.data;
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        managementNetworkWasSelected: function managementNetworkWasSelected(dhcpSharedNetworkId) {
-            this.ip_addresses = {};
-            if (dhcpSharedNetworkId == 0) {
-                return;
-            }
-            this.fetchIpAddresses(dhcpSharedNetworkId);
-        },
-        ipAddressWasSelected: function ipAddressWasSelected(ipAddressId) {
-            console.log('IP ' + ipAddressId + ' was selected.');
-            EventBus.$emit('provisioning-ip-address-was-selected', ipAddressId);
-            // this is the id value we need so do something usefull with it
-        }
-    }
-});
-
-/***/ }),
-/* 131 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-12" }, [
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "dhcp_shared_network_id" } }, [
-          _vm._v("Management Network")
-        ]),
-        _vm._v(" "),
-        _c(
-          "select",
-          {
-            staticClass: "form-control",
-            attrs: { name: "dhcp_shared_network_id" },
-            on: {
-              change: function($event) {
-                _vm.managementNetworkWasSelected($event.target.value)
-              }
-            }
-          },
-          [
-            _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
-            _vm._v(" "),
-            _vm._l(_vm.management_networks, function(network) {
-              return _c("option", { domProps: { value: network.id } }, [
-                _vm._v(_vm._s(network.name))
-              ])
-            })
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.ip_addresses.length,
-              expression: "ip_addresses.length"
-            }
-          ],
-          staticClass: "form-group"
-        },
-        [
-          _c("label", { attrs: { for: "ip_address_id" } }, [
-            _vm._v("IP Address")
-          ]),
-          _vm._v(" "),
-          _c(
-            "select",
-            {
-              staticClass: "form-control",
-              attrs: { name: "ip_address_id" },
-              on: {
-                change: function($event) {
-                  _vm.ipAddressWasSelected($event.target.value)
-                }
-              }
-            },
-            [
-              _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
-              _vm._v(" "),
-              _vm._l(_vm.ip_addresses, function(ip) {
-                return _c("option", { domProps: { value: ip.id } }, [
-                  _vm._v(_vm._s(ip.address))
-                ])
-              })
-            ],
-            2
-          )
-        ]
-      )
-    ])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-5181893b", module.exports)
-  }
-}
-
-/***/ }),
-/* 132 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c(
-      "div",
-      { staticClass: "col-md-12" },
-      [
-        _c("ont-selector"),
-        _vm._v(" "),
-        _c("aggregator-selector"),
-        _vm._v(" "),
-        _c("dhcp-management-network-selector"),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-6" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "len" } }, [_vm._v("LEN")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.len,
-                    expression: "form.len"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", name: "len" },
-                domProps: { value: _vm.form.len },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.form, "len", $event.target.value)
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-6" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "circuit_id" } }, [
-                _vm._v("Circuit ID")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.circuit_id,
-                    expression: "form.circuit_id"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", name: "circuit_id" },
-                domProps: { value: _vm.form.circuit_id },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.form, "circuit_id", $event.target.value)
-                  }
-                }
-              })
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "notes" } }, [_vm._v("Notes")]),
-              _vm._v(" "),
-              _c("textarea", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.notes,
-                    expression: "form.notes"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { name: "body" },
-                domProps: { value: _vm.form.notes },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.form, "notes", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group pull-right" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "cancel-button",
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      _vm.cancelForm()
-                    }
-                  }
-                },
-                [_vm._v("Cancel")]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-sm btn-success",
-                  on: {
-                    click: function($event) {
-                      _vm.submitForm()
-                    }
-                  }
-                },
-                [_vm._v("Okay")]
-              )
-            ])
-          ])
-        ])
-      ],
-      1
-    )
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6ba84ff0", module.exports)
-  }
-}
-
-/***/ }),
-/* 133 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container-fluid" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c(
-        "div",
-        { staticClass: "col-4" },
-        [_c("service-location-card", { attrs: { location: _vm.location } })],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "col-8" },
-        [
-          _c("provision-by-service-location-form", {
-            attrs: { location: _vm.location }
-          })
-        ],
-        1
-      )
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("nav", { attrs: { "aria-label": "breadcrumb" } }, [
-      _c("ol", { staticClass: "breadcrumb" }, [
-        _c("li", { staticClass: "breadcrumb-item" }, [
-          _c("a", { attrs: { href: "/" } }, [_vm._v("Dashboard")])
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "breadcrumb-item" }, [
-          _c("a", { attrs: { href: "/provisioning" } }, [
-            _vm._v("Provisioning")
-          ])
-        ]),
-        _vm._v(" "),
-        _c(
-          "li",
-          {
-            staticClass: "breadcrumb-item active",
-            attrs: { "aria-current": "page" }
-          },
-          [_vm._v("Provisioning By Service Location")]
-        )
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6a4989e8", module.exports)
-  }
-}
-
-/***/ }),
-/* 134 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 135 */,
-/* 136 */,
-/* 137 */,
-/* 138 */,
-/* 139 */,
-/* 140 */,
-/* 141 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(142)
-/* template */
-var __vue_template__ = __webpack_require__(143)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/GoldAccess/Provisioning/ProvisioningRecordsTable.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-56b1d167", Component.options)
-  } else {
-    hotAPI.reload("data-v-56b1d167", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 142 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-var ProvisioningRecordTableRow = Vue.extend(__webpack_require__(144));
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: {
-        provisioningRecords: {}
-    },
-
-    data: function data() {
-        return {
-            sortKey: 'id',
-            sortOrder: 'asc'
-        };
-    },
-
-    components: {
-        'provisioning-record-table-row': ProvisioningRecordTableRow
-    },
-
-    computed: {
-        provisioningRecordsSorted: function provisioningRecordsSorted() {
-            return _.orderBy(this.provisioningRecords, this.sortKey, this.sortOrder);
-        }
-    },
-
-    methods: {
-        sortBy: function sortBy(field) {
-            console.log(field);
-            if (field == this.sortKey) {
-                this.sortOrder = this.sortOrder == 'asc' ? 'desc' : 'asc';
-            } else {
-                this.sortKey = field;
-                this.sortOrder = 'asc';
-            }
-        }
-    }
-});
-
-/***/ }),
-/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -62630,15 +61478,15 @@ if (false) {
 }
 
 /***/ }),
-/* 144 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(145)
+var __vue_script__ = __webpack_require__(126)
 /* template */
-var __vue_template__ = __webpack_require__(146)
+var __vue_template__ = __webpack_require__(139)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -62655,7 +61503,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/GoldAccess/Provisioning/ProvisioningRecordTableRow.vue"
+Component.options.__file = "resources/assets/js/components/GoldAccess/Provisioning/ProvisionByServiceLocation.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -62664,9 +61512,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7c2d6818", Component.options)
+    hotAPI.createRecord("data-v-6a4989e8", Component.options)
   } else {
-    hotAPI.reload("data-v-7c2d6818", Component.options)
+    hotAPI.reload("data-v-6a4989e8", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -62677,7 +61525,98 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 145 */
+/* 126 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var ServiceLocationCard = Vue.extend(__webpack_require__(17));
+var ProvisionByServiceLocationForm = Vue.extend(__webpack_require__(127));
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        location: {}
+    },
+
+    components: {
+        'service-location-card': ServiceLocationCard,
+        'provision-by-service-location-form': ProvisionByServiceLocationForm
+    }
+});
+
+/***/ }),
+/* 127 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(128)
+/* template */
+var __vue_template__ = __webpack_require__(138)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/GoldAccess/Provisioning/ProvisionByServiceLocationForm.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6ba84ff0", Component.options)
+  } else {
+    hotAPI.reload("data-v-6ba84ff0", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 128 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -62707,47 +61646,373 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var OntSelector = Vue.extend(__webpack_require__(129));
+var AggregatorSelector = Vue.extend(__webpack_require__(132));
+var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(135));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
-        record: {}
+        location: {}
+    },
+
+    components: {
+        'ont-selector': OntSelector,
+        'aggregator-selector': AggregatorSelector,
+        'dhcp-management-network-selector': DhcpManagementNetworkSelector
+    },
+
+    data: function data() {
+        return {
+            form: {
+                service_location_id: this.location.id,
+                ont_profile_id: '',
+                port_id: '',
+                ip_address_id: '',
+                len: '',
+                circuit_id: '',
+                notes: ''
+            }
+        };
+    },
+
+    created: function created() {
+        this.initializeEventBus();
+    },
+
+    beforeDestroy: function beforeDestroy() {
+        EventBus.$off();
+    },
+
+    methods: {
+        cancelForm: function cancelForm() {
+            this.resetForm();
+            window.location.href = "/customers/" + this.location.customer_id;
+        },
+        initializeEventBus: function initializeEventBus() {
+            EventBus.$on('provisioning-profile-was-selected', function (profileId) {
+                this.form.ont_profile_id = profileId;
+            }.bind(this));
+            EventBus.$on('provisioning-port-was-selected', function (portId) {
+                this.form.port_id = portId;
+            }.bind(this));
+            EventBus.$on('provisioning-ip-address-was-selected', function (ipAddressId) {
+                this.form.ip_address_id = ipAddressId;
+            }.bind(this));
+        },
+        resetForm: function resetForm() {
+            this.form = {
+                service_location_id: this.location.id,
+                ont_profile_id: '',
+                port_id: '',
+                ip_address_id: '',
+                len: '',
+                circuit_id: '',
+                notes: ''
+            };
+        },
+        submitForm: function submitForm() {
+            var _this = this;
+
+            axios.post('/api/provisioning', this.form).then(function (response) {
+                _this.resetForm();
+                window.location.href = "/provisioning/service_locations/" + _this.location.id + "/show";
+            }).catch(function (error) {
+                console.log(error.response.data);
+            });
+        }
     }
 });
 
 /***/ }),
-/* 146 */
+/* 129 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(130)
+/* template */
+var __vue_template__ = __webpack_require__(131)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/GoldAccess/Provisioning/OntSelector.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-628ec594", Component.options)
+  } else {
+    hotAPI.reload("data-v-628ec594", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 130 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            onts: {},
+            ont_software: {},
+            ont_profiles: {}
+        };
+    },
+
+    created: function created() {
+        this.fetchOnts();
+    },
+
+    methods: {
+        fetchOnts: function fetchOnts() {
+            var _this = this;
+
+            axios.get('/api/onts').then(function (response) {
+                _this.onts = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        fetchOntProfiles: function fetchOntProfiles(softwareId) {
+            var _this2 = this;
+
+            axios.get('/api/onts/ont_software/' + softwareId + '/ont_profiles').then(function (response) {
+                _this2.ont_profiles = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        fetchOntSoftware: function fetchOntSoftware(ontId) {
+            var _this3 = this;
+
+            axios.get('/api/onts/' + ontId + '/software').then(function (response) {
+                _this3.ont_software = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        ontWasSelected: function ontWasSelected(ontId) {
+            this.ont_software = {};
+            this.ont_profiles = {};
+            if (ontId == 0) {
+                return;
+            }
+            this.fetchOntSoftware(ontId);
+        },
+        profileWasSelected: function profileWasSelected(profileId) {
+            console.log('Profile ' + profileId + ' was selected.');
+            EventBus.$emit('provisioning-profile-was-selected', profileId);
+            // this is the id value we need so do something usefull with it
+        },
+        softwareWasSelected: function softwareWasSelected(softwareId) {
+            this.ont_profiles = {};
+            if (softwareId == 0) {
+                return;
+            }
+            this.fetchOntProfiles(softwareId);
+        }
+    }
+});
+
+/***/ }),
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("tr", [
-    _c("td", [
-      _c("a", { attrs: { href: _vm.record.customer_url } }, [
-        _vm._v("\n            " + _vm._s(_vm.record.customer) + "\n        ")
-      ])
-    ]),
-    _vm._v(" "),
-    _c("td", [
-      _c("a", { attrs: { href: _vm.record.service_location_url } }, [
-        _vm._v("\n            " + _vm._s(_vm.record.address) + "\n        ")
-      ])
-    ]),
-    _vm._v(" "),
-    _c("td", [_vm._v(_vm._s(_vm.record.package))]),
-    _vm._v(" "),
-    _c("td", [_vm._v(_vm._s(_vm.record.management_ip))]),
-    _vm._v(" "),
-    _c("td", [
-      _vm._v("\n        " + _vm._s(_vm.record.aggregator) + "\n        "),
-      _c("span", { staticClass: "fas fa-long-arrow-alt-right" }),
-      _vm._v("\n        Slot " + _vm._s(_vm.record.slot) + "\n        "),
-      _c("span", { staticClass: "fas fa-long-arrow-alt-right" }),
-      _vm._v("\n        Port " + _vm._s(_vm.record.port) + "\n    ")
-    ]),
-    _vm._v(" "),
-    _c("td", [_vm._v(_vm._s(_vm.record.ont))])
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col-md-12" }, [
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "ont_id" } }, [_vm._v("ONT")]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            staticClass: "form-control",
+            attrs: { name: "ont_id" },
+            on: {
+              change: function($event) {
+                _vm.ontWasSelected($event.target.value)
+              }
+            }
+          },
+          [
+            _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
+            _vm._v(" "),
+            _vm._l(_vm.onts, function(ont) {
+              return _c("option", { domProps: { value: ont.id } }, [
+                _vm._v(_vm._s(ont.model_number))
+              ])
+            })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.ont_software.length,
+              expression: "ont_software.length"
+            }
+          ],
+          staticClass: "form-group"
+        },
+        [
+          _c("label", { attrs: { for: "ont_software_id" } }, [
+            _vm._v("ONT Software")
+          ]),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              staticClass: "form-control",
+              attrs: { name: "ont_software_id" },
+              on: {
+                change: function($event) {
+                  _vm.softwareWasSelected($event.target.value)
+                }
+              }
+            },
+            [
+              _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
+              _vm._v(" "),
+              _vm._l(_vm.ont_software, function(software) {
+                return _c("option", { domProps: { value: software.id } }, [
+                  _vm._v("Version " + _vm._s(software.version))
+                ])
+              })
+            ],
+            2
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.ont_profiles.length,
+              expression: "ont_profiles.length"
+            }
+          ],
+          staticClass: "form-group"
+        },
+        [
+          _c("label", { attrs: { for: "ont_profile_id" } }, [
+            _vm._v("ONT Profile")
+          ]),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              staticClass: "form-control",
+              attrs: { name: "ont_profile_id" },
+              on: {
+                change: function($event) {
+                  _vm.profileWasSelected($event.target.value)
+                }
+              }
+            },
+            [
+              _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
+              _vm._v(" "),
+              _vm._l(_vm.ont_profiles, function(profile) {
+                return _c("option", { domProps: { value: profile.id } }, [
+                  _vm._v(_vm._s(profile.name))
+                ])
+              })
+            ],
+            2
+          )
+        ]
+      )
+    ])
   ])
 }
 var staticRenderFns = []
@@ -62756,9 +62021,738 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7c2d6818", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-628ec594", module.exports)
   }
 }
+
+/***/ }),
+/* 132 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(133)
+/* template */
+var __vue_template__ = __webpack_require__(134)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/GoldAccess/Provisioning/AggregatorSelector.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-dd937a14", Component.options)
+  } else {
+    hotAPI.reload("data-v-dd937a14", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 133 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            aggregators: {},
+            slots: {},
+            ports: {}
+        };
+    },
+
+    created: function created() {
+        this.fetchAggregators();
+    },
+
+    methods: {
+        fetchAggregators: function fetchAggregators() {
+            var _this = this;
+
+            axios.get('/api/infrastructure/aggregators').then(function (response) {
+                _this.aggregators = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        fetchPorts: function fetchPorts(slotId) {
+            var _this2 = this;
+
+            axios.get('/api/infrastructure/slots/' + slotId + '/ports').then(function (response) {
+                _this2.ports = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        fetchSlots: function fetchSlots(aggregatorId) {
+            var _this3 = this;
+
+            axios.get('/api/infrastructure/aggregators/' + aggregatorId + '/slots').then(function (response) {
+                _this3.slots = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        aggregatorWasSelected: function aggregatorWasSelected(aggregatorId) {
+            this.slots = {};
+            this.ports = {};
+            if (aggregatorId == 0) {
+                return;
+            }
+            this.fetchSlots(aggregatorId);
+        },
+        portWasSelected: function portWasSelected(portId) {
+            console.log('Port ' + portId + ' was selected.');
+            EventBus.$emit('provisioning-port-was-selected', portId);
+            // this is the id value we need so do something usefull with it
+        },
+        slotWasSelected: function slotWasSelected(slotId) {
+            this.ports = {};
+            if (slotId == 0) {
+                return;
+            }
+            this.fetchPorts(slotId);
+        }
+    }
+});
+
+/***/ }),
+/* 134 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col-md-12" }, [
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "aggregator_id" } }, [
+          _vm._v("Aggregator")
+        ]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            staticClass: "form-control",
+            attrs: { name: "aggregator_id" },
+            on: {
+              change: function($event) {
+                _vm.aggregatorWasSelected($event.target.value)
+              }
+            }
+          },
+          [
+            _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
+            _vm._v(" "),
+            _vm._l(_vm.aggregators, function(aggregator) {
+              return _c("option", { domProps: { value: aggregator.id } }, [
+                _vm._v(_vm._s(aggregator.name))
+              ])
+            })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.slots.length,
+              expression: "slots.length"
+            }
+          ],
+          staticClass: "form-group"
+        },
+        [
+          _c("label", { attrs: { for: "slot_id" } }, [_vm._v("Slot")]),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              staticClass: "form-control",
+              attrs: { name: "slot_id" },
+              on: {
+                change: function($event) {
+                  _vm.slotWasSelected($event.target.value)
+                }
+              }
+            },
+            [
+              _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
+              _vm._v(" "),
+              _vm._l(_vm.slots, function(aSlot) {
+                return _c("option", { domProps: { value: aSlot.id } }, [
+                  _vm._v("Slot " + _vm._s(aSlot.slot_number))
+                ])
+              })
+            ],
+            2
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.ports.length,
+              expression: "ports.length"
+            }
+          ],
+          staticClass: "form-group"
+        },
+        [
+          _c("label", { attrs: { for: "port_id" } }, [_vm._v("Ports")]),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              staticClass: "form-control",
+              attrs: { name: "port_id" },
+              on: {
+                change: function($event) {
+                  _vm.portWasSelected($event.target.value)
+                }
+              }
+            },
+            [
+              _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
+              _vm._v(" "),
+              _vm._l(_vm.ports, function(port) {
+                return _c("option", { domProps: { value: port.id } }, [
+                  _vm._v("Port " + _vm._s(port.port_number))
+                ])
+              })
+            ],
+            2
+          )
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-dd937a14", module.exports)
+  }
+}
+
+/***/ }),
+/* 135 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(136)
+/* template */
+var __vue_template__ = __webpack_require__(137)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/GoldAccess/Provisioning/DhcpManagementNetworkSelector.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5181893b", Component.options)
+  } else {
+    hotAPI.reload("data-v-5181893b", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 136 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            management_networks: {},
+            ip_addresses: {}
+            // ont_profiles: {},
+        };
+    },
+
+    created: function created() {
+        this.fetchManagementNetworks();
+    },
+
+    methods: {
+        fetchManagementNetworks: function fetchManagementNetworks() {
+            var _this = this;
+
+            axios.get('/api/dhcp/dhcp_shared_networks').then(function (response) {
+                _this.management_networks = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        fetchIpAddresses: function fetchIpAddresses(dhcpSharedNetworkId) {
+            var _this2 = this;
+
+            axios.get('/api/dhcp/dhcp_shared_networks/' + dhcpSharedNetworkId + '/ip_addresses').then(function (response) {
+                _this2.ip_addresses = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        managementNetworkWasSelected: function managementNetworkWasSelected(dhcpSharedNetworkId) {
+            this.ip_addresses = {};
+            if (dhcpSharedNetworkId == 0) {
+                return;
+            }
+            this.fetchIpAddresses(dhcpSharedNetworkId);
+        },
+        ipAddressWasSelected: function ipAddressWasSelected(ipAddressId) {
+            console.log('IP ' + ipAddressId + ' was selected.');
+            EventBus.$emit('provisioning-ip-address-was-selected', ipAddressId);
+            // this is the id value we need so do something usefull with it
+        }
+    }
+});
+
+/***/ }),
+/* 137 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col-md-12" }, [
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "dhcp_shared_network_id" } }, [
+          _vm._v("Management Network")
+        ]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            staticClass: "form-control",
+            attrs: { name: "dhcp_shared_network_id" },
+            on: {
+              change: function($event) {
+                _vm.managementNetworkWasSelected($event.target.value)
+              }
+            }
+          },
+          [
+            _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
+            _vm._v(" "),
+            _vm._l(_vm.management_networks, function(network) {
+              return _c("option", { domProps: { value: network.id } }, [
+                _vm._v(_vm._s(network.name))
+              ])
+            })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.ip_addresses.length,
+              expression: "ip_addresses.length"
+            }
+          ],
+          staticClass: "form-group"
+        },
+        [
+          _c("label", { attrs: { for: "ip_address_id" } }, [
+            _vm._v("IP Address")
+          ]),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              staticClass: "form-control",
+              attrs: { name: "ip_address_id" },
+              on: {
+                change: function($event) {
+                  _vm.ipAddressWasSelected($event.target.value)
+                }
+              }
+            },
+            [
+              _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
+              _vm._v(" "),
+              _vm._l(_vm.ip_addresses, function(ip) {
+                return _c("option", { domProps: { value: ip.id } }, [
+                  _vm._v(_vm._s(ip.address))
+                ])
+              })
+            ],
+            2
+          )
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-5181893b", module.exports)
+  }
+}
+
+/***/ }),
+/* 138 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c(
+      "div",
+      { staticClass: "col-md-12" },
+      [
+        _c("ont-selector"),
+        _vm._v(" "),
+        _c("aggregator-selector"),
+        _vm._v(" "),
+        _c("dhcp-management-network-selector"),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "len" } }, [_vm._v("LEN")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.len,
+                    expression: "form.len"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", name: "len" },
+                domProps: { value: _vm.form.len },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.form, "len", $event.target.value)
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "circuit_id" } }, [
+                _vm._v("Circuit ID")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.circuit_id,
+                    expression: "form.circuit_id"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", name: "circuit_id" },
+                domProps: { value: _vm.form.circuit_id },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.form, "circuit_id", $event.target.value)
+                  }
+                }
+              })
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "notes" } }, [_vm._v("Notes")]),
+              _vm._v(" "),
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.notes,
+                    expression: "form.notes"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { name: "body" },
+                domProps: { value: _vm.form.notes },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.form, "notes", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group pull-right" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "cancel-button",
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      _vm.cancelForm()
+                    }
+                  }
+                },
+                [_vm._v("Cancel")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-sm btn-success",
+                  on: {
+                    click: function($event) {
+                      _vm.submitForm()
+                    }
+                  }
+                },
+                [_vm._v("Okay")]
+              )
+            ])
+          ])
+        ])
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6ba84ff0", module.exports)
+  }
+}
+
+/***/ }),
+/* 139 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col-4" },
+        [_c("service-location-card", { attrs: { location: _vm.location } })],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "col-8" },
+        [
+          _c("provision-by-service-location-form", {
+            attrs: { location: _vm.location }
+          })
+        ],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("nav", { attrs: { "aria-label": "breadcrumb" } }, [
+      _c("ol", { staticClass: "breadcrumb" }, [
+        _c("li", { staticClass: "breadcrumb-item" }, [
+          _c("a", { attrs: { href: "/" } }, [_vm._v("Dashboard")])
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "breadcrumb-item" }, [
+          _c("a", { attrs: { href: "/provisioning" } }, [
+            _vm._v("Provisioning")
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "li",
+          {
+            staticClass: "breadcrumb-item active",
+            attrs: { "aria-current": "page" }
+          },
+          [_vm._v("Provisioning By Service Location")]
+        )
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6a4989e8", module.exports)
+  }
+}
+
+/***/ }),
+/* 140 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

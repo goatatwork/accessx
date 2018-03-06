@@ -57360,13 +57360,13 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
+  return _c("div", { staticClass: "row mb-3" }, [
     _c("div", { staticClass: "col" }, [
-      _c("div", { staticClass: "card rounded-0" }, [
+      _c("div", { staticClass: "card rounded-0 border-dark" }, [
         _c(
           "div",
           {
-            staticClass: "card-header",
+            staticClass: "card-header bg-white text-dark",
             attrs: {
               role: "button",
               "data-toggle": "collapse",

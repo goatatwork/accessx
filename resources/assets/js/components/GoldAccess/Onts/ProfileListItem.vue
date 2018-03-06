@@ -1,8 +1,8 @@
 <template>
-    <div class="row">
+    <div class="row mb-3">
         <div class="col">
-            <div class="card rounded-0">
-                <div class="card-header" role="button" data-toggle="collapse" :data-target="collapseHref" aria-expanded="true">
+            <div class="card rounded-0 border-dark">
+                <div class="card-header bg-white text-dark" role="button" data-toggle="collapse" :data-target="collapseHref" aria-expanded="true">
                     {{ profile.name }}
                 </div>
 

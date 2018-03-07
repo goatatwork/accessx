@@ -29,6 +29,8 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+            <presence-information></presence-information>
+
             <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                 <ul class="navbar-nav">
                     @if (Auth::guest())
@@ -60,10 +62,15 @@
     </nav>
 
     @yield('content')
+
+    <broadcast-messages></broadcast-messages>
 </div>
 
 <!-- Scripts -->
+<script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
+
 <script src="{{ asset('js/app.js') }}"></script>
+
 @yield('footer-scripts')
 </body>
 </html>

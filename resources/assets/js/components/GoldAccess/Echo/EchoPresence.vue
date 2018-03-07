@@ -1,12 +1,18 @@
 <template>
-    <div class="card position-absolute w-25" style="right:5px;top:60px;">
-        <div class="card-body">
-            <span class="h5 card-title">Who's Online?</span>
-            <ul class="list-unstyled">
-                <li class="list-group-item text-center" v-for="user in onlineUsers" v-text="user.name"></li>
-            </ul>
-        </div>
-    </div>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarPresence">
+                <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="navbarPresenceDropdownLink" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                Who's Online?
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarPresenceDropdownLink">
+                                <a v-for="user in onlineUsers" href="#" class="dropdown-item" v-text="user.name"></a>
+                            </div>
+                        </li>
+                </ul>
+            </div>
 </template>
 
 <script>

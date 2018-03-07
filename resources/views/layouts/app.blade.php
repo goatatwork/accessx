@@ -29,6 +29,8 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+            <presence-information></presence-information>
+
             <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                 <ul class="navbar-nav">
                     @if (Auth::guest())
@@ -61,7 +63,6 @@
 
     @yield('content')
 
-    <presence-information></presence-information>
     <broadcast-messages></broadcast-messages>
 </div>
 

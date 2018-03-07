@@ -63783,6 +63783,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     created: function created() {
@@ -63827,23 +63833,42 @@ var render = function() {
   return _c(
     "div",
     {
-      staticClass: "card position-absolute w-25",
-      staticStyle: { right: "5px", top: "60px" }
+      staticClass: "collapse navbar-collapse justify-content-end",
+      attrs: { id: "navbarPresence" }
     },
     [
-      _c("div", { staticClass: "card-body" }, [
-        _c("span", { staticClass: "h5 card-title" }, [_vm._v("Who's Online?")]),
-        _vm._v(" "),
-        _c(
-          "ul",
-          { staticClass: "list-unstyled" },
-          _vm._l(_vm.onlineUsers, function(user) {
-            return _c("li", {
-              staticClass: "list-group-item text-center",
-              domProps: { textContent: _vm._s(user.name) }
+      _c("ul", { staticClass: "navbar-nav" }, [
+        _c("li", { staticClass: "nav-item dropdown" }, [
+          _c(
+            "a",
+            {
+              staticClass: "nav-link dropdown-toggle",
+              attrs: {
+                href: "#",
+                id: "navbarPresenceDropdownLink",
+                "data-toggle": "dropdown",
+                "aria-haspopup": "true",
+                "aria-expanded": "false"
+              }
+            },
+            [_vm._v("\n                    Who's Online?\n                ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "dropdown-menu dropdown-menu-right",
+              attrs: { "aria-labelledby": "navbarPresenceDropdownLink" }
+            },
+            _vm._l(_vm.onlineUsers, function(user) {
+              return _c("a", {
+                staticClass: "dropdown-item",
+                attrs: { href: "#" },
+                domProps: { textContent: _vm._s(user.name) }
+              })
             })
-          })
-        )
+          )
+        ])
       ])
     ]
   )

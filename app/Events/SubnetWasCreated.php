@@ -34,6 +34,7 @@ class SubnetWasCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        // return new PrivateChannel('channel-name');
+        return new PrivateChannel('subnets');
     }
 }

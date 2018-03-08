@@ -71,8 +71,13 @@ return [
 
         'dhcp_configs' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/dhcp_configs'),
-            'url' => env('APP_URL').'/storage/dhcp_configs',
+            'root' => storage_path('app/services/dnsmasq'),
+            'visibility' => 'public',
+        ],
+
+        'dhcp_configs_test' => [
+            'driver' => 'local',
+            'root' => storage_path('app/services/dnsmasq_test'),
             'visibility' => 'public',
         ],
 

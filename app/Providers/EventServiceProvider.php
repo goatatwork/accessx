@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\SubnetWasCreated' => [
             'App\Listeners\CreateDhcpIpAddresses',
         ],
+        'App\Events\ServiceWasProvisioned' => [
+            'App\Listeners\CreateDhcpForProvisioningRecord',
+        ],
         'Spatie\MediaLibrary\Events\MediaHasBeenAdded' => [
             'App\Listeners\MediaLogger'
         ],

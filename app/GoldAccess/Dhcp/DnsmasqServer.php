@@ -1,5 +1,7 @@
 <?php
 
+// UNUSED
+
 namespace App\GoldAccess\Dhcp;
 
 use SSH;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ProvisioningRecord;
 use Illuminate\Http\Request;
+use App\Events\ServiceWasProvisioned;
 use App\Http\Requests\ProvisioningRecordRequest;
 
 class ProvisioningRecordsApiController extends Controller
@@ -36,7 +37,11 @@ class ProvisioningRecordsApiController extends Controller
      */
     public function store(ProvisioningRecordRequest $request)
     {
-        return $request->persist();
+        $provisioning_record = $request->persist();
+
+        event (new ServiceWasProvisioned($provisioning_record));
+
+        return $provisioning_record;
     }
 
     /**

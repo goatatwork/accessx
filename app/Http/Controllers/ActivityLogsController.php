@@ -14,7 +14,9 @@ class ActivityLogsController extends Controller
      */
     public function index()
     {
-        //
+        $activity_logs = ActivityLog::all();
+
+        return view('activity_logs.index')->with('activity_logs', $activity_logs);
     }
 
     /**

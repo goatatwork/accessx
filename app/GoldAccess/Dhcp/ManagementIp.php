@@ -28,6 +28,7 @@ class ManagementIp
 
     public function check()
     {
+        app('thelogger')->log('My message', 'info');
         return $this->storage->exists($this->filename());
     }
 

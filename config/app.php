@@ -180,9 +180,9 @@ return [
         /**
          * Goat
          */
-        Laravel\Passport\PassportServiceProvider::class,
+        App\Providers\LogServiceProvider::class,
         App\Providers\DhcpServiceProvider::class,
-
+        Laravel\Passport\PassportServiceProvider::class,
     ],
 
     /*

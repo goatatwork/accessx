@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\GoldAccess\Utilities\Logger;
 use Illuminate\Support\ServiceProvider;
 
-class LogServiceProvider extends ServiceProvider
+class LogbotServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -24,7 +24,7 @@ class LogServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('thelogger', function() {
+        $this->app->bind('logbot', function() {
             return new Logger();
         });
     }

@@ -2,6 +2,8 @@
 
 namespace App\GoldAccess\Utilities;
 
+use App\ActivityLog;
+
 class Logger
 {
     /**
@@ -14,8 +16,12 @@ class Logger
      */
     public function log($message, $facility = 'info')
     {
-        \Log::info('CALLED '.debug_backtrace()[1]['class'].' @ '.debug_backtrace()[1]['function']);
-        return 'Message: '.$message.' Facility: '.$facility;
+        return ActivityLog::create([
+            'calling_class' => debug_backtrace()[1]['class'],
+            'calling_function' => debug_backtrace()[1]['function'],
+            'level' => $facility,
+            'message' => $message
+        ]);
     }
 
     /**

@@ -11,6 +11,6 @@ class MediaLogger
     {
         $media = $event->media;
         $path = $media->getPath();
-        Log::info("file {$path} has been saved");
+        app('logbot')->log("File {$path} has been saved.");
     }
 }

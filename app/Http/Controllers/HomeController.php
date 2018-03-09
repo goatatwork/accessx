@@ -29,6 +29,7 @@ class HomeController extends Controller
             'dhcp_subnets_count' => \App\Subnet::count(),
             'onts_count' => \App\Ont::count(),
             'provisioning_records_count' => \App\ProvisioningRecord::count(),
+            'activity_logs_count' => \App\ActivityLog::count(),
         ];
         return view('home')->with('stats', $stats);
     }

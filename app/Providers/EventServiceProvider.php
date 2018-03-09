@@ -13,14 +13,50 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+        // Laravel Auth
+        'Illuminate\Auth\Events\Registered' => [
+            'App\Listeners\LogRegisteredUser',
+        ],
+
+        // 'Illuminate\Auth\Events\Attempting' => [
+        //     'App\Listeners\LogAuthenticationAttempt',
+        // ],
+
+        // 'Illuminate\Auth\Events\Authenticated' => [
+        //     'App\Listeners\LogAuthenticated',
+        // ],
+
+        'Illuminate\Auth\Events\Login' => [
+            'App\Listeners\LogSuccessfulLogin',
+        ],
+
+        'Illuminate\Auth\Events\Failed' => [
+            'App\Listeners\LogFailedLogin',
+        ],
+
+        'Illuminate\Auth\Events\Logout' => [
+            'App\Listeners\LogSuccessfulLogout',
+        ],
+
+        'Illuminate\Auth\Events\Lockout' => [
+            'App\Listeners\LogLockout',
+        ],
+
+        'Illuminate\Auth\Events\PasswordReset' => [
+            'App\Listeners\LogPasswordReset',
+        ],
+
+        // Spatie MediaLibrary
+        'Spatie\MediaLibrary\Events\MediaHasBeenAdded' => [
+            'App\Listeners\MediaLogger'
+        ],
+
+        // Goat
         'App\Events\SubnetWasCreated' => [
             'App\Listeners\CreateDhcpIpAddresses',
         ],
         'App\Events\ServiceWasProvisioned' => [
             'App\Listeners\CreateDhcpForProvisioningRecord',
-        ],
-        'Spatie\MediaLibrary\Events\MediaHasBeenAdded' => [
-            'App\Listeners\MediaLogger'
         ],
     ];
 

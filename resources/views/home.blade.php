@@ -83,6 +83,24 @@
         </div>
 
     </div>
+
+    <div class="row justify-content-center mt-5">
+
+        <div class="col-2">
+            <div class="card">
+                <a href="/activity_logs" class="text-dark">
+                    <div class="card-header text-center">
+                        <span class="fas fa-4x fa-folder mb-3"></span><br>
+                        <span class="h5">ACTIVITY LOGS</span>
+                    </div>
+                </a>
+                <div class="card-body text-center">
+                    <span class="h2">{{ $stats['activity_logs_count'] }}</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
 
 @endsection

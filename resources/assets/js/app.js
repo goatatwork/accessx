@@ -24,6 +24,8 @@ Vue.component('file-uploader', require('./components/GoldAccess/Core/FileUploade
 Vue.component('delete-modal', require('./components/GoldAccess/Core/DeleteModal.vue'));
 Vue.component('marked-content', require('./components/GoldAccess/Core/MarkedContent.vue'));
 
+Vue.component('activity-logs-table', require('./components/GoldAccess/ActivityLogs/ActivityLogsTable.vue'));
+
 Vue.component('service-location-page', require('./components/GoldAccess/Customers/ServiceLocationPage.vue'));
 
 // ONTs

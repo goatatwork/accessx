@@ -3,14 +3,16 @@
 namespace App;
 
 use Spatie\Sluggable\HasSlug;
+use OwenIt\Auditing\Auditable;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Ont extends Model implements HasMedia
+class Ont extends Model implements HasMedia, AuditableContract
 {
-    use HasMediaTrait, HasSlug;
+    use HasMediaTrait, HasSlug, Auditable;
 
     protected $fillable = [
         'model_number',

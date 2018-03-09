@@ -2,13 +2,15 @@
 
 namespace App;
 
+use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class ProvisioningRecord extends Model implements HasMedia
+class ProvisioningRecord extends Model implements HasMedia, AuditableContract
 {
-    use HasMediaTrait;
+    use HasMediaTrait, Auditable;
 
     protected $fillable = [
         'service_location_id',

@@ -28,6 +28,9 @@ Vue.component('activity-logs-table', require('./components/GoldAccess/ActivityLo
 
 Vue.component('service-location-page', require('./components/GoldAccess/Customers/ServiceLocationPage.vue'));
 
+// Service status cards
+Vue.component('dnsmasq-server-status-card', require('./components/GoldAccess/Dhcp/DnsmasqServerStatusCard.vue'));
+
 // ONTs
 Vue.component('ont-card', require('./components/GoldAccess/Onts/OntCard.vue'));
 Vue.component('ont-software', require('./components/GoldAccess/Onts/OntSoftware.vue'));

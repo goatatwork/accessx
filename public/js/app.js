@@ -17917,6 +17917,9 @@ Vue.component('activity-logs-table', __webpack_require__(85));
 
 Vue.component('service-location-page', __webpack_require__(91));
 
+// Service status cards
+Vue.component('dnsmasq-server-status-card', __webpack_require__(157));
+
 // ONTs
 Vue.component('ont-card', __webpack_require__(18));
 Vue.component('ont-software', __webpack_require__(98));
@@ -64201,6 +64204,157 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 154 */,
+/* 155 */,
+/* 156 */,
+/* 157 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(158)
+/* template */
+var __vue_template__ = __webpack_require__(159)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/GoldAccess/Dhcp/DnsmasqServerStatusCard.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-a1cdfd74", Component.options)
+  } else {
+    hotAPI.reload("data-v-a1cdfd74", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 158 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            status: {
+                isUp: true
+            }
+        };
+    },
+
+    computed: {
+        cardClasses: function cardClasses() {
+            return this.status.isUp ? 'border-success' : 'border-danger';
+        },
+        statusText: function statusText() {
+            return this.status.isUp ? 'UP' : 'DOWN';
+        }
+    },
+
+    created: function created() {
+        this.getStatus();
+    },
+
+    methods: {
+        getStatus: function getStatus() {
+            var _this = this;
+
+            axios.get('/api/docker/services/dhcp/statuscard').then(function (response) {
+                _this.status = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 159 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "card", class: _vm.cardClasses }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body text-center" }, [
+      _c("span", { staticClass: "h2" }, [_vm._v(_vm._s(_vm.statusText))]),
+      _c("br")
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      { staticClass: "text-dark", attrs: { href: "/activity_logs" } },
+      [
+        _c("div", { staticClass: "card-header text-center" }, [
+          _c("span", { staticClass: "fas fa-4x fa-folder mb-3" }),
+          _c("br"),
+          _vm._v(" "),
+          _c("span", { staticClass: "h5" }, [_vm._v("DNSMASQ")])
+        ])
+      ]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-a1cdfd74", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

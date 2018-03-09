@@ -65,7 +65,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'infrastructure'], function() 
 
 Route::get('activity_logs', 'ActivityLogsController@index')->middleware('auth');
 
-
 Route::get('test', function() {
 
     // $api_methods = app('dockerbot')->apiMethods();

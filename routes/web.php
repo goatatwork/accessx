@@ -64,3 +64,13 @@ Route::group(['middleware' => 'auth', 'prefix' => 'infrastructure'], function() 
 });
 
 Route::get('activity_logs', 'ActivityLogsController@index')->middleware('auth');
+
+
+Route::get('test', function() {
+
+    // $api_methods = app('dockerbot')->apiMethods();
+
+    $container_list = app('dockerbot')->containerList();
+
+    dd($container_list[0]);
+});

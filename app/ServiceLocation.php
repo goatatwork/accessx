@@ -2,11 +2,13 @@
 
 namespace App;
 
+use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class ServiceLocation extends Model
+class ServiceLocation extends Model implements AuditableContract
 {
-    use Provisionable;
+    use Provisionable, Auditable;
 
     protected $fillable = [
         'name',

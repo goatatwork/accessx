@@ -3,13 +3,15 @@
 namespace App;
 
 use Spatie\Sluggable\HasSlug;
+use OwenIt\Auditing\Auditable;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
 use App\Exceptions\AggregatorAlreadyHasSlots;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Aggregator extends Model
+class Aggregator extends Model implements AuditableContract
 {
-    use HasSlug;
+    use HasSlug, Auditable;
 
     protected $fillable = [
         'platform_id',

@@ -28,7 +28,20 @@ class CreateDhcpForProvisioningRecord
     public function handle(ServiceWasProvisioned $event)
     {
         $management_ip = new ManagementIp($event->provisioning_record);
-        \Log::info('Creating dnsmasq config snippet for '.$event->provisioning_record);
+
+        $ip = $event->provisioning_record->ip_address->address;
+        $username = $event->provisioning_record->service_location->customer->customer_name;
+        $userid = $event->provisioning_record->service_location->customer->id;
+        $servicelocationname = $event->provisioning_record->service_location->name;
+        $servicelocationid = $event->provisioning_record->service_location->id;
+
+        app('logbot')->log('Creating management IP (' .
+            $ip .
+            ') for user ' .
+            $username . '(' . $userid . ') at service location ' .
+            $servicelocationname . '(' . $servicelocationid . ').'
+        );
+
         $management_ip->make();
     }
 }

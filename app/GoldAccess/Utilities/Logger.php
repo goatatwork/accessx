@@ -16,9 +16,12 @@ class Logger
      */
     public function log($message, $facility = 'info')
     {
+        $calling_class = (debug_backtrace()[1]) ? (debug_backtrace()[1]['class']) ? debug_backtrace()[1]['class'] : 'unknown' : 'unknown';
+        $calling_function = (debug_backtrace()[1]) ? (debug_backtrace()[1]['function']) ? debug_backtrace()[1]['function'] : 'unknown' : 'unknown';
+
         return ActivityLog::create([
-            'calling_class' => debug_backtrace()[1]['class'],
-            'calling_function' => debug_backtrace()[1]['function'],
+            'calling_class' => $calling_class,
+            'calling_function' => $calling_function,
             'level' => $facility,
             'message' => $message
         ]);

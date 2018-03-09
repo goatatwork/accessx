@@ -63971,6 +63971,31 @@ var ActivityLogTableRow = Vue.extend(__webpack_require__(154));
 
     components: {
         'activity-log-table-row': ActivityLogTableRow
+    },
+
+    data: function data() {
+        return {
+            sortKey: 'id',
+            sortOrder: 'asc'
+        };
+    },
+
+    computed: {
+        activityLogsSorted: function activityLogsSorted() {
+            return _.orderBy(this.activityLogs, this.sortKey, this.sortOrder);
+        }
+    },
+
+    methods: {
+        sortBy: function sortBy(field) {
+            console.log(field);
+            if (field == this.sortKey) {
+                this.sortOrder = this.sortOrder == 'asc' ? 'desc' : 'asc';
+            } else {
+                this.sortKey = field;
+                this.sortOrder = 'asc';
+            }
+        }
     }
 });
 
@@ -63985,11 +64010,59 @@ var render = function() {
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col" }, [
       _c("table", { staticClass: "table" }, [
-        _vm._m(0),
+        _c("thead", [
+          _c("tr", [
+            _c(
+              "th",
+              {
+                attrs: { nowrap: "" },
+                on: {
+                  click: function($event) {
+                    _vm.sortBy("created_at")
+                  }
+                }
+              },
+              [_vm._v("Created "), _c("span", { staticClass: "fas fa-sort" })]
+            ),
+            _vm._v(" "),
+            _c(
+              "th",
+              {
+                attrs: { nowrap: "" },
+                on: {
+                  click: function($event) {
+                    _vm.sortBy("level")
+                  }
+                }
+              },
+              [_vm._v("Severity "), _c("span", { staticClass: "fas fa-sort" })]
+            ),
+            _vm._v(" "),
+            _c(
+              "th",
+              {
+                attrs: { nowrap: "" },
+                on: {
+                  click: function($event) {
+                    _vm.sortBy("calling_class")
+                  }
+                }
+              },
+              [
+                _vm._v("Reporting Class@Function "),
+                _c("span", { staticClass: "fas fa-sort" })
+              ]
+            ),
+            _vm._v(" "),
+            _c("th", { attrs: { nowrap: "" } }, [_vm._v("Message")]),
+            _vm._v(" "),
+            _c("th", { attrs: { nowrap: "" } }, [_vm._v("Actions")])
+          ])
+        ]),
         _vm._v(" "),
         _c(
           "tbody",
-          _vm._l(_vm.activityLogs, function(log) {
+          _vm._l(_vm.activityLogsSorted, function(log) {
             return _c("activity-log-table-row", {
               key: log.id,
               tag: "tr",
@@ -64001,26 +64074,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Created")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Severity")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Reporting Class@Function")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Message")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Actions")])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -64109,14 +64163,18 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("tr", [
-    _c("td", [_vm._v(_vm._s(_vm.log.created_at))]),
+    _c("td", { attrs: { nowrap: "" } }, [
+      _vm._v(_vm._s(_vm.log.created_at_for_humans))
+    ]),
     _vm._v(" "),
     _c("td", [_vm._v(_vm._s(_vm.log.level))]),
     _vm._v(" "),
     _c("td", [
-      _vm._v(
-        _vm._s(_vm.log.calling_class) + "@" + _vm._s(_vm.log.calling_function)
-      )
+      _c("small", [
+        _vm._v(
+          _vm._s(_vm.log.calling_class) + "@" + _vm._s(_vm.log.calling_function)
+        )
+      ])
     ]),
     _vm._v(" "),
     _c("td", [_vm._v(_vm._s(_vm.log.message))]),

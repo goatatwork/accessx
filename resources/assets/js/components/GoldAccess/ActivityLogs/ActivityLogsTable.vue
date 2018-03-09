@@ -5,15 +5,15 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Created</th>
-                        <th>Severity</th>
-                        <th>Reporting Class@Function</th>
-                        <th>Message</th>
-                        <th>Actions</th>
+                        <th @click="sortBy('created_at')" nowrap>Created <span class="fas fa-sort"></span></th>
+                        <th @click="sortBy('level')" nowrap>Severity <span class="fas fa-sort"></span></th>
+                        <th @click="sortBy('calling_class')" nowrap>Reporting Class@Function <span class="fas fa-sort"></span></th>
+                        <th nowrap>Message</th>
+                        <th nowrap>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr is="activity-log-table-row" v-for="log in activityLogs" :key="log.id" :log="log"></tr>
+                    <tr is="activity-log-table-row" v-for="log in activityLogsSorted" :key="log.id" :log="log"></tr>
                 </tbody>
             </table>
 
@@ -31,6 +31,31 @@
 
         components: {
             'activity-log-table-row': ActivityLogTableRow,
+        },
+
+        data: function() {
+            return {
+                sortKey: 'id',
+                sortOrder: 'asc'
+            }
+        },
+
+        computed: {
+            activityLogsSorted: function() {
+                return _.orderBy(this.activityLogs, this.sortKey, this.sortOrder);
+            }
+        },
+
+        methods: {
+            sortBy: function(field) {
+                console.log(field);
+                if (field == this.sortKey) {
+                    this.sortOrder = (this.sortOrder == 'asc') ? 'desc' : 'asc';
+                } else {
+                    this.sortKey = field;
+                    this.sortOrder = 'asc';
+                }
+            }
         }
     }
 </script>

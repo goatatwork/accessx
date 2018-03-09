@@ -95,7 +95,7 @@
                     </div>
                 </a>
                 <div class="card-body text-center">
-                    <span class="h2">12,345</span>
+                    <span class="h2">{{ $stats['activity_logs_count'] }}</span>
                 </div>
             </div>
         </div>

@@ -18,7 +18,8 @@ class CreateActivityLogsTable extends Migration
             $table->string('calling_class')->nullable();
             $table->string('calling_function')->nullable();
             $table->string('level')->nullable();
-            $table->string('message')->nullable();
+            $table->text('message')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

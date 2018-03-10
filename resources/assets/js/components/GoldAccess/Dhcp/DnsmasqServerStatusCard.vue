@@ -1,12 +1,12 @@
 <template>
-    <div class="card" :class="cardClasses">
+    <div class="card">
         <a href="/activity_logs" class="text-dark">
             <div class="card-header text-center">
-                <span class="fas fa-4x fa-folder mb-3"></span><br>
+                <span class="fas fa-4x fa-leaf mb-3"></span><br>
                 <span class="h5">DNSMASQ</span>
             </div>
         </a>
-        <div class="card-body text-center">
+        <div class="card-body text-center" :class="cardBodyClasses">
             <span class="h2">{{ statusText }}</span><br>
         </div>
     </div>
@@ -23,8 +23,11 @@
         },
 
         computed: {
-            cardClasses: function() {
-                return (this.status.isUp) ? 'border-success' : 'border-danger';
+            cardBodyClasses: function() {
+                return (this.status.isUp) ? 'border-success text-success' : 'border-danger text-danger';
+            },
+            cardHeaderClasses: function() {
+                return (this.status.isUp) ? 'bg-success border-success text-dark' : 'bg-danger border-danger text-dark';
             },
             statusText: function() {
                 return (this.status.isUp) ? 'UP' : 'DOWN';

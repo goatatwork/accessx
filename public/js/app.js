@@ -64286,8 +64286,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     computed: {
-        cardClasses: function cardClasses() {
-            return this.status.isUp ? 'border-success' : 'border-danger';
+        cardBodyClasses: function cardBodyClasses() {
+            return this.status.isUp ? 'border-success text-success' : 'border-danger text-danger';
+        },
+        cardHeaderClasses: function cardHeaderClasses() {
+            return this.status.isUp ? 'bg-success border-success text-dark' : 'bg-danger border-danger text-dark';
         },
         statusText: function statusText() {
             return this.status.isUp ? 'UP' : 'DOWN';
@@ -64319,13 +64322,17 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card", class: _vm.cardClasses }, [
+  return _c("div", { staticClass: "card" }, [
     _vm._m(0),
     _vm._v(" "),
-    _c("div", { staticClass: "card-body text-center" }, [
-      _c("span", { staticClass: "h2" }, [_vm._v(_vm._s(_vm.statusText))]),
-      _c("br")
-    ])
+    _c(
+      "div",
+      { staticClass: "card-body text-center", class: _vm.cardBodyClasses },
+      [
+        _c("span", { staticClass: "h2" }, [_vm._v(_vm._s(_vm.statusText))]),
+        _c("br")
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -64338,7 +64345,7 @@ var staticRenderFns = [
       { staticClass: "text-dark", attrs: { href: "/activity_logs" } },
       [
         _c("div", { staticClass: "card-header text-center" }, [
-          _c("span", { staticClass: "fas fa-4x fa-folder mb-3" }),
+          _c("span", { staticClass: "fas fa-4x fa-leaf mb-3" }),
           _c("br"),
           _vm._v(" "),
           _c("span", { staticClass: "h5" }, [_vm._v("DNSMASQ")])

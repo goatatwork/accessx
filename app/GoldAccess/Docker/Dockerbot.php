@@ -44,23 +44,61 @@ class Dockerbot
     }
 
     /**
-     * Check to see if there is a container running by the name of $name
+     * Check to see if a container by the name of $name exists with or without
+     * a leading "/"
+     * @param  string $name The name of the container you are looking for
+     * @return mixed either the container ID or false
+     */
+    public function getContainerId(string $name)
+    {
+        $name = (starts_with($name, '/')) ? $name : '/' . $name;
+
+        return $this->containerExists($name);
+    }
+
+    /**
+     * Inspect the container to determine whether or not it is running
      * @param  string $name The name of the container you are looking for
      * @return boolean
      */
     public function containerIsRunning(string $name)
     {
-        $names = [];
-        foreach ($this->docker->containerList() as $container)
-        {
-            $names = array_merge($names, $container->getNames());
+        $name = (starts_with($name, '/')) ? $name : '/' . $name;
+
+        if ( ! $this->containerExists($name) ) {
+            return false;
         }
 
-        $names = collect($names);
+        $container_id = $this->containerExists($name);
 
-        return ($names->contains($name)) ? true : (($names->contains("/" . $name)) ? true : false);
+        $container = $this->docker->containerInspect($container_id); // Docker\API\Model\ContainersIdJsonGetResponse200
+
+        $state = $container->getState(); // Docker\API\Model\ContainersIdJsonGetResponse200State
+        $status = $state->getStatus(); // "running"
+
+        return ($status == 'running') ? true : false;
     }
 
+    /**
+     * Check to see if a container by the name of $name exists with or without
+     * a leading "/"
+     * @param  string $name The name of the container you are looking for
+     * @return mixed either the container ID or false
+     */
+    protected function containerExists(string $name)
+    {
+        $name = (starts_with($name, '/')) ? $name : '/' . $name;
+
+        $dnsmasq_server_container_id = null;
+
+        foreach ($this->docker->containerList() as $container)
+        {
+            if (in_array($name, $container->getNames())) {
+                $dnsmasq_server_container_id = $container->getId();
+            }
+        }
+            return (is_null($dnsmasq_server_container_id)) ? false : $dnsmasq_server_container_id;
+    }
     /**
      * Get an array of methods from \Docker\Docker and strip __construct out
      *

@@ -24,13 +24,5 @@ class DnsmasqServerStatusCardResource extends Resource
     {
         return app('dockerbot')->containerIsRunning(config('goldaccess.dockerbot.services.dhcp.container_name'));
     }
-
-    /**
-     * @return mixed
-     */
-    protected function uptime()
-    {
-        // return ($this->isUp()) ? : 'not up';
-    }
 }
 

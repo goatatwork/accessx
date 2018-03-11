@@ -181,6 +181,7 @@ return [
          * Goat
          */
         App\Providers\LogbotServiceProvider::class,
+        App\Providers\DockerbotServiceProvider::class,
         App\Providers\DhcpServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
     ],

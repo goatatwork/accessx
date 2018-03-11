@@ -100,6 +100,10 @@
             </div>
         </div>
 
+        <div class="col-2">
+            <dnsmasq-server-status-card></dnsmasq-server-status-card>
+        </div>
+
     </div>
 </div>
 

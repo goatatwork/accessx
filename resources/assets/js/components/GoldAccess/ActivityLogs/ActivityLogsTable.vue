@@ -35,8 +35,8 @@
 
         data: function() {
             return {
-                sortKey: 'id',
-                sortOrder: 'asc'
+                sortKey: 'created_at',
+                sortOrder: 'desc'
             }
         },
 

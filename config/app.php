@@ -180,6 +180,7 @@ return [
         /**
          * Goat
          */
+        App\Providers\AgentbotServiceProvider::class,
         App\Providers\LogbotServiceProvider::class,
         App\Providers\DockerbotServiceProvider::class,
         App\Providers\DhcpServiceProvider::class,

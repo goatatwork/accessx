@@ -27,12 +27,15 @@ class LogFailedLogin
      */
     public function handle(Failed $event)
     {
+        $agent = new Agent();
+
+
         if ($event->user == null)
         {
-            $message = 'Login failed. No such user. ' . json_encode($event->credentials);
+            $message = 'Login failed. No such user. ' . json_encode($event->credentials) . ' with agent ' . app('agentbot')->browser();
         } else {
             $user = $this->getUser($event->user->getAuthIdentifier());
-            $message = 'Login failed for user ' . $user->name . '(' . $user->id . ') with credentials ' . json_encode($event->credentials);
+            $message = 'Login failed for user ' . $user->name . '(' . $user->id . ') with credentials ' . json_encode($event->credentials) . ' with agent ' . app('agentbot')->browser();
         }
 
         app('logbot')->log($message);

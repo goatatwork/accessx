@@ -7,6 +7,15 @@ use App\ActivityLog;
 class Logger
 {
     /**
+     * The the supported levels
+     *  @return  array
+     */
+    public function getLevels()
+    {
+        return $this->levels();
+    }
+
+    /**
      * Do the thing that a logger does
      *
      * @param  string $message The message to log
@@ -16,15 +25,32 @@ class Logger
      */
     public function log($message, $facility = 'info')
     {
-        $calling_class = (debug_backtrace()[1]) ? (debug_backtrace()[1]['class']) ? debug_backtrace()[1]['class'] : 'unknown' : 'unknown';
-        $calling_function = (debug_backtrace()[1]) ? (debug_backtrace()[1]['function']) ? debug_backtrace()[1]['function'] : 'unknown' : 'unknown';
-
         return ActivityLog::create([
-            'calling_class' => $calling_class,
-            'calling_function' => $calling_function,
+            'calling_class' => $this->callingClass(),
+            'calling_function' => $this->callingFunction(),
             'level' => $facility,
             'message' => $message
         ]);
+    }
+
+    /**
+     * @return  string The calling class
+     */
+    protected function callingClass()
+    {
+        $calling_class = (debug_backtrace()[1]) ? (debug_backtrace()[1]['class']) ? debug_backtrace()[1]['class'] : 'unknown' : 'unknown';
+
+        return $calling_class;
+    }
+
+    /**
+     * @return  string The calling class
+     */
+    protected function callingFunction()
+    {
+        $calling_function = (debug_backtrace()[1]) ? (debug_backtrace()[1]['function']) ? debug_backtrace()[1]['function'] : 'unknown' : 'unknown';
+
+        return $calling_function;
     }
 
     /**

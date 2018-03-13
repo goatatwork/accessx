@@ -7,7 +7,26 @@
             </div>
         </a>
         <div class="card-body text-center" :class="cardBodyClasses">
-            <span class="h2">{{ statusText }}</span><br>
+            <div class="row">
+                <div class="col">
+                <span class="h2">{{ statusText }}</span><br>
+                <small v-show="status.uptime">Last Started {{ uptimeText }}</small>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <div class="col">
+                    <small v-show="!restarting">
+                        <button @click="restartContainer" class="btn btn-sm float-right" :class="restartButtonClasses">
+                            {{ restartButtonText }}
+                        </button>
+                    </small>
+                    <small v-show="restarting">
+                        <button class="btn btn-sm float-right" :class="restartButtonClasses">
+                            <span class="fas fa-spinner fa-pulse"></span> {{ restartButtonText }}
+                        </button>
+                    </small>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -18,7 +37,11 @@
             return {
                 status: {
                     isUp: true,
+                    uptime: '',
                 },
+                restarting: false,
+                restartButtonText: 'Restart Server',
+                restartButtonClasses: 'btn-dark text-light'
             }
         },
 
@@ -31,6 +54,9 @@
             },
             statusText: function() {
                 return (this.status.isUp) ? 'UP' : 'DOWN';
+            },
+            uptimeText: function() {
+                return (this.status.uptime) ? this.status.uptime : 'DOWN';
             }
         },
 
@@ -44,6 +70,36 @@
                     this.status = response.data;
                 }).catch(error => {
                     console.log(error);
+                });
+            },
+            onRestartFailure: function() {
+                let self = this;
+                this.restartButtonClasses = 'btn-danger text-dark';
+                this.restartButtonText = 'FAILURE';
+                setTimeout( function() {
+                    self.restarting = false;
+                    self.restartButtonClasses = 'btn-dark text-light';
+                    self.restartButtonText = 'Restart Server';
+                    self.getStatus();
+                }, 3000);
+            },
+            onRestartSuccess: function() {
+                let self = this;
+                this.restartButtonClasses = 'btn-success text-dark';
+                this.restartButtonText = 'SUCCESS';
+                setTimeout( function() {
+                    self.restarting = false;
+                    self.restartButtonClasses = 'btn-dark text-light';
+                    self.restartButtonText = 'Restart Server';
+                    self.getStatus();
+                }, 3000);
+            },
+            restartContainer: function() {
+                this.restarting = true;
+                axios.post('/api/docker/services/dhcp/restart').then( (response) => {
+                    (response.data.restarted) ? this.onRestartSuccess() : this.onRestartFailure();
+                }).catch( (error) => {
+                    console.log(error.response.data);
                 });
             }
         }

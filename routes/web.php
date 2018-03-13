@@ -66,9 +66,5 @@ Route::group(['middleware' => 'auth', 'prefix' => 'infrastructure'], function() 
 Route::get('activity_logs', 'ActivityLogsController@index')->middleware('auth');
 
 Route::get('test', function() {
-    $agent = new \Jenssegers\Agent\Agent();
-
-    // dd($agent->getUtilities());
-
-    dd(get_class_methods($agent));
+    dd(app('dockerbot')->containerUptime('dnsmasq_server'));
 });

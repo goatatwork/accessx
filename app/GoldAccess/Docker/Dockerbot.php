@@ -2,6 +2,7 @@
 
 namespace App\GoldAccess\Docker;
 
+use Carbon\Carbon;
 use Docker\Docker;
 
 class Dockerbot
@@ -79,6 +80,51 @@ class Dockerbot
         return ($status == 'running') ? true : false;
     }
 
+
+    /**
+     * Get the started at timestamp and return it ->diffForHumans()'d'
+     * @param  string $name The name of the container you are looking for
+     * @return string
+     */
+    public function containerUptime(string $name)
+    {
+        $name = (starts_with($name, '/')) ? $name : '/' . $name;
+
+        if ( ! $this->containerExists($name) ) {
+            return false;
+        }
+
+        $container_id = $this->containerExists($name);
+
+        $container = $this->docker->containerInspect($container_id); // Docker\API\Model\ContainersIdJsonGetResponse200
+
+        $state = $container->getState();
+
+        $timestamp = explode('.', $state->getStartedAt());
+
+        $carbon = Carbon::createFromFormat('Y-m-d H:i:s', str_replace_first('T', ' ', $timestamp[0]));
+
+        return $carbon->diffForHumans();
+    }
+
+    /**
+     * Restart a container by name
+     * @param  string $name The name of the container you are looking for
+     * @return null|\Psr\Http\Message\ResponseInterface
+     */
+    public function containerRestart(string $name)
+    {
+        $name = (starts_with($name, '/')) ? $name : '/' . $name;
+
+        if ( ! $this->containerExists($name) ) {
+            return false;
+        }
+
+        $container_id = $this->containerExists($name);
+
+        return $this->docker->containerRestart($container_id);
+    }
+
     /**
      * Check to see if a container by the name of $name exists with or without
      * a leading "/"
@@ -99,6 +145,7 @@ class Dockerbot
         }
             return (is_null($dnsmasq_server_container_id)) ? false : $dnsmasq_server_container_id;
     }
+
     /**
      * Get an array of methods from \Docker\Docker and strip __construct out
      *

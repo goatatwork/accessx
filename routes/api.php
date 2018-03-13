@@ -112,4 +112,5 @@ Route::post('dnsmasq/events', function(\Illuminate\Http\Request $request) {
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'docker'], function() {
     Route::get('services/dhcp/statuscard', 'DnsmasqServerStatusCardApiController@index');
+    Route::post('services/dhcp/restart', 'DnsmasqRestartApiServiceController@store');
 });

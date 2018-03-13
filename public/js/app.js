@@ -57844,6 +57844,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var ServiceLocationCard = Vue.extend(__webpack_require__(17));
 
@@ -58172,7 +58183,20 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-8" }, [
-        _vm._v("\n            some stuff here\n        ")
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-body text-center" }, [
+            _c("iframe", {
+              staticStyle: { border: "0" },
+              attrs: {
+                width: "400",
+                height: "200",
+                frameborder: "0",
+                src: _vm.location.google_maps_embed_api_string,
+                allowfullscreen: ""
+              }
+            })
+          ])
+        ])
       ])
     ])
   ])

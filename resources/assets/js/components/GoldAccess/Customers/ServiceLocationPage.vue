@@ -13,7 +13,18 @@
                 <service-location-card :location="location"></service-location-card>
             </div>
             <div class="col-md-8">
-                some stuff here
+                <div class="card">
+                    <div class="card-body text-center">
+                        <iframe
+                            width="400"
+                            height="200"
+                            frameborder="0"
+                            style="border:0"
+                            :src="location.google_maps_embed_api_string"
+                            allowfullscreen
+                        ></iframe>
+                    </div>
+                </div>
             </div>
         </div>
 

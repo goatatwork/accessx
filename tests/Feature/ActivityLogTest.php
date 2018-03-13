@@ -19,8 +19,8 @@ class ActivityLogTest extends TestCase
         app('logbot')->log('I am a test log', 'crit');
 
         $this->assertDatabaseHas('activity_logs', [
-            'calling_class' => 'Tests\\Feature\\ActivityLogTest',
-            'calling_function' => 'test_activity_log',
+            'calling_class' => 'App\\GoldAccess\\Utilities\\Logger',
+            'calling_function' => 'log',
             'level' => 'crit',
             'message' => 'I am a test log'
         ]);

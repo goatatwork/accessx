@@ -5,6 +5,21 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th colspan="5">
+
+                            <button v-if="listening" class="btn btn-sm btn-success text-dark float-right" @click.prevent="disableLiveUpdates()">
+                                <span class="fas fa-power-off"></span>
+                                Live Updates Are On
+                            </button>
+
+                            <button v-if="!listening" class="btn btn-sm btn-secondary text-dark float-right" @click.prevent="enableLiveUpdates()">
+                                <span class="fas fa-power-off"></span>
+                                <span class="font-italic">Live Updates Are Off</span>
+                            </button>
+
+                        </th>
+                    </tr>
+                    <tr>
                         <th @click="sortBy('created_at')" nowrap>Created <span class="fas fa-sort"></span></th>
                         <th @click="sortBy('level')" nowrap>Severity <span class="fas fa-sort"></span></th>
                         <th @click="sortBy('calling_class')" nowrap>Reporting Class@Function <span class="fas fa-sort"></span></th>
@@ -35,18 +50,39 @@
 
         data: function() {
             return {
+                theLogs: this.activityLogs,
                 sortKey: 'created_at',
-                sortOrder: 'desc'
+                sortOrder: 'desc',
+                listening: false,
             }
         },
 
         computed: {
             activityLogsSorted: function() {
-                return _.orderBy(this.activityLogs, this.sortKey, this.sortOrder);
+                return _.orderBy(this.theLogs, this.sortKey, this.sortOrder);
             }
         },
 
+        created: function() {
+            this.listenForEcho();
+        },
+
         methods: {
+            disableLiveUpdates: function() {
+                this.listening = false;
+                window.Echo.leave('activity_logs');
+            },
+            enableLiveUpdates: function() {
+                this.listening = true;
+                this.listenForEcho();
+            },
+            listenForEcho: function() {
+                this.listening = true;
+                window.Echo.private('activity_logs')
+                    .listen('ActivityWasLogged', ({activity_log}) => {
+                        this.theLogs.push(activity_log);
+                    });
+            },
             sortBy: function(field) {
                 console.log(field);
                 if (field == this.sortKey) {

@@ -57292,6 +57292,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var ActivityLogTableRow = Vue.extend(__webpack_require__(87));
 
@@ -57306,18 +57321,42 @@ var ActivityLogTableRow = Vue.extend(__webpack_require__(87));
 
     data: function data() {
         return {
+            theLogs: this.activityLogs,
             sortKey: 'created_at',
-            sortOrder: 'desc'
+            sortOrder: 'desc',
+            listening: false
         };
     },
 
     computed: {
         activityLogsSorted: function activityLogsSorted() {
-            return _.orderBy(this.activityLogs, this.sortKey, this.sortOrder);
+            return _.orderBy(this.theLogs, this.sortKey, this.sortOrder);
         }
     },
 
+    created: function created() {
+        this.listenForEcho();
+    },
+
     methods: {
+        disableLiveUpdates: function disableLiveUpdates() {
+            this.listening = false;
+            window.Echo.leave('activity_logs');
+        },
+        enableLiveUpdates: function enableLiveUpdates() {
+            this.listening = true;
+            this.listenForEcho();
+        },
+        listenForEcho: function listenForEcho() {
+            var _this = this;
+
+            this.listening = true;
+            window.Echo.private('activity_logs').listen('ActivityWasLogged', function (_ref) {
+                var activity_log = _ref.activity_log;
+
+                _this.theLogs.push(activity_log);
+            });
+        },
         sortBy: function sortBy(field) {
             console.log(field);
             if (field == this.sortKey) {
@@ -57463,6 +57502,55 @@ var render = function() {
     _c("div", { staticClass: "col" }, [
       _c("table", { staticClass: "table" }, [
         _c("thead", [
+          _c("tr", [
+            _c("th", { attrs: { colspan: "5" } }, [
+              _vm.listening
+                ? _c(
+                    "button",
+                    {
+                      staticClass:
+                        "btn btn-sm btn-success text-dark float-right",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.disableLiveUpdates()
+                        }
+                      }
+                    },
+                    [
+                      _c("span", { staticClass: "fas fa-power-off" }),
+                      _vm._v(
+                        "\n                            Live Updates Are On\n                        "
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              !_vm.listening
+                ? _c(
+                    "button",
+                    {
+                      staticClass:
+                        "btn btn-sm btn-secondary text-dark float-right",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.enableLiveUpdates()
+                        }
+                      }
+                    },
+                    [
+                      _c("span", { staticClass: "fas fa-power-off" }),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "font-italic" }, [
+                        _vm._v("Live Updates Are Off")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ])
+          ]),
+          _vm._v(" "),
           _c("tr", [
             _c(
               "th",

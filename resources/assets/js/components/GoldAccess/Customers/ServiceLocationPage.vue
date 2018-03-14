@@ -37,15 +37,9 @@
 </template>
 
 <script>
-    var ServiceLocationCard = Vue.extend(require('../Customers/ServiceLocationCard.vue'));
-
     export default {
         props: {
             location: {},
-        },
-
-        components: {
-            'service-location-card': ServiceLocationCard,
         },
 
         data: function() {

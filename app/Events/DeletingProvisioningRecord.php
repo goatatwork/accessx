@@ -24,7 +24,7 @@ class DeletingProvisioningRecord
      */
     public function __construct(ProvisioningRecord $provisioning_record)
     {
-        $this->provisioning_record = $provisioning_record
+        $this->provisioning_record = $provisioning_record;
     }
 
     /**

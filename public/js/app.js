@@ -17914,10 +17914,10 @@ Vue.component('delete-modal', __webpack_require__(7));
 Vue.component('marked-content', __webpack_require__(81));
 
 Vue.component('activity-logs-card', __webpack_require__(85));
-
 Vue.component('activity-logs-table', __webpack_require__(88));
 
 Vue.component('service-location-page', __webpack_require__(94));
+Vue.component('service-location-card', __webpack_require__(17));
 
 // Service status cards
 Vue.component('dnsmasq-server-status-card', __webpack_require__(99));
@@ -57861,15 +57861,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-var ServiceLocationCard = Vue.extend(__webpack_require__(17));
-
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
         location: {}
-    },
-
-    components: {
-        'service-location-card': ServiceLocationCard
     },
 
     data: function data() {
@@ -57901,16 +57895,6 @@ var ServiceLocationCard = Vue.extend(__webpack_require__(17));
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -57983,7 +57967,22 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
     _c("div", { staticClass: "card-header" }, [
-      _vm._v("\n        " + _vm._s(_vm.locationTitle) + "\n    ")
+      _vm._v("\n        " + _vm._s(_vm.locationTitle) + "\n        "),
+      _c(
+        "span",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.location.has_provisioning_records,
+              expression: "location.has_provisioning_records"
+            }
+          ],
+          staticClass: "float-right font-italic"
+        },
+        [_vm._m(0)]
+      )
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
@@ -58099,88 +58098,21 @@ var render = function() {
             )
           ]
         )
-      ]),
-      _vm._v(" "),
-      _c(
-        "ul",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.showControls,
-              expression: "showControls"
-            }
-          ],
-          staticClass: "list-unstyled"
-        },
-        [
-          _c(
-            "li",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.location.has_provisioning_records,
-                  expression: "location.has_provisioning_records"
-                }
-              ]
-            },
-            [
-              _c("div", { staticClass: "flex-center-column" }, [
-                _c("span", [_vm._v("This location is provisioned.")]),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-default form-control",
-                    attrs: { href: _vm.showLink }
-                  },
-                  [_vm._v("VIEW SERVICES")]
-                )
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: !_vm.location.has_provisioning_records,
-                  expression: "!location.has_provisioning_records"
-                }
-              ],
-              staticStyle: {
-                display: "flex",
-                "justify-content": "center",
-                "align-items": "center"
-              }
-            },
-            [
-              _c("div", { staticClass: "flex-center-column" }, [
-                _c("span", [_vm._v("There is nothing provisioned here.")]),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-default form-control",
-                    attrs: { href: _vm.provisioningLink }
-                  },
-                  [_vm._v("SET UP SERVICE!")]
-                )
-              ])
-            ]
-          )
-        ]
-      )
+      ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("small", [
+      _c("span", { staticClass: "fas fa-certificate" }),
+      _vm._v(" Provisioned")
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -63208,6 +63140,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 var ProvisioningRecordTableRow = Vue.extend(__webpack_require__(140));
 
@@ -63324,6 +63257,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -63340,6 +63278,12 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("tr", [
+    _c("td", [
+      _c("a", { attrs: { href: _vm.record.record_url } }, [
+        _vm._v("\n            View\n        ")
+      ])
+    ]),
+    _vm._v(" "),
     _c("td", [
       _c("a", { attrs: { href: _vm.record.customer_url } }, [
         _vm._v("\n            " + _vm._s(_vm.record.customer) + "\n        ")
@@ -63390,6 +63334,8 @@ var render = function() {
       _c("table", { staticClass: "table" }, [
         _c("thead", [
           _c("tr", [
+            _c("th"),
+            _vm._v(" "),
             _c(
               "th",
               {
@@ -63615,7 +63561,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-var ServiceLocationCard = Vue.extend(__webpack_require__(17));
 var ProvisionByServiceLocationForm = Vue.extend(__webpack_require__(146));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -63624,7 +63569,6 @@ var ProvisionByServiceLocationForm = Vue.extend(__webpack_require__(146));
     },
 
     components: {
-        'service-location-card': ServiceLocationCard,
         'provision-by-service-location-form': ProvisionByServiceLocationForm
     }
 });

@@ -15,7 +15,7 @@ class ManagementIp
     /**
      * @param \Illuminate\Support\Facades\Storage $storage
      */
-    protected $storage;
+    public $storage;
 
     /**
      * The constructor

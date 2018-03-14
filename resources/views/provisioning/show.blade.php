@@ -36,6 +36,11 @@
         <div class="col-8">
             <table class="table table-sm">
                 <thead>
+                    <tr>
+                        <td colspan="6" class="text-center">
+                            Details for This Provisioning Record
+                        </td>
+                    </tr>
                     <tr class="table-secondary">
                         <th>Customer</th>
                         <th>Location</th>

@@ -43,5 +43,9 @@ class CreateDhcpForProvisioningRecord
         );
 
         $management_ip->make();
+
+        app('logbot')->log('CreateDhcpForProvisioningRecord listener restarting dhcp server');
+
+        app('dockerbot')->containerRestart(config('goldaccess.dockerbot.services.dhcp.container_name'));
     }
 }

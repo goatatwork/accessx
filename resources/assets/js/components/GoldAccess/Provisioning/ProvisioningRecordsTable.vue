@@ -5,6 +5,7 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th></th>
                         <th @click="sortBy('customer')">Customer <span class="fas fa-sort"></span></th>
                         <th @click="sortBy('address')">Location <span class="fas fa-sort" @click="sortBy('address')"></span></th>
                         <th @click="sortBy('package')">Package <span class="fas fa-sort" @click="sortBy('package')"></span></th>

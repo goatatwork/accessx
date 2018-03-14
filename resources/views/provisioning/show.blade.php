@@ -37,45 +37,45 @@
             <table class="table table-sm">
                 <thead>
                     <tr>
-                        <td colspan="6" class="text-center">
-                            Details for This Provisioning Record
-                        </td>
+                        <th colspan="6" class="text-center border-top-0">
+                            <h3>Details for This Provisioning Record</h3>
+                        </th>
                     </tr>
-                    <tr class="table-secondary">
-                        <th>Customer</th>
-                        <th>Location</th>
-                        <th>Package</th>
-                        <th>Management IP</th>
-                        <th>NetLocation</th>
-                        <th>ONT</th>
+                    <tr class="table-secondary border-top-0">
+                        <th class="text-center">Customer</th>
+                        <th class="text-center">Location</th>
+                        <th class="text-center">Package</th>
+                        <th class="text-center">Management IP</th>
+                        <th class="text-center">NetLocation</th>
+                        <th class="text-center">ONT</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>
+                        <td class="text-center">
                             <a href="/customers/{{ $provisioning_record->service_location->customer->id }}">
                                 {{ $provisioning_record->service_location->customer->customer_name }}
                             </a>
                         </td>
-                        <td>
+                        <td class="text-center">
                             <a href="/provisioning/service_locations/{{ $provisioning_record->service_location->id }}/show">
                                 {{ $provisioning_record->service_location->address1 }}
                             </a>
                         </td>
-                        <td>
+                        <td class="text-center">
                             {{ $provisioning_record->ont_profile->name }}
                         </td>
-                        <td>
+                        <td class="text-center">
                             {{ $provisioning_record->ip_address->address }}
                         </td>
-                        <td>
+                        <td class="text-center">
                             {{ $provisioning_record->port->slot->aggregator->name }}
                             <span class="fas fa-long-arrow-alt-right"></span>
                             Slot {{ $provisioning_record->port->slot->slot_number }}
                             <span class="fas fa-long-arrow-alt-right"></span>
                             Port {{ $provisioning_record->port->port_number }}
                         </td>
-                        <td>
+                        <td class="text-center">
                             {{ $provisioning_record->ont_profile->ont_software->ont->model_number }}
                         </td>
                     </tr>

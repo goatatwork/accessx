@@ -1,6 +1,11 @@
 <template>
     <tr>
         <td>
+            <a :href="record.record_url">
+                View
+            </a>
+        </td>
+        <td>
             <a :href="record.customer_url">
                 {{record.customer}}
             </a>

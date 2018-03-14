@@ -17914,10 +17914,10 @@ Vue.component('delete-modal', __webpack_require__(7));
 Vue.component('marked-content', __webpack_require__(81));
 
 Vue.component('activity-logs-card', __webpack_require__(85));
-
 Vue.component('activity-logs-table', __webpack_require__(88));
 
 Vue.component('service-location-page', __webpack_require__(94));
+Vue.component('service-location-card', __webpack_require__(17));
 
 // Service status cards
 Vue.component('dnsmasq-server-status-card', __webpack_require__(99));
@@ -57451,7 +57451,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 var ActivityLogTableRow = Vue.extend(__webpack_require__(90));
 
@@ -57576,7 +57575,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -57598,14 +57596,6 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("td", [_vm._v(_vm._s(_vm.log.level))]),
-    _vm._v(" "),
-    _c("td", [
-      _c("small", [
-        _vm._v(
-          _vm._s(_vm.log.calling_class) + "@" + _vm._s(_vm.log.calling_function)
-        )
-      ])
-    ]),
     _vm._v(" "),
     _c("td", [_c("small", [_vm._v(_vm._s(_vm.log.message))])]),
     _vm._v(" "),
@@ -57723,22 +57713,6 @@ var render = function() {
               [_vm._v("Severity "), _c("span", { staticClass: "fas fa-sort" })]
             ),
             _vm._v(" "),
-            _c(
-              "th",
-              {
-                attrs: { nowrap: "" },
-                on: {
-                  click: function($event) {
-                    _vm.sortBy("calling_class")
-                  }
-                }
-              },
-              [
-                _vm._v("Reporting Class@Function "),
-                _c("span", { staticClass: "fas fa-sort" })
-              ]
-            ),
-            _vm._v(" "),
             _c("th", { attrs: { nowrap: "" } }, [_vm._v("Message")]),
             _vm._v(" "),
             _c("th", { attrs: { nowrap: "" } }, [_vm._v("Actions")])
@@ -57844,16 +57818,48 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
-var ServiceLocationCard = Vue.extend(__webpack_require__(17));
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
         location: {}
     },
 
-    components: {
-        'service-location-card': ServiceLocationCard
+    data: function data() {
+        return {
+            customerDetails: {}
+        };
+    },
+
+    created: function created() {
+        this.fetchCustomer();
+    },
+
+    methods: {
+        fetchCustomer: function fetchCustomer() {
+            var _this = this;
+
+            axios.get('/api/customers/' + this.location.customer_id).then(function (response) {
+                _this.customerDetails = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
     }
 });
 
@@ -57863,16 +57869,6 @@ var ServiceLocationCard = Vue.extend(__webpack_require__(17));
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -57945,7 +57941,22 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
     _c("div", { staticClass: "card-header" }, [
-      _vm._v("\n        " + _vm._s(_vm.locationTitle) + "\n    ")
+      _vm._v("\n        " + _vm._s(_vm.locationTitle) + "\n        "),
+      _c(
+        "span",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.location.has_provisioning_records,
+              expression: "location.has_provisioning_records"
+            }
+          ],
+          staticClass: "float-right font-italic"
+        },
+        [_vm._m(0)]
+      )
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
@@ -58061,88 +58072,21 @@ var render = function() {
             )
           ]
         )
-      ]),
-      _vm._v(" "),
-      _c(
-        "ul",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.showControls,
-              expression: "showControls"
-            }
-          ],
-          staticClass: "list-unstyled"
-        },
-        [
-          _c(
-            "li",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.location.has_provisioning_records,
-                  expression: "location.has_provisioning_records"
-                }
-              ]
-            },
-            [
-              _c("div", { staticClass: "flex-center-column" }, [
-                _c("span", [_vm._v("This location is provisioned.")]),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-default form-control",
-                    attrs: { href: _vm.showLink }
-                  },
-                  [_vm._v("VIEW SERVICES")]
-                )
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: !_vm.location.has_provisioning_records,
-                  expression: "!location.has_provisioning_records"
-                }
-              ],
-              staticStyle: {
-                display: "flex",
-                "justify-content": "center",
-                "align-items": "center"
-              }
-            },
-            [
-              _c("div", { staticClass: "flex-center-column" }, [
-                _c("span", [_vm._v("There is nothing provisioned here.")]),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-default form-control",
-                    attrs: { href: _vm.provisioningLink }
-                  },
-                  [_vm._v("SET UP SERVICE!")]
-                )
-              ])
-            ]
-          )
-        ]
-      )
+      ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("small", [
+      _c("span", { staticClass: "fas fa-certificate" }),
+      _vm._v(" Provisioned")
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -58161,7 +58105,38 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-fluid" }, [
-    _vm._m(0),
+    _c("nav", { attrs: { "aria-label": "breadcrumb" } }, [
+      _c("ol", { staticClass: "breadcrumb" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _vm._m(1),
+        _vm._v(" "),
+        _c(
+          "li",
+          {
+            staticClass: "breadcrumb-item active",
+            attrs: { "aria-current": "page" }
+          },
+          [
+            _c("span", { staticClass: "font-italic" }, [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(_vm.location.address1) +
+                  " " +
+                  _vm._s(_vm.location.city) +
+                  ", " +
+                  _vm._s(_vm.location.state) +
+                  "  " +
+                  _vm._s(_vm.location.zip) +
+                  " - " +
+                  _vm._s(_vm.customerDetails.customer_name) +
+                  "\n                "
+              )
+            ])
+          ]
+        )
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c(
@@ -58172,7 +58147,20 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-8" }, [
-        _vm._v("\n            some stuff here\n        ")
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-body text-center" }, [
+            _c("iframe", {
+              staticStyle: { border: "0" },
+              attrs: {
+                width: "400",
+                height: "200",
+                frameborder: "0",
+                src: _vm.location.google_maps_embed_api_string,
+                allowfullscreen: ""
+              }
+            })
+          ])
+        ])
       ])
     ])
   ])
@@ -58182,20 +58170,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("nav", { attrs: { "aria-label": "breadcrumb" } }, [
-      _c("ol", { staticClass: "breadcrumb" }, [
-        _c("li", { staticClass: "breadcrumb-item" }, [
-          _c("a", { attrs: { href: "/" } }, [_vm._v("Dashboard")])
-        ]),
-        _vm._v(" "),
-        _c(
-          "li",
-          {
-            staticClass: "breadcrumb-item active",
-            attrs: { "aria-current": "page" }
-          },
-          [_vm._v("Provisioning Records")]
-        )
+    return _c("li", { staticClass: "breadcrumb-item" }, [
+      _c("a", { attrs: { href: "/" } }, [_vm._v("Dashboard")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "breadcrumb-item" }, [
+      _c("a", { attrs: { href: "/provisioning" } }, [
+        _vm._v("Provisioning Records")
       ])
     ])
   }
@@ -63129,6 +63114,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 var ProvisioningRecordTableRow = Vue.extend(__webpack_require__(140));
 
@@ -63245,6 +63231,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -63261,6 +63252,12 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("tr", [
+    _c("td", [
+      _c("a", { attrs: { href: _vm.record.record_url } }, [
+        _vm._v("\n            View\n        ")
+      ])
+    ]),
+    _vm._v(" "),
     _c("td", [
       _c("a", { attrs: { href: _vm.record.customer_url } }, [
         _vm._v("\n            " + _vm._s(_vm.record.customer) + "\n        ")
@@ -63311,6 +63308,8 @@ var render = function() {
       _c("table", { staticClass: "table" }, [
         _c("thead", [
           _c("tr", [
+            _c("th"),
+            _vm._v(" "),
             _c(
               "th",
               {
@@ -63536,7 +63535,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-var ServiceLocationCard = Vue.extend(__webpack_require__(17));
 var ProvisionByServiceLocationForm = Vue.extend(__webpack_require__(146));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -63545,7 +63543,6 @@ var ProvisionByServiceLocationForm = Vue.extend(__webpack_require__(146));
     },
 
     components: {
-        'service-location-card': ServiceLocationCard,
         'provision-by-service-location-form': ProvisionByServiceLocationForm
     }
 });
@@ -64267,9 +64264,14 @@ var render = function() {
               _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
               _vm._v(" "),
               _vm._l(_vm.ports, function(port) {
-                return _c("option", { domProps: { value: port.id } }, [
-                  _vm._v("Port " + _vm._s(port.port_number))
-                ])
+                return _c(
+                  "option",
+                  {
+                    attrs: { disabled: port.has_provisioning_records },
+                    domProps: { value: port.id }
+                  },
+                  [_vm._v("Port " + _vm._s(port.port_number))]
+                )
               })
             ],
             2
@@ -64486,9 +64488,14 @@ var render = function() {
               _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
               _vm._v(" "),
               _vm._l(_vm.ip_addresses, function(ip) {
-                return _c("option", { domProps: { value: ip.id } }, [
-                  _vm._v(_vm._s(ip.address))
-                ])
+                return _c(
+                  "option",
+                  {
+                    attrs: { disabled: ip.has_provisioning_records },
+                    domProps: { value: ip.id }
+                  },
+                  [_vm._v(_vm._s(ip.address))]
+                )
               })
             ],
             2

@@ -22,7 +22,6 @@
 </template>
 
 <script>
-    var ServiceLocationCard = Vue.extend(require('../Customers/ServiceLocationCard.vue'));
     var ProvisionByServiceLocationForm = Vue.extend(require('./ProvisionByServiceLocationForm.vue'));
 
     export default {
@@ -31,7 +30,6 @@
         },
 
         components: {
-            'service-location-card': ServiceLocationCard,
             'provision-by-service-location-form': ProvisionByServiceLocationForm,
         }
     }

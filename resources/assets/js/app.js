@@ -25,12 +25,10 @@ Vue.component('delete-modal', require('./components/GoldAccess/Core/DeleteModal.
 Vue.component('marked-content', require('./components/GoldAccess/Core/MarkedContent.vue'));
 
 Vue.component('activity-logs-card', require('./components/GoldAccess/Cards/ActivityLogsCard.vue'));
-
-
-
 Vue.component('activity-logs-table', require('./components/GoldAccess/ActivityLogs/ActivityLogsTable.vue'));
 
 Vue.component('service-location-page', require('./components/GoldAccess/Customers/ServiceLocationPage.vue'));
+Vue.component('service-location-card', require('./components/GoldAccess/Customers/ServiceLocationCard.vue'));
 
 // Service status cards
 Vue.component('dnsmasq-server-status-card', require('./components/GoldAccess/Dhcp/DnsmasqServerStatusCard.vue'));

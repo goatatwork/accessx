@@ -10,12 +10,12 @@ class ManagementIp
     /**
      * @param \App\ProvisioningRecord $provisioning_record
      */
-    protected $provisioning_record;
+    public $provisioning_record;
 
     /**
      * @param \Illuminate\Support\Facades\Storage $storage
      */
-    protected $storage;
+    public $storage;
 
     /**
      * The constructor

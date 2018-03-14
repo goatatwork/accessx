@@ -13,6 +13,17 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+        // Goat
+        'App\Events\SubnetWasCreated' => [
+            'App\Listeners\CreateDhcpIpAddresses',
+        ],
+        'App\Events\ServiceWasProvisioned' => [
+            'App\Listeners\CreateDhcpForProvisioningRecord',
+        ],
+        'App\Events\DeletingProvisioningRecord' => [
+            'App\Listeners\RemoveManagementIp',
+        ],
+
         // Laravel Auth
         'Illuminate\Auth\Events\Registered' => [
             'App\Listeners\LogRegisteredUser',
@@ -49,14 +60,6 @@ class EventServiceProvider extends ServiceProvider
         // Spatie MediaLibrary
         'Spatie\MediaLibrary\Events\MediaHasBeenAdded' => [
             'App\Listeners\MediaLogger'
-        ],
-
-        // Goat
-        'App\Events\SubnetWasCreated' => [
-            'App\Listeners\CreateDhcpIpAddresses',
-        ],
-        'App\Events\ServiceWasProvisioned' => [
-            'App\Listeners\CreateDhcpForProvisioningRecord',
         ],
     ];
 

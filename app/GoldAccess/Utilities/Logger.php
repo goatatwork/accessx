@@ -26,31 +26,9 @@ class Logger
     public function log($message, $facility = 'info')
     {
         return ActivityLog::create([
-            'calling_class' => $this->callingClass(),
-            'calling_function' => $this->callingFunction(),
             'level' => $facility,
             'message' => $message
         ]);
-    }
-
-    /**
-     * @return  string The calling class
-     */
-    protected function callingClass()
-    {
-        $calling_class = (debug_backtrace()[1]) ? (debug_backtrace()[1]['class']) ? debug_backtrace()[1]['class'] : 'unknown' : 'unknown';
-
-        return $calling_class;
-    }
-
-    /**
-     * @return  string The calling class
-     */
-    protected function callingFunction()
-    {
-        $calling_function = (debug_backtrace()[1]) ? (debug_backtrace()[1]['function']) ? debug_backtrace()[1]['function'] : 'unknown' : 'unknown';
-
-        return $calling_function;
     }
 
     /**

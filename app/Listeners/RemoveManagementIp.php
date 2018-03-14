@@ -2,12 +2,12 @@
 
 namespace App\Listeners;
 
-use App\Events\ServiceWasProvisioned;
 use App\GoldAccess\Dhcp\ManagementIp;
+use App\Events\DeletingProvisioningRecord;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class CreateDhcpForProvisioningRecord
+class RemoveManagementIp
 {
     /**
      * Create the event listener.
@@ -22,10 +22,10 @@ class CreateDhcpForProvisioningRecord
     /**
      * Handle the event.
      *
-     * @param  ServiceWasProvisioned  $event
+     * @param  DeletingProvisioningRecord  $event
      * @return void
      */
-    public function handle(ServiceWasProvisioned $event)
+    public function handle(DeletingProvisioningRecord $event)
     {
         $management_ip = new ManagementIp($event->provisioning_record);
 
@@ -35,17 +35,13 @@ class CreateDhcpForProvisioningRecord
         $servicelocationname = $event->provisioning_record->service_location->name;
         $servicelocationid = $event->provisioning_record->service_location->id;
 
-        app('logbot')->log('Creating management IP (' .
+        app('logbot')->log('Deleting management IP (' .
             $ip .
             ') for user ' .
             $username . '(' . $userid . ') at service location ' .
             $servicelocationname . '(' . $servicelocationid . ').'
         );
 
-        $management_ip->make();
-
-        app('logbot')->log('CreateDhcpForProvisioningRecord listener restarting dhcp server');
-
-        app('dockerbot')->containerRestart(config('goldaccess.dockerbot.services.dhcp.container_name'));
+        $management_ip->remove();
     }
 }

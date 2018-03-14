@@ -22,7 +22,6 @@
                     <tr>
                         <th @click="sortBy('created_at')" nowrap>Created <span class="fas fa-sort"></span></th>
                         <th @click="sortBy('level')" nowrap>Severity <span class="fas fa-sort"></span></th>
-                        <th @click="sortBy('calling_class')" nowrap>Reporting Class@Function <span class="fas fa-sort"></span></th>
                         <th nowrap>Message</th>
                         <th nowrap>Actions</th>
                     </tr>

@@ -15,6 +15,7 @@ class ProvisioningRecordForTable extends Resource
     public function toArray($request)
     {
         return [
+            'record_url' => '/provisioning/'.$this->id,
             'customer' => $this->service_location->customer->customer_name,
             'customer_url' => '/customers/'.$this->service_location->customer->id,
             'address' => $this->service_location->address1,

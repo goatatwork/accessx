@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ProvisioningRecord;
 use Illuminate\Http\Request;
+use App\GoldAccess\Dhcp\ManagementIp;
 use App\Http\Resources\ProvisioningRecordForTable;
 
 class ProvisioningRecordController extends Controller
@@ -44,12 +45,16 @@ class ProvisioningRecordController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\ProvisioningRecord  $provisioningRecord
+     * @param  \App\ProvisioningRecord  $provisioning_record
      * @return \Illuminate\Http\Response
      */
-    public function show(ProvisioningRecord $provisioningRecord)
+    public function show(ProvisioningRecord $provisioning_record)
     {
-        //
+        $management_ip = new ManagementIp($provisioning_record);
+
+        return view('provisioning.show')
+            ->with('management_ip', $management_ip)
+            ->with('provisioning_record', $provisioning_record);
     }
 
     /**
@@ -78,11 +83,13 @@ class ProvisioningRecordController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ProvisioningRecord  $provisioningRecord
+     * @param  \App\ProvisioningRecord  $provisioning_record
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProvisioningRecord $provisioningRecord)
+    public function destroy(ProvisioningRecord $provisioning_record)
     {
-        //
+        $provisioning_record->delete();
+
+        return redirect('/provisioning');
     }
 }

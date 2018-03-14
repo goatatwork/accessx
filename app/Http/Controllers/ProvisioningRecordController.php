@@ -83,11 +83,13 @@ class ProvisioningRecordController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ProvisioningRecord  $provisioningRecord
+     * @param  \App\ProvisioningRecord  $provisioning_record
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProvisioningRecord $provisioningRecord)
+    public function destroy(ProvisioningRecord $provisioning_record)
     {
-        //
+        $provisioning_record->delete();
+
+        return redirect('/provisioning');
     }
 }

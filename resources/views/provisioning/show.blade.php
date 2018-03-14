@@ -26,8 +26,88 @@
                     <div class="card">
                         <div class="card-body">
 
+                            <div class="row">
+                                <div class="col">
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm btn-dark"
+                                        data-toggle="modal"
+                                        data-target="#show-dnsmasq-config-file-{{ $provisioning_record->id }}"
+                                    >
+                                        <span class="fas fa-file-alt mr-1"></span> View DHCP Config File
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm btn-danger"
+                                        data-toggle="modal"
+                                        data-target="#delete-service-modal-{{ $provisioning_record->id }}"
+                                    >
+                                        <span class="fas fa-trash-alt mr-1"></span> Remove Service
+                                    </button>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
+
+                    <div class="modal fade"
+                        tabindex="-1"
+                        role="dialog"
+                        id="show-dnsmasq-config-file-{{ $provisioning_record->id }}"
+                        aria-labelledby="show-dnsmasq-config-file-{{ $provisioning_record->id }}-label"
+                        aria-hidden="true"
+                    >
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5  id="show-dnsmasq-config-file-{{ $provisioning_record->id }}-label" class="modal-title">DHCP Config</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Here is the DHCP config that is being loaded for this service.</p>
+                                    <pre>{{ $management_ip->get() }}</pre>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade"
+                        tabindex="-1"
+                        role="dialog"
+                        id="delete-service-modal-{{ $provisioning_record->id }}"
+                        aria-labelledby="delete-service-modal-{{ $provisioning_record->id }}-label"
+                        aria-hidden="true"
+                    >
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5  id="delete-service-modal-{{ $provisioning_record->id }}-label" class="modal-title">Remove Service</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>This will tear down this service. Are you sure?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <form method="POST" action="/provisioning/{{ $provisioning_record->id }}">
+                                        {{ csrf_field() }}
+                                        {{ method_field('DELETE') }}
+                                        <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>
+                                        <button type="submit" class="btn btn-link text-dark float-right">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 

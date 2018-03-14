@@ -14,7 +14,23 @@
 
     <div class="row">
         <div class="col-4">
-            <service-location-card :location="{{ $provisioning_record->service_location }}"></service-location-card>
+
+            <div class="row">
+                <div class="col">
+                    <service-location-card :location="{{ $provisioning_record->service_location }}"></service-location-card>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <div class="col-8">
             <div class="card">
@@ -33,32 +49,36 @@
     </div>
 
     <div class="row mt-5 justify-content-center">
-        <div class="col-8">
+        <div class="col-10">
             <table class="table table-sm">
                 <thead>
                     <tr>
-                        <th colspan="6" class="text-center border-top-0">
-                            <h3>Details for This Provisioning Record</h3>
-                        </th>
+                        <td colspan="7" class="border-0 text-center">
+                            <h2>Details for This Provisioning Record</h2>
+                        </td>
                     </tr>
-                    <tr class="table-secondary border-top-0">
-                        <th class="text-center">Customer</th>
-                        <th class="text-center">Location</th>
-                        <th class="text-center">Package</th>
-                        <th class="text-center">Management IP</th>
-                        <th class="text-center">NetLocation</th>
-                        <th class="text-center">ONT</th>
+                    <tr>
+                        <th class="text-center border-0"></th>
+                        <th class="text-center border-0">Customer</th>
+                        <th class="text-center border-0">Location</th>
+                        <th class="text-center border-0">Package</th>
+                        <th class="text-center border-0">Management IP</th>
+                        <th class="text-center border-0">NetLocation</th>
+                        <th class="text-center border-0">ONT</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
+                        <td class="text-center font-italic">
+                            <span class="fas fa-map-marker-alt text-success"></span> Created {{ $provisioning_record->created_at->format('l, M j, Y g:i A') }}
+                        </td>
                         <td class="text-center">
-                            <a href="/customers/{{ $provisioning_record->service_location->customer->id }}">
+                            <a href="/customers/{{ $provisioning_record->service_location->customer->id }}" class="text-dark">
                                 {{ $provisioning_record->service_location->customer->customer_name }}
                             </a>
                         </td>
                         <td class="text-center">
-                            <a href="/provisioning/service_locations/{{ $provisioning_record->service_location->id }}/show">
+                            <a href="/provisioning/service_locations/{{ $provisioning_record->service_location->id }}/show" class="text-dark">
                                 {{ $provisioning_record->service_location->address1 }}
                             </a>
                         </td>

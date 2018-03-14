@@ -4,7 +4,12 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Provisioning Records</li>
+                <li class="breadcrumb-item"><a href="/provisioning">Provisioning Records</a></li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <span class="font-italic">
+                        {{ location.address1 }} {{ location.city }}, {{ location.state }}  {{ location.zip }} - {{ customerDetails.customer_name }}
+                    </span>
+                </li>
             </ol>
         </nav>
 
@@ -41,6 +46,26 @@
 
         components: {
             'service-location-card': ServiceLocationCard,
+        },
+
+        data: function() {
+            return {
+                customerDetails: {},
+            }
+        },
+
+        created: function() {
+            this.fetchCustomer();
+        },
+
+        methods: {
+            fetchCustomer: function() {
+                axios.get('/api/customers/'+this.location.customer_id).then(response => {
+                    this.customerDetails = response.data;
+                }).catch(error => {
+                    console.log(error);
+                });
+            }
         }
     }
 </script>

@@ -57855,6 +57855,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 var ServiceLocationCard = Vue.extend(__webpack_require__(17));
 
@@ -57865,6 +57870,28 @@ var ServiceLocationCard = Vue.extend(__webpack_require__(17));
 
     components: {
         'service-location-card': ServiceLocationCard
+    },
+
+    data: function data() {
+        return {
+            customerDetails: {}
+        };
+    },
+
+    created: function created() {
+        this.fetchCustomer();
+    },
+
+    methods: {
+        fetchCustomer: function fetchCustomer() {
+            var _this = this;
+
+            axios.get('/api/customers/' + this.location.customer_id).then(function (response) {
+                _this.customerDetails = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
     }
 });
 
@@ -58172,7 +58199,38 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-fluid" }, [
-    _vm._m(0),
+    _c("nav", { attrs: { "aria-label": "breadcrumb" } }, [
+      _c("ol", { staticClass: "breadcrumb" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _vm._m(1),
+        _vm._v(" "),
+        _c(
+          "li",
+          {
+            staticClass: "breadcrumb-item active",
+            attrs: { "aria-current": "page" }
+          },
+          [
+            _c("span", { staticClass: "font-italic" }, [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(_vm.location.address1) +
+                  " " +
+                  _vm._s(_vm.location.city) +
+                  ", " +
+                  _vm._s(_vm.location.state) +
+                  "  " +
+                  _vm._s(_vm.location.zip) +
+                  " - " +
+                  _vm._s(_vm.customerDetails.customer_name) +
+                  "\n                "
+              )
+            ])
+          ]
+        )
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c(
@@ -58206,20 +58264,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("nav", { attrs: { "aria-label": "breadcrumb" } }, [
-      _c("ol", { staticClass: "breadcrumb" }, [
-        _c("li", { staticClass: "breadcrumb-item" }, [
-          _c("a", { attrs: { href: "/" } }, [_vm._v("Dashboard")])
-        ]),
-        _vm._v(" "),
-        _c(
-          "li",
-          {
-            staticClass: "breadcrumb-item active",
-            attrs: { "aria-current": "page" }
-          },
-          [_vm._v("Provisioning Records")]
-        )
+    return _c("li", { staticClass: "breadcrumb-item" }, [
+      _c("a", { attrs: { href: "/" } }, [_vm._v("Dashboard")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "breadcrumb-item" }, [
+      _c("a", { attrs: { href: "/provisioning" } }, [
+        _vm._v("Provisioning Records")
       ])
     ])
   }

@@ -11,7 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class ServiceWasProvisioned
+class DeletingProvisioningRecord
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -24,7 +24,7 @@ class ServiceWasProvisioned
      */
     public function __construct(ProvisioningRecord $provisioning_record)
     {
-        $this->provisioning_record = $provisioning_record;
+        $this->provisioning_record = $provisioning_record
     }
 
     /**

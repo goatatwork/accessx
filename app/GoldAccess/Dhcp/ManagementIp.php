@@ -115,6 +115,7 @@ class ManagementIp
             'dhcp-option=tag:"BasementStack/1/3/2",3,192.168.127.254', // The gateway
             'dhcp-option=tag:"BasementStack/1/3/2",1,255.255.255.0', // The netmask
             'dhcp-option=tag:"BasementStack/1/3/2",5,8.8.4.4', // The dns server
+            'dhcp-option=tag:"BasementStack/1/3/2",67,/some/path/to/file.img',
             // 'option-logserver' => 'dhcp-option=tag:"BasementStack/1/3/2",7,10.0.0.4',
         ];
     }

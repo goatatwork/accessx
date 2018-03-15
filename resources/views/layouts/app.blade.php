@@ -16,6 +16,15 @@
     <!-- Font Awesome -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 
+
+    @if (Auth::check())
+    <script>
+        window.Laravel = {!! json_encode([
+            'user_id' => Auth::id(),
+        ]) !!};
+    </script>
+    @endif
+
 </head>
 <body>
 <div id="app">
@@ -63,7 +72,9 @@
 
     @yield('content')
 
-    <broadcast-messages></broadcast-messages>
+    @if(Auth::check())
+        <echo-messages></echo-messages>
+    @endif
 </div>
 
 <!-- Scripts -->

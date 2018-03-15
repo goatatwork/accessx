@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use Auth;
 use App\Subnet;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
@@ -34,7 +35,16 @@ class SubnetWasCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        // return new PrivateChannel('channel-name');
-        return new PrivateChannel('subnets');
+        return new PrivateChannel('App.User.'.Auth::id());
+    }
+
+    /**
+     * Get the data to broadcast.
+     *
+     * @return array
+     */
+    public function broadcastWith()
+    {
+        return ['message' => Auth::user()->name . ' added subnet ' . $this->subnet->network_address . '.'];
     }
 }

@@ -15,7 +15,7 @@ Vue.component('passport-clients', require('./components/passport/Clients.vue'));
 Vue.component('passport-authorized-clients', require('./components/passport/AuthorizedClients.vue'));
 Vue.component('passport-personal-access-tokens', require('./components/passport/PersonalAccessTokens.vue'));
 
-Vue.component('broadcast-messages', require('./components/GoldAccess/Echo/Echo.vue'));
+Vue.component('echo-messages', require('./components/GoldAccess/Echo/EchoMessages.vue'));
 Vue.component('presence-information', require('./components/GoldAccess/Echo/EchoPresence.vue'));
 
 Vue.component('media-file', require('./components/GoldAccess/Core/MediaFile.vue'));

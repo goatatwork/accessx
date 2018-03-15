@@ -11,10 +11,6 @@
 |
 */
 
-Broadcast::channel('subnets', function($user) {
-    return true;
-});
-
 Broadcast::channel('activity_logs', function($user) {
     return true;
 });

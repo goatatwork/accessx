@@ -23,8 +23,7 @@ return [
     /*
      * The class name of the media model that should be used.
      */
-    // 'media_model' => Spatie\MediaLibrary\Media::class,
-    'media_model' => App\Media::class,
+    'media_model' => Spatie\MediaLibrary\Media::class,
 
     /*
      * The engine that should perform the image conversions.
@@ -41,7 +40,7 @@ return [
     /*
      * The class that contains the strategy for determining a media file's path.
      */
-    'custom_path_generator_class' => null,
+    'custom_path_generator_class' => App\GoldAccess\Utilities\MediaLibraryPathGenerator::class,
 
     's3' => [
         /*

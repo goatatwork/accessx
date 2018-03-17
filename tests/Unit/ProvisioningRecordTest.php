@@ -25,7 +25,6 @@ class ProvisioningRecordTest extends TestCase
         $port = $provisioning_record->port->port_number;
         $tag = $aggregator . '-' . $slot . '-' . $port;
         $tag_unique = $tag . '-' . $provisioning_record->id;
-
         $this->assertEquals($provisioning_record->port_tag, $tag);
         $this->assertEquals($provisioning_record->port_tag_unique, $tag_unique);
     }

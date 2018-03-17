@@ -59722,7 +59722,7 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
                 maxFiles: 1,
                 clickable: true,
                 maxFilesize: 50,
-                acceptedFiles: '.img, .txt, .cnf, .config, .cfg',
+                acceptedFiles: '.img, .txt, .cnf, .config, .cfg, .conf',
                 addRemoveLinks: false,
                 previewTemplate: document.getElementById(this.previewTemplateId).innerHTML,
                 autoProcessQueue: false,

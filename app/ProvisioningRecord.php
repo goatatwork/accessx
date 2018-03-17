@@ -81,4 +81,21 @@ class ProvisioningRecord extends Model implements HasMedia, AuditableContract
     {
         return $this->getPortTagAttribute() . '-' . $this->id;
     }
+
+    public function getDhcpStringAttribute()
+    {
+        $dhcp_string =
+            ($this->ont_profile->ont_software->getFirstMedia()) ?
+            ($this->ont_profile->ont_software->getFirstMedia())->getCustomProperty('dhcp_string') :
+            'unknown';
+
+        return 'ont_profiles/' .
+            $this->ont_profile->ont_software->ont->slug .
+            '/' .
+            $this->ont_profile->ont_software->version .
+            '/' .
+            $this->ont_profile->slug .
+            '/' .
+            $dhcp_string;
+    }
 }

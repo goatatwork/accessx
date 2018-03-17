@@ -86,7 +86,6 @@ class OntsController extends Controller
      */
     public function destroy(Ont $ont)
     {
-        \Log::info('delete an ont');
         $ont->delete();
 
         return redirect('/onts');

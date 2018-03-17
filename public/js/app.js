@@ -17857,7 +17857,7 @@ Vue.component('passport-clients', __webpack_require__(47));
 Vue.component('passport-authorized-clients', __webpack_require__(53));
 Vue.component('passport-personal-access-tokens', __webpack_require__(58));
 
-Vue.component('echo-messages', __webpack_require__(163));
+Vue.component('echo-messages', __webpack_require__(63));
 Vue.component('presence-information', __webpack_require__(66));
 
 Vue.component('media-file', __webpack_require__(69));
@@ -54192,9 +54192,168 @@ if (false) {
 }
 
 /***/ }),
-/* 63 */,
-/* 64 */,
-/* 65 */,
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(64)
+/* template */
+var __vue_template__ = __webpack_require__(65)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/GoldAccess/Echo/EchoMessages.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-27165287", Component.options)
+  } else {
+    hotAPI.reload("data-v-27165287", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 64 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    created: function created() {
+        this.listenToEcho();
+    },
+
+    data: function data() {
+        return {
+            showAlert: false,
+            messages: []
+        };
+    },
+
+    methods: {
+        clearMessages: function clearMessages() {
+            this.showAlert = false;
+            this.messages = [];
+        },
+        listenToEcho: function listenToEcho() {
+            var _this = this;
+
+            window.Echo.private('App.User.' + window.Laravel.user_id).listen('SubnetWasCreated', function (e) {
+                _this.renderMessage(e);
+            });
+        },
+        renderMessage: function renderMessage(message) {
+            this.showAlert = true;
+            this.messages.push(message);
+        }
+    }
+});
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.showAlert,
+          expression: "showAlert"
+        }
+      ],
+      staticClass:
+        "alert alert-info alert-dismissible fade show position-absolute w-50",
+      staticStyle: { right: "10px", bottom: "20px" },
+      attrs: { role: "alert" }
+    },
+    [
+      _c("h4", { staticClass: "alert-heading" }, [_vm._v("This happened...")]),
+      _vm._v(" "),
+      _c(
+        "ul",
+        { staticClass: "list-unstyled" },
+        _vm._l(_vm.messages, function(message) {
+          return _c("li", [_vm._v(_vm._s(message.message))])
+        })
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-hide": "alert",
+            "aria-label": "Close"
+          },
+          on: {
+            click: function($event) {
+              _vm.clearMessages()
+            }
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-27165287", module.exports)
+  }
+}
+
+/***/ }),
 /* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -59563,7 +59722,7 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
                 maxFiles: 1,
                 clickable: true,
                 maxFilesize: 50,
-                acceptedFiles: '.img, .txt, .cnf, .config, .cfg',
+                acceptedFiles: '.img, .txt, .cnf, .config, .cfg, .conf',
                 addRemoveLinks: false,
                 previewTemplate: document.getElementById(this.previewTemplateId).innerHTML,
                 autoProcessQueue: false,
@@ -64586,171 +64745,6 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 160 */,
-/* 161 */,
-/* 162 */,
-/* 163 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(164)
-/* template */
-var __vue_template__ = __webpack_require__(165)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/GoldAccess/Echo/EchoMessages.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-27165287", Component.options)
-  } else {
-    hotAPI.reload("data-v-27165287", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 164 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    created: function created() {
-        this.listenToEcho();
-    },
-
-    data: function data() {
-        return {
-            showAlert: false,
-            messages: []
-        };
-    },
-
-    methods: {
-        clearMessages: function clearMessages() {
-            this.showAlert = false;
-            this.messages = [];
-        },
-        listenToEcho: function listenToEcho() {
-            var _this = this;
-
-            window.Echo.private('App.User.' + window.Laravel.user_id).listen('SubnetWasCreated', function (e) {
-                _this.renderMessage(e);
-            });
-        },
-        renderMessage: function renderMessage(message) {
-            this.showAlert = true;
-            this.messages.push(message);
-        }
-    }
-});
-
-/***/ }),
-/* 165 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      directives: [
-        {
-          name: "show",
-          rawName: "v-show",
-          value: _vm.showAlert,
-          expression: "showAlert"
-        }
-      ],
-      staticClass:
-        "alert alert-info alert-dismissible fade show position-absolute w-50",
-      staticStyle: { right: "10px", bottom: "20px" },
-      attrs: { role: "alert" }
-    },
-    [
-      _c("h4", { staticClass: "alert-heading" }, [_vm._v("This happened...")]),
-      _vm._v(" "),
-      _c(
-        "ul",
-        { staticClass: "list-unstyled" },
-        _vm._l(_vm.messages, function(message) {
-          return _c("li", [_vm._v(_vm._s(message.message))])
-        })
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-hide": "alert",
-            "aria-label": "Close"
-          },
-          on: {
-            click: function($event) {
-              _vm.clearMessages()
-            }
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ]
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-27165287", module.exports)
-  }
-}
 
 /***/ })
 /******/ ]);

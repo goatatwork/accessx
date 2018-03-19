@@ -1,4 +1,4 @@
 *
 !public/
-!services/dnsmasq/dnsmasq.conf
+!services
 !.gitignore

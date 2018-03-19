@@ -11,6 +11,44 @@ services:
       - "69:69"
       - "69:69/udp"
     network_mode: "host"
+  nginx:
+    image: goatatwork/nginx:latest
+    ports:
+      - "8088:80"
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - goldaccessnet
+  php:
+    image: goatatwork/php-fpm7.1:latest
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - goldaccessnet
+  supervisor-horizon:
+    image: goatatwork/supervisor-horizon:latest
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - goldaccessnet
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 1q2w3e4r
+      MYSQL_DATABASE: accessx
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 1q2w3e4r
+    volumes:
+      - goldaccess_data:/var/lib/mysql
+    networks:
+      - goldaccessnet
+  redis:
+    image: redis:alpine
+    networks:
+      - goldaccessnet
+networks:
+  goldaccessnet:
+    driver: "bridge"
 volumes:
-  data:
+  goldaccess_data:
     driver: "local"

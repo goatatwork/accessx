@@ -1,0 +1,6 @@
+*
+!dnsmasq.conf
+!hosts.d/
+!options.d/
+!dnsmasq.d/
+!.gitignore

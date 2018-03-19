@@ -1,0 +1,16 @@
+version: "2"
+services:
+  dnsmasq:
+    image: goatatwork/dnsmasq-ubuntu:latest
+    volumes:
+      - ./storage/app/services/dnsmasq:/etc/dnsmasq
+      - ./public/storage/media:/tftpboot
+    ports:
+      - "67:67"
+      - "67:67/udp"
+      - "69:69"
+      - "69:69/udp"
+    network_mode: "host"
+volumes:
+  data:
+    driver: "local"

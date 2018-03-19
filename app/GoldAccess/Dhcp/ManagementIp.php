@@ -104,18 +104,66 @@ class ManagementIp
     }
 
     /**
+     * @return  string The dns servers
+     */
+    public function getDns()
+    {
+        return $this->provisioning_record->ip_address->subnet->dns_servers;
+    }
+
+    /**
+     * @return  string The gateway
+     */
+    public function getGateway()
+    {
+        return $this->provisioning_record->ip_address->subnet->routers;
+    }
+
+    /**
+     * @return  string The IP address to assign
+     */
+    public function getManagementIp()
+    {
+        return $this->provisioning_record->ip_address->address;
+    }
+
+    /**
+     * @return  string The netmask
+     */
+    public function getNetmask()
+    {
+        return $this->provisioning_record->ip_address->subnet->subnet_mask;
+    }
+
+    /**
+     * @return  string The Subscriber ID to match and use as the tag
+     */
+    protected function getSubscriberId()
+    {
+        return $this->provisioning_record->port->slot->aggregator->slug . '-' .
+            $this->provisioning_record->port->slot->slot_number . '-' .
+            $this->provisioning_record->port->port_number;
+    }
+
+    /**
      * The options we assign all new management IPs
      * @return array
      */
-    protected function options()
+    public function options()
     {
+        $subscriberId = $this->getSubscriberId();
+        $ip = $this->getManagementIp();
+        $netmask = $this->getNetmask();
+        $gateway = $this->getGateway();
+        $dns = $this->getDns();
+
         return [
-            'dhcp-subscrid=set:"BasementStack/1/3/2","BasementStack/1/3/2"', // match subscriber id
-            'dhcp-range=tag:"BasementStack/1/3/2",192.168.127.101,192.168.127.101,255.255.255.0,10m', // the IP
-            'dhcp-option=tag:"BasementStack/1/3/2",3,192.168.127.254', // The gateway
-            'dhcp-option=tag:"BasementStack/1/3/2",1,255.255.255.0', // The netmask
-            'dhcp-option=tag:"BasementStack/1/3/2",5,8.8.4.4', // The dns server
-            'dhcp-option=tag:"BasementStack/1/3/2",67,' . $this->provisioning_record->dhcp_string,
+            'dhcp-subscrid=set:"' . $subscriberId . '","' . $subscriberId . '"', // match subscriber id
+            'dhcp-range=tag:"' . $subscriberId . '",' . $ip . ',' . $ip . ',' . $netmask . ',10m', // the IP
+            'dhcp-option=tag:"' . $subscriberId . '",3,' . $gateway, // The gateway
+            'dhcp-option=tag:"' . $subscriberId . '",1,' . $netmask, // The netmask
+            'dhcp-option=tag:"' . $subscriberId . '",5,' . $dns, // The dns server
+            'dhcp-option=tag:"' . $subscriberId . '",67,' . $this->provisioning_record->dhcp_string,
             // 'option-logserver' => 'dhcp-option=tag:"BasementStack/1/3/2",7,10.0.0.4',
         ];
     }

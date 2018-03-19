@@ -1,0 +1,22 @@
+version: "2"
+services:
+  dnsmasq:
+    image: goatatwork/dnsmasq-ubuntu:latest
+    volumes:
+      - ./storage/app/services/dnsmasq/dnsmasq.conf:/etc/dnsmasq.conf
+      - ./storage/app/services/dnsmasq/dnsmasq.d:/etc/dnsmasq.d
+      - ./storage/app/services/dnsmasq/hosts.d:/var/hosts.d
+      - ./storage/app/services/dnsmasq/options.d:/var/options.d
+    ports:
+      - "67:67"
+      - "67:67/udp"
+      - "69:69"
+      - "69:69/udp"
+    networks:
+      - goldaccess_net
+networks:
+  goldaccess_net:
+    driver: "bridge"
+volumes:
+  data:
+    driver: "local"

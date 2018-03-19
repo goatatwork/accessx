@@ -4,16 +4,13 @@ services:
     image: goatatwork/dnsmasq-ubuntu:latest
     volumes:
       - ./storage/app/services/dnsmasq:/etc/dnsmasq
+      - ./public/storage/media:/tftpboot
     ports:
       - "67:67"
       - "67:67/udp"
       - "69:69"
       - "69:69/udp"
-    networks:
-      - goldaccess_dnsmasq_net
-networks:
-  goldaccess_dnsmasq_net:
-    driver: "host"
+    network_mode: "host"
 volumes:
   data:
     driver: "local"

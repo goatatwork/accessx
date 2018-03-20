@@ -28,6 +28,7 @@ RUN apt-get update \
     && dpkg-reconfigure -f noninteractive tzdata
 
 COPY php-fpm.conf /etc/php/7.1/fpm/php-fpm.conf
+ADD www.conf /etc/php/7.1/fpm/pool.d/www.conf
 
 EXPOSE 9000
 

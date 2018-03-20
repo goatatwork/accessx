@@ -32,3 +32,4 @@ COPY php-fpm.conf /etc/php/7.1/fpm/php-fpm.conf
 EXPOSE 9000
 
 CMD ["php-fpm7.1"]
+

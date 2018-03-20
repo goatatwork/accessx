@@ -29,6 +29,8 @@ services:
     image: goldaccess/laravel-echo-server:production
     ports:
       - "6001:6001"
+    volumes:
+      - $(pwd)/laravel-echo-server.json:/app/laravel-echo-server.json:ro
     networks:
       - goldaccessnet
   db:

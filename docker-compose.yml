@@ -1,49 +1,25 @@
-version: "2"
+version: "3"
 services:
-#  dnsmasq:
-#    image: goatatwork/dnsmasq-ubuntu:latest
-#    volumes:
-#      - ./storage/app/services/dnsmasq:/etc/dnsmasq
-#      - ./public/storage/media:/tftpboot
-#    ports:
-#      - "67:67"
-#      - "67:67/udp"
-#      - "69:69"
-#      - "69:69/udp"
-#    network_mode: "host"
   nginx:
-    image: goatatwork/nginx:latest
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: goldaccess/nginx:production
+    volumes:
+      - ./:/var/www/html
     ports:
       - "8088:80"
+    networks:
+      - goldaccessnet
+  php-fpm:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    image: goldaccess/php-fpm:production
     volumes:
       - ./:/var/www/html
-    networks:
-      - goldaccessnet
-  php:
-    image: goatatwork/php-fpm7.1:latest
-    volumes:
-      - ./:/var/www/html
-    networks:
-      - goldaccessnet
-  supervisor-horizon:
-    image: goatatwork/supervisor-horizon:latest
-    volumes:
-      - ./:/var/www/html
-    networks:
-      - goldaccessnet
-  db:
-    image: mysql:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: 1q2w3e4r
-      MYSQL_DATABASE: accessx
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: 1q2w3e4r
-    volumes:
-      - goldaccess_data:/var/lib/mysql
-    networks:
-      - goldaccessnet
-  redis:
-    image: redis:alpine
+    ports:
+      - "9000:9000"
     networks:
       - goldaccessnet
 networks:

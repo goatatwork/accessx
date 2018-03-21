@@ -22,17 +22,11 @@ services:
       - "9000:9000"
     networks:
       - goldaccessnet
-  laravel-echo-server:
+  npm:
     build:
-      context: ./docker/laravel-echo-server
+      context: ./docker/npm
       dockerfile: Dockerfile
-    image: goldaccess/laravel-echo-server:production
-    ports:
-      - "6001:6001"
-    volumes:
-      - ./laravel-echo-server.json:/app/laravel-echo-server.json:ro
-    networks:
-      - goldaccessnet
+    image: goldaccess/nginx:production
   db:
     image: mysql:5.7
     environment:

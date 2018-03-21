@@ -1,9 +1,16 @@
+FROM node:8.4.0-alpine
 
-FROM node:7.4
+USER root
+
+RUN apk add --update --no-cache bash
+
+RUN apk add --update --no-cache -t .build-deps python2=2.7.13-r1 make=4.2.1-r0 gcc=6.3.0-r4 \
+    && yarn global add --prod --no-lockfile laravel-echo-server \
+    && apk del .build-deps \
+    && yarn cache clean
+
+USER node
 
 WORKDIR /app
-COPY laravel-echo-server.json /app
-RUN npm install
-EXPOSE 6001
 
-ENTRYPOINT ["/app/node_modules/.bin/laravel-echo-server"]
+CMD ["laravel-echo-server", "start"]

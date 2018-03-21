@@ -11,7 +11,7 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 RUN apt-get update \
-    && apt-get install -y curl zip unzip software-properties-common tzdata\
+    && apt-get install -y curl zip unzip git software-properties-common tzdata\
     && add-apt-repository -y ppa:ondrej/php \
     && apt-get update \
     && apt-get install -y php7.1-fpm php7.1-cli php7.1-mcrypt php7.1-gd php7.1-mysql \

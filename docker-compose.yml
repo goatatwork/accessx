@@ -13,7 +13,7 @@ services:
       - goldaccessnet
   php:
     build:
-      context: ./docker/php-fpm
+      context: ./docker/php
       dockerfile: Dockerfile
     image: goldaccess/php-fpm:production
     volumes:

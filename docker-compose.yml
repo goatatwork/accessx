@@ -27,6 +27,10 @@ services:
       context: ./docker/npm
       dockerfile: Dockerfile
     image: goldaccess/nginx:production
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - goldaccessnet
   db:
     image: mysql:5.7
     environment:

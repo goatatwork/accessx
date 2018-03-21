@@ -7,5 +7,7 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 
+WORKDIR /var/www/html
+
 CMD ["/bin/bash"]
 ENTRYPOINT []

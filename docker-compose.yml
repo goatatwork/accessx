@@ -41,7 +41,7 @@ services:
     ports:
       - "6001:6001"
     networks:
-      -goldaccessnet
+      - goldaccessnet
   db:
     image: mysql:5.7
     environment:

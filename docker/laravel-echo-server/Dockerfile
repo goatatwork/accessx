@@ -5,7 +5,7 @@ RUN apk add --update --no-cache bash \
     && npm i -g laravel-echo-server \
     && apk del .build-deps
 
-WORKDIR /app
+WORKDIR /var/www/html
 
 ENTRYPOINT ["laravel-echo-server"]
 CMD ["start"]

@@ -26,7 +26,7 @@ services:
     build:
       context: ./docker/npm
       dockerfile: Dockerfile
-    image: goldaccess/nginx:production
+    image: goldaccess/npm:production
     volumes:
       - ./:/var/www/html
     networks:

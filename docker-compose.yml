@@ -35,13 +35,13 @@ services:
     build:
       context: ./docker/laravel-echo-server
       dockerfile: Dockerfile
-      image: goldaccess/echo-server:production
-      volumes:
-        - ./:/var/www/html
-      ports:
-        - "6001:6001"
-      networks:
-        -goldaccessnet
+    image: goldaccess/echo-server:production
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "6001:6001"
+    networks:
+      -goldaccessnet
   db:
     image: mysql:5.7
     environment:

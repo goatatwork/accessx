@@ -9,8 +9,6 @@ RUN apk add --update --no-cache -t .build-deps python2=2.7.13-r1 make=4.2.1-r0 g
     && apk del .build-deps \
     && yarn cache clean
 
-USER node
-
-WORKDIR /app
+WORKDIR /var/www/html
 
 CMD ["laravel-echo-server", "start"]

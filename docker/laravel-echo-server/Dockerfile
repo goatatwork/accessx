@@ -18,8 +18,6 @@ RUN apt-get update \
     && ln -s /usr/share/zoneinfo/America/Chicago /etc/localtime \
     && dpkg-reconfigure -f noninteractive tzdata
 
-USER www-data
-
 WORKDIR /var/www/html
 
 RUN npm install -g laravel-echo-server

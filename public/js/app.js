@@ -17963,7 +17963,7 @@ __WEBPACK_IMPORTED_MODULE_0_autosize___default()(document.querySelectorAll('*[da
 if (typeof io !== 'undefined') {
     window.Echo = new __WEBPACK_IMPORTED_MODULE_1_laravel_echo___default.a({
         broadcaster: 'socket.io',
-        host: window.location.hostname + ':6001'
+        host: 'http://10.200.200.1:6001'
     });
 } else {
     console.log('typeof io is undefined, wtf!?');

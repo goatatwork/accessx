@@ -15,7 +15,7 @@
 		}
 	},
 	"devMode": true,
-	"host": "redis",
+	"host": null,
 	"port": "6001",
 	"protocol": "http",
 	"socketio": {},

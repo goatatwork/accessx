@@ -3,7 +3,7 @@ FROM goatatwork/php-fpm7.1:latest
 MAINTAINER Goat
 
 RUN apt-get update \
-&& apt-get -y --no-install-recommends install supervisor iputils-ping \
+&& apt-get -y --no-install-recommends install supervisor iputils-ping nano \
 && apt-get clean; rm -rf /var/lib/apt/lists/ /tmp/ /var/tmp/ /usr/share/doc/ \
 && export TERM=xterm
 

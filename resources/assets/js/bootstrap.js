@@ -56,7 +56,7 @@ import Echo from 'laravel-echo'
 if (typeof io !== 'undefined') {
   window.Echo = new Echo({
       broadcaster: 'socket.io',
-      host: 'http://10.200.200.1:6001'
+      host: window.location.hostname + ':6001'
   });
 } else {
     console.log('typeof io is undefined, wtf!?');

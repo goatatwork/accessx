@@ -31,5 +31,7 @@ ADD www.conf /etc/php/7.1/fpm/pool.d/www.conf
 
 EXPOSE 9000
 
+WORKDIR /var/www/html
+
 CMD ["php-fpm7.1"]
 

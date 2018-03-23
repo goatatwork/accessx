@@ -19,5 +19,13 @@ RUN apt-get install -y nodejs npm iputils-ping libpng-dev nano \
 
 WORKDIR /var/www/html
 
+USER www-data
+
+RUN composer install --no-dev --ignore-platform-reqs \
+    && php artisan key:generate \
+    && php artisan migrate \
+    && php artisan db:seed \
+    && php artisan passport:install
+
 CMD ["/bin/bash"]
 ENTRYPOINT []

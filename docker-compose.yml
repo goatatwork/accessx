@@ -57,6 +57,19 @@ services:
     image: redis:alpine
     networks:
       - goldaccessnet
+  setup:
+    build:
+      context: ./docker/setup
+      dockerfile: Dockerfile
+    image: goldaccess/setup:production
+    depends_on:
+      - nginx
+      - php
+      - db
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - goldaccessnet
 networks:
   goldaccessnet:
     driver: "bridge"

@@ -1,12 +1,7 @@
 {
-	"authHost": "http://localhost",
+	"authHost": "http://accessx.goat",
 	"authEndpoint": "/broadcasting/auth",
-	"clients": [
-		{
-			"appId": "56ed967d1cbd3891",
-			"key": "ccfc96846f69a8e68be32235a19bae32"
-		}
-	],
+	"clients": [],
 	"database": "redis",
 	"databaseConfig": {
 		"redis": {},
@@ -24,9 +19,9 @@
 	"sslCertChainPath": "",
 	"sslPassphrase": "",
 	"apiOriginAllow": {
-		"allowCors": true,
-		"allowOrigin": "http://127.0.0.1",
-		"allowMethods": "GET, POST",
-		"allowHeaders": "Origin, Content-Type, X-Auth-Token, X-Requested-With, Accept, Authorization, X-CSRF-TOKEN, X-Socket-Id"
+		"allowCors": false,
+		"allowOrigin": "",
+		"allowMethods": "",
+		"allowHeaders": ""
 	}
 }

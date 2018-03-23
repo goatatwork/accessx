@@ -10,7 +10,7 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-RUN apt-get install -y nodejs npm iputils-ping libpng-dev nano \
+RUN apt-get install -y nodejs npm iputils-ping libpng-dev nano tzdata \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && rm -rf /etc/localtime \

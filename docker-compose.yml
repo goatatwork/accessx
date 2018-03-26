@@ -1,16 +1,65 @@
 version: "2"
 services:
-  dnsmasq:
-    image: goatatwork/dnsmasq-ubuntu:latest
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: goldaccess/nginx:production
     volumes:
-      - ./storage/app/services/dnsmasq:/etc/dnsmasq
-      - ./public/storage/media:/tftpboot
+      - ./:/var/www/html
     ports:
-      - "67:67"
-      - "67:67/udp"
-      - "69:69"
-      - "69:69/udp"
-    network_mode: "host"
+      - "80:80"
+    networks:
+      - goldaccessnet
+  php:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    image: goldaccess/php-fpm:production
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "9000:9000"
+    networks:
+      - goldaccessnet
+  npm:
+    build:
+      context: ./docker/npm
+      dockerfile: Dockerfile
+    image: goldaccess/npm:production
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - goldaccessnet
+  laravel-echo-server:
+    build:
+      context: ./docker/laravel-echo-server
+      dockerfile: Dockerfile
+    image: goldaccess/echo-server:production
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "6001:6001"
+    networks:
+      - goldaccessnet
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 1q2w3e4r
+      MYSQL_DATABASE: accessx
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 1q2w3e4r
+    volumes:
+      - goldaccess_data:/var/lib/mysql
+    networks:
+      - goldaccessnet
+  redis:
+    image: redis:alpine
+    networks:
+      - goldaccessnet
+networks:
+  goldaccessnet:
+    driver: "bridge"
 volumes:
-  data:
+  goldaccess_data:
     driver: "local"

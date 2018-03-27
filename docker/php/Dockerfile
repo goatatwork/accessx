@@ -27,6 +27,7 @@ RUN apt-get install -y curl zip unzip git software-properties-common tzdata iput
     && dpkg-reconfigure -f noninteractive tzdata
 
 COPY php-fpm.conf /etc/php/7.1/fpm/php-fpm.conf
+COPY php.ini /etc/php/7.1/fpm/php.ini
 ADD www.conf /etc/php/7.1/fpm/pool.d/www.conf
 
 EXPOSE 9000

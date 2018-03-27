@@ -11,6 +11,8 @@ services:
       - "80:80"
     networks:
       - goldaccessnet
+    depends_on:
+      - php
   php:
     build:
       context: ./docker/php

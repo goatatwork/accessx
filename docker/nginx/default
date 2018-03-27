@@ -7,6 +7,8 @@ server {
 
     server_name _;
 
+    client_max_body_size 200M;
+
     charset utf-8;
 
     location = /favicon.ico { log_not_found off; access_log off; }

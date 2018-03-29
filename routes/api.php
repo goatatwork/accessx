@@ -104,6 +104,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'infrastructure'], functio
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'provisioning'], function() {
     Route::post('/', 'ProvisioningRecordsApiController@store');
+    Route::patch('{provisioning_record}', 'ProvisioningRecordsApiController@update');
     Route::delete('{provisioning_record}', 'ProvisioningRecordsApiController@destroy');
 });
 

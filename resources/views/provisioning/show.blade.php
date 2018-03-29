@@ -129,7 +129,7 @@
     </div>
 
     <div class="row mt-5 justify-content-center">
-        <div class="col-10">
+        <div class="col">
             <table class="table table-sm">
                 <thead>
                     <tr>
@@ -184,6 +184,13 @@
         </div>
     </div>
 
+    <div class="row mt-5">
+        <div class="col">
+            @foreach($other_possible_packages as $id => $package)
+                <li>{{$id}} --> {{$package}}</li>
+            @endforeach
+        </div>
+    </div>
 </div>
 
 @endsection

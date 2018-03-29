@@ -61,6 +61,11 @@ class EventServiceProvider extends ServiceProvider
         'Spatie\MediaLibrary\Events\MediaHasBeenAdded' => [
             'App\Listeners\MediaLogger'
         ],
+
+        // Laravel Auditing
+        'OwenIt\Auditing\Events\Audited' => [
+            'App\Listeners\ModelAuditedListener'
+        ],
     ];
 
     /**

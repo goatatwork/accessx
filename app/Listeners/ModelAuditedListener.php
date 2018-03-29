@@ -27,7 +27,6 @@ class ModelAuditedListener
      */
     public function handle(Audited $event)
     {
-        \Log::info($event->audit->auditable_type . ' was ' . $event->audit->event);
         if ( str_is('App\\ProvisioningRecord', $event->audit->auditable_type) && $event->audit->event == 'updated' ) {
 
             $provisioning_record = $event->model;

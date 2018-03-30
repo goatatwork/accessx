@@ -1,5 +1,18 @@
 version: "2"
 services:
+docker run -d --net=host  -p 69:69 -p 69:69/udp --rm --name dnsmasq_server goatatwork/dnsmasq-ubuntu:latest
+  dhcp:
+    image: goatatwork/dnsmasq-ubuntu:latest
+    volumes:
+      - ./storage/app/services/dnsmasq:/etc/dnsmasq
+      - ./public/storage/media:/tftpboot
+    ports:
+      - "67:67"
+      - "67:67/udp"
+      - "69:69"
+      - "69:69/udp"
+    networks:
+      - goldaccesshostnet
   nginx:
     build:
       context: ./docker/nginx
@@ -62,6 +75,8 @@ services:
 networks:
   goldaccessnet:
     driver: "bridge"
+  goldaccesshostnet:
+    driver: "host"
 volumes:
   goldaccess_data:
     driver: "local"

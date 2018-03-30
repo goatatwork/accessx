@@ -2,6 +2,7 @@ version: "2"
 services:
   dhcp:
     image: goatatwork/dnsmasq-ubuntu:latest
+    network: host
     volumes:
       - ./storage/app/services/dnsmasq:/etc/dnsmasq
       - ./public/storage/media:/tftpboot
@@ -10,8 +11,6 @@ services:
       - "67:67/udp"
       - "69:69"
       - "69:69/udp"
-    networks:
-      - host
   nginx:
     build:
       context: ./docker/nginx

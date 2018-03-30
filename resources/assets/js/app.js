@@ -24,6 +24,8 @@ Vue.component('file-uploader', require('./components/GoldAccess/Core/FileUploade
 Vue.component('delete-modal', require('./components/GoldAccess/Core/DeleteModal.vue'));
 Vue.component('marked-content', require('./components/GoldAccess/Core/MarkedContent.vue'));
 
+Vue.component('instant-edit-select', require('./components/GoldAccess/Forms/InstantSelect.vue'));
+
 Vue.component('activity-logs-card', require('./components/GoldAccess/Cards/ActivityLogsCard.vue'));
 Vue.component('activity-logs-table', require('./components/GoldAccess/ActivityLogs/ActivityLogsTable.vue'));
 

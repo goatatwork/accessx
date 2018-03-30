@@ -129,7 +129,7 @@
     </div>
 
     <div class="row mt-5 justify-content-center">
-        <div class="col-10">
+        <div class="col">
             <table class="table table-sm">
                 <thead>
                     <tr>
@@ -163,7 +163,24 @@
                             </a>
                         </td>
                         <td class="text-center">
-                            {{ $provisioning_record->ont_profile->name }}
+
+                            @if(count($provisioning_record->ont_profile->ont_software->ont_profiles) < 2)
+                                {{ $provisioning_record->ont_profile->name }}
+                            @else
+                                <instant-edit-select
+                                    div-id="instant-select-component"
+                                    select-id="select-0"
+                                    select-options="{{ $other_possible_packages_json }}"
+                                    current-value="{{ $provisioning_record->ont_profile->id }}"
+                                    form-action="/api/provisioning/{{ $provisioning_record->id }}"
+                                    success-action="/provisioning/{{ $provisioning_record->id }}"
+                                    model-name="Package"
+                                    field-to-patch="ont_profile_id"
+                                >
+
+                                </instant-edit-select>
+                            @endif
+
                         </td>
                         <td class="text-center">
                             {{ $provisioning_record->ip_address->address }}
@@ -186,4 +203,12 @@
 
 </div>
 
+@endsection
+
+@section('footer-scripts')
+<script>
+    $( "#ont_profile_selector" ).change(function() {
+      alert( "Handler for .change() called." );
+    });
+</script>
 @endsection

@@ -58,10 +58,10 @@ class ProvisioningRecordsApiController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\ProvisioningRecord  $provisioningRecord
+     * @param  \App\ProvisioningRecord  $provisioning_record
      * @return \Illuminate\Http\Response
      */
-    public function edit(ProvisioningRecord $provisioningRecord)
+    public function edit(ProvisioningRecord $provisioning_record)
     {
         //
     }
@@ -69,13 +69,15 @@ class ProvisioningRecordsApiController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ProvisioningRecord  $provisioningRecord
+     * @param  \App\Http\Requests\ProvisioningRecordRequest  $request
+     * @param  \App\ProvisioningRecord  $provisioning_record
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProvisioningRecord $provisioningRecord)
+    public function update(ProvisioningRecordRequest $request, ProvisioningRecord $provisioning_record)
     {
-        //
+        $provisioning_record = tap($provisioning_record)->update($request->all());
+
+        return $provisioning_record;
     }
 
     /**

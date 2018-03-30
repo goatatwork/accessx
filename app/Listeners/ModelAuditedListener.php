@@ -33,13 +33,23 @@ class ModelAuditedListener
 
             $dhcp_for_this_record = new ManagementIp($provisioning_record);
 
-            app('logbot')->log('PROVISIONING RECORD IS ABOUT TO BE EDITED');
-
             $dhcp_for_this_record->make();
 
-            app('logbot')->log('PROVISIONING RECORD HAS BEEN EDITED');
+            $this->logIt($provisioning_record);
 
             app('dockerbot')->containerRestart(config('goldaccess.dockerbot.services.dhcp.container_name'));
         }
+    }
+
+    /**
+     * @param  \App\ProvisioningRecord $provisioning_record
+     * @return  void
+     */
+    protected function logIt($provisioning_record)
+    {
+        $customer = $provisioning_record->service_location->customer->customer_name;
+        $package = $provisioning_record->ont_profile->name;
+
+        app('logbot')->log($customer . ' is now on the ' . $package . ' package.');
     }
 }

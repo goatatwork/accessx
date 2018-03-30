@@ -1,6 +1,5 @@
 version: "2"
 services:
-docker run -d --net=host  -p 69:69 -p 69:69/udp --rm --name dnsmasq_server goatatwork/dnsmasq-ubuntu:latest
   dhcp:
     image: goatatwork/dnsmasq-ubuntu:latest
     volumes:

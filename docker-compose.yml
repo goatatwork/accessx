@@ -2,7 +2,7 @@ version: "2"
 services:
   dhcp:
     image: goatatwork/dnsmasq-ubuntu:latest
-    network: host
+    network-mode: "host"
     volumes:
       - ./storage/app/services/dnsmasq:/etc/dnsmasq
       - ./public/storage/media:/tftpboot

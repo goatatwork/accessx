@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ProvisioningRecord;
 use Illuminate\Http\Request;
 use App\Events\ServiceWasProvisioned;
+use App\Events\DeletingProvisioningRecord;
 use App\Http\Requests\ProvisioningRecordRequest;
 
 class ProvisioningRecordsApiController extends Controller
@@ -88,6 +89,8 @@ class ProvisioningRecordsApiController extends Controller
      */
     public function destroy(ProvisioningRecord $provisioning_record)
     {
+        event (new DeletingProvisioningRecord($provisioning_record));
+
         $provisioning_record->delete();
     }
 }

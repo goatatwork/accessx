@@ -6,6 +6,7 @@ use App\ProvisioningRecord;
 use Illuminate\Http\Request;
 use App\Events\ServiceWasProvisioned;
 use App\Events\DeletingProvisioningRecord;
+use App\Events\ProvisioningRecordWasUpdated;
 use App\Http\Requests\ProvisioningRecordRequest;
 
 class ProvisioningRecordsApiController extends Controller
@@ -77,6 +78,8 @@ class ProvisioningRecordsApiController extends Controller
     public function update(ProvisioningRecordRequest $request, ProvisioningRecord $provisioning_record)
     {
         $provisioning_record = tap($provisioning_record)->update($request->all());
+
+        event (new ProvisioningRecordWasUpdated($provisioning_record));
 
         return $provisioning_record;
     }

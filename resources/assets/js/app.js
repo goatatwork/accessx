@@ -46,6 +46,7 @@ Vue.component('show-ont-page', require('./components/GoldAccess/Onts/ShowOntPage
 // When this one is complete, and show-dhcp-network-page can be removed.
 Vue.component('add-subnet-accordion-card', require('./components/GoldAccess/Dhcp/AddSubnetAccordionCard.vue'));
 
+Vue.component('edit-provisioning-record-page', require('./components/GoldAccess/Provisioning/EditProvisioningRecordPage.vue'));
 Vue.component('provisioning-records-table', require('./components/GoldAccess/Provisioning/ProvisioningRecordsTable.vue'));
 Vue.component('provision-by-service-location', require('./components/GoldAccess/Provisioning/ProvisionByServiceLocation.vue'));
 

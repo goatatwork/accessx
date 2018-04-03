@@ -68,7 +68,9 @@ class ProvisioningRecordController extends Controller
      */
     public function edit(ProvisioningRecord $provisioning_record)
     {
-        return view('provisioning.edit')->with('provisioning_record', $provisioning_record);
+        $service_location = $provisioning_record->service_location;
+
+        return view('provisioning.edit')->with('provisioning_record', $provisioning_record)->with('service_location', $service_location);
     }
 
     /**

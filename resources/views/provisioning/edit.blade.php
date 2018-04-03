@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    <pre>{{ $provisioning_record->toJson() }}</pre>
+    <edit-provisioning-record-page :provisioning-record="{{ $provisioning_record }}" :service-location="{{ $service_location }}"></edit-provisioning-record-page>
 </div>
 
 @endsection

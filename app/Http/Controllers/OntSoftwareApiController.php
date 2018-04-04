@@ -38,7 +38,7 @@ class OntSoftwareApiController extends Controller
             $short_voip = ($parts[3] == 'SIP') ? 'S' : 'M';
             $dhcp_config_string = $short_voip . $parts[2];
 
-            $new_filename = $parts[0] . $parts[1] . '_GR' . $parts[3] . '_0' . $parts[2] . '_image_with_cfe.img';
+            $new_filename = $parts[0] . $parts[1] . '_GR' . $parts[3] . '_' . $parts[2] . '_image_with_cfe.img';
 
             // S03.01.266
             $characters = str_split($parts[2]);

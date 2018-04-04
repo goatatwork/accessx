@@ -14,8 +14,7 @@
                 <service-location-card :location="serviceLocation"></service-location-card>
             </div>
             <div class="col-8">
-                <!-- <provision-by-service-location-form :location="location"></provision-by-service-location-form> -->
-                <edit-provisioning-record-form :provisioning-record="provisioningRecord"></edit-provisioning-record-form>
+                <edit-provisioning-record-form v-if="provisioningRecordToEdit.id" :provisioning-record="provisioningRecordToEdit"></edit-provisioning-record-form>
             </div>
         </div>
 
@@ -33,6 +32,26 @@
 
         components: {
             'edit-provisioning-record-form': EditProvisioningRecordForm,
+        },
+
+        data: function() {
+            return {
+                provisioningRecordToEdit: {},
+            }
+        },
+
+        created: function() {
+            this.fetchProvisioningRecordResource();
+        },
+
+        methods: {
+            fetchProvisioningRecordResource: function() {
+                axios.get('/api/provisioning/'+this.provisioningRecord.id+'/edit').then(response => {
+                    this.provisioningRecordToEdit = response.data;
+                }).catch(error => {
+                    console.log(error);
+                });
+            }
         }
     }
 </script>

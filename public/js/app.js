@@ -64215,7 +64215,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-12" }, [
+    _c("div", { staticClass: "col" }, [
       _c("div", { staticClass: "form-group" }, [
         _c("label", { attrs: { for: "ont_id" } }, [_vm._v("ONT")]),
         _vm._v(" "),
@@ -64499,7 +64499,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-12" }, [
+    _c("div", { staticClass: "col" }, [
       _c("div", { staticClass: "form-group" }, [
         _c("label", { attrs: { for: "aggregator_id" } }, [
           _vm._v("Aggregator")
@@ -64762,7 +64762,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-12" }, [
+    _c("div", { staticClass: "col" }, [
       _c("div", { staticClass: "form-group" }, [
         _c("label", { attrs: { for: "dhcp_shared_network_id" } }, [
           _vm._v("Management Network")
@@ -65159,7 +65159,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 var EditProvisioningRecordForm = Vue.extend(__webpack_require__(172));
 
@@ -65171,6 +65170,28 @@ var EditProvisioningRecordForm = Vue.extend(__webpack_require__(172));
 
     components: {
         'edit-provisioning-record-form': EditProvisioningRecordForm
+    },
+
+    data: function data() {
+        return {
+            provisioningRecordToEdit: {}
+        };
+    },
+
+    created: function created() {
+        this.fetchProvisioningRecordResource();
+    },
+
+    methods: {
+        fetchProvisioningRecordResource: function fetchProvisioningRecordResource() {
+            var _this = this;
+
+            axios.get('/api/provisioning/' + this.provisioningRecord.id + '/edit').then(function (response) {
+                _this.provisioningRecordToEdit = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
     }
 });
 
@@ -65201,9 +65222,11 @@ var render = function() {
         "div",
         { staticClass: "col-8" },
         [
-          _c("edit-provisioning-record-form", {
-            attrs: { "provisioning-record": _vm.provisioningRecord }
-          })
+          _vm.provisioningRecordToEdit.id
+            ? _c("edit-provisioning-record-form", {
+                attrs: { "provisioning-record": _vm.provisioningRecordToEdit }
+              })
+            : _vm._e()
         ],
         1
       )
@@ -65309,10 +65332,277 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var OntSelector = Vue.extend(__webpack_require__(154));
+var AggregatorSelector = Vue.extend(__webpack_require__(157));
+var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(160));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
         provisioningRecord: {}
+    },
+
+    components: {
+        'ont-selector': OntSelector,
+        'aggregator-selector': AggregatorSelector,
+        'dhcp-management-network-selector': DhcpManagementNetworkSelector
+    },
+
+    created: function created() {
+        this.initializeEventBus();
+    },
+
+    beforeDestroy: function beforeDestroy() {
+        EventBus.$off();
+    },
+
+    data: function data() {
+        return {
+            editingOnt: false,
+            editingNetworkOrIp: false,
+            formData: {
+                ont_profile_id: this.provisioningRecord.ont_profile.id,
+                ip_address_id: this.provisioningRecord.ip.id,
+                port_id: this.provisioningRecord.port.id
+            }
+        };
+    },
+
+    computed: {
+        editNetworkOrIpButtonClasses: function editNetworkOrIpButtonClasses() {
+            return this.editingNetworkOrIp ? 'btn-danger' : 'btn-dark';
+        },
+        editNetworkOrIpButtonText: function editNetworkOrIpButtonText() {
+            return this.editingNetworkOrIp ? 'CANCEL' : 'EDIT';
+        },
+        readyToUpdateOnt: function readyToUpdateOnt() {
+            return this.formData.ont_profile_id != this.provisioningRecord.ont_profile.id;
+        },
+        readyToUpdateNetworkLocation: function readyToUpdateNetworkLocation() {
+            return this.formData.port_id != this.provisioningRecord.port.id;
+        },
+        readyToUpdateManagementIp: function readyToUpdateManagementIp() {
+            return this.formData.ip_address_id != this.provisioningRecord.ip.id;
+        }
+    },
+
+    methods: {
+        editIp: function editIp() {
+            this.editingOnt = false;
+            this.editingNetworkOrIp = true;
+            $('#network-location-selector').collapse('hide');
+            $('#dhcp-management-network-selector').collapse('show');
+        },
+        editLocation: function editLocation() {
+            this.editingOnt = false;
+            this.editingNetworkOrIp = true;
+            $('#network-location-selector').collapse('show');
+            $('#dhcp-management-network-selector').collapse('hide');
+        },
+        editLocationOrIp: function editLocationOrIp() {
+            this.editingOnt = false;
+            this.editingNetworkOrIp = !this.editingNetworkOrIp;
+            $('#network-location-selector').collapse('hide');
+            $('#dhcp-management-network-selector').collapse('hide');
+        },
+        editOnt: function editOnt() {
+            this.editingNetworkOrIp = false;
+            this.editingOnt = !this.editingOnt;
+            $('#network-location-selector').collapse('hide');
+            $('#dhcp-management-network-selector').collapse('hide');
+        },
+
+        initializeEventBus: function initializeEventBus() {
+            EventBus.$on('provisioning-ip-address-was-selected', function (id) {
+                this.updateIpId(id);
+            }.bind(this));
+            EventBus.$on('provisioning-profile-was-selected', function (id) {
+                this.updateProfileId(id);
+            }.bind(this));
+            EventBus.$on('provisioning-port-was-selected', function (id) {
+                this.updatePortId(id);
+            }.bind(this));
+        },
+
+        resetForm: function resetForm() {
+            this.formData = {
+                ont_profile_id: this.provisioningRecord.ont_profile.id,
+                ip_address_id: this.provisioningRecord.ip.id,
+                port_id: this.provisioningRecord.port.id
+            }, this.editingOnt = false, this.editingNetworkOrIp = false;
+            $('#ont-selector').collapse('hide');
+            $('#network-location-selector').collapse('hide');
+            $('#dhcp-management-network-selector').collapse('hide');
+        },
+
+        submitChanges: function submitChanges() {
+            var _this = this;
+
+            axios.patch('/api/provisioning/' + this.provisioningRecord.id, this.formData).then(function (response) {
+                _this.resetForm();
+                window.location.href = "/provisioning/" + _this.provisioningRecord.id;
+            }).catch(function (error) {
+                console.log(error.response.data);
+            });
+        },
+
+        updateIpId: function updateIpId(id) {
+            this.formData.ip_address_id = id;
+        },
+        updatePortId: function updatePortId(id) {
+            this.formData.port_id = id;
+        },
+        updateProfileId: function updateProfileId(id) {
+            this.formData.ont_profile_id = id;
+        }
     }
 });
 
@@ -65326,11 +65616,367 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col" }, [
-      _c("pre", [_vm._v(_vm._s(_vm.provisioningRecord))])
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col" }, [
+          _c("table", { staticClass: "table table-sm" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
+            _c("tbody", [
+              _c("tr", [
+                _c("td", { staticClass: "text-center" }, [
+                  _vm._v(
+                    _vm._s(_vm.provisioningRecord.ont.manufacturer) +
+                      " " +
+                      _vm._s(_vm.provisioningRecord.ont.model_number)
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-center" }, [
+                  _vm._v(_vm._s(_vm.provisioningRecord.ont_software.version))
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-center" }, [
+                  _vm._v(
+                    "\n                                " +
+                      _vm._s(_vm.provisioningRecord.ont_profile.name) +
+                      "\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-right" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-dark",
+                      attrs: {
+                        "data-toggle": "collapse",
+                        "data-target": "#ont-selector",
+                        disabled: _vm.editingNetworkOrIp
+                      },
+                      on: { click: _vm.editOnt }
+                    },
+                    [_vm._v("EDIT")]
+                  )
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c(
+              "div",
+              { staticClass: "col collapse", attrs: { id: "ont-selector" } },
+              [
+                _c("ont-selector"),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.readyToUpdateOnt,
+                        expression: "readyToUpdateOnt"
+                      }
+                    ],
+                    staticClass: "row"
+                  },
+                  [
+                    _c("div", { staticClass: "col" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-success float-right",
+                          on: { click: _vm.submitChanges }
+                        },
+                        [
+                          _vm._v(
+                            "\n                                    Save\n                                "
+                          )
+                        ]
+                      )
+                    ])
+                  ]
+                )
+              ],
+              1
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col" }, [
+          _c("table", { staticClass: "table table-sm" }, [
+            _vm._m(2),
+            _vm._v(" "),
+            _vm._m(3),
+            _vm._v(" "),
+            _c("tbody", [
+              _c("tr", [
+                _c("td", { staticClass: "text-center" }, [
+                  _vm._v(
+                    "\n                                " +
+                      _vm._s(_vm.provisioningRecord.aggregator.name) +
+                      "\n                                "
+                  ),
+                  _c("span", { staticClass: "fas fa-long-arrow-alt-right" }),
+                  _vm._v(
+                    "\n                                Slot " +
+                      _vm._s(_vm.provisioningRecord.slot.slot_number) +
+                      "\n                                "
+                  ),
+                  _c("span", { staticClass: "fas fa-long-arrow-alt-right" }),
+                  _vm._v(
+                    "\n                                Port " +
+                      _vm._s(_vm.provisioningRecord.port.port_number) +
+                      "\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-center" }, [
+                  _vm._v(
+                    "\n                                " +
+                      _vm._s(_vm.provisioningRecord.ip.address) +
+                      "\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-right" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm",
+                      class: _vm.editNetworkOrIpButtonClasses,
+                      attrs: { disabled: _vm.editingOnt },
+                      on: { click: _vm.editLocationOrIp }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                    " +
+                          _vm._s(_vm.editNetworkOrIpButtonText) +
+                          "\n                                "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.editingNetworkOrIp,
+                          expression: "editingNetworkOrIp"
+                        }
+                      ],
+                      staticClass: "btn btn-sm btn-dark animated",
+                      class: { fadeIn: _vm.editingNetworkOrIp },
+                      attrs: {
+                        "data-toggle": "collapse",
+                        "data-target": "#network-location-selector"
+                      },
+                      on: { click: _vm.editLocation }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                    EDIT LOCATION\n                                "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.editingNetworkOrIp,
+                          expression: "editingNetworkOrIp"
+                        }
+                      ],
+                      staticClass: "btn btn-sm btn-dark animated",
+                      class: { fadeIn: _vm.editingNetworkOrIp },
+                      attrs: {
+                        "data-toggle": "collapse",
+                        "data-target": "#dhcp-management-network-selector"
+                      },
+                      on: { click: _vm.editIp }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                    EDIT MANAGEMENT IP\n                                "
+                      )
+                    ]
+                  )
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "row collapse",
+              attrs: { id: "network-location-selector" }
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "col" },
+                [
+                  _c("aggregator-selector"),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.readyToUpdateNetworkLocation,
+                          expression: "readyToUpdateNetworkLocation"
+                        }
+                      ],
+                      staticClass: "row"
+                    },
+                    [
+                      _c("div", { staticClass: "col" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-success float-right",
+                            on: { click: _vm.submitChanges }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                    Save\n                                "
+                            )
+                          ]
+                        )
+                      ])
+                    ]
+                  )
+                ],
+                1
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "row collapse",
+              attrs: { id: "dhcp-management-network-selector" }
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "col" },
+                [
+                  _c("dhcp-management-network-selector"),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.readyToUpdateManagementIp,
+                          expression: "readyToUpdateManagementIp"
+                        }
+                      ],
+                      staticClass: "row"
+                    },
+                    [
+                      _c("div", { staticClass: "col" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-success float-right",
+                            on: { click: _vm.submitChanges }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                    Save\n                                "
+                            )
+                          ]
+                        )
+                      ])
+                    ]
+                  )
+                ],
+                1
+              )
+            ]
+          )
+        ])
+      ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-dark" }, [
+      _c("tr", [
+        _c("th", { staticClass: "text-center", attrs: { colspan: "4" } }, [
+          _vm._v("ONT & Profile Information")
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-light" }, [
+      _c("tr", [
+        _c("th", { staticClass: "text-center" }, [_vm._v("ONT")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Software Version")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Profile")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-dark" }, [
+      _c("tr", [
+        _c("th", { staticClass: "text-center", attrs: { colspan: "3" } }, [
+          _vm._v("Network Information")
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-light" }, [
+      _c("tr", [
+        _c("th", { staticClass: "text-center" }, [_vm._v("Network Location")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("IP Address")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" })
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

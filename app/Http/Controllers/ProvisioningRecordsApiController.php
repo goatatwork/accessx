@@ -8,6 +8,7 @@ use App\Events\ServiceWasProvisioned;
 use App\Events\DeletingProvisioningRecord;
 use App\Events\ProvisioningRecordWasUpdated;
 use App\Http\Requests\ProvisioningRecordRequest;
+use App\Http\Resources\ProvisioningRecordForEditingResource;
 
 class ProvisioningRecordsApiController extends Controller
 {
@@ -65,7 +66,7 @@ class ProvisioningRecordsApiController extends Controller
      */
     public function edit(ProvisioningRecord $provisioning_record)
     {
-        //
+        return new ProvisioningRecordForEditingResource($provisioning_record);
     }
 
     /**

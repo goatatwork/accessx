@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col">
 
             <div class="form-group">
                 <label for="aggregator_id">Aggregator</label>

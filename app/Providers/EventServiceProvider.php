@@ -23,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\DeletingProvisioningRecord' => [
             'App\Listeners\RemoveManagementIp',
         ],
+        'App\Events\ProvisioningRecordWasUpdated' => [
+            'App\Listeners\UpdateDhcpServer',
+        ],
 
         // Laravel Auth
         'Illuminate\Auth\Events\Registered' => [
@@ -63,9 +66,9 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         // Laravel Auditing
-        'OwenIt\Auditing\Events\Audited' => [
-            'App\Listeners\ModelAuditedListener'
-        ],
+        // 'OwenIt\Auditing\Events\Audited' => [
+        //     'App\Listeners\ModelAuditedListener'
+        // ],
     ];
 
     /**

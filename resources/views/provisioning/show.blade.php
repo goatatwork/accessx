@@ -139,6 +139,7 @@
                     </tr>
                     <tr>
                         <th class="text-center border-0"></th>
+                        <th class="text-center border-0"></th>
                         <th class="text-center border-0">Customer</th>
                         <th class="text-center border-0">Location</th>
                         <th class="text-center border-0">Package</th>
@@ -149,6 +150,7 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td><a href="/provisioning/{{ $provisioning_record->id }}/edit" class="btn btn-sm btn-dark">EDIT</a></td>
                         <td class="text-center font-italic">
                             <span class="fas fa-map-marker-alt text-success"></span> Created {{ $provisioning_record->created_at->format('l, M j, Y g:i A') }}
                         </td>

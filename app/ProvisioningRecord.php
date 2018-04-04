@@ -4,7 +4,6 @@ namespace App;
 
 use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
-use App\Events\DeletingProvisioningRecord;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
@@ -24,15 +23,6 @@ class ProvisioningRecord extends Model implements HasMedia, AuditableContract
     ];
 
     protected $appends = ['port_tag', 'port_tag_unique', 'file'];
-
-    /**
-     * The event map for the model.
-     *
-     * @var array
-     */
-    protected $dispatchesEvents = [
-        'deleting' => DeletingProvisioningRecord::class,
-    ];
 
     public function service_location() {
         return $this->belongsTo(ServiceLocation::class);

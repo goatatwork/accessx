@@ -17833,7 +17833,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(19);
-module.exports = __webpack_require__(162);
+module.exports = __webpack_require__(165);
 
 
 /***/ }),
@@ -17888,8 +17888,9 @@ Vue.component('show-ont-page', __webpack_require__(131));
 // When this one is complete, and show-dhcp-network-page can be removed.
 Vue.component('add-subnet-accordion-card', __webpack_require__(134));
 
-Vue.component('provisioning-records-table', __webpack_require__(141));
-Vue.component('provision-by-service-location', __webpack_require__(147));
+Vue.component('edit-provisioning-record-page', __webpack_require__(169));
+Vue.component('provisioning-records-table', __webpack_require__(144));
+Vue.component('provision-by-service-location', __webpack_require__(150));
 
 window.EventBus = new Vue({});
 
@@ -63371,15 +63372,18 @@ if (false) {
 }
 
 /***/ }),
-/* 141 */
+/* 141 */,
+/* 142 */,
+/* 143 */,
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(142)
+var __vue_script__ = __webpack_require__(145)
 /* template */
-var __vue_template__ = __webpack_require__(146)
+var __vue_template__ = __webpack_require__(149)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -63418,7 +63422,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 142 */
+/* 145 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -63449,7 +63453,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-var ProvisioningRecordTableRow = Vue.extend(__webpack_require__(143));
+var ProvisioningRecordTableRow = Vue.extend(__webpack_require__(146));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -63487,15 +63491,15 @@ var ProvisioningRecordTableRow = Vue.extend(__webpack_require__(143));
 });
 
 /***/ }),
-/* 143 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(144)
+var __vue_script__ = __webpack_require__(147)
 /* template */
-var __vue_template__ = __webpack_require__(145)
+var __vue_template__ = __webpack_require__(148)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -63534,7 +63538,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 144 */
+/* 147 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -63577,7 +63581,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 145 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -63629,7 +63633,7 @@ if (false) {
 }
 
 /***/ }),
-/* 146 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -63792,15 +63796,15 @@ if (false) {
 }
 
 /***/ }),
-/* 147 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(148)
+var __vue_script__ = __webpack_require__(151)
 /* template */
-var __vue_template__ = __webpack_require__(161)
+var __vue_template__ = __webpack_require__(164)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -63839,7 +63843,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 148 */
+/* 151 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -63868,7 +63872,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-var ProvisionByServiceLocationForm = Vue.extend(__webpack_require__(149));
+var ProvisionByServiceLocationForm = Vue.extend(__webpack_require__(152));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -63881,15 +63885,15 @@ var ProvisionByServiceLocationForm = Vue.extend(__webpack_require__(149));
 });
 
 /***/ }),
-/* 149 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(150)
+var __vue_script__ = __webpack_require__(153)
 /* template */
-var __vue_template__ = __webpack_require__(160)
+var __vue_template__ = __webpack_require__(163)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -63928,7 +63932,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 150 */
+/* 153 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -63976,9 +63980,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-var OntSelector = Vue.extend(__webpack_require__(151));
-var AggregatorSelector = Vue.extend(__webpack_require__(154));
-var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(157));
+var OntSelector = Vue.extend(__webpack_require__(154));
+var AggregatorSelector = Vue.extend(__webpack_require__(157));
+var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(160));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -64054,15 +64058,15 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(157));
 });
 
 /***/ }),
-/* 151 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(152)
+var __vue_script__ = __webpack_require__(155)
 /* template */
-var __vue_template__ = __webpack_require__(153)
+var __vue_template__ = __webpack_require__(156)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -64101,7 +64105,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 152 */
+/* 155 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -64203,7 +64207,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 153 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -64211,7 +64215,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-12" }, [
+    _c("div", { staticClass: "col" }, [
       _c("div", { staticClass: "form-group" }, [
         _c("label", { attrs: { for: "ont_id" } }, [_vm._v("ONT")]),
         _vm._v(" "),
@@ -64338,15 +64342,15 @@ if (false) {
 }
 
 /***/ }),
-/* 154 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(155)
+var __vue_script__ = __webpack_require__(158)
 /* template */
-var __vue_template__ = __webpack_require__(156)
+var __vue_template__ = __webpack_require__(159)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -64385,7 +64389,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 155 */
+/* 158 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -64487,7 +64491,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 156 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -64495,7 +64499,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-12" }, [
+    _c("div", { staticClass: "col" }, [
       _c("div", { staticClass: "form-group" }, [
         _c("label", { attrs: { for: "aggregator_id" } }, [
           _vm._v("Aggregator")
@@ -64625,15 +64629,15 @@ if (false) {
 }
 
 /***/ }),
-/* 157 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(158)
+var __vue_script__ = __webpack_require__(161)
 /* template */
-var __vue_template__ = __webpack_require__(159)
+var __vue_template__ = __webpack_require__(162)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -64672,7 +64676,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 158 */
+/* 161 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -64750,7 +64754,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 159 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -64758,7 +64762,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-12" }, [
+    _c("div", { staticClass: "col" }, [
       _c("div", { staticClass: "form-group" }, [
         _c("label", { attrs: { for: "dhcp_shared_network_id" } }, [
           _vm._v("Management Network")
@@ -64849,7 +64853,7 @@ if (false) {
 }
 
 /***/ }),
-/* 160 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -65001,7 +65005,7 @@ if (false) {
 }
 
 /***/ }),
-/* 161 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -65071,10 +65075,916 @@ if (false) {
 }
 
 /***/ }),
-/* 162 */
+/* 165 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 166 */,
+/* 167 */,
+/* 168 */,
+/* 169 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(170)
+/* template */
+var __vue_template__ = __webpack_require__(171)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/GoldAccess/Provisioning/EditProvisioningRecordPage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-33ead6a5", Component.options)
+  } else {
+    hotAPI.reload("data-v-33ead6a5", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 170 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var EditProvisioningRecordForm = Vue.extend(__webpack_require__(172));
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        provisioningRecord: {},
+        serviceLocation: {}
+    },
+
+    components: {
+        'edit-provisioning-record-form': EditProvisioningRecordForm
+    },
+
+    data: function data() {
+        return {
+            provisioningRecordToEdit: {}
+        };
+    },
+
+    created: function created() {
+        this.fetchProvisioningRecordResource();
+    },
+
+    methods: {
+        fetchProvisioningRecordResource: function fetchProvisioningRecordResource() {
+            var _this = this;
+
+            axios.get('/api/provisioning/' + this.provisioningRecord.id + '/edit').then(function (response) {
+                _this.provisioningRecordToEdit = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 171 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col-4" },
+        [
+          _c("service-location-card", {
+            attrs: { location: _vm.serviceLocation }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "col-8" },
+        [
+          _vm.provisioningRecordToEdit.id
+            ? _c("edit-provisioning-record-form", {
+                attrs: { "provisioning-record": _vm.provisioningRecordToEdit }
+              })
+            : _vm._e()
+        ],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("nav", { attrs: { "aria-label": "breadcrumb" } }, [
+      _c("ol", { staticClass: "breadcrumb" }, [
+        _c("li", { staticClass: "breadcrumb-item" }, [
+          _c("a", { attrs: { href: "/" } }, [_vm._v("Dashboard")])
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "breadcrumb-item" }, [
+          _c("a", { attrs: { href: "/provisioning" } }, [
+            _vm._v("Provisioning")
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "li",
+          {
+            staticClass: "breadcrumb-item active",
+            attrs: { "aria-current": "page" }
+          },
+          [_vm._v("Provisioning By Service Location")]
+        )
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-33ead6a5", module.exports)
+  }
+}
+
+/***/ }),
+/* 172 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(173)
+/* template */
+var __vue_template__ = __webpack_require__(174)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/GoldAccess/Provisioning/EditProvisioningRecordForm.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1cec5e5a", Component.options)
+  } else {
+    hotAPI.reload("data-v-1cec5e5a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 173 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var OntSelector = Vue.extend(__webpack_require__(154));
+var AggregatorSelector = Vue.extend(__webpack_require__(157));
+var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(160));
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        provisioningRecord: {}
+    },
+
+    components: {
+        'ont-selector': OntSelector,
+        'aggregator-selector': AggregatorSelector,
+        'dhcp-management-network-selector': DhcpManagementNetworkSelector
+    },
+
+    created: function created() {
+        this.initializeEventBus();
+    },
+
+    beforeDestroy: function beforeDestroy() {
+        EventBus.$off();
+    },
+
+    data: function data() {
+        return {
+            editingOnt: false,
+            editingNetworkOrIp: false,
+            formData: {
+                ont_profile_id: this.provisioningRecord.ont_profile.id,
+                ip_address_id: this.provisioningRecord.ip.id,
+                port_id: this.provisioningRecord.port.id
+            }
+        };
+    },
+
+    computed: {
+        editNetworkOrIpButtonClasses: function editNetworkOrIpButtonClasses() {
+            return this.editingNetworkOrIp ? 'btn-danger' : 'btn-dark';
+        },
+        editNetworkOrIpButtonText: function editNetworkOrIpButtonText() {
+            return this.editingNetworkOrIp ? 'CANCEL' : 'EDIT';
+        },
+        readyToUpdateOnt: function readyToUpdateOnt() {
+            return this.formData.ont_profile_id != this.provisioningRecord.ont_profile.id;
+        },
+        readyToUpdateNetworkLocation: function readyToUpdateNetworkLocation() {
+            return this.formData.port_id != this.provisioningRecord.port.id;
+        },
+        readyToUpdateManagementIp: function readyToUpdateManagementIp() {
+            return this.formData.ip_address_id != this.provisioningRecord.ip.id;
+        }
+    },
+
+    methods: {
+        editIp: function editIp() {
+            this.editingOnt = false;
+            this.editingNetworkOrIp = true;
+            $('#network-location-selector').collapse('hide');
+            $('#dhcp-management-network-selector').collapse('show');
+        },
+        editLocation: function editLocation() {
+            this.editingOnt = false;
+            this.editingNetworkOrIp = true;
+            $('#network-location-selector').collapse('show');
+            $('#dhcp-management-network-selector').collapse('hide');
+        },
+        editLocationOrIp: function editLocationOrIp() {
+            this.editingOnt = false;
+            this.editingNetworkOrIp = !this.editingNetworkOrIp;
+            $('#network-location-selector').collapse('hide');
+            $('#dhcp-management-network-selector').collapse('hide');
+        },
+        editOnt: function editOnt() {
+            this.editingNetworkOrIp = false;
+            this.editingOnt = !this.editingOnt;
+            $('#network-location-selector').collapse('hide');
+            $('#dhcp-management-network-selector').collapse('hide');
+        },
+
+        initializeEventBus: function initializeEventBus() {
+            EventBus.$on('provisioning-ip-address-was-selected', function (id) {
+                this.updateIpId(id);
+            }.bind(this));
+            EventBus.$on('provisioning-profile-was-selected', function (id) {
+                this.updateProfileId(id);
+            }.bind(this));
+            EventBus.$on('provisioning-port-was-selected', function (id) {
+                this.updatePortId(id);
+            }.bind(this));
+        },
+
+        resetForm: function resetForm() {
+            this.formData = {
+                ont_profile_id: this.provisioningRecord.ont_profile.id,
+                ip_address_id: this.provisioningRecord.ip.id,
+                port_id: this.provisioningRecord.port.id
+            }, this.editingOnt = false, this.editingNetworkOrIp = false;
+            $('#ont-selector').collapse('hide');
+            $('#network-location-selector').collapse('hide');
+            $('#dhcp-management-network-selector').collapse('hide');
+        },
+
+        submitChanges: function submitChanges() {
+            var _this = this;
+
+            axios.patch('/api/provisioning/' + this.provisioningRecord.id, this.formData).then(function (response) {
+                _this.resetForm();
+                window.location.href = "/provisioning/" + _this.provisioningRecord.id;
+            }).catch(function (error) {
+                console.log(error.response.data);
+            });
+        },
+
+        updateIpId: function updateIpId(id) {
+            this.formData.ip_address_id = id;
+        },
+        updatePortId: function updatePortId(id) {
+            this.formData.port_id = id;
+        },
+        updateProfileId: function updateProfileId(id) {
+            this.formData.ont_profile_id = id;
+        }
+    }
+});
+
+/***/ }),
+/* 174 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col" }, [
+          _c("table", { staticClass: "table table-sm" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
+            _c("tbody", [
+              _c("tr", [
+                _c("td", { staticClass: "text-center" }, [
+                  _vm._v(
+                    _vm._s(_vm.provisioningRecord.ont.manufacturer) +
+                      " " +
+                      _vm._s(_vm.provisioningRecord.ont.model_number)
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-center" }, [
+                  _vm._v(_vm._s(_vm.provisioningRecord.ont_software.version))
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-center" }, [
+                  _vm._v(
+                    "\n                                " +
+                      _vm._s(_vm.provisioningRecord.ont_profile.name) +
+                      "\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-right" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm btn-dark",
+                      attrs: {
+                        "data-toggle": "collapse",
+                        "data-target": "#ont-selector",
+                        disabled: _vm.editingNetworkOrIp
+                      },
+                      on: { click: _vm.editOnt }
+                    },
+                    [_vm._v("EDIT")]
+                  )
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c(
+              "div",
+              { staticClass: "col collapse", attrs: { id: "ont-selector" } },
+              [
+                _c("ont-selector"),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.readyToUpdateOnt,
+                        expression: "readyToUpdateOnt"
+                      }
+                    ],
+                    staticClass: "row"
+                  },
+                  [
+                    _c("div", { staticClass: "col" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-sm btn-success float-right",
+                          on: { click: _vm.submitChanges }
+                        },
+                        [
+                          _vm._v(
+                            "\n                                    Save\n                                "
+                          )
+                        ]
+                      )
+                    ])
+                  ]
+                )
+              ],
+              1
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col" }, [
+          _c("table", { staticClass: "table table-sm" }, [
+            _vm._m(2),
+            _vm._v(" "),
+            _vm._m(3),
+            _vm._v(" "),
+            _c("tbody", [
+              _c("tr", [
+                _c("td", { staticClass: "text-center" }, [
+                  _vm._v(
+                    "\n                                " +
+                      _vm._s(_vm.provisioningRecord.aggregator.name) +
+                      "\n                                "
+                  ),
+                  _c("span", { staticClass: "fas fa-long-arrow-alt-right" }),
+                  _vm._v(
+                    "\n                                Slot " +
+                      _vm._s(_vm.provisioningRecord.slot.slot_number) +
+                      "\n                                "
+                  ),
+                  _c("span", { staticClass: "fas fa-long-arrow-alt-right" }),
+                  _vm._v(
+                    "\n                                Port " +
+                      _vm._s(_vm.provisioningRecord.port.port_number) +
+                      "\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-center" }, [
+                  _vm._v(
+                    "\n                                " +
+                      _vm._s(_vm.provisioningRecord.ip.address) +
+                      "\n                            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-right" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-sm",
+                      class: _vm.editNetworkOrIpButtonClasses,
+                      attrs: { disabled: _vm.editingOnt },
+                      on: { click: _vm.editLocationOrIp }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                    " +
+                          _vm._s(_vm.editNetworkOrIpButtonText) +
+                          "\n                                "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.editingNetworkOrIp,
+                          expression: "editingNetworkOrIp"
+                        }
+                      ],
+                      staticClass: "btn btn-sm btn-dark animated",
+                      class: { fadeIn: _vm.editingNetworkOrIp },
+                      attrs: {
+                        "data-toggle": "collapse",
+                        "data-target": "#network-location-selector"
+                      },
+                      on: { click: _vm.editLocation }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                    EDIT LOCATION\n                                "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.editingNetworkOrIp,
+                          expression: "editingNetworkOrIp"
+                        }
+                      ],
+                      staticClass: "btn btn-sm btn-dark animated",
+                      class: { fadeIn: _vm.editingNetworkOrIp },
+                      attrs: {
+                        "data-toggle": "collapse",
+                        "data-target": "#dhcp-management-network-selector"
+                      },
+                      on: { click: _vm.editIp }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                    EDIT MANAGEMENT IP\n                                "
+                      )
+                    ]
+                  )
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "row collapse",
+              attrs: { id: "network-location-selector" }
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "col" },
+                [
+                  _c("aggregator-selector"),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.readyToUpdateNetworkLocation,
+                          expression: "readyToUpdateNetworkLocation"
+                        }
+                      ],
+                      staticClass: "row"
+                    },
+                    [
+                      _c("div", { staticClass: "col" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-success float-right",
+                            on: { click: _vm.submitChanges }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                    Save\n                                "
+                            )
+                          ]
+                        )
+                      ])
+                    ]
+                  )
+                ],
+                1
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "row collapse",
+              attrs: { id: "dhcp-management-network-selector" }
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "col" },
+                [
+                  _c("dhcp-management-network-selector"),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.readyToUpdateManagementIp,
+                          expression: "readyToUpdateManagementIp"
+                        }
+                      ],
+                      staticClass: "row"
+                    },
+                    [
+                      _c("div", { staticClass: "col" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-success float-right",
+                            on: { click: _vm.submitChanges }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                    Save\n                                "
+                            )
+                          ]
+                        )
+                      ])
+                    ]
+                  )
+                ],
+                1
+              )
+            ]
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-dark" }, [
+      _c("tr", [
+        _c("th", { staticClass: "text-center", attrs: { colspan: "4" } }, [
+          _vm._v("ONT & Profile Information")
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-light" }, [
+      _c("tr", [
+        _c("th", { staticClass: "text-center" }, [_vm._v("ONT")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Software Version")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Profile")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-dark" }, [
+      _c("tr", [
+        _c("th", { staticClass: "text-center", attrs: { colspan: "3" } }, [
+          _vm._v("Network Information")
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-light" }, [
+      _c("tr", [
+        _c("th", { staticClass: "text-center" }, [_vm._v("Network Location")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" }, [_vm._v("IP Address")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center" })
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1cec5e5a", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

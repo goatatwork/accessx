@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\ProvisioningRecord;
 use Illuminate\Http\Request;
 use App\Events\ServiceWasProvisioned;
+use App\Events\DeletingProvisioningRecord;
+use App\Events\ProvisioningRecordWasUpdated;
 use App\Http\Requests\ProvisioningRecordRequest;
+use App\Http\Resources\ProvisioningRecordForEditingResource;
 
 class ProvisioningRecordsApiController extends Controller
 {
@@ -63,7 +66,7 @@ class ProvisioningRecordsApiController extends Controller
      */
     public function edit(ProvisioningRecord $provisioning_record)
     {
-        //
+        return new ProvisioningRecordForEditingResource($provisioning_record);
     }
 
     /**
@@ -77,6 +80,8 @@ class ProvisioningRecordsApiController extends Controller
     {
         $provisioning_record = tap($provisioning_record)->update($request->all());
 
+        event (new ProvisioningRecordWasUpdated($provisioning_record));
+
         return $provisioning_record;
     }
 
@@ -88,6 +93,8 @@ class ProvisioningRecordsApiController extends Controller
      */
     public function destroy(ProvisioningRecord $provisioning_record)
     {
+        event (new DeletingProvisioningRecord($provisioning_record));
+
         $provisioning_record->delete();
     }
 }

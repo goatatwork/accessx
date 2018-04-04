@@ -2,12 +2,12 @@
 
 namespace App\Listeners;
 
-use OwenIt\Auditing\Events\Audited;
 use App\GoldAccess\Dhcp\ManagementIp;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Events\ProvisioningRecordWasUpdated;
 
-class ModelAuditedListener
+class UpdateDhcpServer
 {
     /**
      * Create the event listener.
@@ -22,25 +22,18 @@ class ModelAuditedListener
     /**
      * Handle the event.
      *
-     * @param  Audited  $event
+     * @param  ProvisioningRecordWasUpdated  $event
      * @return void
      */
-    public function handle(Audited $event)
+    public function handle(ProvisioningRecordWasUpdated $event)
     {
-        // This works. Commenting it out as we're firing all events from the controllers
-        //
-        // if ( str_is('App\\ProvisioningRecord', $event->audit->auditable_type) && $event->audit->event == 'updated' ) {
+        $dhcp_for_this_record = new ManagementIp($event->provisioning_record);
 
-        //     $provisioning_record = $event->model;
+        $dhcp_for_this_record->make();
 
-        //     $dhcp_for_this_record = new ManagementIp($provisioning_record);
+        $this->logIt($event->provisioning_record);
 
-        //     $dhcp_for_this_record->make();
-
-        //     $this->logIt($provisioning_record);
-
-        //     app('dockerbot')->containerRestart(config('goldaccess.dockerbot.services.dhcp.container_name'));
-        // }
+        app('dockerbot')->containerRestart(config('goldaccess.dockerbot.services.dhcp.container_name'));
     }
 
     /**

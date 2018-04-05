@@ -5,7 +5,8 @@ services:
     network_mode: "host"
     volumes:
       - ./storage/app/services/dnsmasq:/etc/dnsmasq
-      - ./public/storage/media:/tftpboot
+      # - ./public/storage/media:/tftpboot
+      - ./storage/app/public/media:/tftpboot
     ports:
       - "67:67"
       - "67:67/udp"
@@ -19,7 +20,7 @@ services:
     volumes:
       - ./:/var/www/html
     ports:
-      - "80:80"
+      - "${WEB_PORT}:80"
     networks:
       - goldaccessnet
     depends_on:

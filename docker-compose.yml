@@ -58,7 +58,7 @@ services:
       - goldaccessnet
   supervisord:
     build:
-      context: ./docker/supervisord
+      context: ./docker/supervisor
       dockerfile: Dockerfile
     image: goldaccess/supervisord:production
     networks:

@@ -10,5 +10,6 @@ docker exec -it -u www-data accessx_php_1 php artisan passport:install
 docker exec -it -u www-data accessx_php_1 php artisan storage:link
 docker exec -it -u root accessx_php_1 chown -R www-data.www-data .
 docker exec -it -u root accessx_php_1 chown -R www-data.www-data *
+docker restart accessx_supervisord_1
 
 # docker run -d --net=host -v $(pwd)/storage/app/services/dnsmasq:/etc/dnsmasq -v $(pwd)/public/storage/media:/tftpboot -p 67:67 -p 67:67/udp -p 69:69 -p 69:69/udp --rm --name dnsmasq_server goatatwork/dnsmasq-ubuntu:latest

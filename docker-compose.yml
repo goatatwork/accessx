@@ -20,7 +20,7 @@ services:
     volumes:
       - ./:/var/www/html
     ports:
-      - "80:80"
+      - "${WEB_PORT}:80"
     networks:
       - goldaccessnet
     depends_on:

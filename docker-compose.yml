@@ -61,6 +61,8 @@ services:
       context: ./docker/supervisor
       dockerfile: Dockerfile
     image: goldaccess/supervisord:production
+    volumes:
+      - ./:/var/www/html
     networks:
       - goldaccessnet
   db:

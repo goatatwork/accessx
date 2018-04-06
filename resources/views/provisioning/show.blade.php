@@ -49,6 +49,16 @@
                                 </div>
                             </div>
 
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <a href="http://{{ $provisioning_record->ip_address->address }}" target="_blank"
+                                        class="btn btn-sm btn-dark"
+                                    ><span class="fas fa-external-link-alt mr-1"></span> Open ONT Web Interface</a>
+                                </div>
+                                <div class="col">
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 

@@ -14,7 +14,7 @@ sed -i -e 's/"authHost": "http:\/\/accessx\.goat"/"authHost": "http:\/\/10\.200\
 sed -i -e 's/"host": "127\.0\.0\.1"/"host": "redis"/g' laravel-echo-server.json
 chown -R www-data.www-data .
 
-./develop up -d --build
+./develop.sh up -d --build
 
 sleep 3
 

@@ -45,6 +45,8 @@ class SubnetWasCreated implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return ['message' => Auth::user()->name . ' added subnet ' . $this->subnet->network_address . '.'];
+        $subnet = $this->subnet->network_address ?: 'some subnet';
+
+        return ['message' => 'Subnet ' . $subnet . ' was added.'];
     }
 }

@@ -56,6 +56,15 @@ services:
       - "6001:6001"
     networks:
       - goldaccessnet
+  supervisord:
+    build:
+      context: ./docker/supervisor
+      dockerfile: Dockerfile
+    image: goldaccess/supervisord:production
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - goldaccessnet
   db:
     image: mysql:5.7
     environment:

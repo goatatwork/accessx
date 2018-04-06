@@ -11,6 +11,7 @@
         "geerlingguy/ping": "^1.1",
         "jenssegers/agent": "^2.6",
         "laravel/framework": "5.5.*",
+        "laravel/horizon": "^1.2",
         "laravel/passport": "^4.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/remote": "^5.5",

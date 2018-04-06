@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 
 RUN apt-get update \
-    && apt-get install -y dnsmasq dhcpdump dhcping software-properties-common iputils-ping nano tzdata \
+    && apt-get install -y curl zip unzip dnsmasq dhcpdump dhcping software-properties-common iputils-ping nano tzdata \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && rm -rf /etc/localtime \

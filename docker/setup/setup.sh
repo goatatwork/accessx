@@ -14,9 +14,9 @@ sed -i -e 's/"authHost": "http:\/\/accessx\.goat"/"authHost": "http:\/\/10\.200\
 sed -i -e 's/"host": "127\.0\.0\.1"/"host": "redis"/g' laravel-echo-server.json
 chown -R www-data.www-data .
 
-# Then permissions need changed
-# Then ./develop up -d --build
-# Then this....
+./develop up -d --build
+
+sleep 3
 
 docker exec -it -u www-data accessx_php_1 composer install --no-dev --ignore-platform-reqs
 docker exec -it -u www-data accessx_php_1 php artisan key:generate

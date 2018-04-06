@@ -4,8 +4,6 @@
 # Use this with the dnsmasq config paramater
 #
 # dhcp-script=/usr/local/bin/dhcp-script.sh
-#
-#
 
 generate_post_data()
 {

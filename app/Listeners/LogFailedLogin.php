@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\User;
+use Jenssegers\Agent\Agent;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;

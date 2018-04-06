@@ -49,6 +49,16 @@
                                 </div>
                             </div>
 
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <a href="http://{{ $provisioning_record->ip_address->address }}" target="_blank"
+                                        class="btn btn-sm btn-dark"
+                                    ><span class="fas fa-external-link-alt mr-1"></span> Open ONT Web Interface</a>
+                                </div>
+                                <div class="col">
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
@@ -59,7 +69,7 @@
                         aria-labelledby="show-dnsmasq-config-file-{{ $provisioning_record->id }}-label"
                         aria-hidden="true"
                     >
-                        <div class="modal-dialog" role="document">
+                        <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5  id="show-dnsmasq-config-file-{{ $provisioning_record->id }}-label" class="modal-title">DHCP Config</h5>

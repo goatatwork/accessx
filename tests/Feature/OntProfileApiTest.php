@@ -98,7 +98,7 @@ class OntProfileApiTest extends TestCase
         $response->assertJson([
             'version' => 'S03.01.266',
             'file' => [
-                'file_name' => 'ZNID24xxA_GRSIP_0301266_image_with_cfe.img'
+                'file_name' => 'ZNID24xxA_GRSIP_301266_image_with_cfe.img'
             ]
         ]);
 
@@ -162,7 +162,7 @@ class OntProfileApiTest extends TestCase
         $response->assertJson([
             'version' => 'S03.01.266',
             'file' => [
-                'file_name' => 'ZNID24xxA_GRSIP_0301266_image_with_cfe.img'
+                'file_name' => 'ZNID24xxA_GRSIP_301266_image_with_cfe.img'
             ]
         ]);
 
@@ -207,7 +207,7 @@ class OntProfileApiTest extends TestCase
         $response->assertJson([
             'version' => 'S03.01.266',
             'file' => [
-                'file_name' => 'ZNID24xxA_GRSIP_0301266_image_with_cfe.img'
+                'file_name' => 'ZNID24xxA_GRSIP_301266_image_with_cfe.img'
             ]
         ]);
 

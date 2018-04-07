@@ -1,11 +1,13 @@
 version: "2"
 services:
   dhcp:
-    image: goatatwork/dnsmasq-ubuntu:latest
+    build:
+      context: ./docker/dnsmasq
+      dockerfile: Dockerfile
+    image: goldaccess/dnsmasq:production
     network_mode: "host"
     volumes:
       - ./storage/app/services/dnsmasq:/etc/dnsmasq
-      # - ./public/storage/media:/tftpboot
       - ./storage/app/public/media:/tftpboot
     ports:
       - "67:67"

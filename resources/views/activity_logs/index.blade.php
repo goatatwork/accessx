@@ -2,8 +2,6 @@
 
 @section('content')
 
-<div class="container-fluid">
-
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
@@ -12,7 +10,5 @@
     </nav>
 
     <activity-logs-table :activity-logs="{{ $activity_logs }}"></activity-logs-table>
-
-</div>
 
 @endsection

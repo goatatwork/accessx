@@ -73,15 +73,15 @@
             </div>
         </nav>
 
-        <div class="container-fluid h-100">
+        <div class="container-fluid">
 
-            <div class="row h-100">
+            <div class="row"  style="min-height: 100vh;">
 
                 @include('includes.sidenav')
 
-                <main class="col">
+                <div class="col">
                     @yield('content')
-                </main>
+                </div>
 
             </div>
         </div>

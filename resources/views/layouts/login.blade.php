@@ -39,10 +39,6 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            @if (Auth::check())
-                <presence-information></presence-information>
-            @endif
-
             <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                 <ul class="navbar-nav">
                     @if (Auth::guest())

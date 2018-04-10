@@ -33,6 +33,14 @@
     </div>
 </div>
 
+<div class="row mt-3">
+    <div class="col text-right">
+        <a href="/dhcp/leases" class="btn btn-dark">
+            <span class="fas fa-file-alt"></span> View DHCP Leases File
+        </a>
+    </div>
+</div>
+
 <div class="row">
     @foreach($dhcp_shared_networks as $dhcp_shared_network)
         <div class="col-3">

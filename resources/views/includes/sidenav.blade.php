@@ -1,4 +1,4 @@
-<aside class="col col-auto p-0 text-right bg-dark"> <!-- Sidenav -->
+<div class="col col-auto p-0 text-right bg-dark"> <!-- Sidenav -->
     <nav class="navbar navbar-expand navbar-dark bg-dark flex-md-column flex-row align-items-start">
         <div class="collapse navbar-collapse">
             <ul class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
@@ -56,4 +56,4 @@
             </ul>
         </div>
     </nav>
-</aside> <!-- /Sidenav -->
+</div> <!-- /Sidenav -->

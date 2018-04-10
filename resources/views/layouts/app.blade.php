@@ -32,7 +32,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    <span class="fas fa-at"></span> {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,15 +73,15 @@
             </div>
         </nav>
 
-        <div class="container-fluid h-100">
+        <div class="container-fluid">
 
-            <div class="row h-100">
+            <div class="row"  style="min-height: 100vh;">
 
                 @include('includes.sidenav')
 
-                <main class="col">
+                <div class="col">
                     @yield('content')
-                </main>
+                </div>
 
             </div>
         </div>

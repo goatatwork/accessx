@@ -84,6 +84,11 @@
                 </div>
 
             </div>
+
+            @if (Auth::check())
+                <echo-messages></echo-messages>
+            @endif
+
         </div>
 
     </div>

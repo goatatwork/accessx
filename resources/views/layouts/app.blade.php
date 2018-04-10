@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="css/shards.min.css"> -->
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" rel="stylesheet">
 
@@ -97,6 +98,7 @@
 <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
 
 <script src="{{ asset('js/app.js') }}"></script>
+<!-- <script src="js/shards.min.js"></script> -->
 
 @yield('footer-scripts')
 </body>

@@ -33,6 +33,13 @@
     </div>
 </div>
 
+<div class="row mt-3">
+    <div class="col text-right">
+        <button class="btn btn-dark" data-toggle="modal" data-target="#dhcp-leases-file-modal">View DHCP Leases File</button>
+        <button class="btn btn-dark" data-toggle="modal" data-target="#dhcp-config-modal">View DHCP Configuration</button>
+    </div>
+</div>
+
 <div class="row">
     @foreach($dhcp_shared_networks as $dhcp_shared_network)
         <div class="col-3">
@@ -215,5 +222,71 @@
         </div>
     </div>
 @endforeach
+
+    <div class="modal fade"
+        tabindex="-1"
+        role="dialog"
+        id="dhcp-leases-file-modal"
+        aria-labelledby="dhcp-leases-file-modal-label"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5  id="dhcp-leases-file-modal-label" class="modal-title">Current contents of the dnsmasq.lease file...</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col">
+<pre>
+{{ $leases_file }}
+</pre>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade"
+        tabindex="-1"
+        role="dialog"
+        id="dhcp-config-modal"
+        aria-labelledby="dhcp-config-modal-label"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5  id="dhcp-config-modal-label" class="modal-title">Current Dnsmasq Configuration</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col">
+<pre>
+{{ $dnsmasq_config }}
+</pre>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection

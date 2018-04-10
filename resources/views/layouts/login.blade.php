@@ -18,16 +18,8 @@
     <!-- Font Awesome -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 
-    @if (Auth::check())
-    <script>
-        window.Laravel = {!! json_encode([
-            'user_id' => Auth::id(),
-        ]) !!};
-    </script>
-    @endif
-
 </head>
-<body>
+<body class="bg-dark">
 <div id="app">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
@@ -42,8 +34,8 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                 <ul class="navbar-nav">
                     @if (Auth::guest())
-                        <li class="nav-item"><a href="{{ route('login') }}" class="nav-link">Login</a></li>
-                        <li class="nav-item"><a href="{{ route('register') }}" class="nav-link">Register</a></li>
+                        <!-- <li class="nav-item"><a href="{{ route('login') }}" class="nav-link">Login</a></li>
+                        <li class="nav-item"><a href="{{ route('register') }}" class="nav-link">Register</a></li> -->
                     @else
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
@@ -77,10 +69,7 @@
 </div>
 
 <!-- Scripts -->
-<script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
-
 <script src="{{ asset('js/app.js') }}"></script>
 
-@yield('footer-scripts')
 </body>
 </html>

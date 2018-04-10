@@ -1,7 +1,8 @@
 *
-!dnsmasq.conf
 !dhcp-script.sh
-!hosts.d/
-!options.d/
+!dnsmasq.conf
 !dnsmasq.d/
+!hosts.d/
+!leases/
+!options.d/
 !.gitignore

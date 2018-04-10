@@ -111,6 +111,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'provisioning'], function(
 
 Route::post('dnsmasq/events', function(\Illuminate\Http\Request $request) {
     \App\DnsmasqLog::create(['event' => $request->getContent()]);
+    app('logbot')->log($request->getContent(), 'notice');
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'docker'], function() {

@@ -35,7 +35,7 @@ class SubnetWasCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.User.'.Auth::id());
+        // return new PrivateChannel('App.User.'.Auth::id());
     }
 
     /**

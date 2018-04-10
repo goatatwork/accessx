@@ -9,6 +9,7 @@ services:
     volumes:
       - ./storage/app/services/dnsmasq:/etc/dnsmasq
       - ./storage/app/public/media:/tftpboot
+      - ./storage/app/services/dnsmasq/leases:/var/lib/misc
     ports:
       - "67:67"
       - "67:67/udp"

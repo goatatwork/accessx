@@ -44,75 +44,9 @@
 
 <div class="row">
     @foreach($aggregators as $aggregator)
-        <div class="col-3">
-            <div class="card mt-3 mb-3">
-                <div class="card-header">
 
-                    <span class="float-left">
-                        <a href="/infrastructure/aggregators/{{ $aggregator->id }}" class="text-dark">{{ $aggregator->name }}</a>
-                    </span>
+        @include('infrastructure.aggregators._aggregator-card')
 
-                    <span class="float-right">
-
-                    </span>
-
-                </div>
-                <div class="card-body">
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="media mt-3">
-                                <span class="fas fa-2x fa-circle text-dark mr-3"></span>
-                                <div class="media-body">
-                                    {{$aggregator->platform->number_of_slots}} slots
-                                    <ul>
-                                        <li>{{$aggregator->slots()->populatedOnly()->count()}} populated</li>
-                                        <li>{{$aggregator->slots()->unpopulatedOnly()->count()}} unpopulated</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="media mt-3">
-                                <span class="fas fa-2x fa-circle text-dark mr-3"></span>
-                                <div class="media-body">
-                                    {{$aggregator->ports()->count()}} ports
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mt-5">
-                        <div class="col text-center">
-                            <a href="/infrastructure/aggregators/{{ $aggregator->id }}/edit" class="btn btn-link text-dark">Edit</a>
-                        </div>
-                        <div class="col text-center">
-                            <a href="/infrastructure/aggregators/{{ $aggregator->id }}" class="btn btn-link text-dark">Show</a>
-                        </div>
-                        <div class="col text-center">
-                            <button
-                                type="button"
-                                class="btn btn-link text-dark"
-                                data-toggle="modal"
-                                data-target="#delete-aggregator-{{ $aggregator->id }}"
-                            >
-                                Delete
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <small>
-                        <span class="font-italic">
-                            Created on {{ $aggregator->created_at->toFormattedDateString() }} at {{ $aggregator->created_at->toTimeString() }}
-                        </span>
-                    </small>
-                </div>
-            </div>
-        </div>
     @endforeach
 </div>
 

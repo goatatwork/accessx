@@ -12,42 +12,23 @@
 <div class="row">
     <div class="col">
 
-        <div class="card">
-            <div class="card-body">
-
-                <div class="row">
-                    <div class="col">
-                        <dl>
-                            <dt>Total Aggregators</dt>
-                            <dd>
-                                @if ($aggregators->count() > 1)
-                                    {{ $aggregators->count() }} aggregators
-                                @elseif ($aggregators->count() == 1)
-                                    1 aggregator
-                                @else
-                                    No aggregators
-                                @endif
-                            </dd>
-                        </dl>
-                    </div>
-                    <div class="col">
-                        <a href="/infrastructure/aggregators/create" class="btn btn-secondary float-right">Add An Aggregator</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        <span class="float-right">
+            <a href="/infrastructure/aggregators/create" class="btn btn-secondary float-right"><i class="material-icons mr-2">add</i>Add An Aggregator</a>
+        </span>
 
     </div>
 </div>
 
-
 <div class="row">
-    @foreach($aggregators as $aggregator)
 
-        @include('infrastructure.aggregators._aggregator-card')
+        <div class="col">
+            <div class="card-deck">
+                @foreach($aggregators as $aggregator)
+                    @include('infrastructure.aggregators._aggregator-card')
+                @endforeach
+            </div>
+        </div>
 
-    @endforeach
 </div>
 
 @foreach($aggregators as $aggregator)

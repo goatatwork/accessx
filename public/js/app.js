@@ -59038,42 +59038,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 var DeleteModal = Vue.extend(__webpack_require__(7));
 
@@ -59132,20 +59096,19 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card mt-3 mb-3" }, [
-    _c("div", { staticClass: "card-header" }, [
-      _c("span", { staticClass: "float-left" }, [
-        _c("a", { staticClass: "text-dark", attrs: { href: _vm.showUrl } }, [
+  return _c("div", { staticClass: "card" }, [
+    _c("a", { staticClass: "text-dark", attrs: { href: _vm.showUrl } }, [
+      _c("div", { staticClass: "card-header text-center" }, [
+        _c("span", { staticClass: "font-weight-bold" }, [
+          _c("i", { staticClass: "material-icons" }, [_vm._v("person")]),
           _vm._v(_vm._s(_vm.ont.model_number))
         ])
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "float-right" })
+      ])
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col" }, [
+        _c("div", { staticClass: "col text-center" }, [
           _c("ul", { staticClass: "list-unstyled" }, [
             _c("li", [
               _c("strong", [_vm._v("Manufacturer:")]),
@@ -59191,15 +59154,15 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "row mt-5" }, [
+      _c("div", { staticClass: "row mt-5 align-self-end" }, [
         _c("div", { staticClass: "col text-center" }, [
           _c(
             "a",
             {
-              staticClass: "btn btn-link text-dark",
-              attrs: { href: _vm.editUrl }
+              staticClass: "btn btn-sm btn-outline-dark",
+              attrs: { href: _vm.showUrl }
             },
-            [_vm._v("Edit")]
+            [_vm._v("Show")]
           )
         ]),
         _vm._v(" "),
@@ -59207,10 +59170,10 @@ var render = function() {
           _c(
             "a",
             {
-              staticClass: "btn btn-link text-dark",
-              attrs: { href: _vm.showUrl }
+              staticClass: "btn btn-sm btn-outline-dark",
+              attrs: { href: _vm.editUrl }
             },
-            [_vm._v("Show")]
+            [_vm._v("Edit")]
           )
         ]),
         _vm._v(" "),
@@ -59236,7 +59199,7 @@ var render = function() {
                   _c(
                     "button",
                     {
-                      staticClass: "btn btn-link text-dark",
+                      staticClass: "btn btn-sm btn-outline-dark",
                       attrs: {
                         type: "button",
                         "data-toggle": "modal",
@@ -59245,7 +59208,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                                Delete\n                            "
+                        "\n                            Delete\n                        "
                       )
                     ]
                   )
@@ -59264,9 +59227,7 @@ var render = function() {
           1
         )
       ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "card-footer" })
+    ])
   ])
 }
 var staticRenderFns = []

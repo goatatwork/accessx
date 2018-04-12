@@ -59,8 +59,11 @@
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <!-- <a class="dropdown-item" href="#">Action</a> -->
+                            <a class="dropdown-item" href="/horizon" target="_blank"><i class="fab fa-laravel mr-1"></i>Horizon</a>
                             <a href="{{ route('logout') }}" class="dropdown-item"
                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                               <!-- <i class="material-icons">exit_to_app</i> -->
+                               <i class="fas fa-power-off mr-1"></i>
                                 Logout
                             </a>
 

@@ -59074,8 +59074,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 var DeleteModal = Vue.extend(__webpack_require__(7));
 
@@ -59134,143 +59132,141 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-3" }, [
-    _c("div", { staticClass: "card mt-3 mb-3" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _c("span", { staticClass: "float-left" }, [
-          _c("a", { staticClass: "text-dark", attrs: { href: _vm.showUrl } }, [
-            _vm._v(_vm._s(_vm.ont.model_number))
-          ])
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "float-right" })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col" }, [
-            _c("ul", { staticClass: "list-unstyled" }, [
-              _c("li", [
-                _c("strong", [_vm._v("Manufacturer:")]),
-                _vm._v(" " + _vm._s(_vm.ont.manufacturer))
-              ]),
-              _vm._v(" "),
-              _vm.ont.indoor
-                ? _c("li", [_c("strong", [_vm._v("indoor")])])
-                : _vm._e(),
-              _vm._v(" "),
-              !_vm.ont.indoor
-                ? _c("li", [_c("strong", [_vm._v("outdoor")])])
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.ont.wifi
-                ? _c("li", [_c("strong", [_vm._v("wifi")])])
-                : _vm._e(),
-              _vm._v(" "),
-              !_vm.ont.wifi
-                ? _c("li", [_c("strong", [_vm._v("no wifi")])])
-                : _vm._e(),
-              _vm._v(" "),
-              _c("li", [
-                _c("strong", [_vm._v("Ethernet ports:")]),
-                _vm._v(" " + _vm._s(_vm.ont.number_of_ethernet_ports))
-              ]),
-              _vm._v(" "),
-              _c("li", [
-                _c("strong", [_vm._v("POTS lines:")]),
-                _vm._v(" " + _vm._s(_vm.ont.number_of_pots_lines))
-              ]),
-              _vm._v(" "),
-              _c("li", [
-                _c("strong", [_vm._v("Notes:")]),
-                _vm._v(" " + _vm._s(_vm.ont.notes))
-              ]),
-              _vm._v(" "),
-              _c("li", [
-                _c("strong", [_vm._v("Files:")]),
-                _vm._v(" " + _vm._s(_vm.numberOfFiles))
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row mt-5" }, [
-          _c("div", { staticClass: "col text-center" }, [
-            _c(
-              "a",
-              {
-                staticClass: "btn btn-link text-dark",
-                attrs: { href: _vm.editUrl }
-              },
-              [_vm._v("Edit")]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col text-center" }, [
-            _c(
-              "a",
-              {
-                staticClass: "btn btn-link text-dark",
-                attrs: { href: _vm.showUrl }
-              },
-              [_vm._v("Show")]
-            )
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "col text-center" },
-            [
-              _c(
-                "delete-modal",
-                {
-                  attrs: {
-                    title: _vm.ont.model_number,
-                    "to-be-deleted": _vm.ont
-                  },
-                  on: {
-                    "delete-the-object": function($event) {
-                      _vm.deleteObject()
-                    }
-                  }
-                },
-                [
-                  _c("div", { attrs: { slot: "button" }, slot: "button" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-link text-dark",
-                        attrs: {
-                          type: "button",
-                          "data-toggle": "modal",
-                          "data-target": _vm.modalRef
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n                                    Delete\n                                "
-                        )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { attrs: { slot: "body" }, slot: "body" }, [
-                    _c("p", [
-                      _vm._v("Are you sure you wish to delete "),
-                      _c("strong", [_vm._v(_vm._s(_vm.ont.model_number))]),
-                      _vm._v("?")
-                    ])
-                  ])
-                ]
-              )
-            ],
-            1
-          )
+  return _c("div", { staticClass: "card mt-3 mb-3" }, [
+    _c("div", { staticClass: "card-header" }, [
+      _c("span", { staticClass: "float-left" }, [
+        _c("a", { staticClass: "text-dark", attrs: { href: _vm.showUrl } }, [
+          _vm._v(_vm._s(_vm.ont.model_number))
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "card-footer" })
-    ])
+      _c("span", { staticClass: "float-right" })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col" }, [
+          _c("ul", { staticClass: "list-unstyled" }, [
+            _c("li", [
+              _c("strong", [_vm._v("Manufacturer:")]),
+              _vm._v(" " + _vm._s(_vm.ont.manufacturer))
+            ]),
+            _vm._v(" "),
+            _vm.ont.indoor
+              ? _c("li", [_c("strong", [_vm._v("indoor")])])
+              : _vm._e(),
+            _vm._v(" "),
+            !_vm.ont.indoor
+              ? _c("li", [_c("strong", [_vm._v("outdoor")])])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.ont.wifi
+              ? _c("li", [_c("strong", [_vm._v("wifi")])])
+              : _vm._e(),
+            _vm._v(" "),
+            !_vm.ont.wifi
+              ? _c("li", [_c("strong", [_vm._v("no wifi")])])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("li", [
+              _c("strong", [_vm._v("Ethernet ports:")]),
+              _vm._v(" " + _vm._s(_vm.ont.number_of_ethernet_ports))
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c("strong", [_vm._v("POTS lines:")]),
+              _vm._v(" " + _vm._s(_vm.ont.number_of_pots_lines))
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c("strong", [_vm._v("Notes:")]),
+              _vm._v(" " + _vm._s(_vm.ont.notes))
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c("strong", [_vm._v("Files:")]),
+              _vm._v(" " + _vm._s(_vm.numberOfFiles))
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row mt-5" }, [
+        _c("div", { staticClass: "col text-center" }, [
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-link text-dark",
+              attrs: { href: _vm.editUrl }
+            },
+            [_vm._v("Edit")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col text-center" }, [
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-link text-dark",
+              attrs: { href: _vm.showUrl }
+            },
+            [_vm._v("Show")]
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "col text-center" },
+          [
+            _c(
+              "delete-modal",
+              {
+                attrs: {
+                  title: _vm.ont.model_number,
+                  "to-be-deleted": _vm.ont
+                },
+                on: {
+                  "delete-the-object": function($event) {
+                    _vm.deleteObject()
+                  }
+                }
+              },
+              [
+                _c("div", { attrs: { slot: "button" }, slot: "button" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-link text-dark",
+                      attrs: {
+                        type: "button",
+                        "data-toggle": "modal",
+                        "data-target": _vm.modalRef
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                Delete\n                            "
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { attrs: { slot: "body" }, slot: "body" }, [
+                  _c("p", [
+                    _vm._v("Are you sure you wish to delete "),
+                    _c("strong", [_vm._v(_vm._s(_vm.ont.model_number))]),
+                    _vm._v("?")
+                  ])
+                ])
+              ]
+            )
+          ],
+          1
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-footer" })
   ])
 }
 var staticRenderFns = []
@@ -62384,6 +62380,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 var OntCard = Vue.extend(__webpack_require__(17));
 
@@ -62449,13 +62449,17 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "row" },
-      _vm._l(_vm.onts, function(ont) {
-        return _c("ont-card", { key: ont.id, attrs: { ont: ont } })
-      })
-    ),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col" }, [
+        _c(
+          "div",
+          { staticClass: "card-deck" },
+          _vm._l(_vm.onts, function(ont) {
+            return _c("ont-card", { key: ont.id, attrs: { ont: ont } })
+          })
+        )
+      ])
+    ]),
     _vm._v(" "),
     !_vm.onts.length
       ? _c("div", { staticClass: "row" }, [

@@ -3,7 +3,8 @@
         <td class="text-center">
             <span class="font-italic small">{{ theCustomer.created_at_for_humans }}</span>
         </td>
-        <td class="text-center">
+        <td class="text-left">
+            <i class="material-icons">{{ customerTypeIcon }}</i>
             <a :href="showCustomerHref">
                 {{ theCustomer.customer_name }}
             </a>
@@ -26,7 +27,10 @@
         computed: {
             showCustomerHref: function() {
                 return '/customers/'+this.theCustomer.id;
+            },
+            customerTypeIcon: function() {
+                return (this.theCustomer.customer_type == 'Business') ? 'business' : 'person';
             }
-        }
+        },
     }
 </script>

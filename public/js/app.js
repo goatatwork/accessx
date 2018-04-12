@@ -66161,6 +66161,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -66170,6 +66171,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     computed: {
         showCustomerHref: function showCustomerHref() {
             return '/customers/' + this.theCustomer.id;
+        },
+        customerTypeIcon: function customerTypeIcon() {
+            return this.theCustomer.customer_type == 'Business' ? 'business' : 'person';
         }
     }
 });
@@ -66189,7 +66193,11 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("td", { staticClass: "text-center" }, [
+    _c("td", { staticClass: "text-left" }, [
+      _c("i", { staticClass: "material-icons" }, [
+        _vm._v(_vm._s(_vm.customerTypeIcon))
+      ]),
+      _vm._v(" "),
       _c("a", { attrs: { href: _vm.showCustomerHref } }, [
         _vm._v(
           "\n            " +
@@ -66255,7 +66263,7 @@ var render = function() {
             _c(
               "th",
               {
-                staticClass: "text-center",
+                staticClass: "text-left",
                 on: {
                   click: function($event) {
                     _vm.sortBy("customer_name")

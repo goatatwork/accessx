@@ -11,30 +11,23 @@
 </nav>
 
 <div class="row">
-    <div class="col">
-        <div class="media mb-5 border-bottom mt-5">
-            <span class="fas fa-2x {{ ($customer->customer_type == 'Business') ? 'fa-building' : 'fa-user' }} mr-3"></span>
-            <div class="media-body">
-                <div class="row">
-                    <div class="col-4">
-                        <a href="/customers/{{ $customer->id }}" class="h4">{{ $customer->customer_name }}</a><br>
-                        <span class="font-italic">
-                            Created on {{ $customer->created_at->toFormattedDateString() }} at {{ $customer->created_at->toTimeString() }}
-                        </span>
-                    </div>
-                    <div class="col">
-                        ..
-                    </div>
-                </div>
+    <div class="col text-left">
+        <span class="h4">
+            <i class="material-icons">{{ ($customer->customer_type == 'Business') ? 'business' : 'person' }}</i>
+            {{ $customer->customer_name }}
+        </span>
 
-            </div>
-        </div>
+        <span class="font-italic small">
+            Created on {{ $customer->created_at->toFormattedDateString() }} at {{ $customer->created_at->toTimeString() }}
+        </span>
     </div>
+
 </div>
 
-<div class="row mb-3">
+
+<div class="row">
     <div class="col text-center">
-        <span class="h3">Service Locations</span>
+        <span class="h4">Service Locations</span>
     </div>
 </div>
 
@@ -51,7 +44,7 @@
             <div class="carousel-inner">
                 @foreach($customer->service_locations as $service_location)
                     <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-                        <div class="row d-block w-100" style="height:025em;">
+                        <div class="row d-block w-100 pt-3" style="height:025em;">
                             <div class="col">
 
                                 <div class="row justify-content-center">

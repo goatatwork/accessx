@@ -9,26 +9,17 @@
     </ol>
 </nav>
 
-<div class="row">
+<div class="row mb-5">
     <div class="col">
 
-        <div class="card">
-            <div class="card-body">
+        <dl class="float-left">
+            <dt>Total Shared Networks</dt>
+            <dd>There are {{ $dhcp_shared_networks->count() }} shared networks.</dd>
+        </dl>
 
-                <div class="row">
-                    <div class="col">
-                        <dl>
-                            <dt>Total Shared Networks</dt>
-                            <dd>There are {{ $dhcp_shared_networks->count() }} shared networks.</dd>
-                        </dl>
-                    </div>
-                    <div class="col">
-                        <a href="/dhcp/shared_networks/create" class="btn btn-secondary float-right">Add A Shared Network</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        <span class="float-right">
+            <a href="/dhcp/shared_networks/create" class="btn btn-secondary"><i class="material-icons mr-2">add</i>Add A Shared Network</a>
+        </span>
 
     </div>
 </div>

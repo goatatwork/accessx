@@ -62384,14 +62384,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 var OntCard = Vue.extend(__webpack_require__(17));
 
@@ -62445,25 +62437,15 @@ var render = function() {
   return _c("div", [
     _vm._m(0),
     _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "row mb-5" }, [
       _c("div", { staticClass: "col" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col" }, [
-                _c("dl", [
-                  _c("dt", [_vm._v("Total ONTs")]),
-                  _vm._v(" "),
-                  _c("dd", [
-                    _vm._v("There are " + _vm._s(_vm.onts.length) + " ONTs")
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _vm._m(1)
-            ])
-          ])
-        ])
+        _c("dl", { staticClass: "float-left" }, [
+          _c("dt", [_vm._v("Total ONTs")]),
+          _vm._v(" "),
+          _c("dd", [_vm._v("There are " + _vm._s(_vm.onts.length) + " ONTs")])
+        ]),
+        _vm._v(" "),
+        _vm._m(1)
       ])
     ]),
     _vm._v(" "),
@@ -62510,14 +62492,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [
+    return _c("span", { staticClass: "float-right" }, [
       _c(
         "a",
-        {
-          staticClass: "btn btn-secondary float-right",
-          attrs: { href: "/onts/create" }
-        },
-        [_vm._v("Create An ONT")]
+        { staticClass: "btn btn-secondary", attrs: { href: "/onts/create" } },
+        [
+          _c("i", { staticClass: "material-icons mr-2" }, [_vm._v("add")]),
+          _vm._v("Create An ONT")
+        ]
       )
     ])
   }

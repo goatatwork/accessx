@@ -9,11 +9,16 @@
     </ol>
 </nav>
 
-<div class="row">
+<div class="row mb-5">
     <div class="col">
 
+        <dl class="float-left">
+            <dt>Total Aggregators</dt>
+            <dd>There are {{ $aggregators->count() }} aggregator.</dd>
+        </dl>
+
         <span class="float-right">
-            <a href="/infrastructure/aggregators/create" class="btn btn-secondary float-right"><i class="material-icons mr-2">add</i>Add An Aggregator</a>
+            <a href="/infrastructure/aggregators/create" class="btn btn-secondary"><i class="material-icons mr-2">add</i>Add An Aggregator</a>
         </span>
 
     </div>

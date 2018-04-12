@@ -8,26 +8,18 @@
             </ol>
         </nav>
 
-        <div class="row">
+
+        <div class="row mb-5">
             <div class="col">
 
-                <div class="card">
-                    <div class="card-body">
+                <dl class="float-left">
+                    <dt>Total ONTs</dt>
+                    <dd>There are {{ onts.length }} ONTs</dd>
+                </dl>
 
-                        <div class="row">
-                            <div class="col">
-                                <dl>
-                                    <dt>Total ONTs</dt>
-                                    <dd>There are {{ onts.length }} ONTs</dd>
-                                </dl>
-                            </div>
-                            <div class="col">
-                                <a href="/onts/create" class="btn btn-secondary float-right">Create An ONT</a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+                <span class="float-right">
+                    <a href="/onts/create" class="btn btn-secondary"><i class="material-icons mr-2">add</i>Create An ONT</a>
+                </span>
 
             </div>
         </div>

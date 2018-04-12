@@ -5,7 +5,7 @@
 
                 <li class="nav-item text-left text-warning">
                     <a class="nav-link pl-0 text-warning" href="/">
-                        <span class="fas fa-tachometer-alt"></span> DASHBOARD
+                        <span class="fas fa-fw fa-tachometer-alt"></span> DASHBOARD
                     </a>
                 </li>
 
@@ -14,7 +14,7 @@
                 </li>
 
                 <li class="nav-item text-left text-warning">
-                    <span class="fas fa-users"></span> CUSTOMERS
+                    <span class="fas fa-fw fa-users"></span> CUSTOMERS
                 </li>
                 <li class="nav-item">
                     <a class="nav-link pl-0 text-white" href="/provisioning">Provisioned</a>
@@ -28,7 +28,7 @@
                 </li>
 
                 <li class="nav-item text-left text-warning">
-                    <span class="fas fa-sitemap"></span> NETWORK
+                    <span class="fas fa-fw fa-sitemap"></span> NETWORK
                 </li>
                 <li class="nav-item">
                     <a class="nav-link pl-0 text-white" href="/dhcp">DHCP</a>
@@ -45,7 +45,7 @@
                 </li>
 
                 <li class="nav-item text-left text-warning">
-                    <span class="fas fa-cogs"></span> SYSTEM
+                    <span class="fas fa-fw fa-cogs"></span> SYSTEM
                 </li>
                 <li class="nav-item">
                     <a class="nav-link pl-0 text-white" href="#">Users</a>

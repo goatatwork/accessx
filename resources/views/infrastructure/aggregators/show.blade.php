@@ -11,109 +11,81 @@
 </nav>
 
 <div class="row">
-    <div class="col-3">
-        <div class="card mt-3 mb-3">
-            <div class="card-header">
+<div class="col-md-3">
+    <div class="card mt-3 mb-3">
 
-                <span class="float-left">
-                    <a href="/infrastructure/aggregators/{{ $aggregator->id }}" class="text-dark">{{ $aggregator->name }}</a>
-                </span>
-
-                <span class="float-right">
-
-                </span>
-
+        <a href="/infrastructure/aggregators/{{ $aggregator->id }}" class="text-dark">
+            <div class="card-header text-center">
+                <span class="font-weight-bold"><i class="material-icons">storage</i> {{ $aggregator->name }}</span>
             </div>
-            <div class="card-body">
+        </a>
 
-                <div class="row">
-                    <div class="col">
-                        <div class="media mt-3">
-                            <span class="fas fa-2x fa-circle text-dark mr-3"></span>
-                            <div class="media-body">
-                                {{$aggregator->platform->number_of_slots}} slots.
-                                <ul>
-                                    <li>{{$aggregator->slots()->populatedOnly()->count()}} populated.</li>
-                                    <li>{{$aggregator->slots()->unpopulatedOnly()->count()}} unpopulated.</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+        <div class="card-body">
+
+
+            <div class="row">
+                <div class="col text-center">
+
+                    <ul class="list-unstyled">
+                        <li>
+                            Platform: <span class="font-italic small">{{ $aggregator->platform->name }}</span>
+                        </li>
+                        <li>
+                            <span class="font-weight-bold">{{$aggregator->slots()->populatedOnly()->count()}}</span> of
+                            <span class="font-weight-bold">{{$aggregator->slots()->unpopulatedOnly()->count()}}</span> slots populated
+                        </li>
+                        <li>
+                            <span class="font-weight-bold">{{$aggregator->ports()->count()}}</span> total ports
+                        </li>
+                    </ul>
+
                 </div>
+            </div>
 
+            @if($aggregator->notes)
                 <div class="row">
-                    <div class="col">
-                        <div class="media mt-3">
-                            <span class="fas fa-2x fa-circle text-dark mr-3"></span>
-                            <div class="media-body">
-                                {{$aggregator->ports()->count()}} ports.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <div class="media mt-3">
-                            <span class="fas fa-2x fa-file-alt text-dark mr-3"></span>
-                            <div class="media-body">
-                                @if ($aggregator->notes)
-                                    <button
-                                        ype="button"
-                                        class="btn btn-link text-dark"
-                                        data-toggle="modal"
-                                        data-target="#aggregator-notes-{{ $aggregator->id }}"
-                                    >
-                                        View Notes
-                                    </button>
-                                @else
-                                    <button
-                                        type="button"
-                                        class="btn btn-link text-dark"
-                                        data-toggle="modal"
-                                        data-target="#aggregator-notes-{{ $aggregator->id }}" disabled
-                                    >
-                                        No Notes
-                                    </button>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-5">
                     <div class="col text-center">
-                        <a href="/infrastructure/aggregators/{{ $aggregator->id }}/edit" class="btn btn-link text-dark">Edit</a>
-                    </div>
-                    <div class="col text-center">
-                        <a href="/infrastructure/aggregators/{{ $aggregator->id }}" class="btn btn-link text-dark">Show</a>
-                    </div>
-                    <div class="col text-center">
-                        <button
-                            type="button"
-                            class="btn btn-link text-dark"
-                            data-toggle="modal"
-                            data-target="#delete-aggregator-{{ $aggregator->id }}"
-                        >
-                            Delete
+                        <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#aggregateor-notes-{{ $aggregator->id }}">
+                            <i class="material-icons">chat</i> Notes for {{ $aggregator->name }}
                         </button>
                     </div>
                 </div>
-            </div>
-            <div class="card-footer">
-                <small>
-                    <span class="font-italic">
-                        Created on {{ $aggregator->created_at->toFormattedDateString() }} at {{ $aggregator->created_at->toTimeString() }}
-                    </span>
-                </small>
+            @endif
+
+            <div class="row mt-5">
+                <div class="col text-center">
+                    <a href="/infrastructure/aggregators/{{ $aggregator->id }}/edit" class="btn btn-sm btn-outline-dark">Edit</a>
+                </div>
+<!--                 <div class="col text-center">
+                    <a href="/infrastructure/aggregators/{{ $aggregator->id }}" class="btn btn-sm btn-outline-dark">Show</a>
+                </div> -->
+                <div class="col text-center">
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-outline-dark"
+                        data-toggle="modal"
+                        data-target="#delete-aggregator-{{ $aggregator->id }}"
+                    >
+                        Delete
+                    </button>
+                </div>
             </div>
         </div>
+        <div class="card-footer">
+            <small>
+                <span class="font-italic">
+                    Created on {{ $aggregator->created_at->toFormattedDateString() }} at {{ $aggregator->created_at->toTimeString() }}
+                </span>
+            </small>
+        </div>
     </div>
+</div>
+
     <div class="col pt-3">
         <div id="accordion"> <!-- accordion -->
 
             @foreach($aggregator->slots as $aggregator_slot)
-                <div class="card"> <!-- card -->
+                <div class="card mb-5"> <!-- card -->
                     <div class="card-header" id="slotHeading-{{ $aggregator_slot->id }}">
                         <h5 class="mb-0">
                             <button class="btn btn-link" data-toggle="collapse" data-target="#collapseArea-{{ $aggregator_slot->id }}" aria-expanded="false" aria-controls="#collapseArea-{{ $aggregator_slot->id }}">

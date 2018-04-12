@@ -50,6 +50,8 @@ Vue.component('edit-provisioning-record-page', require('./components/GoldAccess/
 Vue.component('provisioning-records-table', require('./components/GoldAccess/Provisioning/ProvisioningRecordsTable.vue'));
 Vue.component('provision-by-service-location', require('./components/GoldAccess/Provisioning/ProvisionByServiceLocation.vue'));
 
+Vue.component('customers-table', require('./components/GoldAccess/Customers/CustomersTable.vue'));
+
 window.EventBus = new Vue({});
 
 const app = new Vue({

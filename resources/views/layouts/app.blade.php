@@ -111,13 +111,13 @@
                             <span class="fas fa-fw fa-sitemap"></span> NETWORK
                             <ul class="nav flex-column">
                                 <li class="nav-item">
+                                    <a class="nav-link px-0 py-0 text-white" href="/infrastructure/aggregators">Aggregators</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link px-0 py-0 text-white" href="/dhcp">DHCP</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link px-0 py-0 text-white" href="/onts">ONTs</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link px-0 py-0 text-white" href="/infrastructure/aggregators">Aggregators</a>
                                 </li>
                             </ul>
                         </li>

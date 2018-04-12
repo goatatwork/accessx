@@ -66062,6 +66062,30 @@ var CustomerTableRow = Vue.extend(__webpack_require__(170));
 
     components: {
         'customer-table-row': CustomerTableRow
+    },
+
+    data: function data() {
+        return {
+            sortKey: 'id',
+            sortOrder: 'asc'
+        };
+    },
+
+    computed: {
+        customerListSorted: function customerListSorted() {
+            return _.orderBy(this.customersList, this.sortKey, this.sortOrder);
+        }
+    },
+
+    methods: {
+        sortBy: function sortBy(field) {
+            if (field == this.sortKey) {
+                this.sortOrder = this.sortOrder == 'asc' ? 'desc' : 'asc';
+            } else {
+                this.sortKey = field;
+                this.sortOrder = 'asc';
+            }
+        }
     }
 });
 
@@ -66137,19 +66161,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -66157,23 +66168,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     computed: {
-        customerHref: function customerHref() {
+        showCustomerHref: function showCustomerHref() {
             return '/customers/' + this.theCustomer.id;
-        },
-        customerMailto: function customerMailto() {
-            return 'mailto:';
-        },
-        customerTel: function customerTel() {
-            return 'tel:';
-        },
-        customerTypeIcon: function customerTypeIcon() {
-            return this.theCustomer.customer_type == 'Business' ? 'business' : 'person';
-        },
-        provisionedStatusIcon: function provisionedStatusIcon() {
-            return this.theCustomer.has_provisioning_records ? 'verified_user' : '';
-        },
-        singleServiceLocation: function singleServiceLocation() {
-            return this.theCustomer.number_of_service_locations == 1;
         }
     }
 });
@@ -66187,68 +66183,36 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("tr", [
-    _c("td", [
-      _c("i", { staticClass: "material-icons" }, [
-        _vm._v(_vm._s(_vm.customerTypeIcon))
-      ]),
-      _vm._v(" "),
-      _c("a", { attrs: { href: _vm.customerHref } }, [
-        _vm._v(_vm._s(_vm.theCustomer.customer_name))
+    _c("td", { staticClass: "text-center" }, [
+      _c("span", { staticClass: "font-italic small" }, [
+        _vm._v(_vm._s(_vm.theCustomer.created_at_for_humans))
       ])
     ]),
     _vm._v(" "),
-    _c("td", [
-      _c(
-        "i",
-        {
-          staticClass: "material-icons text-success",
-          staticStyle: { "font-size": "28px" }
-        },
-        [_vm._v(_vm._s(_vm.provisionedStatusIcon))]
+    _c("td", { staticClass: "text-center" }, [
+      _c("a", { attrs: { href: _vm.showCustomerHref } }, [
+        _vm._v(
+          "\n            " +
+            _vm._s(_vm.theCustomer.customer_name) +
+            "\n        "
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("td", { staticClass: "text-center" }, [
+      _vm._v(
+        "\n        " +
+          _vm._s(_vm.theCustomer.number_of_service_locations) +
+          "\n    "
       )
     ]),
     _vm._v(" "),
-    _c("td", [
-      _vm.singleServiceLocation
-        ? _c("div", [
-            _vm._v(
-              "\n            " +
-                _vm._s(_vm.theCustomer.service_locations[0].address1) +
-                "\n        "
-            )
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      !_vm.singleServiceLocation
-        ? _c("div", [
-            _c("span", { staticClass: "small font-italic" }, [
-              _vm._v("Multiple Service Locations")
-            ])
-          ])
-        : _vm._e()
-    ]),
-    _vm._v(" "),
-    _c("td", [
-      _vm.theCustomer.service_locations
-        ? _c("div", [
-            _vm._v(
-              "\n            " +
-                _vm._s(_vm.theCustomer.service_locations[0].poc_name) +
-                "\n            "
-            ),
-            _vm.theCustomer.service_locations[0].poc_email
-              ? _c("a", { attrs: { href: _vm.customerMailto } }, [
-                  _c("i", { staticClass: "material-icons" }, [_vm._v("email")])
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.theCustomer.service_locations[0].phone1
-              ? _c("a", { attrs: { href: _vm.customerTel } }, [
-                  _c("i", { staticClass: "material-icons" }, [_vm._v("phone")])
-                ])
-              : _vm._e()
-          ])
-        : _vm._e()
+    _c("td", { staticClass: "text-center" }, [
+      _vm._v(
+        "\n        " +
+          _vm._s(_vm.theCustomer.number_of_provisioning_records) +
+          "\n    "
+      )
     ])
   ])
 }
@@ -66273,11 +66237,71 @@ var render = function() {
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col" }, [
       _c("table", { staticClass: "table" }, [
-        _vm._m(0),
+        _c("thead", [
+          _c("tr", [
+            _c(
+              "th",
+              {
+                staticClass: "text-center",
+                on: {
+                  click: function($event) {
+                    _vm.sortBy("created_at")
+                  }
+                }
+              },
+              [_vm._v("Created "), _c("span", { staticClass: "fas fa-sort" })]
+            ),
+            _vm._v(" "),
+            _c(
+              "th",
+              {
+                staticClass: "text-center",
+                on: {
+                  click: function($event) {
+                    _vm.sortBy("customer_name")
+                  }
+                }
+              },
+              [_vm._v("Customer "), _c("span", { staticClass: "fas fa-sort" })]
+            ),
+            _vm._v(" "),
+            _c(
+              "th",
+              {
+                staticClass: "text-center",
+                on: {
+                  click: function($event) {
+                    _vm.sortBy("number_of_service_locations")
+                  }
+                }
+              },
+              [
+                _vm._v("# Of Locations "),
+                _c("span", { staticClass: "fas fa-sort" })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "th",
+              {
+                staticClass: "text-center",
+                on: {
+                  click: function($event) {
+                    _vm.sortBy("number_of_provisioning_records")
+                  }
+                }
+              },
+              [
+                _vm._v("# Of Provisioning Records "),
+                _c("span", { staticClass: "fas fa-sort" })
+              ]
+            )
+          ])
+        ]),
         _vm._v(" "),
         _c(
           "tbody",
-          _vm._l(_vm.customersList, function(customer) {
+          _vm._l(_vm.customerListSorted, function(customer) {
             return _c("customer-table-row", {
               tag: "tr",
               attrs: { "the-customer": customer }
@@ -66288,24 +66312,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Customer")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Provisioned")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Service Address")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("POC")])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

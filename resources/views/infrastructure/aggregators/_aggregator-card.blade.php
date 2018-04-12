@@ -1,4 +1,4 @@
-<div class="card mt-3 mb-3">
+<div class="card">
 
     <a href="/infrastructure/aggregators/{{ $aggregator->id }}" class="text-dark">
         <div class="card-header text-center">
@@ -28,11 +28,8 @@
             </div>
         </div>
 
-        @if($aggregator->notes)
-            <div class="row">
-        @else
-            <div class="row" style="visibility:hidden;">
-        @endif
+
+        <div class="row" style="{{ $aggregator->notes ? '' : 'visibility:hidden;'}}">
             <div class="col text-center">
                 <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#aggregateor-notes-{{ $aggregator->id }}">
                     <i class="material-icons">chat</i> Notes for {{ $aggregator->name }}

@@ -9,23 +9,16 @@
         </ol>
     </nav>
 
-    <div class="row">
+    <div class="row mb-5">
         <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <dl>
-                                <dt>Total Provisioning Records</dt>
-                                <dd>There are {{ $provisioning_records->count() }} provisioning records</dd>
-                            </dl>
-                        </div>
-                        <div class="col">
-                            <a href="/provisioning/create" class="btn btn-secondary float-right">Provisioning A Service</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+            <span class="float-left">
+                <dl>
+                    <dt>Total Provisioning Records</dt>
+                    <dd>There are {{ $provisioning_records->count() }} provisioning records</dd>
+                </dl>
+            </span>
+
         </div>
     </div>
 

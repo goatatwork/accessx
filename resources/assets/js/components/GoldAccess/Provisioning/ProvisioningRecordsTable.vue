@@ -7,11 +7,11 @@
                     <tr>
                         <th></th>
                         <th @click="sortBy('customer')">Customer <span class="fas fa-sort"></span></th>
-                        <th @click="sortBy('address')">Location <span class="fas fa-sort" @click="sortBy('address')"></span></th>
+                        <th @click="sortBy('address')">Service Location <span class="fas fa-sort" @click="sortBy('address')"></span></th>
                         <th @click="sortBy('package')">Package <span class="fas fa-sort" @click="sortBy('package')"></span></th>
+                        <th @click="sortBy('ont')">ONT <span class="fas fa-sort" @click="sortBy('ont')"></span></th>
                         <th @click="sortBy('management_ip')">Management IP <span class="fas fa-sort" @click="sortBy('management_ip')"></span></th>
                         <th @click="sortBy('port')">NetLocation <span class="fas fa-sort" @click="sortBy('port')"></span></th>
-                        <th @click="sortBy('ont')">ONT <span class="fas fa-sort" @click="sortBy('ont')"></span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,7 +50,6 @@
 
         methods: {
             sortBy: function(field) {
-                console.log(field);
                 if (field == this.sortKey) {
                     this.sortOrder = (this.sortOrder == 'asc') ? 'desc' : 'asc';
                 } else {

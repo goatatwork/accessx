@@ -12,108 +12,23 @@
 <div class="row">
     <div class="col">
 
-        <div class="card">
-            <div class="card-body">
-
-                <div class="row">
-                    <div class="col">
-                        <dl>
-                            <dt>Total Aggregators</dt>
-                            <dd>
-                                @if ($aggregators->count() > 1)
-                                    {{ $aggregators->count() }} aggregators
-                                @elseif ($aggregators->count() == 1)
-                                    1 aggregator
-                                @else
-                                    No aggregators
-                                @endif
-                            </dd>
-                        </dl>
-                    </div>
-                    <div class="col">
-                        <a href="/infrastructure/aggregators/create" class="btn btn-secondary float-right">Add An Aggregator</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        <span class="float-right">
+            <a href="/infrastructure/aggregators/create" class="btn btn-secondary float-right"><i class="material-icons mr-2">add</i>Add An Aggregator</a>
+        </span>
 
     </div>
 </div>
 
-
 <div class="row">
-    @foreach($aggregators as $aggregator)
-        <div class="col-3">
-            <div class="card mt-3 mb-3">
-                <div class="card-header">
 
-                    <span class="float-left">
-                        <a href="/infrastructure/aggregators/{{ $aggregator->id }}" class="text-dark">{{ $aggregator->name }}</a>
-                    </span>
-
-                    <span class="float-right">
-
-                    </span>
-
-                </div>
-                <div class="card-body">
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="media mt-3">
-                                <span class="fas fa-2x fa-circle text-dark mr-3"></span>
-                                <div class="media-body">
-                                    {{$aggregator->platform->number_of_slots}} slots
-                                    <ul>
-                                        <li>{{$aggregator->slots()->populatedOnly()->count()}} populated</li>
-                                        <li>{{$aggregator->slots()->unpopulatedOnly()->count()}} unpopulated</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="media mt-3">
-                                <span class="fas fa-2x fa-circle text-dark mr-3"></span>
-                                <div class="media-body">
-                                    {{$aggregator->ports()->count()}} ports
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mt-5">
-                        <div class="col text-center">
-                            <a href="/infrastructure/aggregators/{{ $aggregator->id }}/edit" class="btn btn-link text-dark">Edit</a>
-                        </div>
-                        <div class="col text-center">
-                            <a href="/infrastructure/aggregators/{{ $aggregator->id }}" class="btn btn-link text-dark">Show</a>
-                        </div>
-                        <div class="col text-center">
-                            <button
-                                type="button"
-                                class="btn btn-link text-dark"
-                                data-toggle="modal"
-                                data-target="#delete-aggregator-{{ $aggregator->id }}"
-                            >
-                                Delete
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <small>
-                        <span class="font-italic">
-                            Created on {{ $aggregator->created_at->toFormattedDateString() }} at {{ $aggregator->created_at->toTimeString() }}
-                        </span>
-                    </small>
-                </div>
+        <div class="col">
+            <div class="card-deck">
+                @foreach($aggregators as $aggregator)
+                    @include('infrastructure.aggregators._aggregator-card')
+                @endforeach
             </div>
         </div>
-    @endforeach
+
 </div>
 
 @foreach($aggregators as $aggregator)

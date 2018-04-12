@@ -19,7 +19,7 @@ class Customer extends Model implements AuditableContract
         'notes'
     ];
 
-    protected $appends = ['customer_name', 'customer_type', 'has_provisioning_records'];
+    protected $appends = ['customer_name', 'customer_type', 'has_provisioning_records', 'number_of_service_locations'];
 
     public function billing_record()
     {
@@ -54,5 +54,10 @@ class Customer extends Model implements AuditableContract
     public function getHasProvisioningRecordsAttribute()
     {
         return ($this->service_locations()->provisioned()->count() > 0) ? true : false;
+    }
+
+    public function getNumberOfServiceLocationsAttribute()
+    {
+        return $this->service_locations()->count();
     }
 }

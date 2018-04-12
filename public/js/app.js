@@ -17974,7 +17974,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(22);
-module.exports = __webpack_require__(168);
+module.exports = __webpack_require__(174);
 
 
 /***/ }),
@@ -18032,6 +18032,8 @@ Vue.component('add-subnet-accordion-card', __webpack_require__(137));
 Vue.component('edit-provisioning-record-page', __webpack_require__(144));
 Vue.component('provisioning-records-table', __webpack_require__(156));
 Vue.component('provision-by-service-location', __webpack_require__(162));
+
+Vue.component('customers-table', __webpack_require__(168));
 
 window.EventBus = new Vue({});
 
@@ -65976,6 +65978,345 @@ if (false) {
 
 /***/ }),
 /* 168 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(169)
+/* template */
+var __vue_template__ = __webpack_require__(173)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/GoldAccess/Customers/CustomersTable.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6d862117", Component.options)
+  } else {
+    hotAPI.reload("data-v-6d862117", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 169 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var CustomerTableRow = Vue.extend(__webpack_require__(170));
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        customersList: {}
+    },
+
+    components: {
+        'customer-table-row': CustomerTableRow
+    }
+});
+
+/***/ }),
+/* 170 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(171)
+/* template */
+var __vue_template__ = __webpack_require__(172)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/GoldAccess/Customers/CustomerTableRow.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2f2c8bc8", Component.options)
+  } else {
+    hotAPI.reload("data-v-2f2c8bc8", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 171 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        theCustomer: {}
+    },
+
+    computed: {
+        customerHref: function customerHref() {
+            return '/customers/' + this.theCustomer.id;
+        },
+        customerMailto: function customerMailto() {
+            return 'mailto:';
+        },
+        customerTel: function customerTel() {
+            return 'tel:';
+        },
+        customerTypeIcon: function customerTypeIcon() {
+            return this.theCustomer.customer_type == 'Business' ? 'business' : 'person';
+        },
+        provisionedStatusIcon: function provisionedStatusIcon() {
+            return this.theCustomer.has_provisioning_records ? 'verified_user' : '';
+        },
+        singleServiceLocation: function singleServiceLocation() {
+            return this.theCustomer.number_of_service_locations == 1;
+        }
+    }
+});
+
+/***/ }),
+/* 172 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("tr", [
+    _c("td", [
+      _c("i", { staticClass: "material-icons" }, [
+        _vm._v(_vm._s(_vm.customerTypeIcon))
+      ]),
+      _vm._v(" "),
+      _c("a", { attrs: { href: _vm.customerHref } }, [
+        _vm._v(_vm._s(_vm.theCustomer.customer_name))
+      ])
+    ]),
+    _vm._v(" "),
+    _c("td", [
+      _c(
+        "i",
+        {
+          staticClass: "material-icons text-success",
+          staticStyle: { "font-size": "28px" }
+        },
+        [_vm._v(_vm._s(_vm.provisionedStatusIcon))]
+      )
+    ]),
+    _vm._v(" "),
+    _c("td", [
+      _vm.singleServiceLocation
+        ? _c("div", [
+            _vm._v(
+              "\n            " +
+                _vm._s(_vm.theCustomer.service_locations[0].address1) +
+                "\n        "
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.singleServiceLocation
+        ? _c("div", [
+            _c("span", { staticClass: "small font-italic" }, [
+              _vm._v("Multiple Service Locations")
+            ])
+          ])
+        : _vm._e()
+    ]),
+    _vm._v(" "),
+    _c("td", [
+      _vm.theCustomer.service_locations
+        ? _c("div", [
+            _vm._v(
+              "\n            " +
+                _vm._s(_vm.theCustomer.service_locations[0].poc_name) +
+                "\n            "
+            ),
+            _vm.theCustomer.service_locations[0].poc_email
+              ? _c("a", { attrs: { href: _vm.customerMailto } }, [
+                  _c("i", { staticClass: "material-icons" }, [_vm._v("email")])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.theCustomer.service_locations[0].phone1
+              ? _c("a", { attrs: { href: _vm.customerTel } }, [
+                  _c("i", { staticClass: "material-icons" }, [_vm._v("phone")])
+                ])
+              : _vm._e()
+          ])
+        : _vm._e()
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2f2c8bc8", module.exports)
+  }
+}
+
+/***/ }),
+/* 173 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col" }, [
+      _c("table", { staticClass: "table" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.customersList, function(customer) {
+            return _c("customer-table-row", {
+              tag: "tr",
+              attrs: { "the-customer": customer }
+            })
+          })
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Customer")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Provisioned")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Service Address")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("POC")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6d862117", module.exports)
+  }
+}
+
+/***/ }),
+/* 174 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

@@ -71,7 +71,7 @@
                         </div>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-md-0">
+                <form class="form-inline my-2 my-md-0" style="display:none;">
                     <input class="form-control" type="text" placeholder="Search">
                 </form>
             </div>

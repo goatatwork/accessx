@@ -12,6 +12,11 @@
 <div class="row mb-5">
     <div class="col">
 
+        <dl class="float-left">
+            <dt>Total Customers</dt>
+            <dd>There are {{ $customers->count() }} customers.</dd>
+        </dl>
+
         <span class="float-right">
             <a href="/customers/create" class="btn btn-secondary float-right"><i class="material-icons mr-2">add</i>Add A Customer</a>
         </span>

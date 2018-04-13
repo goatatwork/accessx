@@ -134,6 +134,9 @@
                                     <a class="nav-link px-0 py-0 text-white" href="#">Users</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link px-0 py-0 text-white" href="/containers">Containers</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link px-0 py-0 text-white" href="/activity_logs">Activity Logs</a>
                                 </li>
                             </ul>

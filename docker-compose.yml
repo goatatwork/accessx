@@ -68,24 +68,6 @@ services:
       - ./:/var/www/html
     networks:
       - goldaccessnet
-  dhcp-logs-supervisor:
-    build:
-      context: ./docker/dhcp-logs-supervisor
-      dockerfile: Dockerfile
-    image: goldaccess/dhcp-logs-supervisor:production
-    volumes:
-      - ./:/var/www/html
-    networks:
-      - goldaccessnet
-  nginx-logs-supervisor:
-    build:
-      context: ./docker/nginx-logs-supervisor
-      dockerfile: Dockerfile
-    image: goldaccess/nginx-logs-supervisor:production
-    volumes:
-      - ./:/var/www/html
-    networks:
-      - goldaccessnet
   db:
     image: mysql:5.7
     environment:

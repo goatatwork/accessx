@@ -26,8 +26,6 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ProvisioningRecordWasUpdated' => [
             'App\Listeners\UpdateDhcpServer',
         ],
-        'App\Events\ContainerLogged' => [
-        ],
 
         // Laravel Auth
         'Illuminate\Auth\Events\Registered' => [

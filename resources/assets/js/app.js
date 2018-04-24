@@ -52,8 +52,6 @@ Vue.component('provision-by-service-location', require('./components/GoldAccess/
 
 Vue.component('customers-table', require('./components/GoldAccess/Customers/CustomersTable.vue'));
 
-Vue.component('container-logs', require('./components/GoldAccess/Docker/ContainerLogs.vue'));
-
 window.EventBus = new Vue({});
 
 const app = new Vue({

@@ -67,7 +67,3 @@ Route::group(['middleware' => 'auth', 'prefix' => 'infrastructure'], function() 
 });
 
 Route::get('activity_logs', 'ActivityLogsController@index')->middleware('auth');
-
-Route::group(['middleware' => 'auth', 'prefix' => 'containers'], function() {
-    Route::get('/', 'ContainersController@index');
-});

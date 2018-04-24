@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Events\ContainerLogged;
 use Illuminate\Console\Command;
 
 class WatchNginxLogs extends Command
@@ -47,7 +48,8 @@ class WatchNginxLogs extends Command
         $container_stream->onStdout(function($stdout) {
             foreach (explode("\n", $stdout) as $line)
             {
-                app('logbot')->log($line, 'info');
+                event(new ContainerLogged('nginx', $line));
+                // app('logbot')->log($line, 'info');
                 $this->line($line);
             }
         });
@@ -55,7 +57,8 @@ class WatchNginxLogs extends Command
         $container_stream->onStderr(function($stderr) {
             foreach (explode("\n", $stderr) as $line)
             {
-                app('logbot')->log($line, 'err');
+                event(new ContainerLogged('nginx', $line));
+                // app('logbot')->log($line, 'err');
                 $this->line($line);
             }
         });

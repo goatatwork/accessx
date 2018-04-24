@@ -2,23 +2,24 @@
 
 namespace App\Console\Commands;
 
+use App\Events\ContainerLogged;
 use Illuminate\Console\Command;
 
-class TestCommand extends Command
+class WatchDhcpLogs extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'z:test';
+    protected $signature = 'goldaccess:watch-dhcp-logs';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'This is a test command';
+    protected $description = 'I watch the DHCP logs';
 
     /**
      * Create a new command instance.
@@ -47,7 +48,8 @@ class TestCommand extends Command
         $container_stream->onStdout(function($stdout) {
             foreach (explode("\n", $stdout) as $line)
             {
-                app('logbot')->log($line, 'info');
+                event(new ContainerLogged('dhcp', $line));
+                // app('logbot')->log($line, 'info');
                 $this->line($line);
             }
         });
@@ -55,7 +57,8 @@ class TestCommand extends Command
         $container_stream->onStderr(function($stderr) {
             foreach (explode("\n", $stderr) as $line)
             {
-                app('logbot')->log($line, 'err');
+                event(new ContainerLogged('dhcp', $line));
+                // app('logbot')->log($line, 'err');
                 $this->line($line);
             }
         });

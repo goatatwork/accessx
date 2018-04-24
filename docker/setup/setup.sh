@@ -27,7 +27,8 @@ docker exec -it -u www-data accessx_php_1 php artisan passport:install
 docker exec -it -u www-data accessx_php_1 php artisan storage:link
 docker exec -it -u root accessx_php_1 chown -R www-data.www-data .
 docker exec -it -u root accessx_php_1 chown -R www-data.www-data *
-docker restart accessx_supervisord_1
+docker restart accessx_horizon-supervisor_1
+docker restart accessx_dhcp-logs-supervisor_1
 
 echo "All finished. Make sure to place one of your API keys into storage/app/services/dnsmasq/dhcp-script.sh"
 

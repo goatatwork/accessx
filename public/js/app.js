@@ -66371,6 +66371,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -66386,26 +66387,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         enter: function enter(event) {
             $(event.target).blur();
             this.formData.container_name = '';
-            this.listenForLogs();
         },
         listenForLogs: function listenForLogs() {
             var _this = this;
 
-            axios({
-                method: 'get',
-                url: 'http://10.200.200.1:4243/events',
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token, Authorization',
-                    'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                    'Access-Control-Allow-Credentials': true,
-                    'Content-Type': 'text/html; charset=utf-8'
-                }
+            axios.get('http://10.200.200.1:4243/events', {
+                transformRequest: [function (data, headers) {
+                    delete headers['X-Socket-Id'];
+                    delete headers.common['X-CSRF-TOKEN'];
+                    return data;
+                }]
             }).then(function (response) {
                 _this.stuff = response.data;
             }).catch(function (error) {
                 console.log(error);
             });
+            // axios('http://10.200.200.1:4243/events', {
+            //     method: 'GET',
+            //     mode: 'no-cors',
+            //     headers: {
+            //         'Access-Control-Allow-Origin': '*',
+            //         'Content-Type': 'application/json',
+            //     },
+            //     withCredentials: true,
+            //     credentials: 'same-origin',
+            // }).then(response => {
+            //     this.stuff = response.data;
+            // }).catch(error => {
+            //     console.log(error);
+            // });
+        },
+        submit: function submit() {
+            this.listenForLogs();
         }
     }
 });
@@ -66453,7 +66466,21 @@ var render = function() {
             _vm.$set(_vm.formData, "container_name", $event.target.value)
           }
         }
-      })
+      }),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-dark",
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              _vm.submit($event)
+            }
+          }
+        },
+        [_vm._v("Start")]
+      )
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "col" }, [_c("pre", [_vm._v(_vm._s(_vm.stuff))])])

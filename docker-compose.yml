@@ -59,11 +59,20 @@ services:
       - "6001:6001"
     networks:
       - goldaccessnet
-  supervisord:
+  horizon-supervisor:
     build:
-      context: ./docker/supervisor
+      context: ./docker/horizon-supervisor
       dockerfile: Dockerfile
-    image: goldaccess/supervisord:production
+    image: goldaccess/horizon-supervisor:production
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - goldaccessnet
+  dhcp-logs-supervisor:
+    build:
+      context: ./docker/dhcp-logs-supervisor
+      dockerfile: Dockerfile
+    image: goldaccess/dhcp-logs-supervisor:production
     volumes:
       - ./:/var/www/html
     networks:

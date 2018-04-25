@@ -8,7 +8,8 @@ ENV LC_ALL en_US.UTF-8
 
 WORKDIR /var/www/html
 
-RUN cp .env.example .env \
+RUN cd /var/www/html \
+    && cp .env.example .env \
     && sed -i -e 's/APP_URL=http:\/\/localhost/APP_URL=http:\/\/10\.200\.200\.1/g' .env \
     && sed -i -e 's/DB_PASSWORD=/DB_PASSWORD=1q2w3e4r/g' .env \
     && sed -i -e 's/"authHost": "http:\/\/accessx\.goat"/"authHost": "http:\/\/10\.200\.200\.1"/g' laravel-echo-server.json \

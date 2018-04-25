@@ -42,13 +42,6 @@ services:
       - goldaccessnet
     depends_on:
       - setup
-  setup:
-    build:
-      context: ./docker/setup
-      dockerfile: Dockerfile
-    image: goldaccess/setup:production
-    volumes:
-      - ./:/var/www/html
   npm:
     build:
       context: ./docker/npm

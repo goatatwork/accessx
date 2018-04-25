@@ -7,18 +7,14 @@ if [ "$(whoami)" != "root" ]; then
         exit 1
 fi
 
-# cp .env.example .env
-# sed -i -e 's/APP_URL=http:\/\/localhost/APP_URL=http:\/\/10\.200\.200\.1/g' .env
-# sed -i -e 's/DB_PASSWORD=/DB_PASSWORD=1q2w3e4r/g' .env
-# sed -i -e 's/"authHost": "http:\/\/accessx\.goat"/"authHost": "http:\/\/10\.200\.200\.1"/g' laravel-echo-server.json
-# sed -i -e 's/"host": "127\.0\.0\.1"/"host": "redis"/g' laravel-echo-server.json
-# sed -i -e 's/"http:\/\/nginx\/api\/dnsmasq\/events"/"http:\/\/10\.200\.200\.1\/api\/dnsmasq\/events"/g' storage/app/services/dnsmasq/dhcp-script.sh
-# touch storage/app/services/dnsmasq/leases/dnsmasq.leases
-# chown -R www-data.www-data .
-
-# So that the www-data user can use tinker
-mkdir /var/www/.config
-chown -R www-data.www-data /var/www/.config
+cp .env.example .env
+sed -i -e 's/APP_URL=http:\/\/localhost/APP_URL=http:\/\/10\.200\.200\.1/g' .env
+sed -i -e 's/DB_PASSWORD=/DB_PASSWORD=1q2w3e4r/g' .env
+sed -i -e 's/"authHost": "http:\/\/accessx\.goat"/"authHost": "http:\/\/10\.200\.200\.1"/g' laravel-echo-server.json
+sed -i -e 's/"host": "127\.0\.0\.1"/"host": "redis"/g' laravel-echo-server.json
+sed -i -e 's/"http:\/\/nginx\/api\/dnsmasq\/events"/"http:\/\/10\.200\.200\.1\/api\/dnsmasq\/events"/g' storage/app/services/dnsmasq/dhcp-script.sh
+touch storage/app/services/dnsmasq/leases/dnsmasq.leases
+chown -R www-data.www-data .
 
 # Now let's start the containers
 ./develop.sh up -d --build
@@ -34,6 +30,9 @@ docker exec -it -u www-data accessx_php_1 php artisan passport:install
 docker exec -it -u www-data accessx_php_1 php artisan storage:link
 docker exec -it -u root accessx_php_1 chown -R www-data.www-data .
 docker exec -it -u root accessx_php_1 chown -R www-data.www-data *
+# So that the www-data user can use tinker
+docker exec -it -u root accessx_php_1 mkdir /var/www/.config
+docker exec -it -u root accessx_php_1 chown -R www-data.www-data /var/www/.config
 
 # Restart a few things now that everything is configured
 docker restart accessx_horizon-supervisor_1

@@ -2,11 +2,15 @@ FROM php:7.2-fpm
 
 MAINTAINER Goat
 
+WORKDIR /var/www/html
+
+RUN apt-get update \
+    && apt-get install -y locales git \
+    && locale-gen en_US.UTF-8
+
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
-
-WORKDIR /var/www/html
 
 # RUN cp .env.example .env \
 #     && sed -i -e 's/APP_URL=http:\/\/localhost/APP_URL=http:\/\/10\.200\.200\.1/g' .env \

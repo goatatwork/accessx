@@ -27,6 +27,7 @@ services:
     networks:
       - goldaccessnet
     depends_on:
+      - setup
       - php
   php:
     build:
@@ -39,6 +40,8 @@ services:
       - "9000:9000"
     networks:
       - goldaccessnet
+    depends_on:
+      - setup
   setup:
     build:
       context: ./docker/setup
@@ -46,9 +49,6 @@ services:
     image: goldaccess/setup:production
     volumes:
       - ./:/var/www/html
-    depends_on:
-      - php
-      - nginx
   npm:
     build:
       context: ./docker/npm

@@ -16,10 +16,6 @@ sed -i -e 's/"http:\/\/nginx\/api\/dnsmasq\/events"/"http:\/\/10\.200\.200\.1\/a
 touch storage/app/services/dnsmasq/leases/dnsmasq.leases
 chown -R www-data.www-data .
 
-# So that the www-data user can use tinker
-mkdir /var/www/.config
-chown -R www-data.www-data /var/www/.config
-
 # Now let's start the containers
 ./develop.sh up -d --build
 
@@ -34,6 +30,9 @@ docker exec -it -u www-data accessx_php_1 php artisan passport:install
 docker exec -it -u www-data accessx_php_1 php artisan storage:link
 docker exec -it -u root accessx_php_1 chown -R www-data.www-data .
 docker exec -it -u root accessx_php_1 chown -R www-data.www-data *
+# So that the www-data user can use tinker
+docker exec -it -u root accessx_php_1 mkdir /var/www/.config
+docker exec -it -u root accessx_php_1 chown -R www-data.www-data /var/www/.config
 
 # Restart a few things now that everything is configured
 docker restart accessx_horizon-supervisor_1

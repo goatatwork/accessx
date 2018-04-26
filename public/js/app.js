@@ -58345,7 +58345,17 @@ var render = function() {
     _vm._v(" "),
     _c("td", [_vm._v(_vm._s(_vm.log.level))]),
     _vm._v(" "),
-    _c("td", [_c("small", [_vm._v(_vm._s(_vm.log.message))])]),
+    _c(
+      "td",
+      {
+        staticStyle: {
+          "max-width": "300px",
+          overflow: "scroll",
+          "word-wrap": "break-word"
+        }
+      },
+      [_c("small", [_vm._v(_vm._s(_vm.log.message))])]
+    ),
     _vm._v(" "),
     _vm._m(0)
   ])
@@ -58382,7 +58392,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col" }, [
+    _c("div", { staticClass: "col table-responsive" }, [
       _c("table", { staticClass: "table" }, [
         _c("thead", [
           _c("tr", [

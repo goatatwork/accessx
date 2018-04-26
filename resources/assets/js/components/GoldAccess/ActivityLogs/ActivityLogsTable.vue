@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col">
+        <div class="col table-responsive">
 
             <table class="table">
                 <thead>

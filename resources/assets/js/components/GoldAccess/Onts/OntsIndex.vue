@@ -25,11 +25,7 @@
         </div>
 
         <div class="row">
-            <div class="col">
-                <div class="card-deck">
-                    <ont-card v-for="ont in onts" :ont="ont" :key="ont.id"></ont-card>
-                </div>
-            </div>
+            <ont-card v-for="ont in onts" :ont="ont" :key="ont.id"></ont-card>
         </div>
 
         <div class="row" v-if="!onts.length" >

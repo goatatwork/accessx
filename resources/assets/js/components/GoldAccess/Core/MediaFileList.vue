@@ -1,6 +1,13 @@
 <template>
     <div id="media-file-list">
-        <media-file v-for="(media_file) in theList" :key="media_file.id" :media-file="media_file" v-on:media-file-was-deleted="removeItemFromList"></media-file>
+
+        <media-file
+            v-for="(media_file) in theList"
+            :key="media_file.id"
+            :media-file="media_file"
+            v-on:media-file-was-deleted="removeItemFromList"
+        ></media-file>
+
     </div>
 </template>
 

@@ -55053,6 +55053,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 var DeleteModal = Vue.extend(__webpack_require__(7));
 
@@ -55299,12 +55301,16 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "media" }, [
-    _c("span", { staticClass: "fas fa-2x fa-cloud-upload-alt mr-3" }),
+  return _c("div", { staticClass: "media mb-3" }, [
+    _c(
+      "a",
+      { staticClass: "mr-2", attrs: { href: _vm.mediaFile.url, download: "" } },
+      [_c("i", { staticClass: "material-icons" }, [_vm._v("file_download")])]
+    ),
     _vm._v(" "),
     _c("div", { staticClass: "media-body" }, [
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col" }, [
+        _c("div", { staticClass: "col-auto" }, [
           _c("a", { attrs: { href: _vm.mediaFile.url } }, [
             _vm._v(_vm._s(_vm.mediaFile.file_name))
           ]),
@@ -55317,11 +55323,9 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "col" }, [
-          _vm._v(
-            "\n                " +
-              _vm._s(_vm.mediaFile.custom_properties.description) +
-              "\n            "
-          )
+          _c("small", [
+            _vm._v(_vm._s(_vm.mediaFile.custom_properties.description))
+          ])
         ])
       ])
     ]),
@@ -55421,6 +55425,13 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -59366,6 +59377,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 var DeleteModal = Vue.extend(__webpack_require__(7));
 
@@ -59424,136 +59437,138 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card" }, [
-    _c("a", { staticClass: "text-dark", attrs: { href: _vm.showUrl } }, [
-      _c("div", { staticClass: "card-header text-center" }, [
-        _c("span", { staticClass: "font-weight-bold" }, [
-          _c("i", { staticClass: "material-icons" }, [_vm._v("person")]),
-          _vm._v(_vm._s(_vm.ont.model_number))
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "card-body" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col text-center" }, [
-          _c("ul", { staticClass: "list-unstyled" }, [
-            _c("li", [
-              _c("strong", [_vm._v("Manufacturer:")]),
-              _vm._v(" " + _vm._s(_vm.ont.manufacturer))
-            ]),
-            _vm._v(" "),
-            _vm.ont.indoor
-              ? _c("li", [_c("strong", [_vm._v("indoor")])])
-              : _vm._e(),
-            _vm._v(" "),
-            !_vm.ont.indoor
-              ? _c("li", [_c("strong", [_vm._v("outdoor")])])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.ont.wifi
-              ? _c("li", [_c("strong", [_vm._v("wifi")])])
-              : _vm._e(),
-            _vm._v(" "),
-            !_vm.ont.wifi
-              ? _c("li", [_c("strong", [_vm._v("no wifi")])])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("li", [
-              _c("strong", [_vm._v("Ethernet ports:")]),
-              _vm._v(" " + _vm._s(_vm.ont.number_of_ethernet_ports))
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("strong", [_vm._v("POTS lines:")]),
-              _vm._v(" " + _vm._s(_vm.ont.number_of_pots_lines))
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("strong", [_vm._v("Notes:")]),
-              _vm._v(" " + _vm._s(_vm.ont.notes))
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("strong", [_vm._v("Files:")]),
-              _vm._v(" " + _vm._s(_vm.numberOfFiles))
-            ])
+  return _c("div", { staticClass: "col-4" }, [
+    _c("div", { staticClass: "card" }, [
+      _c("a", { staticClass: "text-dark", attrs: { href: _vm.showUrl } }, [
+        _c("div", { staticClass: "card-header text-center" }, [
+          _c("span", { staticClass: "font-weight-bold" }, [
+            _c("i", { staticClass: "material-icons" }, [_vm._v("person")]),
+            _vm._v(_vm._s(_vm.ont.model_number))
           ])
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "row mt-5 align-self-end" }, [
-        _c("div", { staticClass: "col text-center" }, [
-          _c(
-            "a",
-            {
-              staticClass: "btn btn-sm btn-outline-dark",
-              attrs: { href: _vm.showUrl }
-            },
-            [_vm._v("Show")]
-          )
+      _c("div", { staticClass: "card-body" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col text-center" }, [
+            _c("ul", { staticClass: "list-unstyled" }, [
+              _c("li", [
+                _c("strong", [_vm._v("Manufacturer:")]),
+                _vm._v(" " + _vm._s(_vm.ont.manufacturer))
+              ]),
+              _vm._v(" "),
+              _vm.ont.indoor
+                ? _c("li", [_c("strong", [_vm._v("indoor")])])
+                : _vm._e(),
+              _vm._v(" "),
+              !_vm.ont.indoor
+                ? _c("li", [_c("strong", [_vm._v("outdoor")])])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.ont.wifi
+                ? _c("li", [_c("strong", [_vm._v("wifi")])])
+                : _vm._e(),
+              _vm._v(" "),
+              !_vm.ont.wifi
+                ? _c("li", [_c("strong", [_vm._v("no wifi")])])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("li", [
+                _c("strong", [_vm._v("Ethernet ports:")]),
+                _vm._v(" " + _vm._s(_vm.ont.number_of_ethernet_ports))
+              ]),
+              _vm._v(" "),
+              _c("li", [
+                _c("strong", [_vm._v("POTS lines:")]),
+                _vm._v(" " + _vm._s(_vm.ont.number_of_pots_lines))
+              ]),
+              _vm._v(" "),
+              _c("li", [
+                _c("strong", [_vm._v("Notes:")]),
+                _vm._v(" " + _vm._s(_vm.ont.notes))
+              ]),
+              _vm._v(" "),
+              _c("li", [
+                _c("strong", [_vm._v("Files:")]),
+                _vm._v(" " + _vm._s(_vm.numberOfFiles))
+              ])
+            ])
+          ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "col text-center" }, [
-          _c(
-            "a",
-            {
-              staticClass: "btn btn-sm btn-outline-dark",
-              attrs: { href: _vm.editUrl }
-            },
-            [_vm._v("Edit")]
-          )
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "col text-center" },
-          [
+        _c("div", { staticClass: "row mt-5 align-self-end" }, [
+          _c("div", { staticClass: "col text-center" }, [
             _c(
-              "delete-modal",
+              "a",
               {
-                attrs: {
-                  title: _vm.ont.model_number,
-                  "to-be-deleted": _vm.ont
-                },
-                on: {
-                  "delete-the-object": function($event) {
-                    _vm.deleteObject()
-                  }
-                }
+                staticClass: "btn btn-sm btn-outline-dark",
+                attrs: { href: _vm.showUrl }
               },
-              [
-                _c("div", { attrs: { slot: "button" }, slot: "button" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-sm btn-outline-dark",
-                      attrs: {
-                        type: "button",
-                        "data-toggle": "modal",
-                        "data-target": _vm.modalRef
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                            Delete\n                        "
-                      )
-                    ]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { attrs: { slot: "body" }, slot: "body" }, [
-                  _c("p", [
-                    _vm._v("Are you sure you wish to delete "),
-                    _c("strong", [_vm._v(_vm._s(_vm.ont.model_number))]),
-                    _vm._v("?")
-                  ])
-                ])
-              ]
+              [_vm._v("Show")]
             )
-          ],
-          1
-        )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col text-center" }, [
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-sm btn-outline-dark",
+                attrs: { href: _vm.editUrl }
+              },
+              [_vm._v("Edit")]
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "col text-center" },
+            [
+              _c(
+                "delete-modal",
+                {
+                  attrs: {
+                    title: _vm.ont.model_number,
+                    "to-be-deleted": _vm.ont
+                  },
+                  on: {
+                    "delete-the-object": function($event) {
+                      _vm.deleteObject()
+                    }
+                  }
+                },
+                [
+                  _c("div", { attrs: { slot: "button" }, slot: "button" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-outline-dark",
+                        attrs: {
+                          type: "button",
+                          "data-toggle": "modal",
+                          "data-target": _vm.modalRef
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                                Delete\n                            "
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { attrs: { slot: "body" }, slot: "body" }, [
+                    _c("p", [
+                      _vm._v("Are you sure you wish to delete "),
+                      _c("strong", [_vm._v(_vm._s(_vm.ont.model_number))]),
+                      _vm._v("?")
+                    ])
+                  ])
+                ]
+              )
+            ],
+            1
+          )
+        ])
       ])
     ])
   ])
@@ -62179,7 +62194,7 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
                 addRemoveLinks: false,
                 previewTemplate: document.getElementById(this.previewTemplateId).innerHTML,
                 autoProcessQueue: false,
-                dictDefaultMessage: 'Drop files here.',
+                dictDefaultMessage: 'Drop a file here or click here to select a file.',
                 createImageThumbnails: false,
                 headers: {
                     "X-CSRF-TOKEN": window.axios.defaults.headers.common['X-CSRF-TOKEN']
@@ -62296,7 +62311,7 @@ var render = function() {
           _c(
             "a",
             {
-              staticClass: "btn btn-dark btn-sm float-right",
+              staticClass: "btn btn-dark btn-sm",
               attrs: {
                 "data-toggle": "collapse",
                 href: _vm.collapseHref,
@@ -62310,7 +62325,12 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n                    UPLOAD A FILE\n                ")]
+            [
+              _c("i", { staticClass: "material-icons mr-2" }, [
+                _vm._v("file_upload")
+              ]),
+              _vm._v(" UPLOAD A FILE\n                ")
+            ]
           )
         ])
       ]),
@@ -62669,10 +62689,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 var OntCard = Vue.extend(__webpack_require__(17));
 
@@ -62738,17 +62754,13 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col" }, [
-        _c(
-          "div",
-          { staticClass: "card-deck" },
-          _vm._l(_vm.onts, function(ont) {
-            return _c("ont-card", { key: ont.id, attrs: { ont: ont } })
-          })
-        )
-      ])
-    ]),
+    _c(
+      "div",
+      { staticClass: "row" },
+      _vm._l(_vm.onts, function(ont) {
+        return _c("ont-card", { key: ont.id, attrs: { ont: ont } })
+      })
+    ),
     _vm._v(" "),
     !_vm.onts.length
       ? _c("div", { staticClass: "row" }, [

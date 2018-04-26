@@ -14,11 +14,9 @@
 
     <ont-card :ont="{{ $ont }}"></ont-card>
 
-    <div class="col-9">
-        <div class="card mt-3 mb-3 border-light">
-            <div class="card-header bg-dark text-light">
-                <span class="h5">Files for the {{ $ont->model_number }}</span>
-            </div>
+    <div class="col-8">
+        <div class="card mb-3 border-light">
+
             <div class="card-body">
 
                 @if (!$ont->media)
@@ -35,7 +33,7 @@
                     </div>
                 </div>
 
-                <media-file-list :list-of="{{$ont->media}}" upload-component="ont-file-uploader"></media-file-list>
+                <media-file-list :list-of="{{$media_files}}" upload-component="ont-file-uploader"></media-file-list>
 
                 <ont-file-uploader upload-url="/api/onts/{{ $ont->id }}/files" dropzone-id="dropzone-for-ont-{{ $ont->id }}"></ont-file-uploader>
 

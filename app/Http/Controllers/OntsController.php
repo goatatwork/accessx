@@ -50,7 +50,21 @@ class OntsController extends Controller
     public function show(Ont $ont)
     {
         $ont->getMedia();
-        return view('onts.show')->with('ont', $ont);
+
+        $media_files = $ont->getMedia();
+
+        $the_files = $media_files->map(function($file, $key) {
+            return array_merge(
+                $file->getAttributes(),
+                [
+                    'url' => $file->getUrl(),
+                    'human_readable_size' => $file->human_readable_size,
+                    'description' => $file->getCustomProperty('description')
+                ]
+            );
+        });
+
+        return view('onts.show')->with('ont', $ont)->with('media_files', $the_files);
     }
 
     /**

@@ -28,7 +28,7 @@
                 @endif
 
                 <div class="row mb-3">
-                    <div class="col">
+                    <div class="col text-dark">
                          This is a good place to upload things like manuals, MIBs, and other reference material. These files are NOT used as operational software or configuration files.
                     </div>
                 </div>

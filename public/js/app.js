@@ -59666,6 +59666,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 var SoftwareListItem = Vue.extend(__webpack_require__(112));
 var SoftwareFileUploader = Vue.extend(__webpack_require__(124));
@@ -61536,7 +61542,7 @@ var render = function() {
           _c(
             "a",
             {
-              staticClass: "btn btn-dark btn-sm float-right",
+              staticClass: "btn btn-dark btn-sm",
               attrs: {
                 "data-toggle": "collapse",
                 href: _vm.collapseHref,
@@ -61551,9 +61557,10 @@ var render = function() {
               }
             },
             [
-              _vm._v(
-                "\n                    UPLOAD ONT SOFTWARE\n                "
-              )
+              _c("i", { staticClass: "material-icons mr-2" }, [
+                _vm._v("file_upload")
+              ]),
+              _vm._v("UPLOAD ONT SOFTWARE\n                ")
             ]
           )
         ])
@@ -61871,20 +61878,28 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-12" }, [
+    _c("div", { staticClass: "col pt-5" }, [
       _c("div", { staticClass: "card border-light" }, [
-        _c("div", { staticClass: "card-header bg-dark text-light" }, [
-          _vm._v(
-            "\n                SOFTWARE FOR " +
-              _vm._s(_vm.ont.model_number) +
-              "\n            "
-          )
-        ]),
-        _vm._v(" "),
         _c(
           "div",
           { staticClass: "card-body" },
           [
+            _c("div", { staticClass: "row mb-3" }, [
+              _c("div", { staticClass: "col text-dark" }, [
+                _vm._v(
+                  "\n                        These are the software images available for the " +
+                    _vm._s(_vm.ont.model_number) +
+                    ". This is where the list of "
+                ),
+                _c("span", { staticClass: "font-weight-bold" }, [
+                  _vm._v("Software Versions")
+                ]),
+                _vm._v(
+                  " comes from when provisioning an ONT.\n                    "
+                )
+              ])
+            ]),
+            _vm._v(" "),
             !_vm.software.length
               ? _c("div", { staticClass: "row" }, [_vm._m(0)])
               : _vm._e(),
@@ -61896,14 +61911,20 @@ var render = function() {
               }
             }),
             _vm._v(" "),
-            _vm._l(_vm.software, function(version) {
-              return _c("software-list-item", {
-                key: version.id,
-                attrs: { software: version }
-              })
-            })
+            _c("div", { staticClass: "row mt-2" }, [
+              _c(
+                "div",
+                { staticClass: "col" },
+                _vm._l(_vm.software, function(version) {
+                  return _c("software-list-item", {
+                    key: version.id,
+                    attrs: { software: version }
+                  })
+                })
+              )
+            ])
           ],
-          2
+          1
         )
       ])
     ])

@@ -171,12 +171,12 @@
 
             <div class="form-group row">
                 <div class="col text-right">
+                    <a class="btn btn-danger" href="{{ URL::previous() }}">Cancel</a>
+                </div>
+                <div class="col">
                     <button type="submit" class="btn btn-primary">
                         Save Changes
                     </button>
-                </div>
-                <div class="col">
-                    <a class="btn btn-danger" href="{{ URL::previous() }}">Cancel</a>
                 </div>
             </div>
 

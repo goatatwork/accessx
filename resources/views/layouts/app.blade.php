@@ -81,7 +81,7 @@
         </nav>
 
         <div class="container-fluid vh-100">
-            <div class="row h-100">
+            <div class="row h-100 vh-100">
                 <div class="sidebar col-md-2 text-right bg-dark">
                     <ul class="nav flex-md-column align-self-start justify-content-between">
                         <li class="nav-item nav-parent px-1 nav-item nav-parent py-4 px-1 d-sm-block text-sm-center text-md-right w-100">

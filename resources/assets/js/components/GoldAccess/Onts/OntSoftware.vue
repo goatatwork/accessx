@@ -1,12 +1,15 @@
 <template>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col pt-5">
 
             <div class="card border-light">
-                <div class="card-header bg-dark text-light">
-                    SOFTWARE FOR {{ ont.model_number }}
-                </div>
+
                 <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col text-dark">
+                            These are the software images available for the {{ ont.model_number }}. This is where the list of <span class="font-weight-bold">Software Versions</span> comes from when provisioning an ONT.
+                        </div>
+                    </div>
 
                     <div v-if="!software.length" class="row">
                         <div class="col-md-6 col-md-offset-3">
@@ -18,8 +21,11 @@
 
                     <file-uploader :upload-url="fileUploadUrl" :dropzone-id="dropzoneId"></file-uploader>
 
-
-                    <software-list-item v-for="version in software" :software="version" :key="version.id"></software-list-item>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <software-list-item v-for="version in software" :software="version" :key="version.id"></software-list-item>
+                        </div>
+                    </div>
 
                 </div>
             </div>

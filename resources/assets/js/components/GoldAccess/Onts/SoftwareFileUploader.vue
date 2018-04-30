@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col">
                     <a
-                        class="btn btn-dark btn-sm float-right"
+                        class="btn btn-dark btn-sm"
                         data-toggle="collapse"
                         :href="collapseHref"
                         role="button"
@@ -13,7 +13,7 @@
                         :aria-controls="collapseId"
                         @click="toggleUploadArea()"
                     >
-                        UPLOAD ONT SOFTWARE
+                        <i class="material-icons mr-2">file_upload</i>UPLOAD ONT SOFTWARE
                     </a>
                 </div>
             </div>

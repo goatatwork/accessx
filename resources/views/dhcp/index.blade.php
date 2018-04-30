@@ -122,24 +122,22 @@
                             </div>
                         </div>
 
-                        <div class="row mt-5">
+                        <div class="row mt-5 align-self-end">
                             <div class="col text-center">
-                                <a href="/dhcp/shared_networks/{{ $dhcp_shared_network->id }}/edit" class="btn btn-link text-dark">Edit</a>
+                                <a href="/dhcp/shared_networks/{{ $dhcp_shared_network->id }}" class="btn btn-sm btn-outline-dark">Show</a>
                             </div>
                             <div class="col text-center">
-                                <a href="/dhcp/shared_networks/{{ $dhcp_shared_network->id }}" class="btn btn-link text-dark">Show</a>
+                                <a href="/dhcp/shared_networks/{{ $dhcp_shared_network->id }}/edit" class="btn btn-sm btn-outline-dark">Edit</a>
                             </div>
                             <div class="col text-center">
-
                                 <button
                                     type="button"
-                                    class="btn btn-link text-dark"
+                                    class="btn btn-sm btn-outline-dark"
                                     data-toggle="modal"
                                     data-target="#delete-shared-network-{{ $dhcp_shared_network->id }}"
                                 >
                                     Delete
                                 </button>
-
                             </div>
                         </div>
 

@@ -59,8 +59,8 @@
                     <form method="POST" action="/infrastructure/aggregators/{{ $aggregator->id }}">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
-                        <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>
                         <button type="submit" class="btn btn-link text-dark float-right">Delete</button>
+                        <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>
                     </form>
                 </div>
             </div>

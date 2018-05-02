@@ -1,0 +1,199 @@
+version: '3.1'
+
+services:
+  proxy:
+    image: perconalab/proxysql
+    networks:
+      - galera
+    ports:
+      - "3306:3306"
+      - "6032:6032"
+    environment:
+      CLUSTER_NAME: ga_cluster_1
+      ETCD_HOST: GA_etcd
+      DISCOVERY_SERVICE: GA_etcd:2379
+      MYSQL_ROOT_PASSWORD: s3cr3TL33tP@ssw0rd
+      MYSQL_PROXY_USER: proxyuser
+      MYSQL_PROXY_PASSWORD: s3cr3TL33tPr0xyP@ssw0rd
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels: [APP=proxysql]
+     # service restart policy
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      # service update configuration
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: continue
+        monitor: 60s
+        max_failure_ratio: 0.3
+      # placement constraint - in this case on 'worker' nodes only
+      placement:
+        constraints: [node.role == manager]
+
+  etcd:
+    image: quay.io/coreos/etcd
+    command:  etcd
+    volumes:
+      - /usr/share/ca-certificates/:/etc/ssl/certs
+    environment:
+      ETCD_DATA_DIR: /opt/etcd/data
+      ETCD_NAME: etcd-node-01
+      ETCD_LISTEN_CLIENT_URLS: http://0.0.0.0:2379,http://0.0.0.0:4001
+      ETCD_ADVERTISE_CLIENT_URLS: http://GA_etcd:2379,http://GA_etcd:4001
+      ETCD_LISTEN_PEER_URLS: http://0.0.0.0:2380
+      ETCD_INITIAL_ADVERTISE_PEER_URLS: http://GA_etcd:2380
+      ETCD-INITIAL-CLUSTER: etcd0=http://GA_etcd:2380
+      ETCD_INITIAL_CLUSTER_STATE: new
+      ETCD_INITIAL_CLUSTER_TOKEN: etcd-cluster-1
+    networks:
+      - galera
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+
+  percona-xtradb-cluster:
+    image: percona/percona-xtradb-cluster:5.7
+    networks:
+      - galera
+    environment:
+      DISCOVERY_SERVICE: GA_etcd:2379
+      CLUSTER_NAME: ga_cluster_1
+      MYSQL_ROOT_PASSWORD: s3cr3TL33tP@ssw0rd
+      MYSQL_DATABASE: accessx
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 1q2w3e4r
+    volumes:
+      - percona_data:/var/lib/mysql
+    deploy:
+      mode: global
+      labels: [APP=pxc]
+     # service restart policy
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      # service update configuration
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: continue
+        monitor: 60s
+        max_failure_ratio: 0.3
+      # placement constraint - in this case on 'worker' nodes only
+      placement:
+        constraints: [node.role == worker]
+
+  redis:
+    image: redis:alpine
+    networks:
+      - galera
+    deploy:
+      mode: replicated
+      replicas: 1
+
+  dhcp:
+    build:
+      context: ./docker/dnsmasq
+      dockerfile: Dockerfile
+    image: goldaccess/dnsmasq:production
+    network_mode: "host"
+    deploy:
+      mode: global
+      # placement constraint - in this case on 'manager' nodes only
+      placement:
+        constraints: [node.role == manager]
+    volumes:
+      - ./storage/app/services/dnsmasq:/etc/dnsmasq
+      - ./storage/app/public/media:/tftpboot
+      - ./storage/app/services/dnsmasq/leases:/var/lib/misc
+    ports:
+      - "67:67"
+      - "67:67/udp"
+      - "69:69"
+      - "69:69/udp"
+
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: goldaccess/nginx:production
+    deploy:
+      mode: replicated
+      replicas: 1
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "80:80"
+    networks:
+      - galera
+    depends_on:
+      - proxy
+      - php
+
+  php:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    image: goldaccess/php-fpm:production
+    deploy:
+      mode: replicated
+      replicas: 1
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "9000:9000"
+    networks:
+      - galera
+    depends_on:
+      - proxy
+
+  laravel-echo-server:
+    build:
+      context: ./docker/laravel-echo-server
+      dockerfile: Dockerfile
+    image: goldaccess/echo-server:production
+    deploy:
+      mode: replicated
+      replicas: 1
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "6001:6001"
+    networks:
+      - galera
+
+  horizon-supervisor:
+    build:
+      context: ./docker/horizon-supervisor
+      dockerfile: Dockerfile
+    image: goldaccess/horizon-supervisor:production
+    deploy:
+      mode: replicated
+      replicas: 1
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - galera
+
+networks:
+  galera:
+    # Use a custom driver
+    driver: overlay
+    internal: true
+    ipam:
+      driver: default
+      config:
+      - subnet: 10.20.1.0/24
+
+volumes:
+  percona_data:
+    driver: "local"

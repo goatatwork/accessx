@@ -18,8 +18,8 @@ touch storage/app/services/dnsmasq/leases/dnsmasq.leases
 chown -R www-data.www-data .
 
 # Start Registry
-echo "Starting local container registry"
-docker run -d -p 5000:5000 --name registry registry:2
+# echo "Starting local container registry"
+# docker run -d -p 5000:5000 --name registry registry:2
 
 echo "Building DHCP image"
 cd docker/dnsmasq
@@ -47,12 +47,12 @@ docker pull quay.io/coreos/etcd
 echo "Pulling percona/percona-xtradb-cluster:5.7"
 docker pull percona/percona-xtradb-cluster:5.7
 
-echo "Pushing images to registry"
-docker push 10.0.0.4:5000/dnsmasq:production
-docker push 10.0.0.4:5000/nginx:production
-docker push 10.0.0.4:5000/php-fpm:production
-docker push 10.0.0.4:5000/laravel-echo-server:production
-docker push 10.0.0.4:5000/laravel-horizon-server:production
+# echo "Pushing images to registry"
+# docker push 10.0.0.4:5000/dnsmasq:production
+# docker push 10.0.0.4:5000/nginx:production
+# docker push 10.0.0.4:5000/php-fpm:production
+# docker push 10.0.0.4:5000/laravel-echo-server:production
+# docker push 10.0.0.4:5000/laravel-horizon-server:production
 
 ##  Bring up the stack
 

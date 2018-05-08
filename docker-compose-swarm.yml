@@ -96,6 +96,32 @@ services:
       placement:
         constraints: [node.role == worker]
 
+  nginx:
+    image: goldaccess/nginx:production
+    ports:
+      - "8000:80"
+    networks:
+      - corenet
+    depends_on:
+      - php
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == worker]
+
+  php:
+    image: goldaccess/php-fpm:production
+    networks:
+      - corenet
+    ports:
+      - "9000:9000"
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == worker]
+
 networks:
   corenet:
     external: true

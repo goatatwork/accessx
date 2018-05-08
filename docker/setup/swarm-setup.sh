@@ -7,6 +7,7 @@ if [ "$(whoami)" != "root" ]; then
         exit 1
 fi
 
+echo "Performing some file modification that I shouldn't have to perform on a number of laravel specific files."
 cp .env.example .env
 sed -i -e 's/APP_URL=http:\/\/localhost/APP_URL=http:\/\/10\.200\.200\.1/g' .env
 sed -i -e 's/DB_PASSWORD=/DB_PASSWORD=1q2w3e4r/g' .env
@@ -19,23 +20,35 @@ chown -R www-data.www-data .
 # Now let's start the containers
 #./develop.sh up -d --build
 
+echo "Building DHCP image"
 cd docker/dnsmasq
-docker build -t goldaccess/dnsmasq:production -t goldaccess/dnsmasq:1.0 .
+docker build -t 10.0.0.4:5000/dnsmasq:production .
 cd ../..
-docker build -f Dockerfile-nginx-swarm -t goldaccess/nginx:production -t goldaccess/nginx:1.0 .
-docker build -f Dockerfile-php-swarm -t goldaccess/php-fpm:production -t goldaccess/php-fpm:1.0 .
-docker build -f Dockefile-echo-swarm -t goldaccess/laravel-echo-server:production -t goldaccess/laravel-echo-server:1.0 .
-docker build -f Dockefile-horizon-swarm -t goldaccess/laravel-horizon-server:production -t goldaccess/laravel-horizon-server:1.0 .
+echo "Building HTTP image"
+docker build -f Dockerfile-nginx-swarm -t 10.0.0.4:5000/nginx:production .
+echo "Building PHP-FPM image"
+docker build -f Dockerfile-php-swarm -t 10.0.0.4:5000/php-fpm:production .
+echo "Building Laravel Echo Server image"
+docker build -f Dockefile-echo-swarm -t 10.0.0.4:5000/laravel-echo-server:production .
+echo "Building Laravel Horizon Supervisor image"
+docker build -f Dockefile-horizon-swarm -t 10.0.0.4:5000/laravel-horizon-server:production .
 
 # Get our Percona proxy
+echo "Pulling perconalab/proxysql"
 docker pull perconalab/proxysql
 
 # Get our name/data store for Percona because it's lame and doesn't support
 # redis
+echo "Pulling quay.io/coreos/etcd"
 docker pull quay.io/coreos/etcd
 
 # Get the Percona Cluster Db
-percona/percona-xtradb-cluster:5.7
+echo "Pulling percona/percona-xtradb-cluster:5.7"
+docker pull percona/percona-xtradb-cluster:5.7
+
+# Start Registry
+echo "Starting local container registry"
+docker run -d -p 5000:5000 --name registry registry:2
 
 # Prep the application
 # docker exec -it -u www-data accessx_php_1 composer install --no-dev --ignore-platform-reqs

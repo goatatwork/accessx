@@ -29,9 +29,9 @@ docker build -f Dockerfile-nginx-swarm -t 10.0.0.4:5000/nginx:production .
 echo "Building PHP-FPM image"
 docker build -f Dockerfile-php-swarm -t 10.0.0.4:5000/php-fpm:production .
 echo "Building Laravel Echo Server image"
-docker build -f Dockefile-echo-swarm -t 10.0.0.4:5000/laravel-echo-server:production .
+docker build -f Dockerfile-echo-swarm -t 10.0.0.4:5000/laravel-echo-server:production .
 echo "Building Laravel Horizon Supervisor image"
-docker build -f Dockefile-horizon-swarm -t 10.0.0.4:5000/laravel-horizon-server:production .
+docker build -f Dockerfile-horizon-swarm -t 10.0.0.4:5000/laravel-horizon-server:production .
 
 # Get our Percona proxy
 echo "Pulling perconalab/proxysql"

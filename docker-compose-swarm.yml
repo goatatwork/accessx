@@ -92,12 +92,13 @@ services:
     networks:
       - corenet
     deploy:
-      mode: global
+      mode: replicated
+      replicas: 1
       placement:
-        constraints: [node.role == worker]
+        constraints: [node.role == manager]
 
   nginx:
-    image: goldaccess/nginx:production
+    image: 10.0.0.4:5000/nginx:production
     ports:
       - "8000:80"
     networks:
@@ -111,11 +112,35 @@ services:
         constraints: [node.role == worker]
 
   php:
-    image: goldaccess/php-fpm:production
+    image: 10.0.0.4:5000/php-fpm:production
     networks:
       - corenet
     ports:
       - "9000:9000"
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == worker]
+
+  laravel-echo-server:
+    image: 10.0.0.4:5000/echo-server:production
+    networks:
+      - corenet
+    ports:
+      - "6001:6001"
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == worker]
+
+  horizon-supervisor:
+    image: 10.0.0.4:5000/horizon-supervisor:production
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - corenet
     deploy:
       mode: replicated
       replicas: 1

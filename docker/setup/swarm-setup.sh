@@ -17,8 +17,9 @@ sed -i -e 's/"http:\/\/nginx\/api\/dnsmasq\/events"/"http:\/\/10\.200\.200\.1\/a
 touch storage/app/services/dnsmasq/leases/dnsmasq.leases
 chown -R www-data.www-data .
 
-# Now let's start the containers
-#./develop.sh up -d --build
+# Start Registry
+echo "Starting local container registry"
+docker run -d -p 5000:5000 --name registry registry:2
 
 echo "Building DHCP image"
 cd docker/dnsmasq
@@ -46,10 +47,6 @@ docker pull quay.io/coreos/etcd
 echo "Pulling percona/percona-xtradb-cluster:5.7"
 docker pull percona/percona-xtradb-cluster:5.7
 
-# Start Registry
-echo "Starting local container registry"
-docker run -d -p 5000:5000 --name registry registry:2
-
 echo "Pushing images to registry"
 docker push 10.0.0.4:5000/dnsmasq:production
 docker push 10.0.0.4:5000/nginx:production
@@ -58,7 +55,6 @@ docker push 10.0.0.4:5000/laravel-echo-server:production
 docker push 10.0.0.4:5000/laravel-horizon-server:production
 
 ##  Bring up the stack
-
 
 # Prep the application
 # docker exec -it -u www-data accessx_php_1 composer install --no-dev --ignore-platform-reqs

@@ -124,7 +124,7 @@ services:
         constraints: [node.role == worker]
 
   laravel-echo-server:
-    image: 10.0.0.4:5000/echo-server:production
+    image: 10.0.0.4:5000/laravel-echo-server:production
     networks:
       - corenet
     ports:
@@ -136,9 +136,7 @@ services:
         constraints: [node.role == worker]
 
   horizon-supervisor:
-    image: 10.0.0.4:5000/horizon-supervisor:production
-    volumes:
-      - ./:/var/www/html
+    image: 10.0.0.4:5000/laravel-horizon-server:production
     networks:
       - corenet
     deploy:

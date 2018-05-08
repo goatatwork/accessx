@@ -36,5 +36,22 @@ EXPOSE 9000
 
 WORKDIR /var/www/html
 
+USER www-data
+
+RUN composer install --no-dev --ignore-platform-reqs
+RUN php artisan key:generate
+RUN php artisan migrate
+RUN php artisan db:seed
+RUN php artisan passport:install
+RUN php artisan storage:link
+
+USER root
+
+RUN chown -R www-data.www-data .
+RUN chown -R www-data.www-data *
+# So that the www-data user can use tinker
+RUN mkdir /var/www/.config
+RUN chown -R www-data.www-data /var/www/.config
+
 CMD ["php-fpm7.1"]
 

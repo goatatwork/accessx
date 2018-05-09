@@ -26,15 +26,19 @@ RUN apt-get install -y curl zip unzip git software-properties-common tzdata iput
     && ln -s /usr/share/zoneinfo/America/Chicago /etc/localtime \
     && dpkg-reconfigure -f noninteractive tzdata
 
-COPY docker/php/php-fpm.conf /etc/php/7.1/fpm/php-fpm.conf
-COPY docker/php/php.ini /etc/php/7.1/fpm/php.ini
-ADD docker/php/www.conf /etc/php/7.1/fpm/pool.d/www.conf
+COPY docker/swarm/php/php-fpm.conf /etc/php/7.1/fpm/php-fpm.conf
+COPY docker/swarm/php/php.ini /etc/php/7.1/fpm/php.ini
+ADD docker/swarm/php/www.conf /etc/php/7.1/fpm/pool.d/www.conf
 
 COPY . /var/www/html
 
 RUN chown -R www-data.www-data /var/www/html
+
 RUN mkdir /var/www/.config
 RUN chown -R www-data.www-data /var/www/.config
+
+RUN mkdir /var/www/.composer
+RUN chown -R www-data.www-data /var/www/.composer
 
 EXPOSE 9000
 

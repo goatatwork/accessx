@@ -2,6 +2,8 @@
 # 20180323 Goat
 # This is intended to be run from the docker HOST. Not within the container
 
+# This script assumes a registry running at 10.0.0.4
+
 if [ "$(whoami)" != "root" ]; then
         echo "Script must be run as user root or with sudo."
         exit 1
@@ -12,9 +14,7 @@ fi
 # docker run -d -p 5000:5000 --name registry registry:2
 
 echo "Building DHCP image"
-cd docker/dnsmasq
-docker build -t 10.0.0.4:5000/dnsmasq:production .
-cd ../..
+docker build -f Dockerfile-dnsmasq-swarm -t 10.0.0.4:5000/dnsmasq:production .
 echo "Building HTTP image"
 docker build -f Dockerfile-nginx-swarm -t 10.0.0.4:5000/nginx:production .
 echo "Building PHP-FPM image"
@@ -37,20 +37,12 @@ docker pull quay.io/coreos/etcd
 echo "Pulling percona/percona-xtradb-cluster:5.7"
 docker pull percona/percona-xtradb-cluster:5.7
 
-echo ""
-echo ""
-echo "Now you need to:"
-echo "\t - Start a registry on 10.0.0.4"
-echo "\t - Push locally built images to the registry"
-echo "\t - Try running artisan commands on php-fpm image"
-echo "\t - Add stack"
-
-# echo "Pushing images to registry"
-# docker push 10.0.0.4:5000/dnsmasq:production
-# docker push 10.0.0.4:5000/nginx:production
-# docker push 10.0.0.4:5000/php-fpm:production
-# docker push 10.0.0.4:5000/laravel-echo-server:production
-# docker push 10.0.0.4:5000/laravel-horizon-server:production
+echo "Pushing images to registry"
+docker push 10.0.0.4:5000/dnsmasq:production
+docker push 10.0.0.4:5000/nginx:production
+docker push 10.0.0.4:5000/php-fpm:production
+docker push 10.0.0.4:5000/laravel-echo-server:production
+docker push 10.0.0.4:5000/laravel-horizon-server:production
 
 ##  Bring up the stack
 

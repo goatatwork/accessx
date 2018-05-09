@@ -44,6 +44,7 @@ USER www-data
 
 RUN cp .env.example .env
 RUN sed -i -e 's/DB_PASSWORD=/DB_PASSWORD=1q2w3e4r/g' .env
+
 RUN sed -i -e 's/"http:\/\/nginx\/api\/dnsmasq\/events"/"http:\/\/nginx\/api\/dnsmasq\/events"/g' storage/app/services/dnsmasq/dhcp-script.sh
 RUN touch storage/app/services/dnsmasq/leases/dnsmasq.leases
 

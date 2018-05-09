@@ -32,26 +32,21 @@ ADD docker/php/www.conf /etc/php/7.1/fpm/pool.d/www.conf
 
 COPY . /var/www/html
 
+RUN chown -R www-data.www-data /var/www/html
+
 EXPOSE 9000
 
 WORKDIR /var/www/html
 
 USER www-data
 
-RUN composer install --no-dev --ignore-platform-reqs
-RUN php artisan key:generate
-RUN php artisan migrate
-RUN php artisan db:seed
-RUN php artisan passport:install
-RUN php artisan storage:link
-
-USER root
-
-RUN chown -R www-data.www-data .
-RUN chown -R www-data.www-data *
-# So that the www-data user can use tinker
-RUN mkdir /var/www/.config
-RUN chown -R www-data.www-data /var/www/.config
+RUN cp .env.example .env
+# RUN composer install --no-dev --ignore-platform-reqs
+# RUN php artisan key:generate
+# RUN php artisan migrate
+# RUN php artisan db:seed
+# RUN php artisan passport:install
+# RUN php artisan storage:link
 
 CMD ["php-fpm7.1"]
 

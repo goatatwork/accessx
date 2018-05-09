@@ -137,8 +137,7 @@ services:
     depends_on:
       - php
     deploy:
-      mode: replicated
-      replicas: 1
+      mode: global
       placement:
         constraints: [node.role == worker]
 

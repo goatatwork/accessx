@@ -17,6 +17,8 @@ sed -i -e 's/"http:\/\/nginx\/api\/dnsmasq\/events"/"http:\/\/nginx\/api\/dnsmas
 touch storage/app/services/dnsmasq/leases/dnsmasq.leases
 chown -R www-data.www-data .
 
+mkdir /var/www/.config
+chown -R www-data.www-data /var/www/.config
 # Start Registry
 # echo "Starting local container registry"
 # docker run -d -p 5000:5000 --name registry registry:2

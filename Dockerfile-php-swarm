@@ -33,6 +33,8 @@ ADD docker/php/www.conf /etc/php/7.1/fpm/pool.d/www.conf
 COPY . /var/www/html
 
 RUN chown -R www-data.www-data /var/www/html
+RUN mkdir /var/www/.config
+RUN chown -R www-data.www-data /var/www/.config
 
 EXPOSE 9000
 
@@ -41,6 +43,12 @@ WORKDIR /var/www/html
 USER www-data
 
 RUN cp .env.example .env
+RUN sed -i -e 's/DB_PASSWORD=/DB_PASSWORD=1q2w3e4r/g' .env
+RUN sed -i -e 's/"authHost": "http:\/\/accessx\.goat"/"authHost": "http:\/\/nginx"/g' laravel-echo-server.json
+RUN sed -i -e 's/"host": "127\.0\.0\.1"/"host": "redis"/g' laravel-echo-server.json
+RUN sed -i -e 's/"http:\/\/nginx\/api\/dnsmasq\/events"/"http:\/\/nginx\/api\/dnsmasq\/events"/g' storage/app/services/dnsmasq/dhcp-script.sh
+RUN touch storage/app/services/dnsmasq/leases/dnsmasq.leases
+
 # RUN composer install --no-dev --ignore-platform-reqs
 # RUN php artisan key:generate
 # RUN php artisan migrate
@@ -49,6 +57,8 @@ RUN cp .env.example .env
 # RUN php artisan storage:link
 
 USER root
+
+RUN chown -R www-data.www-data .
 
 CMD ["php-fpm7.1"]
 

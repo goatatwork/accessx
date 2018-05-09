@@ -7,18 +7,6 @@ if [ "$(whoami)" != "root" ]; then
         exit 1
 fi
 
-echo "Performing some file modification that I shouldn't have to perform on a number of laravel specific files."
-cp .env.example .env
-# sed -i -e 's/APP_URL=http:\/\/localhost/APP_URL=http:\/\/nginx/g' .env
-sed -i -e 's/DB_PASSWORD=/DB_PASSWORD=1q2w3e4r/g' .env
-sed -i -e 's/"authHost": "http:\/\/accessx\.goat"/"authHost": "http:\/\/nginx"/g' laravel-echo-server.json
-sed -i -e 's/"host": "127\.0\.0\.1"/"host": "redis"/g' laravel-echo-server.json
-sed -i -e 's/"http:\/\/nginx\/api\/dnsmasq\/events"/"http:\/\/nginx\/api\/dnsmasq\/events"/g' storage/app/services/dnsmasq/dhcp-script.sh
-touch storage/app/services/dnsmasq/leases/dnsmasq.leases
-chown -R www-data.www-data .
-
-mkdir /var/www/.config
-chown -R www-data.www-data /var/www/.config
 # Start Registry
 # echo "Starting local container registry"
 # docker run -d -p 5000:5000 --name registry registry:2

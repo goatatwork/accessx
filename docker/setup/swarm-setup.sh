@@ -47,6 +47,14 @@ docker pull quay.io/coreos/etcd
 echo "Pulling percona/percona-xtradb-cluster:5.7"
 docker pull percona/percona-xtradb-cluster:5.7
 
+echo ""
+echo ""
+echo "Now you need to:"
+echo "\t - Start a registry on 10.0.0.4"
+echo "\t - Push locally built images to the registry"
+echo "\t - Try running artisan commands on php-fpm image"
+echo "\t - Add stack"
+
 # echo "Pushing images to registry"
 # docker push 10.0.0.4:5000/dnsmasq:production
 # docker push 10.0.0.4:5000/nginx:production

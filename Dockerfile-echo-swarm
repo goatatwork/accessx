@@ -9,5 +9,8 @@ COPY . /var/www/html
 
 WORKDIR /var/www/html
 
+RUN sed -i -e 's/"authHost": "http:\/\/accessx\.goat"/"authHost": "http:\/\/nginx"/g' laravel-echo-server.json
+RUN sed -i -e 's/"host": "127\.0\.0\.1"/"host": "redis"/g' laravel-echo-server.json
+
 ENTRYPOINT ["laravel-echo-server"]
 CMD ["start"]

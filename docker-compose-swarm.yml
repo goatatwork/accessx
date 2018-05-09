@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   proxy:
-    image: perconalab/proxysql
+    image: 10.0.0.4:5000/proxysql:production
     networks:
       - corenet
     ports:
@@ -37,7 +37,7 @@ services:
         constraints: [node.role == manager]
 
   etcd:
-    image: quay.io/coreos/etcd
+    image: 10.0.0.4:5000/etcd:production
     command:  etcd
     volumes:
       - /usr/share/ca-certificates/:/etc/ssl/certs
@@ -60,7 +60,7 @@ services:
         constraints: [node.role == manager]
 
   percona-xtradb-cluster:
-    image: percona/percona-xtradb-cluster:5.7
+    image: percona-xtradb-cluster:production
     networks:
       - corenet
     environment:
@@ -91,7 +91,7 @@ services:
         constraints: [node.role == worker]
 
   redis:
-    image: redis:alpine
+    image: 10.0.0.4:5000/redis:production
     networks:
       - corenet
     deploy:

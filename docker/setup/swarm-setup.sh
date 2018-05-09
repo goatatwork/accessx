@@ -24,25 +24,37 @@ docker build -f Dockerfile-echo-swarm -t 10.0.0.4:5000/laravel-echo-server:produ
 echo "Building Laravel Horizon Supervisor image"
 docker build -f Dockerfile-horizon-swarm -t 10.0.0.4:5000/laravel-horizon-server:production .
 
+# Get our redis:alpine
+echo "Pulling redis:alpine"
+docker pull redis:alpine
+docker tag redis:alpine 10.0.0.4:5000/redis:production
+
 # Get our Percona proxy
 echo "Pulling perconalab/proxysql"
 docker pull perconalab/proxysql
+docker tag perconalab/proxysql:latest 10.0.0.4:5000/proxysql:production
 
 # Get our name/data store for Percona because it's lame and doesn't support
 # redis
 echo "Pulling quay.io/coreos/etcd"
 docker pull quay.io/coreos/etcd
+docker tag quay.io/coreos/etcd:latest 10.0.0.4:5000/etcd:production
 
 # Get the Percona Cluster Db
 echo "Pulling percona/percona-xtradb-cluster:5.7"
 docker pull percona/percona-xtradb-cluster:5.7
+docker tag percona/percona-xtradb-cluster:5.7 10.0.0.4:5000/percona-xtradb-cluster:production
 
 echo "Pushing images to registry"
-docker push 10.0.0.4:5000/dnsmasq:production
+docker push 10.0.0.4:5000/etcd:production
+docker push 10.0.0.4:5000/redis:production
 docker push 10.0.0.4:5000/nginx:production
+docker push 10.0.0.4:5000/dnsmasq:production
 docker push 10.0.0.4:5000/php-fpm:production
+docker push 10.0.0.4:5000/proxysql:production
 docker push 10.0.0.4:5000/laravel-echo-server:production
 docker push 10.0.0.4:5000/laravel-horizon-server:production
+docker push 10.0.0.4:5000/percona-xtradb-cluster:production
 
 ##  Bring up the stack
 

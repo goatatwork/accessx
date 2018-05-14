@@ -60,7 +60,7 @@ services:
         constraints: [node.role == manager]
 
   percona-xtradb-cluster:
-    image: percona-xtradb-cluster:production
+    image: 10.0.0.4:5000/percona-xtradb-cluster:production
     networks:
       - corenet
     environment:

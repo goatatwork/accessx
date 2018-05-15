@@ -1,0 +1,7 @@
+node_modules
+public/storage/media/*
+public/storage/media_test
+storage/app/services/dnsmasq/dnsmasq.d/*
+storage/app/services/dnsmasq/hosts.d/*
+storage/app/services/dnsmasq/options.d/*
+storage/app/services/dnsmasq_test

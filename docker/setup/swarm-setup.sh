@@ -12,7 +12,7 @@ fi
 # Start Registry
 # echo "Starting local container registry"
 echo ""
-echo "Starting registry container..."
+echo "Starting registry"
 echo ""
 docker run -d -p 5000:5000 --name registry registry:2
 

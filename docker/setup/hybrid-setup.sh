@@ -1,6 +1,8 @@
 #!/bin/bash
-# 20180323 Goat
+# 20180515 Goat
 # This is intended to be run from the docker HOST. Not within the container
+# This sets up swarmable services in a swarm "ga_support"
+# It then builds and starts local containers for GoldAccess
 
 if [ "$(whoami)" != "root" ]; then
         echo "Script must be run as user root or with sudo."

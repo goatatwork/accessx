@@ -1,15 +1,62 @@
 #!/bin/bash
-# 20180323 Goat
+# 20180515 Goat
 # This is intended to be run from the docker HOST. Not within the container
+# This sets up swarmable services in a swarm "ga_support"
+# It then builds and starts local containers for GoldAccess
 
 if [ "$(whoami)" != "root" ]; then
         echo "Script must be run as user root or with sudo."
         exit 1
 fi
 
+# Start Registry
+# echo "Starting local container registry"
+echo ""
+echo "Starting registry"
+echo ""
+docker run -d -p 5000:5000 --name registry registry:2
+
+# Get our redis:alpine
+echo ""
+echo "Pulling redis:alpine"
+echo ""
+docker pull redis:alpine
+docker tag redis:alpine 10.200.200.1:5000/redis:production
+
+# Get our Percona proxy
+echo ""
+echo "Pulling perconalab/proxysql"
+echo ""
+docker pull perconalab/proxysql
+docker tag perconalab/proxysql:latest 10.200.200.1:5000/proxysql:production
+
+# Get our name/data store for Percona because it's lame and doesn't support
+# redis
+echo ""
+echo "Pulling quay.io/coreos/etcd"
+echo ""
+docker pull quay.io/coreos/etcd
+docker tag quay.io/coreos/etcd:latest 10.200.200.1:5000/etcd:production
+
+# Get the Percona Cluster Db
+echo ""
+echo "Pulling percona/percona-xtradb-cluster:5.7"
+echo ""
+docker pull percona/percona-xtradb-cluster:5.7
+docker tag percona/percona-xtradb-cluster:5.7 10.200.200.1:5000/percona-xtradb-cluster:production
+
+echo ""
+echo "Pushing images to registry"
+echo ""
+docker push 10.200.200.1:5000/etcd:production
+docker push 10.200.200.1:5000/redis:production
+docker push 10.200.200.1:5000/proxysql:production
+docker push 10.200.200.1:5000/percona-xtradb-cluster:production
+
+docker stack deploy -c docker-compose-swarm.yml ga_support
+
 cp .env.example .env
 sed -i -e 's/APP_URL=http:\/\/localhost/APP_URL=http:\/\/10\.200\.200\.1/g' .env
-sed -i -e 's/DB_USERNAME=proxyuser/DB_USERNAME=admin/g' .env
 sed -i -e 's/DB_PASSWORD=/DB_PASSWORD=1q2w3e4r/g' .env
 sed -i -e 's/"authHost": "http:\/\/accessx\.goat"/"authHost": "http:\/\/10\.200\.200\.1"/g' laravel-echo-server.json
 sed -i -e 's/"host": "127\.0\.0\.1"/"host": "redis"/g' laravel-echo-server.json
@@ -18,7 +65,7 @@ touch storage/app/services/dnsmasq/leases/dnsmasq.leases
 chown -R www-data.www-data .
 
 # Now let's start the containers
-./develop.sh up -d --build
+./develop.sh -f docker-compose-hybrid.yml up -d --build
 
 sleep 3
 

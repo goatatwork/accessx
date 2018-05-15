@@ -2,42 +2,39 @@
 
 @section('content')
 
-<div class="container-fluid">
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+        <li class="breadcrumb-item active" aria-current="page">DHCP</li>
+    </ol>
+</nav>
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">DHCP</li>
-        </ol>
-    </nav>
+<div class="row mb-5">
+    <div class="col">
 
-    <div class="row">
-        <div class="col">
+        <dl class="float-left">
+            <dt>Total Shared Networks</dt>
+            <dd>There are {{ $dhcp_shared_networks->count() }} shared networks.</dd>
+        </dl>
 
-            <div class="card">
-                <div class="card-body">
+        <span class="float-right">
+            <a href="/dhcp/shared_networks/create" class="btn btn-secondary"><i class="material-icons mr-2">add</i>Add A Shared Network</a>
+        </span>
 
-                    <div class="row">
-                        <div class="col">
-                            <dl>
-                                <dt>Total Shared Networks</dt>
-                                <dd>There are {{ $dhcp_shared_networks->count() }} shared networks.</dd>
-                            </dl>
-                        </div>
-                        <div class="col">
-                            <a href="/dhcp/shared_networks/create" class="btn btn-secondary float-right">Add A Shared Network</a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
     </div>
+</div>
 
-    <div class="row">
-        @foreach($dhcp_shared_networks as $dhcp_shared_network)
-            <div class="col-3">
+<div class="row mt-3">
+    <div class="col text-right">
+        <button class="btn btn-dark" data-toggle="modal" data-target="#dhcp-leases-file-modal">View DHCP Leases File</button>
+        <button class="btn btn-dark" data-toggle="modal" data-target="#dhcp-config-modal">View DHCP Configuration</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="card-deck">
+            @foreach($dhcp_shared_networks as $dhcp_shared_network)
                 <div class="card mt-3 mb-3">
                     <div class="card-header">
 
@@ -125,24 +122,22 @@
                             </div>
                         </div>
 
-                        <div class="row mt-5">
+                        <div class="row mt-5 align-self-end">
                             <div class="col text-center">
-                                <a href="/dhcp/shared_networks/{{ $dhcp_shared_network->id }}/edit" class="btn btn-link text-dark">Edit</a>
+                                <a href="/dhcp/shared_networks/{{ $dhcp_shared_network->id }}" class="btn btn-sm btn-outline-dark">Show</a>
                             </div>
                             <div class="col text-center">
-                                <a href="/dhcp/shared_networks/{{ $dhcp_shared_network->id }}" class="btn btn-link text-dark">Show</a>
+                                <a href="/dhcp/shared_networks/{{ $dhcp_shared_network->id }}/edit" class="btn btn-sm btn-outline-dark">Edit</a>
                             </div>
                             <div class="col text-center">
-
                                 <button
                                     type="button"
-                                    class="btn btn-link text-dark"
+                                    class="btn btn-sm btn-outline-dark"
                                     data-toggle="modal"
                                     data-target="#delete-shared-network-{{ $dhcp_shared_network->id }}"
                                 >
                                     Delete
                                 </button>
-
                             </div>
                         </div>
 
@@ -155,69 +150,134 @@
                         </small>
                     </div>
                 </div>
+            @endforeach
+        </div>
+    </div>
+</div>
+
+@foreach($dhcp_shared_networks as $dhcp_shared_network)
+    <div class="modal fade"
+        tabindex="-1"
+        role="dialog"
+        id="shared-network-notes-{{ $dhcp_shared_network->id }}"
+        aria-labelledby="shared-network-notes-{{ $dhcp_shared_network->id }}-label"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5  id="shared-network-notes-{{ $dhcp_shared_network->id }}-label" class="modal-title">{{ $dhcp_shared_network->name }} Notes</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <marked-content marked-content="{{ $dhcp_shared_network->notes }}"></marked-content>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>
+                </div>
             </div>
-        @endforeach
+        </div>
+    </div>
+@endforeach
+
+@foreach($dhcp_shared_networks as $dhcp_shared_network)
+    <div class="modal fade"
+        tabindex="-1"
+        role="dialog"
+        id="delete-shared-network-{{ $dhcp_shared_network->id }}"
+        aria-labelledby="delete-shared-network-{{ $dhcp_shared_network->id }}-label"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5  id="delete-shared-network-{{ $dhcp_shared_network->id }}-label" class="modal-title">Delete {{ $dhcp_shared_network->name }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to remove this shared network?
+                </div>
+                <div class="modal-footer">
+                    <form method="POST" action="/dhcp/shared_networks/{{ $dhcp_shared_network->id }}">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}
+                        <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>
+                        <button type="submit" class="btn btn-link text-dark float-right">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@endforeach
+
+    <div class="modal fade"
+        tabindex="-1"
+        role="dialog"
+        id="dhcp-leases-file-modal"
+        aria-labelledby="dhcp-leases-file-modal-label"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5  id="dhcp-leases-file-modal-label" class="modal-title">Current contents of the dnsmasq.lease file...</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col">
+<pre>
+{{ $leases_file }}
+</pre>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    @foreach($dhcp_shared_networks as $dhcp_shared_network)
-        <div class="modal fade"
-            tabindex="-1"
-            role="dialog"
-            id="shared-network-notes-{{ $dhcp_shared_network->id }}"
-            aria-labelledby="shared-network-notes-{{ $dhcp_shared_network->id }}-label"
-            aria-hidden="true"
-        >
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5  id="shared-network-notes-{{ $dhcp_shared_network->id }}-label" class="modal-title">{{ $dhcp_shared_network->name }} Notes</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+    <div class="modal fade"
+        tabindex="-1"
+        role="dialog"
+        id="dhcp-config-modal"
+        aria-labelledby="dhcp-config-modal-label"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5  id="dhcp-config-modal-label" class="modal-title">Current Dnsmasq Configuration</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col">
+<pre>
+{{ $dnsmasq_config }}
+</pre>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <marked-content marked-content="{{ $dhcp_shared_network->notes }}"></marked-content>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>
-                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>
                 </div>
             </div>
         </div>
-    @endforeach
-
-    @foreach($dhcp_shared_networks as $dhcp_shared_network)
-        <div class="modal fade"
-            tabindex="-1"
-            role="dialog"
-            id="delete-shared-network-{{ $dhcp_shared_network->id }}"
-            aria-labelledby="delete-shared-network-{{ $dhcp_shared_network->id }}-label"
-            aria-hidden="true"
-        >
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5  id="delete-shared-network-{{ $dhcp_shared_network->id }}-label" class="modal-title">Delete {{ $dhcp_shared_network->name }}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        Are you sure you want to remove this shared network?
-                    </div>
-                    <div class="modal-footer">
-                        <form method="POST" action="/dhcp/shared_networks/{{ $dhcp_shared_network->id }}">
-                            {{ csrf_field() }}
-                            {{ method_field('DELETE') }}
-                            <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>
-                            <button type="submit" class="btn btn-link text-dark float-right">Delete</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endforeach
-
-</div>
+    </div>
 
 @endsection

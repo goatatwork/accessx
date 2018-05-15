@@ -1,0 +1,73 @@
+version: "2"
+services:
+  dhcp:
+    build:
+      context: ./docker/dnsmasq
+      dockerfile: Dockerfile
+    image: goldaccess/dnsmasq:production
+    network_mode: "host"
+    volumes:
+      - ./storage/app/services/dnsmasq:/etc/dnsmasq
+      - ./storage/app/public/media:/tftpboot
+      - ./storage/app/services/dnsmasq/leases:/var/lib/misc
+    ports:
+      - "67:67"
+      - "67:67/udp"
+      - "69:69"
+      - "69:69/udp"
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: goldaccess/nginx:production
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "${WEB_PORT}:80"
+    networks:
+      - corenet
+    depends_on:
+      - php
+  php:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    image: goldaccess/php-fpm:production
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "9000:9000"
+    networks:
+      - corenet
+  npm:
+    build:
+      context: ./docker/npm
+      dockerfile: Dockerfile
+    image: goldaccess/npm:production
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - corenet
+  laravel-echo-server:
+    build:
+      context: ./docker/laravel-echo-server
+      dockerfile: Dockerfile
+    image: goldaccess/echo-server:production
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "6001:6001"
+    networks:
+      - corenet
+  horizon-supervisor:
+    build:
+      context: ./docker/horizon-supervisor
+      dockerfile: Dockerfile
+    image: goldaccess/horizon-supervisor:production
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - corenet
+networks:
+  corenet:
+    external: true

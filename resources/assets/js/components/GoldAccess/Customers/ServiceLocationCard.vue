@@ -1,9 +1,12 @@
 <template>
-    <div class="panel panel-default carousel-panel">
-        <div class="panel-heading">
+    <div class="card">
+        <div class="card-header">
             {{ locationTitle }}
+            <span v-show="location.has_provisioning_records" class="float-right font-italic">
+                <small><span class="fas fa-certificate"></span> Provisioned</small>
+            </span>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
 
             <ul class="list-unstyled">
                 <li>
@@ -25,21 +28,6 @@
                 </li>
                 <li v-show="location.notes">
                     {{ location.notes }}
-                </li>
-            </ul>
-
-            <ul v-show="showControls" class="list-unstyled">
-                <li v-show="location.has_provisioning_records">
-                    <div class="flex-center-column">
-                        <span>This location is provisioned.</span>
-                        <a :href="showLink" class="btn btn-default form-control">VIEW SERVICES</a>
-                    </div>
-                </li>
-                <li v-show="!location.has_provisioning_records" style="display:flex;justify-content:center;align-items:center;">
-                    <div class="flex-center-column">
-                        <span>There is nothing provisioned here.</span>
-                        <a :href="provisioningLink" class="btn btn-default form-control">SET UP SERVICE!</a>
-                    </div>
                 </li>
             </ul>
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Storage;
 use Illuminate\Http\Request;
 use App\DhcpSharedNetwork;
 use App\Http\Requests\DhcpSharedNetworkRequest;
@@ -15,8 +16,15 @@ class DhcpSharedNetworksController extends Controller
      */
     public function index()
     {
+        $dnsmasq_config = Storage::disk('dhcp_configs')->get('dnsmasq.conf');
+        $leases_file = Storage::disk('dhcp_configs')->get('leases/dnsmasq.leases');
+
         $dhcp_shared_networks = DhcpSharedNetwork::with('subnets')->get();
-        return view('dhcp.index')->with('dhcp_shared_networks', $dhcp_shared_networks);
+
+        return view('dhcp.index')
+            ->with('dhcp_shared_networks', $dhcp_shared_networks)
+            ->with('leases_file', $leases_file)
+            ->with('dnsmasq_config', $dnsmasq_config);
     }
 
     /**

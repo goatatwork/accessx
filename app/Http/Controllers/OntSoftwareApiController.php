@@ -27,8 +27,35 @@ class OntSoftwareApiController extends Controller
      */
     public function store(Request $request, Ont $ont)
     {
-        $software = $ont->ont_software()->create($request->all());
-        $software->addMediaFromRequest('uploaded_file')->toMediaCollection('default');
+
+
+
+        if ($ont->manufacturer == 'Zhone') {  // ZNID-24xxA-301266-SIP.img is how these start
+            $new_filename = ''; // ZNID24xxA_GRSIP_0301266_image_with_cfe.img (GF models) or ZNID24xxASIP_0301266_image_with_cfe.img (Zhone models)
+            $dhcp_config_string = ''; // S301266
+            $original_filename = explode('.', $request->uploaded_file->getClientOriginalName())[0];  // ZNID-24xxA-301266-SIP
+            $parts = explode('-', $original_filename);
+            $short_voip = ($parts[3] == 'SIP') ? 'S' : 'M';
+            $dhcp_config_string = $short_voip . $parts[2];
+
+            $new_filename = $parts[0] . $parts[1] . '_GR' . $parts[3] . '_' . $parts[2] . '_image_with_cfe.img';
+
+            // S03.01.266
+            $characters = str_split($parts[2]);
+            $converted_version = $short_voip . '0' . $characters[0] . '.' . $characters[1] . $characters[2] . '.' . $characters[3] . $characters[4] . $characters[5];
+
+            $software = $ont->ont_software()->create(['version' => $converted_version, 'notes' => $request->notes]);
+
+            $software->addMediaFromRequest('uploaded_file')
+                ->usingFileName($new_filename)
+                ->withCustomProperties(['dhcp_string' => $dhcp_config_string])
+                ->toMediaCollection('default');
+        } else {
+            $software = $ont->ont_software()->create($request->all());
+            $software->addMediaFromRequest('uploaded_file')->toMediaCollection('default');
+        }
+
+
         return $software;
     }
 

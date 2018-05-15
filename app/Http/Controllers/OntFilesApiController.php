@@ -19,7 +19,11 @@ class OntFilesApiController extends Controller
         $the_files = $media_files->map(function($file, $key) {
             return array_merge(
                 $file->getAttributes(),
-                ['url' => $file->getUrl(), 'human_readable_size' => $file->human_readable_size, 'description' => $file->getCustomProperty('description')]
+                [
+                    'url' => $file->getUrl(),
+                    'human_readable_size' => $file->human_readable_size,
+                    'description' => $file->getCustomProperty('description')
+                ]
             );
         });
         return json_encode($the_files);

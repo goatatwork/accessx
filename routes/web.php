@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,6 +16,10 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'provisioning'], function() {
+    Route::get('/', 'ProvisioningRecordController@index');
+    Route::get('{provisioning_record}', 'ProvisioningRecordController@show');
+    Route::get('{provisioning_record}/edit', 'ProvisioningRecordController@edit');
+    Route::delete('{provisioning_record}', 'ProvisioningRecordController@destroy');
     Route::get('service_locations/{service_location}/show', 'ServiceLocationProvisioningController@show');
     Route::get('service_locations/{service_location}/create', 'ServiceLocationProvisioningController@create');
 });
@@ -46,6 +49,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dhcp'], function() {
     Route::delete('shared_networks/{dhcp_shared_network}', 'DhcpSharedNetworksController@destroy');
     Route::patch('shared_networks/{dhcp_shared_network}', 'DhcpSharedNetworksController@update');
     Route::get('shared_networks/{dhcp_shared_network}/edit', 'DhcpSharedNetworksController@edit');
+    Route::get('leases', 'DhcpLeasesFileController@index');
     Route::get('{dhcp_shared_network}', 'DhcpSharedNetworksController@show');
 });
 
@@ -61,3 +65,5 @@ Route::group(['middleware' => 'auth', 'prefix' => 'infrastructure'], function() 
     Route::post('slots/{slot}/populate', 'SlotPopulationController@store');
     Route::post('slots/{slot}/unpopulate', 'SlotPopulationController@destroy');
 });
+
+Route::get('activity_logs', 'ActivityLogsController@index')->middleware('auth');

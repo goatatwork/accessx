@@ -1,14 +1,16 @@
 <template>
-    <div class="media">
-        <span class="fas fa-2x fa-file mr-3"></span>
+    <div class="media mb-3">
+
+        <a :href="mediaFile.url" download class="mr-2"><i class="material-icons">file_download</i></a>
+
         <div class="media-body">
             <div class="row">
-                <div class="col">
+                <div class="col-auto">
                     <a :href="mediaFile.url">{{ mediaFile.file_name }}</a>
                     <small><span class="font-italic">{{ mediaFile.human_readable_size }}</span></small>
                 </div>
                 <div class="col">
-                    {{ mediaFile.custom_properties.description }}
+                    <small>{{ mediaFile.custom_properties.description }}</small>
                 </div>
             </div>
         </div>

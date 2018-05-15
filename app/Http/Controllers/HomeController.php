@@ -25,9 +25,18 @@ class HomeController extends Controller
     {
         $stats = [
             'customers_count' => \App\Customer::count(),
+            'service_locations_count' => \App\ServiceLocation::count(),
+            'provisioning_records_count' => \App\ProvisioningRecord::count(),
+
             'aggregators_count' => \App\Aggregator::count(),
-            'dhcp_shared_networks_count' => \App\DhcpSharedNetwork::count(),
+            'slots_count' => \App\Slot::count(),
+            'ports_count' => \App\Port::count(),
+
+            'dhcp_subnets_count' => \App\Subnet::count(),
+            'dhcp_ip_addresses_count' => \App\IpAddress::count(),
+
             'onts_count' => \App\Ont::count(),
+            'activity_logs_count' => \App\ActivityLog::count(),
         ];
         return view('home')->with('stats', $stats);
     }

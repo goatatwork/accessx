@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col">
 
             <div class="form-group">
                 <label for="dhcp_shared_network_id">Management Network</label>
@@ -14,7 +14,7 @@
                 <label for="ip_address_id">IP Address</label>
                 <select class="form-control" name="ip_address_id" @change="ipAddressWasSelected($event.target.value)">
                     <option value="0">Select</option>
-                    <option v-for="ip in ip_addresses" :value="ip.id">{{ ip.address }}</option>
+                    <option v-for="ip in ip_addresses" :value="ip.id" :disabled="ip.has_provisioning_records">{{ ip.address }}</option>
                 </select>
             </div>
 

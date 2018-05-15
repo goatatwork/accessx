@@ -2,11 +2,13 @@
 
 namespace App;
 
+use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class ServiceLocation extends Model
+class ServiceLocation extends Model implements AuditableContract
 {
-    use Provisionable;
+    use Provisionable, Auditable;
 
     protected $fillable = [
         'name',
@@ -22,7 +24,7 @@ class ServiceLocation extends Model
         'notes',
     ];
 
-    protected $appends = ['has_provisioning_records'];
+    protected $appends = ['has_provisioning_records', 'google_maps_embed_api_string'];
 
     public function customer()
     {

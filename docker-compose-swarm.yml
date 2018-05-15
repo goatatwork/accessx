@@ -1,0 +1,160 @@
+version: '3.1'
+
+services:
+  proxy:
+    image: 10.200.200.1:5000/proxysql:production
+    networks:
+      - corenet
+    ports:
+      - "3306:3306"
+      - "6032:6032"
+    environment:
+      CLUSTER_NAME: galera-15
+      ETCD_HOST: ga_support_etcd
+      DISCOVERY_SERVICE: ga_support_etcd:2379
+      MYSQL_ROOT_PASSWORD: 1q2w3e4r
+      MYSQL_PROXY_USER: proxyuser
+      MYSQL_PROXY_PASSWORD: 1q2w3e4r
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels: [APP=proxysql]
+     # service restart policy
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      # service update configuration
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: continue
+        monitor: 60s
+        max_failure_ratio: 0.3
+      # placement constraint - in this case on 'worker' nodes only
+      placement:
+        constraints: [node.role == manager]
+
+  etcd:
+    image: 10.200.200.1:5000/etcd:production
+    command:  etcd
+    volumes:
+      - /usr/share/ca-certificates/:/etc/ssl/certs
+    environment:
+      ETCD_DATA_DIR: /opt/etcd/data
+      ETCD_NAME: etcd-node-01
+      ETCD_LISTEN_CLIENT_URLS: http://0.0.0.0:2379,http://0.0.0.0:4001
+      ETCD_ADVERTISE_CLIENT_URLS: http://ga_support_etcd:2379,http://ga_support_etcd:4001
+      ETCD_LISTEN_PEER_URLS: http://0.0.0.0:2380
+      ETCD_INITIAL_ADVERTISE_PEER_URLS: http://ga_support_etcd:2380
+      ETCD-INITIAL-CLUSTER=etcd0: http://ga_support_etcd:2380
+      ETCD_INITIAL_CLUSTER_STATE: new
+      ETCD_INITIAL_CLUSTER_TOKEN: etcd-cluster-1
+    networks:
+      - corenet
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+
+  percona-xtradb-cluster:
+    image: 10.200.200.1:5000/percona-xtradb-cluster:production
+    networks:
+      - corenet
+    environment:
+      DISCOVERY_SERVICE: ga_support_etcd:2379
+      CLUSTER_NAME: galera-15
+      MYSQL_ROOT_PASSWORD: 1q2w3e4r
+      MYSQL_DATABASE: accessx
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 1q2w3e4r
+    deploy:
+      mode: global
+      labels: [APP=pxc]
+     # service restart policy
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      # service update configuration
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: continue
+        monitor: 60s
+        max_failure_ratio: 0.3
+      # placement constraint - in this case on 'worker' nodes only
+      placement:
+        constraints: [node.role == worker]
+
+  redis:
+    image: 10.200.200.1:5000/redis:production
+    ports:
+      - "6379:6379"
+    networks:
+      - corenet
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+
+  # nginx:
+  #   image: 10.200.200.1:5000/nginx:production
+  #   ports:
+  #     - "8000:80"
+  #   networks:
+  #     - corenet
+  #   depends_on:
+  #     - php
+  #   deploy:
+  #     mode: replicated
+  #     replicas: 1
+  #     placement:
+  #       constraints: [node.role == worker]
+
+  # php:
+  #   image: 10.200.200.1:5000/php-fpm:production
+  #   networks:
+  #     - corenet
+  #   ports:
+  #     - "9000:9000"
+  #   depends_on:
+  #     - percona-xtradb-cluster
+  #   deploy:
+  #     mode: replicated
+  #     replicas: 1
+  #     placement:
+  #       constraints: [node.role == worker]
+
+  # laravel-echo-server:
+  #   image: 10.200.200.1:5000/laravel-echo-server:production
+  #   networks:
+  #     - corenet
+  #   ports:
+  #     - "6001:6001"
+  #   depends_on:
+  #     - php
+  #   deploy:
+  #     mode: global
+  #     placement:
+  #       constraints: [node.role == worker]
+
+  # horizon-supervisor:
+  #   image: 10.200.200.1:5000/laravel-horizon-server:production
+  #   networks:
+  #     - corenet
+  #   depends_on:
+  #     - php
+  #   deploy:
+  #     mode: replicated
+  #     replicas: 1
+  #     placement:
+  #       constraints: [node.role == worker]
+
+networks:
+  corenet:
+    external: true

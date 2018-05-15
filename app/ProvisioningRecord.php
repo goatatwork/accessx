@@ -2,13 +2,15 @@
 
 namespace App;
 
+use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class ProvisioningRecord extends Model implements HasMedia
+class ProvisioningRecord extends Model implements HasMedia, AuditableContract
 {
-    use HasMediaTrait;
+    use HasMediaTrait, Auditable;
 
     protected $fillable = [
         'service_location_id',
@@ -68,5 +70,22 @@ class ProvisioningRecord extends Model implements HasMedia
     public function getPortTagUniqueAttribute()
     {
         return $this->getPortTagAttribute() . '-' . $this->id;
+    }
+
+    public function getDhcpStringAttribute()
+    {
+        $dhcp_string =
+            ($this->ont_profile->ont_software->getFirstMedia()) ?
+            ($this->ont_profile->ont_software->getFirstMedia())->getCustomProperty('dhcp_string') :
+            'unknown';
+
+        return 'ont_profiles/' .
+            $this->ont_profile->ont_software->ont->slug .
+            '/' .
+            $this->ont_profile->ont_software->version .
+            '/' .
+            $this->ont_profile->slug .
+            '/' .
+            $dhcp_string;
     }
 }

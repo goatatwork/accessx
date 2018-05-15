@@ -2,7 +2,7 @@
 # 20180323 Goat
 # This is intended to be run from the docker HOST. Not within the container
 
-# This script assumes a registry running at 10.0.0.4
+# This script assumes a registry running at 10.200.200.1
 
 if [ "$(whoami)" != "root" ]; then
         echo "Script must be run as user root or with sudo."
@@ -11,50 +11,63 @@ fi
 
 # Start Registry
 # echo "Starting local container registry"
-# docker run -d -p 5000:5000 --name registry registry:2
+echo ""
+echo "Starting registry container..."
+echo ""
+docker run -d -p 5000:5000 --name registry registry:2
 
-echo "Building DHCP image"
-docker build -f Dockerfile-dnsmasq-swarm -t 10.0.0.4:5000/dnsmasq:production .
-echo "Building HTTP image"
-docker build -f Dockerfile-nginx-swarm -t 10.0.0.4:5000/nginx:production .
-echo "Building PHP-FPM image"
-docker build -f Dockerfile-php-swarm -t 10.0.0.4:5000/php-fpm:production .
-echo "Building Laravel Echo Server image"
-docker build -f Dockerfile-echo-swarm -t 10.0.0.4:5000/laravel-echo-server:production .
-echo "Building Laravel Horizon Supervisor image"
-docker build -f Dockerfile-horizon-swarm -t 10.0.0.4:5000/laravel-horizon-server:production .
+# echo "Building DHCP image"
+# docker build -f Dockerfile-dnsmasq-swarm -t 10.200.200.1:5000/dnsmasq:production .
+# echo "Building HTTP image"
+# docker build -f Dockerfile-nginx-swarm -t 10.200.200.1:5000/nginx:production .
+# echo "Building PHP-FPM image"
+# docker build -f Dockerfile-php-swarm -t 10.200.200.1:5000/php-fpm:production .
+# echo "Building Laravel Echo Server image"
+# docker build -f Dockerfile-echo-swarm -t 10.200.200.1:5000/laravel-echo-server:production .
+# echo "Building Laravel Horizon Supervisor image"
+# docker build -f Dockerfile-horizon-swarm -t 10.200.200.1:5000/laravel-horizon-server:production .
 
 # Get our redis:alpine
+echo ""
 echo "Pulling redis:alpine"
+echo ""
 docker pull redis:alpine
-docker tag redis:alpine 10.0.0.4:5000/redis:production
+docker tag redis:alpine 10.200.200.1:5000/redis:production
 
 # Get our Percona proxy
+echo ""
 echo "Pulling perconalab/proxysql"
+echo ""
 docker pull perconalab/proxysql
-docker tag perconalab/proxysql:latest 10.0.0.4:5000/proxysql:production
+docker tag perconalab/proxysql:latest 10.200.200.1:5000/proxysql:production
 
 # Get our name/data store for Percona because it's lame and doesn't support
 # redis
+echo ""
 echo "Pulling quay.io/coreos/etcd"
+echo ""
 docker pull quay.io/coreos/etcd
-docker tag quay.io/coreos/etcd:latest 10.0.0.4:5000/etcd:production
+docker tag quay.io/coreos/etcd:latest 10.200.200.1:5000/etcd:production
 
 # Get the Percona Cluster Db
+echo ""
 echo "Pulling percona/percona-xtradb-cluster:5.7"
+echo ""
 docker pull percona/percona-xtradb-cluster:5.7
-docker tag percona/percona-xtradb-cluster:5.7 10.0.0.4:5000/percona-xtradb-cluster:production
+docker tag percona/percona-xtradb-cluster:5.7 10.200.200.1:5000/percona-xtradb-cluster:production
 
+echo ""
 echo "Pushing images to registry"
-docker push 10.0.0.4:5000/etcd:production
-docker push 10.0.0.4:5000/redis:production
-docker push 10.0.0.4:5000/nginx:production
-docker push 10.0.0.4:5000/dnsmasq:production
-docker push 10.0.0.4:5000/php-fpm:production
-docker push 10.0.0.4:5000/proxysql:production
-docker push 10.0.0.4:5000/laravel-echo-server:production
-docker push 10.0.0.4:5000/laravel-horizon-server:production
-docker push 10.0.0.4:5000/percona-xtradb-cluster:production
+echo ""
+docker push 10.200.200.1:5000/etcd:production
+docker push 10.200.200.1:5000/redis:production
+# docker push 10.200.200.1:5000/nginx:production
+# docker push 10.200.200.1:5000/dnsmasq:production
+# docker push 10.200.200.1:5000/php-fpm:production
+docker push 10.200.200.1:5000/proxysql:production
+# docker push 10.200.200.1:5000/laravel-echo-server:production
+# docker push 10.200.200.1:5000/laravel-horizon-server:production
+docker push 10.200.200.1:5000/percona-xtradb-cluster:production
 
 ##  Bring up the stack
 

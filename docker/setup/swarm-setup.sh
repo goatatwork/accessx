@@ -16,16 +16,16 @@ echo "Starting registry"
 echo ""
 docker run -d -p 5000:5000 --name registry registry:2
 
-# echo "Building DHCP image"
-# docker build -f Dockerfile-dnsmasq-swarm -t 10.200.200.1:5000/dnsmasq:production .
-# echo "Building HTTP image"
-# docker build -f Dockerfile-nginx-swarm -t 10.200.200.1:5000/nginx:production .
-# echo "Building PHP-FPM image"
-# docker build -f Dockerfile-php-swarm -t 10.200.200.1:5000/php-fpm:production .
-# echo "Building Laravel Echo Server image"
-# docker build -f Dockerfile-echo-swarm -t 10.200.200.1:5000/laravel-echo-server:production .
-# echo "Building Laravel Horizon Supervisor image"
-# docker build -f Dockerfile-horizon-swarm -t 10.200.200.1:5000/laravel-horizon-server:production .
+echo "Building DHCP image"
+docker build -f Dockerfile-dnsmasq-swarm -t 10.200.200.1:5000/dnsmasq:production .
+echo "Building HTTP image"
+docker build -f Dockerfile-nginx-swarm -t 10.200.200.1:5000/nginx:production .
+echo "Building PHP-FPM image"
+docker build -f Dockerfile-php-swarm -t 10.200.200.1:5000/php-fpm:production .
+echo "Building Laravel Echo Server image"
+docker build -f Dockerfile-echo-swarm -t 10.200.200.1:5000/laravel-echo-server:production .
+echo "Building Laravel Horizon Supervisor image"
+docker build -f Dockerfile-horizon-swarm -t 10.200.200.1:5000/laravel-horizon-server:production .
 
 # Get our redis:alpine
 echo ""
@@ -61,12 +61,12 @@ echo "Pushing images to registry"
 echo ""
 docker push 10.200.200.1:5000/etcd:production
 docker push 10.200.200.1:5000/redis:production
-# docker push 10.200.200.1:5000/nginx:production
-# docker push 10.200.200.1:5000/dnsmasq:production
-# docker push 10.200.200.1:5000/php-fpm:production
+docker push 10.200.200.1:5000/nginx:production
+docker push 10.200.200.1:5000/dnsmasq:production
+docker push 10.200.200.1:5000/php-fpm:production
 docker push 10.200.200.1:5000/proxysql:production
-# docker push 10.200.200.1:5000/laravel-echo-server:production
-# docker push 10.200.200.1:5000/laravel-horizon-server:production
+docker push 10.200.200.1:5000/laravel-echo-server:production
+docker push 10.200.200.1:5000/laravel-horizon-server:production
 docker push 10.200.200.1:5000/percona-xtradb-cluster:production
 
 ##  Bring up the stack

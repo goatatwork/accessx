@@ -130,18 +130,19 @@ services:
   #     placement:
   #       constraints: [node.role == worker]
 
-  # laravel-echo-server:
-  #   image: 10.200.200.1:5000/laravel-echo-server:production
-  #   networks:
-  #     - corenet
-  #   ports:
-  #     - "6001:6001"
-  #   depends_on:
-  #     - php
-  #   deploy:
-  #     mode: global
-  #     placement:
-  #       constraints: [node.role == worker]
+  laravel-echo-server:
+    image: 10.200.200.1:5000/laravel-echo-server:production
+    networks:
+      - corenet
+    ports:
+      - "6001:6001"
+    depends_on:
+      - php
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == worker]
 
   # horizon-supervisor:
   #   image: 10.200.200.1:5000/laravel-horizon-server:production

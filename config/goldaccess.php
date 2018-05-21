@@ -21,7 +21,7 @@ return [
         /**
          * The host providing the docker API
          */
-        'host' => env('DOCKER_HOST', 'tcp://127.0.0.1:4243'),
+        'host' => env('DOCKER_HOST', 'tcp://127.0.0.1:2376'),
 
         'services' => [
             'dhcp' => [

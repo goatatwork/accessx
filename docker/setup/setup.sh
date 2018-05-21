@@ -9,8 +9,8 @@ fi
 
 cp .env.example .env
 sed -i -e 's/APP_URL=http:\/\/localhost/APP_URL=http:\/\/10\.200\.200\.1/g' .env
-sed -i -e 's/DB_USERNAME=proxyuser/DB_USERNAME=admin/g' .env
-sed -i -e 's/DB_HOST=proxy/DB_HOST=db/g' .env
+# sed -i -e 's/DB_USERNAME=proxyuser/DB_USERNAME=admin/g' .env
+# sed -i -e 's/DB_HOST=proxy/DB_HOST=db/g' .env
 sed -i -e 's/DB_PASSWORD=/DB_PASSWORD=1q2w3e4r/g' .env
 sed -i -e 's/"authHost": "http:\/\/accessx\.goat"/"authHost": "http:\/\/10\.200\.200\.1"/g' laravel-echo-server.json
 sed -i -e 's/"host": "127\.0\.0\.1"/"host": "redis"/g' laravel-echo-server.json

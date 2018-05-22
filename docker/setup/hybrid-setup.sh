@@ -45,6 +45,12 @@ echo ""
 docker pull percona/percona-xtradb-cluster:5.7
 docker tag percona/percona-xtradb-cluster:5.7 10.200.200.1:5000/percona-xtradb-cluster:production
 
+# Build Echo Server
+echo ""
+echo "Building Laravel Echo Server image"
+echo ""
+docker build -f Dockerfile-echo-swarm -t 10.200.200.1:5000/laravel-echo-server:production .
+
 echo ""
 echo "Pushing images to registry"
 echo ""
@@ -52,14 +58,35 @@ docker push 10.200.200.1:5000/etcd:production
 docker push 10.200.200.1:5000/redis:production
 docker push 10.200.200.1:5000/proxysql:production
 docker push 10.200.200.1:5000/percona-xtradb-cluster:production
+docker push 10.200.200.1:5000/laravel-echo-server:production
 
+echo ""
+echo "Deploying stack..."
+echo ""
 docker stack deploy -c docker-compose-swarm.yml ga_support
+
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo "Sleeping 60... You should add mysql cluster servers to the proxy."
+sleep 60
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+
+# End of Swarm services
+
+# Start of local services
 
 cp .env.example .env
 sed -i -e 's/APP_URL=http:\/\/localhost/APP_URL=http:\/\/10\.200\.200\.1/g' .env
 sed -i -e 's/DB_PASSWORD=/DB_PASSWORD=1q2w3e4r/g' .env
-sed -i -e 's/"authHost": "http:\/\/accessx\.goat"/"authHost": "http:\/\/10\.200\.200\.1"/g' laravel-echo-server.json
-sed -i -e 's/"host": "127\.0\.0\.1"/"host": "redis"/g' laravel-echo-server.json
+# sed -i -e 's/"authHost": "http:\/\/accessx\.goat"/"authHost": "http:\/\/10\.200\.200\.1"/g' laravel-echo-server.json
+# sed -i -e 's/"host": "127\.0\.0\.1"/"host": "redis"/g' laravel-echo-server.json
 sed -i -e 's/"http:\/\/nginx\/api\/dnsmasq\/events"/"http:\/\/10\.200\.200\.1\/api\/dnsmasq\/events"/g' storage/app/services/dnsmasq/dhcp-script.sh
 touch storage/app/services/dnsmasq/leases/dnsmasq.leases
 chown -R www-data.www-data .
@@ -67,7 +94,18 @@ chown -R www-data.www-data .
 # Now let's start the containers
 ./develop.sh -f docker-compose-hybrid.yml up -d --build
 
-sleep 3
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo "Sleeping 60..."
+sleep 60
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
 
 # Prep the application
 docker exec -it -u www-data accessx_php_1 composer install --no-dev --ignore-platform-reqs

@@ -48,17 +48,6 @@ services:
       - ./:/var/www/html
     networks:
       - corenet
-  laravel-echo-server:
-    build:
-      context: ./docker/laravel-echo-server
-      dockerfile: Dockerfile
-    image: goldaccess/echo-server:production
-    volumes:
-      - ./:/var/www/html
-    ports:
-      - "6001:6001"
-    networks:
-      - corenet
   horizon-supervisor:
     build:
       context: ./docker/horizon-supervisor

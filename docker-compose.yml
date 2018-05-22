@@ -76,7 +76,7 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: 1q2w3e4r
     volumes:
-      - goldaccess_data:/var/lib/mysql
+      - /opt/goldaccess_db:/var/lib/mysql
     networks:
       - goldaccessnet
   redis:
@@ -86,6 +86,3 @@ services:
 networks:
   goldaccessnet:
     driver: "bridge"
-volumes:
-  goldaccess_data:
-    driver: "local"

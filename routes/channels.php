@@ -15,6 +15,10 @@ Broadcast::channel('activity_logs', function($user) {
     return true;
 });
 
+Broadcast::channel('echo_messages', function($user) {
+    return true;
+});
+
 Broadcast::channel('App.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });

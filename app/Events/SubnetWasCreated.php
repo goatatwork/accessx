@@ -2,9 +2,9 @@
 
 namespace App\Events;
 
-use Auth;
 use App\Subnet;
 use Illuminate\Broadcasting\Channel;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -17,6 +17,7 @@ class SubnetWasCreated implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $subnet;
+    public $user;
 
     /**
      * Create a new event instance.
@@ -35,7 +36,7 @@ class SubnetWasCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        // return new PrivateChannel('App.User.'.Auth::id());
+        return new Channel('echo_messages');
     }
 
     /**

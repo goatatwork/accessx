@@ -29,7 +29,7 @@
                 this.messages = [];
             },
             listenToEcho: function() {
-                window.Echo.private('App.User.'+window.Laravel.user_id)
+                window.Echo.channel('echo_messages')
                     .listen('SubnetWasCreated', (e) => {
                         this.renderMessage(e);
                     });

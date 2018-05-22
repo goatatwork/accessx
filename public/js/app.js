@@ -54736,7 +54736,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         listenToEcho: function listenToEcho() {
             var _this = this;
 
-            window.Echo.private('App.User.' + window.Laravel.user_id).listen('SubnetWasCreated', function (e) {
+            window.Echo.channel('echo_messages').listen('SubnetWasCreated', function (e) {
                 _this.renderMessage(e);
             });
         },

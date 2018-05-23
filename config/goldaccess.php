@@ -17,12 +17,6 @@ return [
     */
 
     'dockerbot' => [
-
-        /**
-         * The host providing the docker API
-         */
-        'host' => env('DOCKER_HOST', 'tcp://127.0.0.1:3276'),
-
         'services' => [
             'dhcp' => [
                 'container_name' => env('DOCKERBOT_DHCP_CONTAINERNAME', 'dnsmasq_server'),

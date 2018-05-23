@@ -92,7 +92,7 @@ touch storage/app/services/dnsmasq/leases/dnsmasq.leases
 chown -R www-data.www-data .
 
 # Now let's start the containers
-./develop.sh -f docker-compose-hybrid.yml up -d --build
+./goldaccess.sh -f docker-compose-hybrid.yml up -d --build
 
 echo ""
 echo ""

@@ -19,7 +19,7 @@ touch storage/app/services/dnsmasq/leases/dnsmasq.leases
 chown -R www-data.www-data .
 
 # Now let's start the containers
-./develop.sh up -d --build
+./goldaccess.sh up -d --build
 
 sleep 3
 

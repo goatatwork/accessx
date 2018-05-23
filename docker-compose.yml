@@ -83,6 +83,17 @@ services:
     image: redis:alpine
     networks:
       - goldaccessnet
+  portainer:
+    image: portainer/portainer
+    container_name: "portainer"
+    command: --templates http://templates/templates.json --host=unix:///var/run/docker.sock
+    networks:
+      - goldaccessnet
+    ports:
+      - "9001:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/portainer/data:/data
 networks:
   goldaccessnet:
     driver: "bridge"

@@ -60,7 +60,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <!-- <a class="dropdown-item" href="#">Action</a> -->
                             <a class="dropdown-item" href="/horizon" target="_blank"><i class="fab fa-laravel mr-1"></i>Horizon</a>
-                            <a class="dropdown-item" href="{{ request()->headers->get('host') }}:9001" target="_blank"><i class="fab fa-docker mr-1"></i>Portainer</a>
+                            <a class="dropdown-item" href="http://{{ request()->headers->get('host') }}:9001" target="_blank"><i class="fab fa-docker mr-1"></i>Portainer</a>
                             <a href="{{ route('logout') }}" class="dropdown-item"
                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                <!-- <i class="material-icons">exit_to_app</i> -->

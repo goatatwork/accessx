@@ -7,7 +7,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Leth\IPAddress\IP, Leth\IPAddress\IPv4, Leth\IPAddress\IPv6;
 
-class CreateDhcpIpAddresses
+class CreateDhcpIpAddresses implements ShouldQueue
 {
     /**
      * Create the event listener.

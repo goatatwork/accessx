@@ -4,6 +4,7 @@ namespace App\Events;
 
 use App\Subnet;
 use Illuminate\Broadcasting\Channel;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,11 +12,12 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class SubnetWasCreated
+class SubnetWasCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $subnet;
+    public $user;
 
     /**
      * Create a new event instance.
@@ -34,6 +36,18 @@ class SubnetWasCreated
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new Channel('echo_messages');
+    }
+
+    /**
+     * Get the data to broadcast.
+     *
+     * @return array
+     */
+    public function broadcastWith()
+    {
+        $subnet = $this->subnet->network_address ?: 'some subnet';
+
+        return ['message' => 'Subnet ' . $subnet . ' was added.'];
     }
 }

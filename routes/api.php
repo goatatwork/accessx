@@ -104,8 +104,17 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'infrastructure'], functio
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'provisioning'], function() {
     Route::post('/', 'ProvisioningRecordsApiController@store');
+    Route::get('{provisioning_record}/edit', 'ProvisioningRecordsApiController@edit');
+    Route::patch('{provisioning_record}', 'ProvisioningRecordsApiController@update');
+    Route::delete('{provisioning_record}', 'ProvisioningRecordsApiController@destroy');
 });
 
 Route::post('dnsmasq/events', function(\Illuminate\Http\Request $request) {
     \App\DnsmasqLog::create(['event' => $request->getContent()]);
+    app('logbot')->log($request->getContent(), 'notice');
+});
+
+Route::group(['middleware' => 'auth:api', 'prefix' => 'docker'], function() {
+    Route::get('services/dhcp/statuscard', 'DnsmasqServerStatusCardApiController@index');
+    Route::post('services/dhcp/restart', 'DnsmasqRestartApiServiceController@store');
 });

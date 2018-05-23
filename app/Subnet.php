@@ -2,10 +2,14 @@
 
 namespace App;
 
+use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Subnet extends Model
+class Subnet extends Model implements AuditableContract
 {
+    use Auditable;
+
     protected $fillable = [
         'comment',
         'network_address',

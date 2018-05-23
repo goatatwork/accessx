@@ -2,11 +2,13 @@
 
 namespace App;
 
+use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Port extends Model
+class Port extends Model implements AuditableContract
 {
-    use Provisionable;
+    use Provisionable, Auditable;
 
     protected $fillable = ['port_number', 'notes'];
 

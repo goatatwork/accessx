@@ -1,0 +1,8 @@
+FROM nginx
+
+# ADD deploy/nginx/nginx.conf /etc/nginx/
+COPY docker/swarm/nginx/default.conf /etc/nginx/conf.d/
+
+COPY public /usr/share/nginx/html
+
+WORKDIR /usr/share/nginx/html

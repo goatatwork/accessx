@@ -2,10 +2,14 @@
 
 namespace App;
 
+use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class BillingRecord extends Model
+class BillingRecord extends Model implements AuditableContract
 {
+    use Auditable;
+
     protected $fillable = [
         'poc_name',
         'poc_email',

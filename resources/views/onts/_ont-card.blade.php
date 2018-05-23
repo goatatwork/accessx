@@ -1,3 +1,4 @@
+<!-- currently unused - Goat 20180426 -->
 <div class="col-3">
     <div class="card">
         <div class="card-header">

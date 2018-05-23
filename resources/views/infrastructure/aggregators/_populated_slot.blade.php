@@ -50,8 +50,8 @@
                         <form method="POST" action="/infrastructure/slots/{{ $aggregator_slot->id }}/unpopulate">
                             {{ csrf_field() }}
                             {{ method_field('POST') }}
-                            <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>
                             <button type="submit" class="btn btn-link text-dark float-right">Unpopulate Slot</button>
+                            <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>
                         </form>
                     </div>
                 </div>

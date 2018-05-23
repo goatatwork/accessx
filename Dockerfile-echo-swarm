@@ -1,0 +1,19 @@
+FROM node:alpine
+
+RUN apk add --update --no-cache bash \
+    && apk add --update --no-cache -t .build-deps python make g++ gcc \
+    && npm i -g laravel-echo-server \
+    && apk del .build-deps
+
+COPY . /var/www/html
+
+WORKDIR /var/www/html
+
+RUN cp .env.example .env
+RUN sed -i -e 's/DB_PASSWORD=/DB_PASSWORD=1q2w3e4r/g' .env
+
+RUN sed -i -e 's/"authHost": "http:\/\/accessx\.goat"/"authHost": "http:\/\/nginx"/g' laravel-echo-server.json
+RUN sed -i -e 's/"host": "127\.0\.0\.1"/"host": "redis"/g' laravel-echo-server.json
+
+ENTRYPOINT ["laravel-echo-server"]
+CMD ["start"]

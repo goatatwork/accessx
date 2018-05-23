@@ -173,16 +173,18 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
         /**
          * Goat
          */
-        Laravel\Passport\PassportServiceProvider::class,
+        App\Providers\AgentbotServiceProvider::class,
+        App\Providers\LogbotServiceProvider::class,
+        App\Providers\DockerbotServiceProvider::class,
         App\Providers\DhcpServiceProvider::class,
-
+        Laravel\Passport\PassportServiceProvider::class,
     ],
 
     /*

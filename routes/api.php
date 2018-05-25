@@ -118,3 +118,9 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'docker'], function() {
     Route::get('services/dhcp/statuscard', 'DnsmasqServerStatusCardApiController@index');
     Route::post('services/dhcp/restart', 'DnsmasqRestartApiServiceController@store');
 });
+
+Route::group(['middleware' => 'auth:api', 'prefix' => 'authorization'], function() {
+    Route::get('users', 'UsersApiController@index');
+    Route::get('roles', 'RolesApiController@index');
+    Route::get('permissions', 'PermissionsApiController@index');
+});

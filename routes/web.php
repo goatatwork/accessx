@@ -67,3 +67,5 @@ Route::group(['middleware' => 'auth', 'prefix' => 'infrastructure'], function() 
 });
 
 Route::get('activity_logs', 'ActivityLogsController@index')->middleware('auth');
+
+Route::get('users', 'UsersController@index');

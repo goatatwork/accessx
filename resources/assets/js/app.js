@@ -52,6 +52,8 @@ Vue.component('provision-by-service-location', require('./components/GoldAccess/
 
 Vue.component('customers-table', require('./components/GoldAccess/Customers/CustomersTable.vue'));
 
+Vue.component('user-management', require('./components/GoldAccess/Users/UserManagement.vue'));
+
 window.EventBus = new Vue({});
 
 const app = new Vue({

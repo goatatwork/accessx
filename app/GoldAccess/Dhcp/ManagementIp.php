@@ -140,8 +140,9 @@ class ManagementIp
      */
     protected function getSubscriberId()
     {
-        return $this->provisioning_record->port->slot->aggregator->slug . '-' .
-            $this->provisioning_record->port->slot->slot_number . '-' .
+        return $this->provisioning_record->port->slot->aggregator->slug . '/' .
+            $this->provisioning_record->port->slot->slot_number . '/' .
+            '1/' .
             $this->provisioning_record->port->port_number;
     }
 

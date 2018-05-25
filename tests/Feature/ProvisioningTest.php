@@ -302,8 +302,9 @@ class ProvisioningTest extends TestCase
         $name = $provisioning_record->service_location->customer->customer_name;
         $id = $provisioning_record->service_location->customer->id;
 
-        $subscriberId = $provisioning_record->port->slot->aggregator->slug . '-' .
-            $provisioning_record->port->slot->slot_number . '-' .
+        $subscriberId = $provisioning_record->port->slot->aggregator->slug . '/' .
+            $provisioning_record->port->slot->slot_number . '/' .
+            '1/' .
             $provisioning_record->port->port_number;
 
         $ip = $provisioning_record->ip_address->address;

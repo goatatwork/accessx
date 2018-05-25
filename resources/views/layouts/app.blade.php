@@ -21,7 +21,7 @@
 
     <!-- Font Awesome -->
     <script src="https://use.fortawesome.com/a97ca672.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 
     @if (Auth::check())
     <script>
@@ -135,7 +135,7 @@
                             <span class="fas fa-fw fa-cogs"></span> SYSTEM
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link px-0 py-0 text-white" href="#">Users</a>
+                                    <a class="nav-link px-0 py-0 text-white" href="/users">Users</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link px-0 py-0 text-white" href="/activity_logs">Activity Logs</a>

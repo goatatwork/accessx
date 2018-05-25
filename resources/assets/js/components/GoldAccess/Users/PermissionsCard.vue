@@ -1,0 +1,49 @@
+<template>
+    <div class="card">
+        <div class="card-header">Permissions{{ additionalText }}</div>
+
+            <ul class="list-group list-group-flush">
+                <permission v-for="permission in permissions" :permission="permission" :key="permission.id"></permission>
+            </ul>
+
+    </div>
+</template>
+
+<script>
+    var Permission = Vue.extend(require('./Permission.vue'));
+
+    export default {
+        props: {
+            permissions: {},
+        },
+
+        components: {
+            'permission': Permission,
+        },
+
+        created: function() {
+            this.initializeEventBus();
+        },
+
+        beforeDestroy: function() {
+            EventBus.$off();
+        },
+
+        data: function() {
+            return {
+                additionalText: '',
+            }
+        },
+
+        methods: {
+            setAdditionalText: function(role) {
+                this.additionalText = ' for '+role.name;
+            },
+            initializeEventBus: function() {
+                EventBus.$on('role-was-selected', function(role) {
+                    this.setAdditionalText(role);
+                }.bind(this));
+            },
+        }
+    }
+</script>

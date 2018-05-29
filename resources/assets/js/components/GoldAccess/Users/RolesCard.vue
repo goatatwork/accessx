@@ -1,6 +1,6 @@
 <template>
     <div class="card">
-        <div class="card-header">Roles</div>
+        <div class="card-header text-center">Roles</div>
 
             <ul class="list-group list-group-flush">
                 <role v-for="role in roles" :role="role" :key="role.id"></role>
@@ -19,6 +19,6 @@
 
         components: {
             'role': Role,
-        }
+        },
     }
 </script>

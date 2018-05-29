@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\User;
 use Tests\TestCase;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -112,6 +113,126 @@ class UsersRolesPermissionsTest extends TestCase
 
         $response->assertJsonFragment([
             'name' => 'manage_users'
+        ]);
+    }
+
+    public function test_api_returns_first_role_for_a_user_via_user_role_resource()
+    {
+        $admin_user = (factory(User::class)->create())->assignRole('admin');
+
+        $admin_role = Role::whereName('admin')->first();
+
+        $response = $this->actingAs($this->user, 'api')->json('GET', '/api/authorization/users/' . $admin_user->id . '/role');
+
+        $response->assertJson([
+            'id' => $admin_role->id,
+            'name' => $admin_role->name
+        ]);
+    }
+
+    public function test_api_will_update_a_user_name_when_not_resetting_password()
+    {
+        $admin_user = (factory(User::class)->create())->assignRole('admin');
+
+        $new_admin_user_info = factory(User::class)->make();
+
+        $patch_data = [
+            'id' => $admin_user->id,
+            'name' => $new_admin_user_info->name,
+            'email' => $admin_user->email,
+            'reset_password' => false,
+            'password' => '',
+            'password_confirmation' => '',
+            'role' => 'technician'
+        ];
+
+        $response = $this->actingAs($this->user, 'api')->json('PATCH', '/api/authorization/users/' . $admin_user->id, $patch_data);
+
+        $response->assertJson([
+            'name' => $new_admin_user_info->name,
+            'email' => $admin_user->email,
+        ]);
+    }
+
+    public function test_api_will_update_a_user_name_when_resetting_password()
+    {
+        $admin_user = (factory(User::class)->create())->assignRole('admin');
+
+        $new_admin_user_info = factory(User::class)->make();
+
+        $patch_data = [
+            'id' => $admin_user->id,
+            'name' => $new_admin_user_info->name,
+            'email' => $admin_user->email,
+            'reset_password' => true,
+            'password' => '1q2w3e4r5t',
+            'password_confirmation' => '1q2w3e4r5t',
+            'role' => 'technician'
+        ];
+
+        $response = $this->actingAs($this->user, 'api')->json('PATCH', '/api/authorization/users/' . $admin_user->id, $patch_data);
+
+        $response->assertJson([
+            'name' => $new_admin_user_info->name,
+            'email' => $admin_user->email,
+        ]);
+
+        $hash = bcrypt('1q2w3e4r5t');
+        $this->assertTrue(Hash::check('1q2w3e4r5t', $hash));
+
+    }
+
+    public function test_api_will_error_when_updating_a_user_when_password_reset_is_true_but_password_is_empty()
+    {
+        $admin_user = (factory(User::class)->create())->assignRole('admin');
+
+        $new_admin_user_info = factory(User::class)->make();
+
+        $patch_data = [
+            'id' => $admin_user->id,
+            'name' => $admin_user->name,
+            'email' => $new_admin_user_info->email,
+            'reset_password' => true,
+            'password' => '',
+            'password_confirmation' => '',
+            'role' => 'technician'
+        ];
+
+        $response = $this->actingAs($this->user, 'api')->json('PATCH', '/api/authorization/users/' . $admin_user->id, $patch_data);
+
+        $response->assertJson([
+            'errors' => [
+                'password' => [
+                    'The password field is required.'
+                ]
+            ]
+        ]);
+    }
+
+    public function test_api_will_error_when_updating_a_user_when_password_confirmation_fails()
+    {
+        $admin_user = (factory(User::class)->create())->assignRole('admin');
+
+        $new_admin_user_info = factory(User::class)->make();
+
+        $patch_data = [
+            'id' => $admin_user->id,
+            'name' => $admin_user->name,
+            'email' => $new_admin_user_info->email,
+            'reset_password' => true,
+            'password' => '1q2w3e4r',
+            'password_confirmation' => '1q2w3e4r5t6y7u8i9o0p',
+            'role' => 'technician'
+        ];
+
+        $response = $this->actingAs($this->user, 'api')->json('PATCH', '/api/authorization/users/' . $admin_user->id, $patch_data);
+
+        $response->assertJson([
+            'errors' => [
+                'password' => [
+                    'The password confirmation does not match.'
+                ]
+            ]
         ]);
     }
 }

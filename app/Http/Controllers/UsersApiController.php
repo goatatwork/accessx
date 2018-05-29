@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\EditUserRequest;
 
 class UsersApiController extends Controller
 {
@@ -52,7 +53,7 @@ class UsersApiController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -63,13 +64,17 @@ class UsersApiController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\EditUserRequest  $request
+     * @param  \App\User $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EditUserRequest $request, User $user)
     {
-        //
+        $user = $request->persist($user);
+
+        $user->load(['roles.permissions']);
+
+        return $user;
     }
 
     /**

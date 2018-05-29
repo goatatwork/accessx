@@ -1,12 +1,13 @@
 <template>
-    <a href="#" class="list-group-item list-group-item-action">
-        <span class="fas fa-user mr-2 text-dark"></span>{{ user.name }}
+    <div class="list-group-item list-group-item-action" :class="additionalClasses" @click.prevent="">
+        <span  v-show="userIsAdmin" class="fas fa-fw fa-user-shield mr-2 text-primary"></span>
+        <span v-show="userIsTechnician" class="fas fa-fw fa-user-ninja mr-2 text-success"></span>
+        <span v-show="userIsGuest" class="fas fa-fw fa-user-astronaut mr-2 text-warning"></span>
+        {{ user.name }}
         <ul class="list-inline pull-right" style="display:inline">
-            <button v-show="userIsAdmin" class="btn btn-sm btn-outline-primary"><span class="fas fa-fw fa-user-shield"></span></button>
-            <button v-show="userIsTechnician" class="btn btn-sm btn-outline-success"><span class="fas fa-fw fa-user-ninja"></span></button>
-            <button v-show="userIsGuest" class="btn btn-sm btn-outline-secondary"><span class="fas fa-fw fa-user-astronaut"></span></button>
+            <button class="btn btn-sm btn-outline-secondary" data-toggle="modal" :data-target="modalHref" @click="selectUser"><small>EDIT</small></button>
         </ul>
-    </a>
+    </div>
 </template>
 
 <script>
@@ -15,15 +16,43 @@
             user: {},
         },
 
+        created: function() {
+            this.initializeEventBus();
+        },
+
+        beforeDestroy: function() {
+            EventBus.$off();
+        },
+
         computed: {
+            modalHref: function() {
+                return '#user-modal-'+this.user.id;
+            },
             userIsAdmin: function() {
-                return _.find(this.user.roles, { 'name': 'admin' });
+                return (_.find(this.user.roles, { 'name': 'admin' })) ? true : false;
             },
             userIsGuest: function() {
-                return _.find(this.user.roles, { 'name': 'guest' });
+                return (_.find(this.user.roles, { 'name': 'guest' })) ? true : false;
             },
             userIsTechnician: function() {
-                return _.find(this.user.roles, { 'name': 'technician' });
+                return (_.find(this.user.roles, { 'name': 'technician' })) ? true : false;
+            }
+        },
+
+        data: function() {
+            return {
+                additionalClasses: '',
+            }
+        },
+
+        methods: {
+            initializeEventBus: function() {
+                EventBus.$on('user-was-selected', function(user) {
+                    this.additionalClasses = (user.id == this.user.id) ? 'bg-light font-weight-bold' : '';
+                }.bind(this));
+            },
+            selectUser: function() {
+                EventBus.$emit('user-was-selected', this.user);
             }
         }
     }

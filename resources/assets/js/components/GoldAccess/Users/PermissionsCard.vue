@@ -1,6 +1,6 @@
 <template>
     <div class="card">
-        <div class="card-header">Permissions{{ additionalText }}</div>
+        <div class="card-header text-center">Permissions<span class="font-weight-bold">{{ additionalText }}</span></div>
 
             <ul class="list-group list-group-flush">
                 <permission v-for="permission in permissions" :permission="permission" :key="permission.id"></permission>

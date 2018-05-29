@@ -121,6 +121,11 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'docker'], function() {
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'authorization'], function() {
     Route::get('users', 'UsersApiController@index');
+    Route::patch('users/{user}', 'UsersApiController@update');
     Route::get('roles', 'RolesApiController@index');
     Route::get('permissions', 'PermissionsApiController@index');
+
+    Route::get('users/{user}/role', function(\App\User $user) {
+        return new \App\Http\Resources\UserRoleResource($user);
+    });
 });

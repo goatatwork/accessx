@@ -126,6 +126,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'authorization'], function
     Route::delete('users/{user}', 'UsersApiController@destroy');
     Route::get('roles', 'RolesApiController@index');
     Route::get('roles/{role}', 'RolesApiController@show');
+    Route::patch('roles/{role}/permissions/{permission}/toggle', 'RolePermissionsApiController@update');
     Route::get('permissions', 'PermissionsApiController@index');
 
     Route::get('users/{user}/role', function(\App\User $user) {

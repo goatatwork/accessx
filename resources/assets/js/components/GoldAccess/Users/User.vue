@@ -6,6 +6,7 @@
         {{ user.name }}
         <ul class="list-inline pull-right" style="display:inline">
             <button class="btn btn-sm btn-outline-secondary" data-toggle="modal" :data-target="modalHref" @click="selectUser"><small>EDIT</small></button>
+            <button class="btn btn-sm btn-outline-danger" data-toggle="modal" :data-target="deleteModalHref"><small>DELETE</small></button>
         </ul>
     </div>
 </template>
@@ -25,6 +26,9 @@
         },
 
         computed: {
+            deleteModalHref: function() {
+                return '#user-delete-modal-'+this.user.id;
+            },
             modalHref: function() {
                 return '#user-modal-'+this.user.id;
             },

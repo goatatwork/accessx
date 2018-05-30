@@ -278,4 +278,20 @@ class UsersRolesPermissionsTest extends TestCase
 
         $this->assertCount(0, User::whereName($user->name)->get());
     }
+
+    public function test_api_will_toggle_role_permissions()
+    {
+        $this->assertTrue($this->guest_role->hasPermissionTo('view_customers'));
+        $this->assertFalse($this->guest_role->hasPermissionTo('view_users'));
+
+        $response = $this->actingAs($this->user, 'api')->json('PATCH', '/api/authorization/roles/' . $this->guest_role->id . '/permissions/view_customers/toggle');
+
+        $guest = Role::whereName('guest')->first();
+        $this->assertFalse($guest->hasPermissionTo('view_customers'));
+
+        $response1 = $this->actingAs($this->user, 'api')->json('PATCH', '/api/authorization/roles/' . $this->guest_role->id . '/permissions/view_users/toggle');
+
+        $guest1 = Role::whereName('guest')->first();
+        $this->assertTrue($guest1->hasPermissionTo('view_users'));
+    }
 }

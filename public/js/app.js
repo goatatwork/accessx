@@ -66828,9 +66828,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 var User = Vue.extend(__webpack_require__(178));
 var UserModal = Vue.extend(__webpack_require__(181));
+var UserDeleteModal = Vue.extend(__webpack_require__(205));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -66839,7 +66841,8 @@ var UserModal = Vue.extend(__webpack_require__(181));
 
     components: {
         'user': User,
-        'user-modal': UserModal
+        'user-modal': UserModal,
+        'user-delete-modal': UserDeleteModal
     },
 
     data: function data() {
@@ -66861,6 +66864,13 @@ var UserModal = Vue.extend(__webpack_require__(181));
             EventBus.$on('user-was-updated', function (user) {
                 this.updateUsersList(user);
             }.bind(this));
+
+            EventBus.$on('user-was-deleted', function (user) {
+                this.removeUserFromList(user);
+            }.bind(this));
+        },
+        removeUserFromList: function removeUserFromList(user) {
+            window.location.href = window.location.href;
         },
         updateUsersList: function updateUsersList(user) {
             window.location.href = window.location.href;
@@ -66933,6 +66943,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -66948,6 +66959,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     computed: {
+        deleteModalHref: function deleteModalHref() {
+            return '#user-delete-modal-' + this.user.id;
+        },
         modalHref: function modalHref() {
             return '#user-modal-' + this.user.id;
         },
@@ -67046,6 +67060,18 @@ var render = function() {
               on: { click: _vm.selectUser }
             },
             [_c("small", [_vm._v("EDIT")])]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-sm btn-outline-danger",
+              attrs: {
+                "data-toggle": "modal",
+                "data-target": _vm.deleteModalHref
+              }
+            },
+            [_c("small", [_vm._v("DELETE")])]
           )
         ]
       )
@@ -67998,6 +68024,13 @@ var render = function() {
       _vm._v(" "),
       _vm._l(_vm.usersList, function(user) {
         return _c("user-modal", { key: user.id, attrs: { user: user } })
+      }),
+      _vm._v(" "),
+      _vm._l(_vm.usersList, function(user) {
+        return _c("user-delete-modal", {
+          key: user.id + "-delete-modal",
+          attrs: { user: user }
+        })
       })
     ],
     2
@@ -68066,6 +68099,9 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
 //
 //
 //
@@ -68230,7 +68266,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _c("div", { staticClass: "card-header text-center" }, [_vm._v("Roles")]),
+    _vm._m(0),
     _vm._v(" "),
     _c(
       "ul",
@@ -68241,7 +68277,23 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header text-center" }, [
+      _vm._v("\n        Roles"),
+      _c("br"),
+      _vm._v(" "),
+      _c("small", [
+        _c("span", { staticClass: "font-italic" }, [
+          _vm._v("Click on a role to see it's permissions")
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -68337,7 +68389,8 @@ var Permission = Vue.extend(__webpack_require__(193));
 
     data: function data() {
         return {
-            additionalText: ''
+            additionalText: '',
+            showThisCard: false
         };
     },
 
@@ -68348,6 +68401,7 @@ var Permission = Vue.extend(__webpack_require__(193));
         initializeEventBus: function initializeEventBus() {
             EventBus.$on('role-was-selected', function (role) {
                 this.setAdditionalText(role);
+                this.showThisCard = true;
             }.bind(this));
         }
     }
@@ -68429,6 +68483,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             additionalClasses: '',
+            currentlySelectedRole: {},
             iconStyle: 'far fa-bookmark mr-2 text-dark'
         };
     },
@@ -68441,7 +68496,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         initializeEventBus: function initializeEventBus() {
             EventBus.$on('role-was-selected', function (role) {
                 this.highlightPermissionsForRole(role);
+                this.currentlySelectedRole = role;
             }.bind(this));
+        },
+        togglePermission: function togglePermission(x) {
+            this.iconStyle = this.iconStyle == 'far fa-bookmark mr-2 text-dark' ? 'fas fa-bookmark mr-2 text-success' : 'far fa-bookmark mr-2 text-dark';
+
+            axios.patch('/api/authorization/roles/' + this.currentlySelectedRole.id + '/permissions/' + x + '/toggle').then(function (response) {
+                console.log(response.data);
+            }).catch(function (error) {
+                console.log(error);
+            });
         }
     }
 });
@@ -68462,7 +68527,16 @@ var render = function() {
       attrs: { href: "#" }
     },
     [
-      _c("span", { class: _vm.iconStyle }),
+      _c("span", {
+        class: _vm.iconStyle,
+        attrs: { permissionname: _vm.permission.name },
+        on: {
+          click: function($event) {
+            $event.preventDefault()
+            _vm.togglePermission($event.target.attributes.permissionname.value)
+          }
+        }
+      }),
       _vm._v(_vm._s(_vm.permission.name) + "\n")
     ]
   )
@@ -68485,25 +68559,39 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card" }, [
-    _c("div", { staticClass: "card-header text-center" }, [
-      _vm._v("Permissions"),
-      _c("span", { staticClass: "font-weight-bold" }, [
-        _vm._v(_vm._s(_vm.additionalText))
-      ])
-    ]),
-    _vm._v(" "),
-    _c(
-      "ul",
-      { staticClass: "list-group list-group-flush" },
-      _vm._l(_vm.permissions, function(permission) {
-        return _c("permission", {
-          key: permission.id,
-          attrs: { permission: permission }
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.showThisCard,
+          expression: "showThisCard"
+        }
+      ],
+      staticClass: "card animated fadeIn"
+    },
+    [
+      _c("div", { staticClass: "card-header text-center" }, [
+        _vm._v("Permissions"),
+        _c("span", { staticClass: "font-weight-bold" }, [
+          _vm._v(_vm._s(_vm.additionalText))
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "ul",
+        { staticClass: "list-group list-group-flush" },
+        _vm._l(_vm.permissions, function(permission) {
+          return _c("permission", {
+            key: permission.id,
+            attrs: { permission: permission }
+          })
         })
-      })
-    )
-  ])
+      )
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -68528,21 +68616,21 @@ var render = function() {
       _c("div", { staticClass: "row" }, [
         _c(
           "div",
-          { staticClass: "col" },
+          { staticClass: "col-5" },
           [_c("users-card", { attrs: { users: _vm.users } })],
           1
         ),
         _vm._v(" "),
         _c(
           "div",
-          { staticClass: "col" },
+          { staticClass: "col-4" },
           [_c("roles-card", { attrs: { roles: _vm.roles } })],
           1
         ),
         _vm._v(" "),
         _c(
           "div",
-          { staticClass: "col" },
+          { staticClass: "col-3" },
           [_c("permissions-card", { attrs: { permissions: _vm.permissions } })],
           1
         )
@@ -69349,6 +69437,229 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-14027e0b", module.exports)
+  }
+}
+
+/***/ }),
+/* 205 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(206)
+/* template */
+var __vue_template__ = __webpack_require__(207)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/GoldAccess/Users/UserDeleteModal.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-78555708", Component.options)
+  } else {
+    hotAPI.reload("data-v-78555708", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 206 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        user: {}
+    },
+
+    computed: {
+        modalId: function modalId() {
+            return 'user-delete-modal-' + this.user.id;
+        },
+        modalLabel: function modalLabel() {
+            return 'user-delete-modal-' + this.user.id + '-label';
+        }
+    },
+
+    methods: {
+        submitForm: function submitForm() {
+            var _this = this;
+
+            axios.delete('/api/authorization/users/' + this.user.id).then(function (response) {
+                $('#' + _this.modalId).modal('hide');
+                _this.announceDelete(response.data);
+            }).catch(function (error) {
+                console.log(error.response.data);
+            });
+        },
+        announceDelete: function announceDelete(x) {
+            EventBus.$emit('user-was-deleted', this.user);
+        }
+    }
+
+});
+
+/***/ }),
+/* 207 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "modal fade",
+      attrs: {
+        id: _vm.modalId,
+        tabindex: "-1",
+        role: "dialog",
+        "aria-labelledby": _vm.modalLabel,
+        "aria-hidden": "true"
+      }
+    },
+    [
+      _c("div", { staticClass: "modal-dialog", attrs: { role: "document" } }, [
+        _c("div", { staticClass: "modal-content" }, [
+          _c("div", { staticClass: "modal-header" }, [
+            _c(
+              "h5",
+              { staticClass: "modal-title", attrs: { id: _vm.modalLabel } },
+              [_vm._v("Deleting " + _vm._s(_vm.user.name))]
+            ),
+            _vm._v(" "),
+            _vm._m(0)
+          ]),
+          _vm._v(" "),
+          _c("form", [
+            _c("div", { staticClass: "modal-body" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col" }, [
+                  _vm._v(
+                    "\n                            Are you sure you want to remove " +
+                      _vm._s(_vm.user.name) +
+                      "?\n                        "
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  attrs: { type: "button", "data-dismiss": "modal" }
+                },
+                [_vm._v("Cancel")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-danger",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.submitForm($event)
+                    }
+                  }
+                },
+                [_vm._v("DELETE USER")]
+              )
+            ])
+          ])
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-78555708", module.exports)
   }
 }
 

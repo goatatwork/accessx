@@ -267,4 +267,15 @@ class UsersRolesPermissionsTest extends TestCase
         $this->assertTrue($newuser->hasRole('guest'));
         $this->assertFalse($newuser->hasRole('admin'));
     }
+
+    public function test_api_will_delete_user()
+    {
+        $user = factory(User::class)->create();
+
+        $this->assertCount(1, User::whereName($user->name)->get());
+
+        $response = $this->actingAs($this->user, 'api')->json('DELETE', '/api/authorization/users/' . $user->id);
+
+        $this->assertCount(0, User::whereName($user->name)->get());
+    }
 }

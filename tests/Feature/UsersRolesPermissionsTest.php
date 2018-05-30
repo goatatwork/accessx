@@ -105,6 +105,15 @@ class UsersRolesPermissionsTest extends TestCase
         ]);
     }
 
+    public function test_a_role_can_be_fetched()
+    {
+        $response = $this->actingAs($this->user, 'api')->json('GET', '/api/authorization/roles/' . $this->admin_role->id);
+
+        $response->assertJsonFragment([
+            'name' => 'admin',
+        ]);
+    }
+
     public function test_permissions_can_be_fetched()
     {
         $response = $this->actingAs($this->user, 'api')->json('GET', '/api/authorization/permissions');

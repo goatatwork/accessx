@@ -41,12 +41,12 @@ class RolesApiController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \Spatie\Permission\Models\Role $role
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Role $role)
     {
-        //
+        return $role->load('permissions');
     }
 
     /**

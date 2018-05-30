@@ -45,6 +45,8 @@ class EditUserRequest extends FormRequest
 
     public function persist(User $user)
     {
+        $user->syncRoles([$this->role]);
+
         if ($this->reset_password) {
             return tap($user)->update([
                 'name' => $this->name,

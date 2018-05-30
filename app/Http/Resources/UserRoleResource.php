@@ -14,6 +14,10 @@ class UserRoleResource extends Resource
      */
     public function toArray($request)
     {
-        return $this->roles()->first();
+        $role = $this->roles()->first();
+
+        $role->load('permissions');
+
+        return $role;
     }
 }

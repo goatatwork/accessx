@@ -1,5 +1,5 @@
 <template>
-    <div class="list-group-item list-group-item-action" :class="additionalClasses" @click.prevent="">
+    <div class="list-group-item list-group-item-action" :class="additionalClasses">
         <span  v-show="userIsAdmin" class="fas fa-fw fa-user-shield mr-2 text-primary"></span>
         <span v-show="userIsTechnician" class="fas fa-fw fa-user-ninja mr-2 text-success"></span>
         <span v-show="userIsGuest" class="fas fa-fw fa-user-astronaut mr-2 text-warning"></span>
@@ -48,7 +48,7 @@
         methods: {
             initializeEventBus: function() {
                 EventBus.$on('user-was-selected', function(user) {
-                    this.additionalClasses = (user.id == this.user.id) ? 'bg-light font-weight-bold' : '';
+                    // this.additionalClasses = (user.id == this.user.id) ? 'bg-light font-weight-bold' : '';
                 }.bind(this));
             },
             selectUser: function() {

@@ -12,96 +12,6 @@
                 <form>
                     <div class="modal-body">
 
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="name" class="sr-only">Name</label>
-
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <span class="far fa-user"></span>
-                                            </div>
-                                        </div>
-                                        <input type="text"
-                                            class="form-control form-control-sm"
-                                            :id="formNameId"
-                                            name="name"
-                                            aria-describedby="nameHelp"
-                                            placeholder="Enter the user's name"
-                                            v-model="formData.name"
-                                        >
-                                    </div>
-
-                                    <small id="nameHelp" class="form-text text-muted"></small>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="email" class="sr-only">Email</label>
-
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <span class="far fa-envelope"></span>
-                                            </div>
-                                        </div>
-                                        <input type="email"
-                                            class="form-control form-control-sm"
-                                            :id="formEmailId"
-                                            name="email"
-                                            aria-describedby="emailHelp"
-                                            placeholder="Enter the user's email address"
-                                            v-model="formData.email"
-                                        >
-                                    </div>
-
-                                    <small id="emailHelp" class="form-text text-muted"></small>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="password" class="sr-only">Password</label>
-
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <span class="fas fa-key"></span>
-                                            </div>
-                                        </div>
-                                        <input type="password"
-                                            class="form-control form-control-sm"
-                                            :id="formPasswordId"
-                                            name="password"
-                                            aria-describedby="passwordHelp"
-                                            placeholder="Enter the password"
-                                        >
-                                    </div>
-
-                                    <small id="passwordHelp" class="form-text text-muted"></small>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="password_confirmation" class="sr-only">Confirm Password</label>
-
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <span class="fas fa-key"></span>
-                                            </div>
-                                        </div>
-                                        <input type="password"
-                                            class="form-control form-control-sm"
-                                            :id="formPasswordConfirmationId"
-                                            name="password_confirmation"
-                                            aria-describedby="passwordConfirmationHelp"
-                                            placeholder="Confirm the password"
-                                        >
-                                    </div>
-
-                                    <small id="passwordConfirmationHelp" class="form-text text-muted"></small>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="row mb-5">
                             <div class="col d-flex flex-column text-center p-3" :class="{ 'border border-primary': formData.role == 'admin' }">
                                 <span class="fas fa-2x fa-fw fa-user-shield text-primary align-self-center mb-2"></span>
@@ -148,6 +58,116 @@
                             </div>
                         </div>
 
+                        <div class="row mb-2">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="name" class="sr-only">Name</label>
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <span class="far fa-user"></span>
+                                            </div>
+                                        </div>
+                                        <input type="text"
+                                            class="form-control form-control-sm"
+                                            :id="formNameId"
+                                            name="name"
+                                            aria-describedby="nameHelp"
+                                            placeholder="Enter the user's name"
+                                            v-model="formData.name"
+                                        >
+                                    </div>
+
+                                    <small id="nameHelp" class="form-text text-muted"></small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email" class="sr-only">Email</label>
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <span class="far fa-envelope"></span>
+                                            </div>
+                                        </div>
+                                        <input type="email"
+                                            class="form-control form-control-sm"
+                                            :id="formEmailId"
+                                            name="email"
+                                            aria-describedby="emailHelp"
+                                            placeholder="Enter the user's email address"
+                                            v-model="formData.email"
+                                        >
+                                    </div>
+
+                                    <small id="emailHelp" class="form-text text-muted"></small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col d-flex flex-row-reverse">
+                                <div class="custom-control custom-toggle my-2">
+                                    <input type="checkbox"
+                                        :id="formPasswordChangeToggleId"
+                                        name="reset_password"
+                                        class="custom-control-input"
+                                        v-model="formData.reset_password"
+                                    >
+                                    <label class="custom-control-label" :for="formPasswordChangeToggleId">Reset Password</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div v-show="showPasswordForm" class="row animated"  :class="toggleClass">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="password" class="sr-only">Password</label>
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-key"></span>
+                                            </div>
+                                        </div>
+                                        <input type="password"
+                                            class="form-control form-control-sm"
+                                            :id="formPasswordId"
+                                            name="password"
+                                            aria-describedby="passwordHelp"
+                                            placeholder="Enter the new password"
+                                            v-model="formData.password"
+                                        >
+                                    </div>
+
+                                    <small id="passwordHelp" class="form-text text-muted"></small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="password_confirmation" class="sr-only">Confirm Password</label>
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-key"></span>
+                                            </div>
+                                        </div>
+                                        <input type="password"
+                                            class="form-control form-control-sm"
+                                            :id="formPasswordConfirmationId"
+                                            name="password_confirmation"
+                                            aria-describedby="passwordConfirmationHelp"
+                                            placeholder="Confirm the new password"
+                                            v-model="formData.password_confirmation"
+                                        >
+                                    </div>
+
+                                    <small id="passwordConfirmationHelp" class="form-text text-muted"></small>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -173,6 +193,9 @@
             formNameId: function() {
                 return 'name-for-user-'+this.user.id;
             },
+            formPasswordChangeToggleId: function() {
+                return 'change-password-for-user-'+this.user.id;
+            },
             formPasswordId: function() {
                 return 'password-for-user-'+this.user.id;
             },
@@ -194,17 +217,23 @@
             modalLabel: function() {
                 return 'user-modal-'+this.user.id+'-label';
             },
+            showPasswordForm: function() {
+                return this.formData.reset_password;
+            },
+            toggleClass: function() {
+                return (this.formData.reset_password) ? 'fadeIn' : 'fadeOut';
+            }
         },
 
         data: function() {
             return {
-                role: {},
+                roleSelected: {},
                 formData: {
                     'id': this.user.id,
                     'name': this.user.name,
                     'email': this.user.email,
                     'role': '',
-                    'reset_password': true,
+                    'reset_password': false,
                     'password': '',
                     'password_confirmation': ''
                 }
@@ -216,9 +245,12 @@
         },
 
         methods: {
+            fetchRoleWithPermissions: function() {
+
+            },
             getFormResource: function() {
                 axios.get('/api/authorization/users/'+this.user.id+'/role').then(response => {
-                    this.role = response.data;
+                    this.roleSelected = response.data;
                     this.formData.role = response.data.name;
                 }).catch(error => {
                     console.log(error);
@@ -226,10 +258,14 @@
             },
             submitForm: function() {
                 axios.patch('/api/authorization/users/'+this.user.id, this.formData).then( (response) => {
-                    console.log(response.data);
+                    $('#'+this.modalId).modal('hide');
+                    this.announceUserChange(response.data, this.user);
                 }).catch( (error) => {
                     console.log(error.response.data);
                 });
+            },
+            announceUserChange: function(user) {
+                EventBus.$emit('user-was-updated', user);
             }
         }
 

@@ -1,6 +1,6 @@
 <template>
-    <div class="card">
-        <div class="card-header">Permissions{{ additionalText }}</div>
+    <div v-show="showThisCard" class="card animated fadeIn">
+        <div class="card-header text-center">Permissions<span class="font-weight-bold">{{ additionalText }}</span></div>
 
             <ul class="list-group list-group-flush">
                 <permission v-for="permission in permissions" :permission="permission" :key="permission.id"></permission>
@@ -32,6 +32,7 @@
         data: function() {
             return {
                 additionalText: '',
+                showThisCard: false,
             }
         },
 
@@ -42,6 +43,7 @@
             initializeEventBus: function() {
                 EventBus.$on('role-was-selected', function(role) {
                     this.setAdditionalText(role);
+                    this.showThisCard = true;
                 }.bind(this));
             },
         }

@@ -3,13 +3,13 @@
         <div class="col">
 
             <div class="row">
-                <div class="col">
+                <div class="col-5">
                     <users-card :users="users"></users-card>
                 </div>
-                <div class="col">
+                <div class="col-4">
                     <roles-card :roles="roles"></roles-card>
                 </div>
-                <div class="col">
+                <div class="col-3">
                     <permissions-card :permissions="permissions"></permissions-card>
                 </div>
             </div>

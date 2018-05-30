@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
-class RolesApiController extends Controller
+class RolePermissionsApiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class RolesApiController extends Controller
      */
     public function index()
     {
-        return Role::with('permissions')->get();
+        //
     }
 
     /**
@@ -41,12 +41,12 @@ class RolesApiController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \Spatie\Permission\Models\Role $role
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Role $role)
+    public function show($id)
     {
-        return $role->load('permissions');
+        //
     }
 
     /**
@@ -64,12 +64,15 @@ class RolesApiController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Role $role
+     * @param  string $permission The name string for the permission to toggle
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Role $role, $permission)
     {
-        //
+        $role->hasPermissionTo($permission) ? $role->revokePermissionTo($permission) : $role->givePermissionTo($permission);
+        \Log::info('okay');
+        return 'okay';
     }
 
     /**

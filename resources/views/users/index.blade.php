@@ -18,12 +18,13 @@
         </dl>
 
         <span class="float-right">
-            <button class="btn btn-secondary float-right"><i class="material-icons mr-2">add</i>Add A User</button>
+            <button class="btn btn-secondary float-right" data-toggle="modal" data-target="#create-user-modal"><i class="material-icons mr-2">add</i>Add A User</button>
         </span>
 
     </div>
 </div>
 
 <user-management :users="{{ $users->toJson() }}" :roles="{{ $roles->toJson() }}" :permissions="{{ $permissions->toJson() }}"></user-management>
+<create-user-modal></create-user-modal>
 
 @endsection

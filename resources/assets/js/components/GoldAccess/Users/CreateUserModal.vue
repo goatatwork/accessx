@@ -1,9 +1,9 @@
 <template>
-    <div class="modal fade" :id="modalId" tabindex="-1" role="dialog" :aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal fade" id="create-user-modal" tabindex="-1" role="dialog" aria-labelledby="create-user-modal-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" :id="modalLabel">{{ user.name }}</h5>
+                    <h5 class="modal-title" id="create-user-modal-label">Create User</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -106,21 +106,7 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col d-flex flex-row-reverse">
-                                <div class="custom-control custom-toggle my-2">
-                                    <input type="checkbox"
-                                        :id="formPasswordChangeToggleId"
-                                        name="reset_password"
-                                        class="custom-control-input"
-                                        v-model="formData.reset_password"
-                                    >
-                                    <label class="custom-control-label" :for="formPasswordChangeToggleId">Reset Password</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div v-show="showPasswordForm" class="row animated"  :class="toggleClass">
+                        <div class="row">
                             <div class="col">
                                 <div class="form-group">
                                     <label for="password" class="sr-only">Password</label>
@@ -188,83 +174,54 @@
 
         computed: {
             formEmailId: function() {
-                return 'email-for-user-'+this.user.id;
+                return 'email';
             },
             formNameId: function() {
-                return 'name-for-user-'+this.user.id;
+                return 'name';
             },
             formPasswordChangeToggleId: function() {
-                return 'change-password-for-user-'+this.user.id;
+                return 'change-password';
             },
             formPasswordId: function() {
-                return 'password-for-user-'+this.user.id;
+                return 'password';
             },
             formRadioAdminRoleId: function() {
-                return 'admin-role-for-user-'+this.user.id;
+                return 'admin-role';
             },
             formRadioGuestRoleId: function() {
-                return 'guest-role-for-user-'+this.user.id;
+                return 'guest-role';
             },
             formRadioTechnicianRoleId: function() {
-                return 'technician-role-for-user-'+this.user.id;
+                return 'technician-role';
             },
             formPasswordConfirmationId: function() {
-                return 'password-confirmation-for-user-'+this.user.id;
+                return 'password-confirmation';
             },
-            modalId: function() {
-                return 'user-modal-'+this.user.id;
-            },
-            modalLabel: function() {
-                return 'user-modal-'+this.user.id+'-label';
-            },
-            showPasswordForm: function() {
-                return this.formData.reset_password;
-            },
-            toggleClass: function() {
-                return (this.formData.reset_password) ? 'fadeIn' : 'fadeOut';
-            }
         },
 
         data: function() {
             return {
-                roleSelected: {},
                 formData: {
-                    'id': this.user.id,
-                    'name': this.user.name,
-                    'email': this.user.email,
+                    'name': '',
+                    'email': '',
                     'role': '',
-                    'reset_password': false,
                     'password': '',
                     'password_confirmation': ''
                 }
             }
         },
 
-        created: function() {
-            this.getFormResource();
-        },
-
         methods: {
-            fetchRoleWithPermissions: function() {
-
-            },
-            getFormResource: function() {
-                axios.get('/api/authorization/users/'+this.user.id+'/role').then(response => {
-                    this.roleSelected = response.data;
-                    this.formData.role = response.data.name;
-                }).catch(error => {
-                    console.log(error);
-                });
-            },
             submitForm: function() {
-                axios.patch('/api/authorization/users/'+this.user.id, this.formData).then( (response) => {
-                    $('#'+this.modalId).modal('hide');
-                    this.announceUserChange(response.data);
+                axios.post('/api/authorization/users', this.formData).then( (response) => {
+                    $('#create-user-modal').modal('hide');
+                    this.announceUserCreate(response.data);
+                    console.log(response.data);
                 }).catch( (error) => {
                     console.log(error.response.data);
                 });
             },
-            announceUserChange: function(user) {
+            announceUserCreate: function(user) {
                 EventBus.$emit('user-was-updated', user);
             }
         }

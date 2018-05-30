@@ -53,6 +53,7 @@ Vue.component('provision-by-service-location', require('./components/GoldAccess/
 Vue.component('customers-table', require('./components/GoldAccess/Customers/CustomersTable.vue'));
 
 Vue.component('user-management', require('./components/GoldAccess/Users/UserManagement.vue'));
+Vue.component('create-user-modal', require('./components/GoldAccess/Users/CreateUserModal.vue'));
 
 window.EventBus = new Vue({});
 

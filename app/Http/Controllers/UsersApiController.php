@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\EditUserRequest;
+use App\Http\Requests\CreateUserRequest;
 
 class UsersApiController extends Controller
 {
@@ -31,12 +32,14 @@ class UsersApiController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\CreateUserRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateUserRequest $request)
     {
-        //
+        $user = $request->persist();
+
+        return $user->load(['roles.permissions']);
     }
 
     /**

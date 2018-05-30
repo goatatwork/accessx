@@ -244,4 +244,27 @@ class UsersRolesPermissionsTest extends TestCase
             ]
         ]);
     }
+
+    public function test_api_will_create_user_with_role()
+    {
+        $userForm = [
+            'name' => 'Test User Name',
+            'email' => 'testuser@example.com',
+            'role' => 'guest',
+            'password' => '1q2w3e4r5t6y',
+            'password_confirmation' => '1q2w3e4r5t6y',
+        ];
+
+        $response = $this->actingAs($this->user, 'api')->json('POST', '/api/authorization/users', $userForm);
+
+        $response->assertJson([
+            'name' => 'Test User Name',
+            'email' => 'testuser@example.com',
+        ]);
+
+        $newuser = User::whereName('Test User Name')->first();
+
+        $this->assertTrue($newuser->hasRole('guest'));
+        $this->assertFalse($newuser->hasRole('admin'));
+    }
 }

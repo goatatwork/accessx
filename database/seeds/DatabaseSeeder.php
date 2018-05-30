@@ -16,5 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PlatformsAndModuleTypesSeeder::class);
 
         $this->call(DhcpManagementNetworkSeeder::class);
+
+        $this->call(RolesAndPermissionsSeeder::class);
     }
 }

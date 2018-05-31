@@ -23,13 +23,16 @@ Route::group(['middleware' => 'auth', 'prefix' => 'provisioning'], function() {
     Route::get('service_locations/{service_location}/show', 'ServiceLocationProvisioningController@show');
     Route::get('service_locations/{service_location}/create', 'ServiceLocationProvisioningController@create');
 });
+Route::patch('/service_locations/{service_location}', 'ServiceLocationsController@update')->middleware('auth');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'customers'], function() {
     Route::get('/', 'CustomersController@index');
     Route::post('/', 'CustomersController@store');
     Route::get('create', 'CustomersController@create');
     Route::get('{customer}', 'CustomersController@show');
+    Route::get('{customer}', 'CustomersController@show');
 });
+Route::patch('/billing_records/{billing_record}', 'BillingRecordsController@update')->middleware('auth');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'onts'], function() {
     Route::get('/', 'OntsController@index');

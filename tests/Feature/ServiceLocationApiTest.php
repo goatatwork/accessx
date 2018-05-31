@@ -62,4 +62,18 @@ class ServiceLocationApiTest extends TestCase
             'id' => $service_location->id
         ]);
     }
+
+    /**
+     * @return void
+     */
+    public function test_web_can_update_service_location()
+    {
+        $service_location = factory(ServiceLocation::class)->create();
+
+        $response = $this->actingAs($this->user, 'api')->json('PATCH', '/service_locations/' . $service_location->id, ['phone1' => '111-111-1111']);
+
+        $sl_record = ServiceLocation::find($service_location->id);
+        $this->assertEquals($sl_record->phone1, '111-111-1111');
+
+    }
 }

@@ -59382,6 +59382,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 var DeleteModal = Vue.extend(__webpack_require__(7));
 
@@ -59395,6 +59397,9 @@ var DeleteModal = Vue.extend(__webpack_require__(7));
     },
 
     computed: {
+        deleteButtonClass: function deleteButtonClass() {
+            return this.ont.has_provisioning_records ? 'btn-outline-light' : 'btn-outline-dark';
+        },
         modalRef: function modalRef() {
             return '#deleteModal-' + this.ont.id;
         },
@@ -59544,11 +59549,13 @@ var render = function() {
                     _c(
                       "button",
                       {
-                        staticClass: "btn btn-sm btn-outline-dark",
+                        staticClass: "btn btn-sm",
+                        class: _vm.deleteButtonClass,
                         attrs: {
                           type: "button",
                           "data-toggle": "modal",
-                          "data-target": _vm.modalRef
+                          "data-target": _vm.modalRef,
+                          disabled: _vm.ont.has_provisioning_records
                         }
                       },
                       [

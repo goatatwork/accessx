@@ -43,9 +43,11 @@
                             <div slot="button">
                                 <button
                                     type="button"
-                                    class="btn btn-sm btn-outline-dark"
+                                    class="btn btn-sm"
+                                    :class="deleteButtonClass"
                                     data-toggle="modal"
                                     :data-target="modalRef"
+                                    :disabled="ont.has_provisioning_records"
                                 >
                                     Delete
                                 </button>
@@ -76,6 +78,9 @@
         },
 
         computed: {
+            deleteButtonClass: function() {
+                return this.ont.has_provisioning_records ? 'btn-outline-light' : 'btn-outline-dark';
+            },
             modalRef: function() {
                 return '#deleteModal-'+this.ont.id;
             },

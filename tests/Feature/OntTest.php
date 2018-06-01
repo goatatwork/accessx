@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Ont;
 use App\User;
 use Tests\TestCase;
+use App\ProvisioningRecord;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -50,5 +51,21 @@ class OntTest extends TestCase
         $response->assertStatus(302);
 
         $this->assertDatabaseMissing('onts', ['id' => $ont->id]);
+    }
+
+    public function test_ont_knows_if_there_are_provisioning_records_including_it()
+    {
+        $provrec = factory(ProvisioningRecord::class)->create();
+
+        $ont = $provrec->ont_profile->ont_software->ont;
+
+        $this->assertTrue($ont->has_provisioning_records);
+    }
+
+    public function test_ont_knows_if_there_are_not_provisioning_records_including_it()
+    {
+        $ont = factory(Ont::class)->create();
+
+        $this->assertFalse($ont->has_provisioning_records);
     }
 }

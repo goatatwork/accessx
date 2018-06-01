@@ -4,7 +4,9 @@ namespace Tests\Feature;
 
 use App\User;
 use App\Subnet;
+use App\IpAddress;
 use Tests\TestCase;
+use App\ProvisioningRecord;
 use App\DhcpSharedNetwork;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -67,5 +69,21 @@ class IpAddressesApiTest extends TestCase
                 'address' => $subnet->ip_addresses[0]->address,
             ]
         ]);
+    }
+
+    public function test_ip_address_knows_if_it_has_provisioning_records()
+    {
+        $provrec = factory(ProvisioningRecord::class)->create();
+
+        $ip = $provrec->ip_address;
+
+        $this->assertTrue($ip->has_provisioning_records);
+    }
+
+    public function test_ip_address_knows_if_it_does_not_have_provisioning_records()
+    {
+        $ip = factory(IpAddress::class)->create();
+
+        $this->assertFalse($ip->has_provisioning_records);
     }
 }

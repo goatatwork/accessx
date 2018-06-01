@@ -65,6 +65,7 @@
                         class="btn btn-sm btn-outline-dark"
                         data-toggle="modal"
                         data-target="#delete-aggregator-{{ $aggregator->id }}"
+                        @if ($aggregator->has_provisioning_records) {{ 'disabled' }} @endif
                     >
                         Delete
                     </button>

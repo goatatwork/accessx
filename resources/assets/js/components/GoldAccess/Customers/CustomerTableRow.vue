@@ -15,6 +15,25 @@
         <td class="text-center">
             {{ theCustomer.number_of_provisioning_records }}
         </td>
+        <td class="text-center">
+            <delete-modal :title="theCustomer.customer_name" :to-be-deleted="theCustomer" @delete-the-object="deleteObject()">
+                <div slot="button">
+                    <button
+                        type="button"
+                        class="btn btn-sm"
+                        :class="deleteButtonClass"
+                        data-toggle="modal"
+                        :data-target="modalRef"
+                        :disabled="theCustomer.has_provisioning_records"
+                    >
+                        Delete
+                    </button>
+                </div>
+                <div slot="body">
+                    <p>Are you sure you wish to delete <strong>{{ theCustomer.customer_name }}</strong>?</p>
+                </div>
+            </delete-modal>
+        </td>
     </tr>
 </template>
 
@@ -25,6 +44,12 @@
         },
 
         computed: {
+            deleteButtonClass: function() {
+                return this.theCustomer.has_provisioning_records ? 'btn-outline-light' : 'btn-outline-dark';
+            },
+            modalRef: function() {
+                return '#deleteModal-'+this.theCustomer.id;
+            },
             showCustomerHref: function() {
                 return '/customers/'+this.theCustomer.id;
             },
@@ -32,5 +57,15 @@
                 return (this.theCustomer.customer_type == 'Business') ? 'business' : 'person';
             }
         },
+
+        methods: {
+            deleteObject: function() {
+                axios.delete('/api/customers/'+this.theCustomer.id).then( (response) => {
+                    window.location.href = '/customers';
+                }).catch((error) => {
+                    console.log(error);
+                });
+            }
+        }
     }
 </script>

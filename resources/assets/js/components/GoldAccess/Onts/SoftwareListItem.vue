@@ -26,6 +26,18 @@
                                     </div>
                                     <div class="media-right">
                                         <delete-modal :title="software.version" :to-be-deleted="software" v-on:delete-the-object="deleteTheObject()">
+                                            <div slot="button">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-sm"
+                                                    :class="deleteButtonClass"
+                                                    data-toggle="modal"
+                                                    :data-target="modalRef"
+                                                    :disabled="software.has_provisioning_records"
+                                                >
+                                                    Delete
+                                                </button>
+                                            </div>
                                             <div slot="body">
                                                 <p>Are you sure you wish to delete <strong>{{ software.file.file_name }}</strong>?</p>
                                             </div>
@@ -64,6 +76,9 @@
             collapseId: function() {
                 return 'collapse-software-'+this.software.id;
             },
+            deleteButtonClass: function() {
+                return this.software.has_provisioning_records ? 'btn-outline-light' : 'btn-outline-dark';
+            },
             deleteModalId: function() {
                 return 'delete-modal-software-'+this.software.id;
             },
@@ -72,6 +87,9 @@
             },
             headingId: function() {
                 return 'heading-software-'+this.software.id;
+            },
+            modalRef: function() {
+                return '#deleteModal-'+this.software.id;
             }
         },
 

@@ -59382,6 +59382,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 var DeleteModal = Vue.extend(__webpack_require__(7));
 
@@ -59395,6 +59397,9 @@ var DeleteModal = Vue.extend(__webpack_require__(7));
     },
 
     computed: {
+        deleteButtonClass: function deleteButtonClass() {
+            return this.ont.has_provisioning_records ? 'btn-outline-light' : 'btn-outline-dark';
+        },
         modalRef: function modalRef() {
             return '#deleteModal-' + this.ont.id;
         },
@@ -59544,11 +59549,13 @@ var render = function() {
                     _c(
                       "button",
                       {
-                        staticClass: "btn btn-sm btn-outline-dark",
+                        staticClass: "btn btn-sm",
+                        class: _vm.deleteButtonClass,
                         attrs: {
                           type: "button",
                           "data-toggle": "modal",
-                          "data-target": _vm.modalRef
+                          "data-target": _vm.modalRef,
+                          disabled: _vm.ont.has_provisioning_records
                         }
                       },
                       [
@@ -59825,6 +59832,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var OntSoftwareProfiles = Vue.extend(__webpack_require__(114));
 
@@ -59844,6 +59863,9 @@ var OntSoftwareProfiles = Vue.extend(__webpack_require__(114));
         collapseId: function collapseId() {
             return 'collapse-software-' + this.software.id;
         },
+        deleteButtonClass: function deleteButtonClass() {
+            return this.software.has_provisioning_records ? 'btn-outline-light' : 'btn-outline-dark';
+        },
         deleteModalId: function deleteModalId() {
             return 'delete-modal-software-' + this.software.id;
         },
@@ -59852,6 +59874,9 @@ var OntSoftwareProfiles = Vue.extend(__webpack_require__(114));
         },
         headingId: function headingId() {
             return 'heading-software-' + this.software.id;
+        },
+        modalRef: function modalRef() {
+            return '#deleteModal-' + this.software.id;
         }
     },
 
@@ -60095,6 +60120,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -60109,11 +60146,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         collapseId: function collapseId() {
             return 'collapse-profile-' + this.profile.id;
         },
-        modalId: function modalId() {
-            return 'modal-id-profile' + this.profile.id;
+        deleteButtonClass: function deleteButtonClass() {
+            return this.profile.has_provisioning_records ? 'btn-outline-light' : 'btn-outline-dark';
         },
         modalRef: function modalRef() {
-            return 'modal-ref-profile' + this.profile.id;
+            return '#deleteModal' + this.profile.id;
         }
     },
 
@@ -60207,6 +60244,27 @@ var render = function() {
                       }
                     },
                     [
+                      _c("div", { attrs: { slot: "button" }, slot: "button" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm",
+                            class: _vm.deleteButtonClass,
+                            attrs: {
+                              type: "button",
+                              "data-toggle": "modal",
+                              "data-target": _vm.modalRef,
+                              disabled: _vm.profile.has_provisioning_records
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                        Delete\n                                    "
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
                       _c("div", { attrs: { slot: "body" }, slot: "body" }, [
                         _c("p", [
                           _vm._v("Are you sure you wish to delete "),
@@ -61113,6 +61171,32 @@ var render = function() {
                             }
                           },
                           [
+                            _c(
+                              "div",
+                              { attrs: { slot: "button" }, slot: "button" },
+                              [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-sm",
+                                    class: _vm.deleteButtonClass,
+                                    attrs: {
+                                      type: "button",
+                                      "data-toggle": "modal",
+                                      "data-target": _vm.modalRef,
+                                      disabled:
+                                        _vm.software.has_provisioning_records
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                                Delete\n                                            "
+                                    )
+                                  ]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
                             _c(
                               "div",
                               { attrs: { slot: "body" }, slot: "body" },
@@ -66389,6 +66473,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 var CustomerTableRow = Vue.extend(__webpack_require__(170));
 
@@ -66499,6 +66584,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -66506,11 +66610,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     computed: {
+        deleteButtonClass: function deleteButtonClass() {
+            return this.theCustomer.has_provisioning_records ? 'btn-outline-light' : 'btn-outline-dark';
+        },
+        modalRef: function modalRef() {
+            return '#deleteModal-' + this.theCustomer.id;
+        },
         showCustomerHref: function showCustomerHref() {
             return '/customers/' + this.theCustomer.id;
         },
         customerTypeIcon: function customerTypeIcon() {
             return this.theCustomer.customer_type == 'Business' ? 'business' : 'person';
+        }
+    },
+
+    methods: {
+        deleteObject: function deleteObject() {
+            axios.delete('/api/customers/' + this.theCustomer.id).then(function (response) {
+                window.location.href = '/customers';
+            }).catch(function (error) {
+                console.log(error);
+            });
         }
     }
 });
@@ -66558,7 +66678,55 @@ var render = function() {
           _vm._s(_vm.theCustomer.number_of_provisioning_records) +
           "\n    "
       )
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "td",
+      { staticClass: "text-center" },
+      [
+        _c(
+          "delete-modal",
+          {
+            attrs: {
+              title: _vm.theCustomer.customer_name,
+              "to-be-deleted": _vm.theCustomer
+            },
+            on: {
+              "delete-the-object": function($event) {
+                _vm.deleteObject()
+              }
+            }
+          },
+          [
+            _c("div", { attrs: { slot: "button" }, slot: "button" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-sm",
+                  class: _vm.deleteButtonClass,
+                  attrs: {
+                    type: "button",
+                    "data-toggle": "modal",
+                    "data-target": _vm.modalRef,
+                    disabled: _vm.theCustomer.has_provisioning_records
+                  }
+                },
+                [_vm._v("\n                    Delete\n                ")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { attrs: { slot: "body" }, slot: "body" }, [
+              _c("p", [
+                _vm._v("Are you sure you wish to delete "),
+                _c("strong", [_vm._v(_vm._s(_vm.theCustomer.customer_name))]),
+                _vm._v("?")
+              ])
+            ])
+          ]
+        )
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = []
@@ -66640,7 +66808,9 @@ var render = function() {
                 _vm._v("# Of Provisioning Records "),
                 _c("span", { staticClass: "fas fa-sort" })
               ]
-            )
+            ),
+            _vm._v(" "),
+            _c("th")
           ])
         ]),
         _vm._v(" "),

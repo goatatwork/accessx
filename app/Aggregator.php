@@ -23,7 +23,7 @@ class Aggregator extends Model implements AuditableContract
         'notes'
     ];
 
-    // protected $appends = ['slug'];
+    protected $appends = ['has_provisioning_records'];
 
     public function platform()
     {
@@ -63,4 +63,8 @@ class Aggregator extends Model implements AuditableContract
         }
     }
 
+    public function getHasProvisioningRecordsAttribute()
+    {
+        return $this->slots()->get()->where('has_provisioning_records', true)->count() ? true : false;
+    }
 }

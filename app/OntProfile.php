@@ -16,7 +16,7 @@ class OntProfile extends Model implements HasMedia, AuditableContract
 
     protected $fillable = ['name', 'notes'];
 
-    protected $appends = ['file'];
+    protected $appends = ['file', 'has_provisioning_records'];
 
     public function ont_software()
     {

@@ -254,4 +254,20 @@ class OntProfileApiTest extends TestCase
         $software->clearMediaCollection('default');
         $profile->clearMediaCollection('default');
     }
+
+    public function test_ont_profile_knows_if_it_has_provisioning_records()
+    {
+        $provrec = factory(ProvisioningRecord::class)->create();
+
+        $ont_profile = $provrec->ont_profile;
+
+        $this->assertTrue($ont_profile->has_provisioning_records);
+    }
+
+    public function test_ont_profile_knows_if_it_has_no_provisioning_records()
+    {
+        $profile = factory(OntProfile::class)->create();
+
+        $this->assertFalse($profile->has_provisioning_records);
+    }
 }

@@ -24,6 +24,18 @@
                             </div>
                             <div class="media-right">
                                 <delete-modal :title="profile.file.file_name" :to-be-deleted="profile" v-on:delete-the-object="deleteTheObject()">
+                                    <div slot="button">
+                                        <button
+                                            type="button"
+                                            class="btn btn-sm"
+                                            :class="deleteButtonClass"
+                                            data-toggle="modal"
+                                            :data-target="modalRef"
+                                            :disabled="profile.has_provisioning_records"
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
                                     <div slot="body">
                                         <p>Are you sure you wish to delete <strong>{{ profile.file.file_name }}</strong>?</p>
                                     </div>
@@ -53,11 +65,11 @@
             collapseId: function() {
                 return 'collapse-profile-'+this.profile.id;
             },
-            modalId: function() {
-                return 'modal-id-profile'+this.profile.id;
+            deleteButtonClass: function() {
+                return this.profile.has_provisioning_records ? 'btn-outline-light' : 'btn-outline-dark';
             },
             modalRef: function() {
-                return 'modal-ref-profile'+this.profile.id;
+                return '#deleteModal'+this.profile.id;
             }
         },
 

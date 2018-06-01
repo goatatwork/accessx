@@ -60120,6 +60120,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -60134,11 +60146,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         collapseId: function collapseId() {
             return 'collapse-profile-' + this.profile.id;
         },
-        modalId: function modalId() {
-            return 'modal-id-profile' + this.profile.id;
+        deleteButtonClass: function deleteButtonClass() {
+            return this.profile.has_provisioning_records ? 'btn-outline-light' : 'btn-outline-dark';
         },
         modalRef: function modalRef() {
-            return 'modal-ref-profile' + this.profile.id;
+            return '#deleteModal' + this.profile.id;
         }
     },
 
@@ -60232,6 +60244,27 @@ var render = function() {
                       }
                     },
                     [
+                      _c("div", { attrs: { slot: "button" }, slot: "button" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm",
+                            class: _vm.deleteButtonClass,
+                            attrs: {
+                              type: "button",
+                              "data-toggle": "modal",
+                              "data-target": _vm.modalRef,
+                              disabled: _vm.profile.has_provisioning_records
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                                        Delete\n                                    "
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
                       _c("div", { attrs: { slot: "body" }, slot: "body" }, [
                         _c("p", [
                           _vm._v("Are you sure you wish to delete "),

@@ -3,8 +3,9 @@
 namespace Tests\Unit;
 
 use App\Slot;
-use App\ModuleType;
 use Tests\TestCase;
+use App\ModuleType;
+use App\ProvisioningRecord;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SlotTest extends TestCase
@@ -27,6 +28,22 @@ class SlotTest extends TestCase
     {
         $slot = factory(Slot::class)->create(['module_type_id' => 2]);
         $this->assertTrue($slot->populated);
+    }
+
+    public function test_slot_knows_if_it_has_provisioning_records()
+    {
+        $provrec = factory(ProvisioningRecord::class)->create();
+
+        $slot = $provrec->port->slot;
+
+        $this->assertTrue($slot->has_provisioning_records);
+    }
+
+    public function test_slot_knows_if_it_does_not_have_provisioning_records()
+    {
+        $slot = factory(Slot::class)->create();
+
+        $this->assertFalse($slot->has_provisioning_records);
     }
 
     public function test_slot_creates_ports_when_it_is_populated()

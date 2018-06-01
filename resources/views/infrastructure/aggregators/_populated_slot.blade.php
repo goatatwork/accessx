@@ -5,9 +5,20 @@
             <div class="col">
                 <span class="float-left">This slot is populated with a {{ $aggregator_slot->module_type->name }}</span>
                 <br>
-                <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#unpopulated-slot-{{ $aggregator_slot->id }}">
+                <button
+                    type="submit"
+                    class="btn btn-danger btn-sm"
+                    data-toggle="modal"
+                    data-target="#unpopulated-slot-{{ $aggregator_slot->id }}"
+                    @if ($aggregator_slot->has_provisioning_records) {{ 'disabled' }} @endif
+                    >
                     Unpopulated This Slot
                 </button>
+                @if ($aggregator_slot->has_provisioning_records)
+                <small class="font-italic">
+                    <span class="fas fa-long-arrow-alt-left"></span> Disabled because there are provisioned ports here.
+                </small>
+                @endif
             </div>
         </div>
 

@@ -18,7 +18,7 @@ class Slot extends Model implements AuditableContract
         'notes'
     ];
 
-    protected $appends = ['populated'];
+    protected $appends = ['populated', 'has_provisioning_records'];
 
     public function aggregator()
     {
@@ -33,6 +33,11 @@ class Slot extends Model implements AuditableContract
     public function ports()
     {
         return $this->hasMany(Port::class);
+    }
+
+    public function provisioning_records()
+    {
+        return $this->hasManyThrough(ProvisioningRecord::class, Port::class);
     }
 
     public function getPopulatedAttribute()
@@ -85,5 +90,10 @@ class Slot extends Model implements AuditableContract
         } else {
             throw new SlotAlreadyHasPorts();
         }
+    }
+
+    public function getHasProvisioningRecordsAttribute()
+    {
+        return $this->provisioning_records()->exists();
     }
 }

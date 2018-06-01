@@ -28,7 +28,7 @@
                     @foreach($aggregator_slot->ports as $port)
                         <li class="list-group-item">
                             Port {{ $port->port_number }}
-                            @if ($port->populated)
+                            @if ($port->has_provisioning_records)
                                 provisioned
                             @else
                                 not provisioned

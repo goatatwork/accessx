@@ -66123,7 +66123,8 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(20));
                 len: '',
                 circuit_id: '',
                 notes: ''
-            }
+            },
+            submitIsDisabled: false
         };
     },
 
@@ -66165,6 +66166,7 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(20));
         submitForm: function submitForm() {
             var _this = this;
 
+            this.submitIsDisabled = true;
             axios.post('/api/provisioning', this.form).then(function (response) {
                 _this.resetForm();
                 window.location.href = "/provisioning/service_locations/" + _this.location.id + "/show";
@@ -66301,6 +66303,7 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-sm btn-success",
+                  attrs: { disabled: _vm.submitIsDisabled },
                   on: {
                     click: function($event) {
                       _vm.submitForm()

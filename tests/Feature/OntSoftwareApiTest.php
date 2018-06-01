@@ -6,6 +6,7 @@ use App\Ont;
 use App\User;
 use Tests\TestCase;
 use App\OntSoftware;
+use App\ProvisioningRecord;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -168,5 +169,21 @@ class OntSoftwareApiTest extends TestCase
 
         $this->assertDatabaseMissing('ont_software', ['version' => $software->version]);
         $this->assertFileNotExists($software->file->getPath());
+    }
+
+    public function test_ont_software_knows_if_it_has_provisioning_records()
+    {
+        $provrec = factory(ProvisioningRecord::class)->create();
+
+        $ont_software = $provrec->ont_profile->ont_software;
+
+        $this->assertTrue($ont_software->has_provisioning_records);
+    }
+
+    public function test_ont_software_knows_if_it_does_not_have_provisioning_records()
+    {
+        $ont_software = factory(OntSoftware::class)->create();
+
+        $this->assertFalse($ont_software->has_provisioning_records);
     }
 }

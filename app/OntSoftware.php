@@ -16,7 +16,7 @@ class OntSoftware extends Model implements HasMedia, AuditableContract
 
     protected $table = 'ont_software';
 
-    protected $appends = ['file'];
+    protected $appends = ['file', 'has_provisioning_records'];
 
     public function ont()
     {
@@ -28,8 +28,18 @@ class OntSoftware extends Model implements HasMedia, AuditableContract
         return $this->HasMany(OntProfile::class);
     }
 
+    public function provisioning_records()
+    {
+        return $this->hasManyThrough(ProvisioningRecord::class, OntProfile::class);
+    }
+
     public function getFileAttribute()
     {
         return $this->getFirstMedia();
+    }
+
+    public function getHasProvisioningRecordsAttribute()
+    {
+        return $this->provisioning_records()->exists();
     }
 }

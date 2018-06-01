@@ -9,6 +9,7 @@
                         <th @click="sortBy('customer_name')" class="text-left">Customer <span class="fas fa-sort"></span></th>
                         <th @click="sortBy('number_of_service_locations')" class="text-center"># Of Locations <span class="fas fa-sort"></span></th>
                         <th @click="sortBy('number_of_provisioning_records')" class="text-center"># Of Provisioning Records <span class="fas fa-sort"></span></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

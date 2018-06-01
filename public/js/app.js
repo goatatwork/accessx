@@ -59832,6 +59832,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var OntSoftwareProfiles = Vue.extend(__webpack_require__(114));
 
@@ -59851,6 +59863,9 @@ var OntSoftwareProfiles = Vue.extend(__webpack_require__(114));
         collapseId: function collapseId() {
             return 'collapse-software-' + this.software.id;
         },
+        deleteButtonClass: function deleteButtonClass() {
+            return this.software.has_provisioning_records ? 'btn-outline-light' : 'btn-outline-dark';
+        },
         deleteModalId: function deleteModalId() {
             return 'delete-modal-software-' + this.software.id;
         },
@@ -59859,6 +59874,9 @@ var OntSoftwareProfiles = Vue.extend(__webpack_require__(114));
         },
         headingId: function headingId() {
             return 'heading-software-' + this.software.id;
+        },
+        modalRef: function modalRef() {
+            return '#deleteModal-' + this.software.id;
         }
     },
 
@@ -61120,6 +61138,32 @@ var render = function() {
                             }
                           },
                           [
+                            _c(
+                              "div",
+                              { attrs: { slot: "button" }, slot: "button" },
+                              [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-sm",
+                                    class: _vm.deleteButtonClass,
+                                    attrs: {
+                                      type: "button",
+                                      "data-toggle": "modal",
+                                      "data-target": _vm.modalRef,
+                                      disabled:
+                                        _vm.software.has_provisioning_records
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                                Delete\n                                            "
+                                    )
+                                  ]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
                             _c(
                               "div",
                               { attrs: { slot: "body" }, slot: "body" },

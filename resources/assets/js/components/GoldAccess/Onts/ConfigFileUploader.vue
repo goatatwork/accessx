@@ -32,9 +32,15 @@
                                     </div>
 
                                     <div class="row mt-2" v-if="readyForUpload">
-                                        <div class="col">
-                                            <button type="button" class="btn btn-dark float-right" @click="processQueue()"><span class="fas fa-cloud-upload-alt"></span> Upload</button>
+
+                                        <div class="col text-danger" v-if="uploadErrors.message">
+                                            {{ uploadErrors.errors.name[0] }}
                                         </div>
+
+                                        <div class="col">
+                                            <button type="button" class="btn btn-dark float-right" :disabled="uploadIsDisabled" @click="processQueue()"><span class="fas fa-cloud-upload-alt"></span> Upload</button>
+                                        </div>
+
                                     </div>
 
                                 </div>
@@ -169,6 +175,8 @@
                 myDropzone: {},
                 readyForUpload: false,
                 uploadAreaIsOpen: false,
+                uploadIsDisabled: false,
+                uploadErrors: {},
                 formData: {
                     name: '',
                     notes: ''
@@ -266,10 +274,12 @@
                 console.log('!!!!!!!!!!!!!!!!!!!! file added !!!!!!!!!!!!!!!!!!!!')
             },
             onDropzoneError: function(file, errorMessage, xhr) {
-                console.log(file);
+                // console.log(file);
+                this.uploadErrors = errorMessage;
                 console.log(errorMessage);
-                console.log(xhr);
-                console.log('!!!!!!!!!!!!!!!!!!!! error !!!!!!!!!!!!!!!!!!!!');
+                this.uploadIsDisabled = true;
+                // console.log(xhr);
+                // console.log('!!!!!!!!!!!!!!!!!!!! error !!!!!!!!!!!!!!!!!!!!');
             },
             onDropzoneMaxFilesExceeded: function(file) {
                 // console.log(file);

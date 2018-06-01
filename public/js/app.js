@@ -60507,6 +60507,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
@@ -60522,6 +60528,8 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
             myDropzone: {},
             readyForUpload: false,
             uploadAreaIsOpen: false,
+            uploadIsDisabled: false,
+            uploadErrors: {},
             formData: {
                 name: '',
                 notes: ''
@@ -60619,10 +60627,12 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
             console.log('!!!!!!!!!!!!!!!!!!!! file added !!!!!!!!!!!!!!!!!!!!');
         },
         onDropzoneError: function onDropzoneError(file, errorMessage, xhr) {
-            console.log(file);
+            // console.log(file);
+            this.uploadErrors = errorMessage;
             console.log(errorMessage);
-            console.log(xhr);
-            console.log('!!!!!!!!!!!!!!!!!!!! error !!!!!!!!!!!!!!!!!!!!');
+            this.uploadIsDisabled = true;
+            // console.log(xhr);
+            // console.log('!!!!!!!!!!!!!!!!!!!! error !!!!!!!!!!!!!!!!!!!!');
         },
         onDropzoneMaxFilesExceeded: function onDropzoneMaxFilesExceeded(file) {
             // console.log(file);
@@ -60731,12 +60741,25 @@ var render = function() {
                     _vm._v(" "),
                     _vm.readyForUpload
                       ? _c("div", { staticClass: "row mt-2" }, [
+                          _vm.uploadErrors.message
+                            ? _c("div", { staticClass: "col text-danger" }, [
+                                _vm._v(
+                                  "\n                                        " +
+                                    _vm._s(_vm.uploadErrors.errors.name[0]) +
+                                    "\n                                    "
+                                )
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
                           _c("div", { staticClass: "col" }, [
                             _c(
                               "button",
                               {
                                 staticClass: "btn btn-dark float-right",
-                                attrs: { type: "button" },
+                                attrs: {
+                                  type: "button",
+                                  disabled: _vm.uploadIsDisabled
+                                },
                                 on: {
                                   click: function($event) {
                                     _vm.processQueue()

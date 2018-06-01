@@ -29,6 +29,10 @@ class OntProfilesApiController extends Controller
      */
     public function store(Request $request, OntSoftware $ont_software)
     {
+        $validatedData = $request->validate([
+            'name' => 'required|unique:ont_profiles|max:255',
+        ]);
+
         if ($ont_software->ont->manufacturer == 'Zhone') {
             $parts = explode(".", $ont_software->version);
             $configFileName = $parts[0] . $parts[1] . $parts[2] . '_0GF_generic.conf';

@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\User;
 use App\Subnet;
 use Tests\TestCase;
+use App\ProvisioningRecord;
 use App\DhcpSharedNetwork;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -33,5 +34,21 @@ class SubnetApiTest extends TestCase
 
         $subnet = Subnet::whereStartIp($subnet->start_ip)->first();
         $this->assertCount(253, $subnet->ip_addresses);
+    }
+
+    public function test_subnet_knows_if_it_has_provisioning_records()
+    {
+        $provrec = factory(ProvisioningRecord::class)->create();
+
+        $subnet = $provrec->ip_address->subnet;
+
+        $this->assertTrue($subnet->has_provisioning_records);
+    }
+
+    public function test_subnet_knows_if_it_does_not_have_provisioning_records()
+    {
+        $subnet = factory(Subnet::class)->create();
+
+        $this->assertFalse($subnet->has_provisioning_records);
     }
 }

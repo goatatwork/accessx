@@ -24,7 +24,7 @@ class Ont extends Model implements HasMedia, AuditableContract
         'notes'
     ];
 
-    protected $appends = ['number_of_files'];
+    protected $appends = ['number_of_files', 'has_provisioning_records'];
 
     public function ont_software()
     {
@@ -44,5 +44,10 @@ class Ont extends Model implements HasMedia, AuditableContract
     public function getNumberOfFilesAttribute()
     {
         return $this->media()->count();
+    }
+
+    public function getHasProvisioningRecordsAttribute()
+    {
+        return $this->ont_software()->get()->where('has_provisioning_records', true)->count() ? true : false;
     }
 }

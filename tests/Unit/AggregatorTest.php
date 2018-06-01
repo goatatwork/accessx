@@ -2,8 +2,9 @@
 
 namespace Tests\Unit;
 
-use App\Aggregator;
 use Tests\TestCase;
+use App\Aggregator;
+use App\ProvisioningRecord;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AggregatorTest extends TestCase
@@ -31,5 +32,21 @@ class AggregatorTest extends TestCase
         $aggregator = factory(Aggregator::class)->create(['name' => 'New Aggregator']);
 
         $this->assertEquals('new-aggregator', $aggregator->slug);
+    }
+
+    public function test_aggregator_knows_if_it_has_provisioning_records()
+    {
+        $provrec = factory(ProvisioningRecord::class)->create();
+
+        $aggregator = $provrec->port->slot->aggregator;
+
+        $this->assertTrue($aggregator->has_provisioning_records);
+    }
+
+    public function test_aggregator_knows_if_it_does_not_have_provisioning_records()
+    {
+        $aggregator = factory(Aggregator::class)->create();
+
+        $this->assertFalse($aggregator->has_provisioning_records);
     }
 }

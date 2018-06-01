@@ -98,7 +98,7 @@ class OntProfileApiTest extends TestCase
         $response->assertJson([
             'version' => 'S03.01.266',
             'file' => [
-                'file_name' => 'ZNID24xxA_GRSIP_301266_image_with_cfe.img'
+                'file_name' => 'ZNID24xxA_GRSIP_0301266_image_with_cfe.img'
             ]
         ]);
 
@@ -162,7 +162,7 @@ class OntProfileApiTest extends TestCase
         $response->assertJson([
             'version' => 'S03.01.266',
             'file' => [
-                'file_name' => 'ZNID24xxA_GRSIP_301266_image_with_cfe.img'
+                'file_name' => 'ZNID24xxA_GRSIP_0301266_image_with_cfe.img'
             ]
         ]);
 
@@ -207,7 +207,7 @@ class OntProfileApiTest extends TestCase
         $response->assertJson([
             'version' => 'S03.01.266',
             'file' => [
-                'file_name' => 'ZNID24xxA_GRSIP_301266_image_with_cfe.img'
+                'file_name' => 'ZNID24xxA_GRSIP_0301266_image_with_cfe.img'
             ]
         ]);
 
@@ -247,7 +247,7 @@ class OntProfileApiTest extends TestCase
 
         $this->assertEquals(
             $provisioning_record->dhcp_string,
-            'ont_profiles/'.$provisioning_record->ont_profile->ont_software->ont->slug.'/S03.01.266/'.$profile->slug.'/S301266'
+            'ont_profiles/'.$provisioning_record->ont_profile->ont_software->ont->slug.'/S03.01.266/'.$profile->slug.'/S0301266'
         );
 
 

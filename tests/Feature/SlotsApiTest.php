@@ -2,11 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Slot;
 use App\User;
-use Tests\TestCase;
+use App\Slot;
 use App\ModuleType;
-use App\ProvisioningRecord;
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SlotsApiTest extends TestCase

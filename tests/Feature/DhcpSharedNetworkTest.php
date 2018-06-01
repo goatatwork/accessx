@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\User;
 use Tests\TestCase;
-use App\ProvisioningRecord;
 use App\DhcpSharedNetwork;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -163,21 +162,5 @@ class DhcpSharedNetworkTest extends TestCase
         $response->assertStatus(302);
 
         $this->assertDatabaseMissing('dhcp_shared_networks', ['id' => $shared_network->id, 'name' => $shared_network->name]);
-    }
-
-    public function test_sharednetwork_knows_if_it_has_provisioning_records()
-    {
-        $provrec = factory(ProvisioningRecord::class)->create();
-
-        $sn = $provrec->ip_address->subnet->dhcp_shared_network;
-
-        $this->assertTrue($sn->has_provisioning_records);
-    }
-
-    public function test_sharednetwork_knows_if_it_does_not_have_provisioning_records()
-    {
-        $sn = factory(DhcpSharedNetwork::class)->create();
-
-        $this->assertFalse($sn->has_provisioning_records);
     }
 }

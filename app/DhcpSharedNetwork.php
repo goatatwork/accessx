@@ -19,8 +19,6 @@ class DhcpSharedNetwork extends Model implements AuditableContract
         'notes'
     ];
 
-    protected $appends = ['has_provisioning_records'];
-
     public function subnets()
     {
         return $this->hasMany(Subnet::class);
@@ -39,10 +37,5 @@ class DhcpSharedNetwork extends Model implements AuditableContract
         return SlugOptions::create()
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
-    }
-
-    public function getHasProvisioningRecordsAttribute()
-    {
-        return $this->subnets()->get()->where('has_provisioning_records', true)->count() ? true : false;
     }
 }

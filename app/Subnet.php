@@ -25,8 +25,6 @@ class Subnet extends Model implements AuditableContract
         'notes'
     ];
 
-    protected $appends = ['has_provisioning_records'];
-
     public function dhcp_shared_network()
     {
         return $this->belongsTo(DhcpSharedNetwork::class);
@@ -35,15 +33,5 @@ class Subnet extends Model implements AuditableContract
     public function ip_addresses()
     {
         return $this->hasMany(IpAddress::class);
-    }
-
-    public function provisioning_records()
-    {
-        return $this->hasManyThrough(ProvisioningRecord::class, IpAddress::class);
-    }
-
-    public function getHasProvisioningRecordsAttribute()
-    {
-        return $this->provisioning_records()->exists();
     }
 }

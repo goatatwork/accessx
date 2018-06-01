@@ -36,9 +36,9 @@ class OntSoftwareApiController extends Controller
             $original_filename = explode('.', $request->uploaded_file->getClientOriginalName())[0];  // ZNID-24xxA-301266-SIP
             $parts = explode('-', $original_filename);
             $short_voip = ($parts[3] == 'SIP') ? 'S' : 'M';
-            $dhcp_config_string = $short_voip . $parts[2];
+            $dhcp_config_string = $short_voip . '0' . $parts[2];
 
-            $new_filename = $parts[0] . $parts[1] . '_GR' . $parts[3] . '_' . $parts[2] . '_image_with_cfe.img';
+            $new_filename = $parts[0] . $parts[1] . '_GR' . $parts[3] . '_0' . $parts[2] . '_image_with_cfe.img';
 
             // S03.01.266
             $characters = str_split($parts[2]);

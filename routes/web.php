@@ -19,6 +19,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'provisioning'], function() {
     Route::get('/', 'ProvisioningRecordController@index');
     Route::get('{provisioning_record}', 'ProvisioningRecordController@show');
     Route::get('{provisioning_record}/edit', 'ProvisioningRecordController@edit');
+    Route::patch('{provisioning_record}/suspend', 'ProvisioningRecordController@suspend');
+    Route::patch('{provisioning_record}/unsuspend', 'ProvisioningRecordController@unsuspend');
     Route::delete('{provisioning_record}', 'ProvisioningRecordController@destroy');
     Route::get('service_locations/{service_location}/show', 'ServiceLocationProvisioningController@show');
     Route::get('service_locations/{service_location}/create', 'ServiceLocationProvisioningController@create');
@@ -72,3 +74,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'infrastructure'], function() 
 Route::get('activity_logs', 'ActivityLogsController@index')->middleware('auth');
 
 Route::get('users', 'UsersController@index')->middleware('auth');
+
+Route::get('test', function() {
+    $pr = App\ProvisioningRecord::first();
+
+    dd($pr->previous_profile_id);
+});

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\ProvisioningRecord;
 use Illuminate\Http\Request;
 use App\GoldAccess\Dhcp\ManagementIp;
+use App\Events\ProvisioningRecordWasUpdated;
+use App\Http\Requests\ProvisioningRecordRequest;
 use App\Http\Resources\ProvisioningRecordForTable;
 
 class ProvisioningRecordController extends Controller
@@ -97,4 +99,45 @@ class ProvisioningRecordController extends Controller
 
         return redirect('/provisioning');
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\ProvisioningRecordRequest  $request
+     * @param  \App\ProvisioningRecord  $provisioning_record
+     * @return \Illuminate\Http\Response
+     */
+    public function suspend(ProvisioningRecordRequest $request, ProvisioningRecord $provisioning_record)
+    {
+        $notes = $request->notes ? $request->notes : '';
+
+        $suspended_config = $provisioning_record->ont_profile->ont_software->ont_profiles()->whereName('Suspended')->first();
+
+        $provisioning_record = tap($provisioning_record)->update(['ont_profile_id' => $suspended_config->id, 'notes' => $notes . ' ::: ' . $provisioning_record->notes]);
+
+        $pr = ProvisioningRecord::find($provisioning_record->id);
+        event (new ProvisioningRecordWasUpdated($pr));
+
+        return redirect('/provisioning/' . $provisioning_record->id)->with('status', 'suspended');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\ProvisioningRecordRequest  $request
+     * @param  \App\ProvisioningRecord  $provisioning_record
+     * @return \Illuminate\Http\Response
+     */
+    public function unsuspend(ProvisioningRecordRequest $request, ProvisioningRecord $provisioning_record)
+    {
+        $notes = $request->notes ? $request->notes : '';
+
+        $provisioning_record = tap($provisioning_record)->update(['ont_profile_id' => $provisioning_record->previous_profile_id, 'notes' => $notes . ' ::: ' . $provisioning_record->notes]);
+
+        $pr = ProvisioningRecord::find($provisioning_record->id);
+        event (new ProvisioningRecordWasUpdated($pr));
+
+        return redirect('/provisioning/' . $provisioning_record->id)->with('status', 'unsuspended');
+    }
+
 }

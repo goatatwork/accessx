@@ -152,6 +152,7 @@ class ManagementIp
      */
     public function options()
     {
+        \Log::info('THE PROFILE NAME FOR THIS RECORD IS ' . $this->provisioning_record->ont_profile->name);
         $subscriberId = $this->getSubscriberId();
         $ip = $this->getManagementIp();
         $netmask = $this->getNetmask();

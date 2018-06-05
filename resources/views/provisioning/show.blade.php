@@ -24,7 +24,7 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <div class="row">
+                        <div class="row mb-2">
                             <div class="col">
                                 <button
                                     type="button"
@@ -35,6 +35,9 @@
                                     <span class="fas fa-file-alt mr-1"></span> View DHCP Config File
                                 </button>
                             </div>
+                        </div>
+
+                        <div class="row mb-2">
                             <div class="col">
                                 <button
                                     type="button"
@@ -47,7 +50,35 @@
                             </div>
                         </div>
 
-                        <div class="row mt-3">
+                        @if($provisioning_record->is_suspended)
+                        <div class="row mb-2">
+                            <div class="col">
+                                <button
+                                    type="button"
+                                    class="btn btn-sm btn-secondary"
+                                    data-toggle="modal"
+                                    data-target="#unsuspend-service-modal-{{ $provisioning_record->id }}"
+                                >
+                                    <span class="fas fa-pause-circle mr-1"></span> Unsuspend Service
+                                </button>
+                            </div>
+                        </div>
+                        @else
+                        <div class="row mb-2">
+                            <div class="col">
+                                <button
+                                    type="button"
+                                    class="btn btn-sm btn-primary"
+                                    data-toggle="modal"
+                                    data-target="#suspend-service-modal-{{ $provisioning_record->id }}"
+                                >
+                                    <span class="fas fa-pause-circle mr-1"></span> Suspend Service
+                                </button>
+                            </div>
+                        </div>
+                        @endif
+
+                        <div class="row">
                             <div class="col">
                                 <a href="http://{{ $provisioning_record->ip_address->address }}" target="_blank"
                                     class="btn btn-sm btn-dark"
@@ -116,11 +147,193 @@
                     </div>
                 </div>
 
+                <div class="modal fade"
+                    tabindex="-1"
+                    role="dialog"
+                    id="suspend-service-modal-{{ $provisioning_record->id }}"
+                    aria-labelledby="suspend-service-modal-{{ $provisioning_record->id }}-label"
+                    aria-hidden="true"
+                >
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5  id="suspend-service-modal-{{ $provisioning_record->id }}-label" class="modal-title">Suspend Service</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form method="POST" action="/provisioning/{{ $provisioning_record->id }}/suspend">
+                                <div class="modal-body">
+
+                                    @if (! $provisioning_record->ont_profile->ont_software->has_suspend_config)
+                                        <p>
+                                            The {{ $provisioning_record->ont_profile->ont_software->version }} software does not currently have a "Suspended" profile.  You can create one <a href="/onts/{{ $provisioning_record->ont_profile->ont_software->ont->id }}">here.</a><br>
+                                        </p>
+                                    @else
+                                        <p>This will suspend service. Are you sure?</p>
+                                        <div class="form-group">
+                                            <label for="notes">Notes</label>
+                                            <textarea class="form-control" name="notes"></textarea>
+                                        </div>
+                                    @endif
+
+                                </div>
+                                <div class="modal-footer">
+                                        {{ csrf_field() }}
+                                        {{ method_field('PATCH') }}
+                                        <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>
+                                        @if ($provisioning_record->ont_profile->ont_software->has_suspend_config)
+                                            <button type="submit" class="btn btn-link text-dark float-right">Yes, Suspend Service</button>
+                                        @endif
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade"
+                    tabindex="-1"
+                    role="dialog"
+                    id="unsuspend-service-modal-{{ $provisioning_record->id }}"
+                    aria-labelledby="unsuspend-service-modal-{{ $provisioning_record->id }}-label"
+                    aria-hidden="true"
+                >
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5  id="unsuspend-service-modal-{{ $provisioning_record->id }}-label" class="modal-title">Suspend Service</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <form method="POST" action="/provisioning/{{ $provisioning_record->id }}/unsuspend">
+                                <div class="modal-body">
+                                    <p>This will unsuspend service. Are you sure?</p>
+
+                                    <div class="form-group">
+                                        <label for="notes">Notes</label>
+                                        <textarea class="form-control" name="notes"></textarea>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                        {{ csrf_field() }}
+                                        {{ method_field('PATCH') }}
+                                        <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>
+                                        <button type="submit" class="btn btn-link text-dark float-right">Yes, Unsuspend Service</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal fade show"
+                    tabindex="-1"
+                    role="dialog"
+                    id="suspend-status-modal"
+                    aria-labelledby="suspend-status-modal-label"
+                    aria-hidden="true"
+                >
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5  id="suspend-status-modal-label" class="modal-title">Status</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                Suspended!
+                                </p>
+
+                                <p>
+                                    Please do not forget to log into the ONT at <a href="{{$provisioning_record->ip_address->address}}" target="_blank">{{$provisioning_record->ip_address->address}}</a> to reset it.
+                                </p>
+
+                                <p>
+                                    Once logged in, please click
+                                    <strong>System</strong>
+                                    <span class="fas fa-long-arrow-alt-right"></span>
+                                    <strong>Backup/Restore</strong>
+                                    <span class="fas fa-long-arrow-alt-right"></span>
+                                    <strong>Default</strong>
+                                    <span class="fas fa-long-arrow-alt-right"></span>
+                                    <strong>Restore default settings</strong>
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light float-right" data-dismiss="modal">Dismiss</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade show"
+                    tabindex="-1"
+                    role="dialog"
+                    id="unsuspend-status-modal"
+                    aria-labelledby="unsuspend-status-modal-label"
+                    aria-hidden="true"
+                >
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5  id="unsuspend-status-modal-label" class="modal-title">Status</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                Unuspended! Service has been set back to the <strong>{{ $provisioning_record->ont_profile->name }}</strong> profile.
+                                </p>
+
+                                <p>
+                                    Please do not forget to log into the ONT at <a href="{{$provisioning_record->ip_address->address}}" target="_blank">{{$provisioning_record->ip_address->address}}</a> to reset it.
+                                </p>
+
+                                <p>
+                                    Once logged in, please click
+                                    <strong>System</strong>
+                                    <span class="fas fa-long-arrow-alt-right"></span>
+                                    <strong>Backup/Restore</strong>
+                                    <span class="fas fa-long-arrow-alt-right"></span>
+                                    <strong>Default</strong>
+                                    <span class="fas fa-long-arrow-alt-right"></span>
+                                    <strong>Restore default settings</strong>
+                                </p>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light float-right" data-dismiss="modal">Dismiss</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
         </div>
 
     </div>
     <div class="col-8">
+        @if($provisioning_record->is_suspended)
+            <div class="row">
+                <div class="col">
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        <strong>Please note:</strong> Service is suspended for this ONT.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        @endif
         <div class="card">
             <div class="card-body text-center">
                 <iframe
@@ -193,7 +406,7 @@
 
                     </td>
                     <td class="text-center">
-                        {{ $provisioning_record->ip_address->address }}
+                        <a href="{{ $provisioning_record->ip_address->address }}" target="_blank">{{ $provisioning_record->ip_address->address }}</a>
                     </td>
                     <td class="text-center">
                         {{ $provisioning_record->port->slot->aggregator->name }}
@@ -204,6 +417,8 @@
                     </td>
                     <td class="text-center">
                         {{ $provisioning_record->ont_profile->ont_software->ont->model_number }}
+                        <span class="fas fa-long-arrow-alt-right"></span>
+                        {{ $provisioning_record->ont_profile->ont_software->version }}
                     </td>
                 </tr>
             </tbody>
@@ -214,9 +429,19 @@
 @endsection
 
 @section('footer-scripts')
-<script>
-    $( "#ont_profile_selector" ).change(function() {
-      alert( "Handler for .change() called." );
-    });
-</script>
+    @if (session('status') == 'suspended')
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("#suspend-status-modal").modal('show');
+            });
+        </script>
+    @endif
+
+        @if (session('status') == 'unsuspended')
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("#unsuspend-status-modal").modal('show');
+            });
+        </script>
+    @endif
 @endsection

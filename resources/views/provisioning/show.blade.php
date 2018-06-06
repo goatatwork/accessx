@@ -252,19 +252,9 @@
                                 </p>
 
                                 <p>
-                                    Please do not forget to log into the ONT at <a href="{{$provisioning_record->ip_address->address}}" target="_blank">{{$provisioning_record->ip_address->address}}</a> to reset it.
+                                    The ONT is rebooting. This can take up to 10 minutes. Please see the <a href="/activity_logs">Activity Logs</a> for more information.
                                 </p>
 
-                                <p>
-                                    Once logged in, please click
-                                    <strong>System</strong>
-                                    <span class="fas fa-long-arrow-alt-right"></span>
-                                    <strong>Backup/Restore</strong>
-                                    <span class="fas fa-long-arrow-alt-right"></span>
-                                    <strong>Default</strong>
-                                    <span class="fas fa-long-arrow-alt-right"></span>
-                                    <strong>Restore default settings</strong>
-                                </p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light float-right" data-dismiss="modal">Dismiss</button>
@@ -294,18 +284,7 @@
                                 </p>
 
                                 <p>
-                                    Please do not forget to log into the ONT at <a href="{{$provisioning_record->ip_address->address}}" target="_blank">{{$provisioning_record->ip_address->address}}</a> to reset it.
-                                </p>
-
-                                <p>
-                                    Once logged in, please click
-                                    <strong>System</strong>
-                                    <span class="fas fa-long-arrow-alt-right"></span>
-                                    <strong>Backup/Restore</strong>
-                                    <span class="fas fa-long-arrow-alt-right"></span>
-                                    <strong>Default</strong>
-                                    <span class="fas fa-long-arrow-alt-right"></span>
-                                    <strong>Restore default settings</strong>
+                                    The ONT is rebooting. This can take up to 10 minutes. Please see the <a href="/activity_logs">Activity Logs</a> for more information.
                                 </p>
 
                             </div>

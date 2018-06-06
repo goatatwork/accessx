@@ -6,8 +6,10 @@ use App\User;
 use Tests\TestCase;
 use App\OntProfile;
 use App\OntSoftware;
+use App\Jobs\RebootOnt;
 use App\ProvisioningRecord;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Events\ProvisioningRecordWasUpdated;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -90,6 +92,7 @@ class SuspendServiceTest extends TestCase
     public function test_patch_can_suspend_provisioning_record()
     {
         Event::fake();
+        Queue::fake();
 
         $software = factory(OntSoftware::class)->create();
 
@@ -111,11 +114,13 @@ class SuspendServiceTest extends TestCase
         $this->assertEquals($pr_again->previous_profile_id, $regular_config->id);
 
         Event::assertDispatched(ProvisioningRecordWasUpdated::class);
+        Queue::assertPushed(RebootOnt::class);
     }
 
     public function test_patch_can_unsuspend_provisioning_record()
     {
         Event::fake();
+        Queue::fake();
 
         $software = factory(OntSoftware::class)->create();
 
@@ -138,5 +143,6 @@ class SuspendServiceTest extends TestCase
         $this->assertEquals($pr_again->previous_profile_id, $unlimited->id);
 
         Event::assertDispatched(ProvisioningRecordWasUpdated::class);
+        Queue::assertPushed(RebootOnt::class);
     }
 }

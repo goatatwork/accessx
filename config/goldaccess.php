@@ -15,6 +15,9 @@ return [
     | Configured Dockerbot's operational parameters
     |
     */
+    'settings' => [
+        'ga_devmode' => env('GA_DEVMODE', false)
+    ],
 
     'dockerbot' => [
         'services' => [
@@ -26,4 +29,11 @@ return [
             ],
         ],
     ],
+
+    'onts' => [
+        'defaults' => [
+            'user' => env('DEFAULT_ONT_USER', 'admin'),
+            'password' => env('DEFAULT_ONT_PASSWORD', 'password')
+        ]
+    ]
 ];

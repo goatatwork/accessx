@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ProvisioningRecord;
 use Illuminate\Http\Request;
+use App\Jobs\RebootOnt;
 use App\GoldAccess\Dhcp\ManagementIp;
 use App\Events\ProvisioningRecordWasUpdated;
 use App\Http\Requests\ProvisioningRecordRequest;
@@ -117,6 +118,7 @@ class ProvisioningRecordController extends Controller
 
         $pr = ProvisioningRecord::find($provisioning_record->id);
         event (new ProvisioningRecordWasUpdated($pr));
+        RebootOnt::dispatch($pr);
 
         return redirect('/provisioning/' . $provisioning_record->id)->with('status', 'suspended');
     }
@@ -136,6 +138,7 @@ class ProvisioningRecordController extends Controller
 
         $pr = ProvisioningRecord::find($provisioning_record->id);
         event (new ProvisioningRecordWasUpdated($pr));
+        RebootOnt::dispatch($pr);
 
         return redirect('/provisioning/' . $provisioning_record->id)->with('status', 'unsuspended');
     }

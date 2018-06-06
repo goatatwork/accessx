@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "bestnetwork/telnet": "^1.0",
         "docker-php/docker-php": "^2.0",
         "fideloper/proxy": "~3.3",
         "geerlingguy/ping": "^1.1",

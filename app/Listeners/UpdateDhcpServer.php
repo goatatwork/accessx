@@ -7,7 +7,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Events\ProvisioningRecordWasUpdated;
 
-class UpdateDhcpServer
+class UpdateDhcpServer implements ShouldQueue
 {
     /**
      * Create the event listener.

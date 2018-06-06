@@ -76,7 +76,22 @@ Route::get('activity_logs', 'ActivityLogsController@index')->middleware('auth');
 Route::get('users', 'UsersController@index')->middleware('auth');
 
 Route::get('test', function() {
-    $pr = App\ProvisioningRecord::first();
 
-    dd($pr->previous_profile_id);
+    $client = Graze\TelnetClient\TelnetClient::factory();
+
+    $dsn = '192.168.127.2:23';
+    $prompt = '>';
+    $promptError = 'ERROR';
+    // $lineEnding = "\r\n";
+    // $client->connect($dsn, $prompt, $promptError, $lineEnding);
+    $client->connect($dsn, $prompt, $promptError);
+
+    $command = 'Connect to the ONT';
+
+    $resp = $client->execute('admin', 'Login:');
+
+    // $resp = $client->execute('1q2w3e4r', 'Password:');
+
+    dd($resp);
+
 });

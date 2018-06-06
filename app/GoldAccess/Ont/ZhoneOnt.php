@@ -153,6 +153,14 @@ class ZhoneOnt extends TelnetClient
     }
 
     /**
+     * @return boolean
+     */
+    public function isConnected()
+    {
+        return $this->getSocket();
+    }
+
+    /**
      * Attempts login to remote host.
      * This method is a wrapper for lower level private methods and should be
      * modified to reflect telnet implementation details like login/password

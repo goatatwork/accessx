@@ -75,8 +75,8 @@ class ZhoneOnt extends TelnetClient
         $this->socket = @fsockopen($this->host, $this->port, $this->errno, $this->errstr, $this->timeout);
 
         if( !$this->socket ){
-            // throw new TelnetException('Cannot connect to ' . $this->host . ' on port ' . $this->port);
-            return false;
+            throw new TelnetException('Cannot connect to ' . $this->host . ' on port ' . $this->port);
+            // return false;
         }
     }
 
@@ -118,19 +118,18 @@ class ZhoneOnt extends TelnetClient
     public function factoryReset()
     {
         $this->refreshEnvironment();
-        $this->setPrompt('#');
-        $this->execute('en');
-        $this->execute('config t');
-        $output = $this->execute('system restore factory-defaults');
+        try {
+            $this->setPrompt('#');
+            $this->execute('en');
+            $this->execute('config t');
+            $output = $this->execute('system restore factory-defaults');
 
-        \Log::info('factoryReset output was a ' . typeof($output));
+            \Log::info('factoryReset output was a ' . typeof($output));
 
-        // $this->execute('interface ' . $interface);
-        // $enabled = $this->execute('ethernet enable');
-        // $this->execute('exit');
-        // $output = $this->cleanUpEnableInterfaceOutput($enabled);
-        // Log::info('Factory resetting ' . $output);
-        return $output;
+            return $output;
+        } catch( TelnetException $e ) {
+            return false;
+        }
     }
 
     public function interfaces()

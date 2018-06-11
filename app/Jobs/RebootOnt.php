@@ -17,6 +17,13 @@ class RebootOnt implements ShouldQueue
     protected $provisioning_record;
 
     /**
+     * The number of times the job may be attempted.
+     *
+     * @var int
+     */
+    public $tries = 1;
+
+    /**
      * Create a new job instance.
      *
      * @param  ProvisioningRecord  $provisioning_record
@@ -25,6 +32,7 @@ class RebootOnt implements ShouldQueue
     public function __construct(ProvisioningRecord $provisioning_record)
     {
         $this->provisioning_record = $provisioning_record;
+        $this->onQueue('onts');
     }
 
     /**
@@ -54,7 +62,7 @@ class RebootOnt implements ShouldQueue
                             $this->provisioning_record->service_location->customer->customer_name .
                             ' at ' .
                             $this->provisioning_record->ip_address->address .
-                            ' was reset to factory defaults.'
+                            ' was reset to factory defaults so that it can get its new config.'
                         );
                     return true;
                 } else {

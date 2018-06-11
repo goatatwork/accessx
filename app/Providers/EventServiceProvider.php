@@ -32,14 +32,6 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\LogRegisteredUser',
         ],
 
-        // 'Illuminate\Auth\Events\Attempting' => [
-        //     'App\Listeners\LogAuthenticationAttempt',
-        // ],
-
-        // 'Illuminate\Auth\Events\Authenticated' => [
-        //     'App\Listeners\LogAuthenticated',
-        // ],
-
         'Illuminate\Auth\Events\Login' => [
             'App\Listeners\LogSuccessfulLogin',
         ],
@@ -64,11 +56,6 @@ class EventServiceProvider extends ServiceProvider
         'Spatie\MediaLibrary\Events\MediaHasBeenAdded' => [
             'App\Listeners\MediaLogger'
         ],
-
-        // Laravel Auditing
-        // 'OwenIt\Auditing\Events\Audited' => [
-        //     'App\Listeners\ModelAuditedListener'
-        // ],
     ];
 
     /**

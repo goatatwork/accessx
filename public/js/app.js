@@ -65567,6 +65567,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var ProvisioningRecordTableRow = Vue.extend(__webpack_require__(158));
 
@@ -65577,6 +65589,7 @@ var ProvisioningRecordTableRow = Vue.extend(__webpack_require__(158));
 
     data: function data() {
         return {
+            searchQuery: '',
             sortKey: 'id',
             sortOrder: 'asc'
         };
@@ -65587,8 +65600,15 @@ var ProvisioningRecordTableRow = Vue.extend(__webpack_require__(158));
     },
 
     computed: {
+        provisioningRecordsFiltered: function provisioningRecordsFiltered() {
+            var self = this;
+            return self.provisioningRecords.filter(function (prov_rec) {
+                var searchRegex = new RegExp(self.searchQuery, 'i');
+                return searchRegex.test(prov_rec.customer) || searchRegex.test(prov_rec.address);
+            });
+        },
         provisioningRecordsSorted: function provisioningRecordsSorted() {
-            return _.orderBy(this.provisioningRecords, this.sortKey, this.sortOrder);
+            return _.orderBy(this.provisioningRecordsFiltered, this.sortKey, this.sortOrder);
         }
     },
 
@@ -65689,9 +65709,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -65715,52 +65732,48 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("tr", [
     _c("td", [
-      _c("i", { staticClass: "material-icons" }, [_vm._v("explore")]),
-      _vm._v(" "),
-      _c("a", { attrs: { href: _vm.record.record_url } }, [
-        _vm._v("\n             View\n        ")
-      ])
-    ]),
-    _vm._v(" "),
-    _c("td", [
-      _c("i", { staticClass: "material-icons" }, [
-        _vm._v(_vm._s(_vm.customerTypeIcon))
-      ]),
-      _vm._v(" "),
-      _c("a", { attrs: { href: _vm.record.customer_url } }, [
-        _vm._v("\n            " + _vm._s(_vm.record.customer) + "\n        ")
-      ])
-    ]),
-    _vm._v(" "),
-    _c("td", [
-      _c("a", { attrs: { href: _vm.record.service_location_url } }, [
-        _vm._v("\n            " + _vm._s(_vm.record.address) + "\n        ")
-      ])
-    ]),
-    _vm._v(" "),
-    _c("td", [_vm._v(_vm._s(_vm.record.package))]),
-    _vm._v(" "),
-    _c("td", [_vm._v(_vm._s(_vm.record.ont))]),
-    _vm._v(" "),
-    _c("td", [_vm._v(_vm._s(_vm.record.management_ip))]),
-    _vm._v(" "),
-    _c("td", [
-      _c("ul", { staticClass: "list-unstyled small" }, [
-        _c("a", { attrs: { href: _vm.record.aggregator_url } }, [
-          _c("li", [_vm._v(_vm._s(_vm.record.aggregator))]),
-          _vm._v(" "),
-          _c("li", { staticClass: "pl-3" }, [
-            _c("span", { staticClass: "fas fa-long-arrow-alt-right" }),
-            _vm._v(" Slot " + _vm._s(_vm.record.slot))
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "pl-5" }, [
-            _c("span", { staticClass: "fas fa-long-arrow-alt-right" }),
-            _vm._v(" Port " + _vm._s(_vm.record.port))
-          ])
+      _c("small", [
+        _c("i", { staticClass: "material-icons" }, [_vm._v("explore")]),
+        _vm._v(" "),
+        _c("a", { attrs: { href: _vm.record.record_url } }, [
+          _vm._v("\n                 View\n            ")
         ])
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _c("td", [
+      _c("small", [
+        _c("i", { staticClass: "material-icons" }, [
+          _vm._v(_vm._s(_vm.customerTypeIcon))
+        ]),
+        _vm._v(" "),
+        _c("a", { attrs: { href: _vm.record.customer_url } }, [
+          _vm._v(
+            "\n                " +
+              _vm._s(_vm.record.customer) +
+              "\n            "
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("td", [
+      _c("small", [
+        _c("a", { attrs: { href: _vm.record.service_location_url } }, [
+          _vm._v(
+            "\n                " + _vm._s(_vm.record.address) + "\n            "
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("td", [_c("small", [_vm._v(_vm._s(_vm.record.package))])]),
+    _vm._v(" "),
+    _c("td", [_c("small", [_vm._v(_vm._s(_vm.record.ont))])]),
+    _vm._v(" "),
+    _c("td", [_c("small", [_vm._v(_vm._s(_vm.record.management_ip))])]),
+    _vm._v(" "),
+    _c("td", [_c("small", [_vm._v(_vm._s(_vm.record.len))])])
   ])
 }
 var staticRenderFns = []
@@ -65783,6 +65796,42 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col" }, [
+          _c(
+            "label",
+            { staticClass: "sr-only", attrs: { for: "searchQuery" } },
+            [_vm._v("Search Query")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.searchQuery,
+                  expression: "searchQuery"
+                }
+              ],
+              staticClass: "form-control form-control-sm",
+              attrs: { type: "text", placeholder: "Search" },
+              domProps: { value: _vm.searchQuery },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.searchQuery = $event.target.value
+                }
+              }
+            })
+          ])
+        ])
+      ]),
+      _vm._v(" "),
       _c("table", { staticClass: "table" }, [
         _c("thead", [
           _c("tr", [
@@ -65893,17 +65942,17 @@ var render = function() {
               {
                 on: {
                   click: function($event) {
-                    _vm.sortBy("port")
+                    _vm.sortBy("len")
                   }
                 }
               },
               [
-                _vm._v("NetLocation "),
+                _vm._v("LEN "),
                 _c("span", {
                   staticClass: "fas fa-sort",
                   on: {
                     click: function($event) {
-                      _vm.sortBy("port")
+                      _vm.sortBy("len")
                     }
                   }
                 })
@@ -65926,7 +65975,16 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [_vm._v("@")])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

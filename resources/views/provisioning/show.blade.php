@@ -6,7 +6,12 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
         <li class="breadcrumb-item"><a href="/provisioning">Provisioning Records</a></li>
-        <li class="breadcrumb-item active" aria-current="page">A Provisioning Record For {{ $provisioning_record->service_location->customer->customer_name }}</li>
+        <li class="breadcrumb-item active" aria-current="page">
+            A Provisioning Record For {{ $provisioning_record->service_location->customer->customer_name }}
+            @if($provisioning_record->len)
+                <strong>LEN: {{$provisioning_record->len}}</strong>
+            @endif
+        </li>
     </ol>
 </nav>
 

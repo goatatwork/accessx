@@ -124,8 +124,6 @@ class ZhoneOnt extends TelnetClient
             $this->execute('config t');
             $output = $this->execute('system restore factory-defaults');
 
-            \Log::info('factoryReset output was a ' . typeof($output));
-
             return $output;
         } catch( TelnetException $e ) {
             return false;

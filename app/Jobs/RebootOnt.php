@@ -62,7 +62,7 @@ class RebootOnt implements ShouldQueue
                             $this->provisioning_record->service_location->customer->customer_name .
                             ' at ' .
                             $this->provisioning_record->ip_address->address .
-                            ' was reset to factory defaults.'
+                            ' was reset to factory defaults so that it can get its new config.'
                         );
                     return true;
                 } else {

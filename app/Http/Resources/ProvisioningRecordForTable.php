@@ -28,6 +28,7 @@ class ProvisioningRecordForTable extends Resource
             'aggregator_url' => '/infrastructure/aggregators/' . $this->port->slot->aggregator->id,
             'slot' => $this->port->slot->slot_number,
             'port' => $this->port->port_number,
+            'len' => $this->len,
             'google_maps_embed_api_string' => $this->service_location->google_maps_embed_api_string
         ];
     }

@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,16 +16,25 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'provisioning'], function() {
+    Route::get('/', 'ProvisioningRecordController@index');
+    Route::get('{provisioning_record}', 'ProvisioningRecordController@show');
+    Route::get('{provisioning_record}/edit', 'ProvisioningRecordController@edit');
+    Route::patch('{provisioning_record}/suspend', 'ProvisioningRecordController@suspend');
+    Route::patch('{provisioning_record}/unsuspend', 'ProvisioningRecordController@unsuspend');
+    Route::delete('{provisioning_record}', 'ProvisioningRecordController@destroy');
     Route::get('service_locations/{service_location}/show', 'ServiceLocationProvisioningController@show');
     Route::get('service_locations/{service_location}/create', 'ServiceLocationProvisioningController@create');
 });
+Route::patch('/service_locations/{service_location}', 'ServiceLocationsController@update')->middleware('auth');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'customers'], function() {
     Route::get('/', 'CustomersController@index');
     Route::post('/', 'CustomersController@store');
     Route::get('create', 'CustomersController@create');
     Route::get('{customer}', 'CustomersController@show');
+    Route::get('{customer}', 'CustomersController@show');
 });
+Route::patch('/billing_records/{billing_record}', 'BillingRecordsController@update')->middleware('auth');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'onts'], function() {
     Route::get('/', 'OntsController@index');
@@ -46,6 +54,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dhcp'], function() {
     Route::delete('shared_networks/{dhcp_shared_network}', 'DhcpSharedNetworksController@destroy');
     Route::patch('shared_networks/{dhcp_shared_network}', 'DhcpSharedNetworksController@update');
     Route::get('shared_networks/{dhcp_shared_network}/edit', 'DhcpSharedNetworksController@edit');
+    Route::get('leases', 'DhcpLeasesFileController@index');
     Route::get('{dhcp_shared_network}', 'DhcpSharedNetworksController@show');
 });
 
@@ -60,4 +69,29 @@ Route::group(['middleware' => 'auth', 'prefix' => 'infrastructure'], function() 
 
     Route::post('slots/{slot}/populate', 'SlotPopulationController@store');
     Route::post('slots/{slot}/unpopulate', 'SlotPopulationController@destroy');
+});
+
+Route::get('activity_logs', 'ActivityLogsController@index')->middleware('auth');
+
+Route::get('users', 'UsersController@index')->middleware('auth');
+
+Route::get('test', function() {
+
+    $client = Graze\TelnetClient\TelnetClient::factory();
+
+    $dsn = '192.168.127.2:23';
+    $prompt = '>';
+    $promptError = 'ERROR';
+    // $lineEnding = "\r\n";
+    // $client->connect($dsn, $prompt, $promptError, $lineEnding);
+    $client->connect($dsn, $prompt, $promptError);
+
+    $command = 'Connect to the ONT';
+
+    $resp = $client->execute('admin', 'Login:');
+
+    // $resp = $client->execute('1q2w3e4r', 'Password:');
+
+    dd($resp);
+
 });

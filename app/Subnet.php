@@ -2,10 +2,14 @@
 
 namespace App;
 
+use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Subnet extends Model
+class Subnet extends Model implements AuditableContract
 {
+    use Auditable;
+
     protected $fillable = [
         'comment',
         'network_address',
@@ -21,6 +25,8 @@ class Subnet extends Model
         'notes'
     ];
 
+    protected $appends = ['has_provisioning_records'];
+
     public function dhcp_shared_network()
     {
         return $this->belongsTo(DhcpSharedNetwork::class);
@@ -29,5 +35,15 @@ class Subnet extends Model
     public function ip_addresses()
     {
         return $this->hasMany(IpAddress::class);
+    }
+
+    public function provisioning_records()
+    {
+        return $this->hasManyThrough(ProvisioningRecord::class, IpAddress::class);
+    }
+
+    public function getHasProvisioningRecordsAttribute()
+    {
+        return $this->provisioning_records()->exists();
     }
 }

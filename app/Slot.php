@@ -3,18 +3,22 @@
 namespace App;
 
 use App\ModuleType;
+use OwenIt\Auditing\Auditable;
 use App\Exceptions\SlotAlreadyHasPorts;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Slot extends Model
+class Slot extends Model implements AuditableContract
 {
+    use Auditable;
+
     protected $fillable = [
         'module_type_id',
         'slot_number',
         'notes'
     ];
 
-    protected $appends = ['populated'];
+    protected $appends = ['populated', 'has_provisioning_records'];
 
     public function aggregator()
     {
@@ -29,6 +33,11 @@ class Slot extends Model
     public function ports()
     {
         return $this->hasMany(Port::class);
+    }
+
+    public function provisioning_records()
+    {
+        return $this->hasManyThrough(ProvisioningRecord::class, Port::class);
     }
 
     public function getPopulatedAttribute()
@@ -81,5 +90,10 @@ class Slot extends Model
         } else {
             throw new SlotAlreadyHasPorts();
         }
+    }
+
+    public function getHasProvisioningRecordsAttribute()
+    {
+        return $this->provisioning_records()->exists();
     }
 }

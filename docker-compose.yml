@@ -1,0 +1,100 @@
+version: "2"
+services:
+  dhcp:
+    build:
+      context: ./docker/dnsmasq
+      dockerfile: Dockerfile
+    image: goldaccess/dnsmasq:production
+    network_mode: "host"
+    volumes:
+      - ./storage/app/services/dnsmasq:/etc/dnsmasq
+      - ./storage/app/public/media:/tftpboot
+      - ./storage/app/services/dnsmasq/leases:/var/lib/misc
+    ports:
+      - "67:67"
+      - "67:67/udp"
+      - "69:69"
+      - "69:69/udp"
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: goldaccess/nginx:production
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "${WEB_PORT}:80"
+    networks:
+      - goldaccessnet
+    depends_on:
+      - php
+  php:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    image: goldaccess/php-fpm:production
+    volumes:
+      - ./:/var/www/html
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "9000:9000"
+    networks:
+      - goldaccessnet
+  npm:
+    build:
+      context: ./docker/npm
+      dockerfile: Dockerfile
+    image: goldaccess/npm:production
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - goldaccessnet
+  laravel-echo-server:
+    build:
+      context: ./docker/laravel-echo-server
+      dockerfile: Dockerfile
+    image: goldaccess/echo-server:production
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "6001:6001"
+    networks:
+      - goldaccessnet
+  horizon-supervisor:
+    build:
+      context: ./docker/horizon-supervisor
+      dockerfile: Dockerfile
+    image: goldaccess/horizon-supervisor:production
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - goldaccessnet
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 1q2w3e4r
+      MYSQL_DATABASE: accessx
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 1q2w3e4r
+    volumes:
+      - /opt/goldaccess_db:/var/lib/mysql
+    networks:
+      - goldaccessnet
+  redis:
+    image: redis:alpine
+    networks:
+      - goldaccessnet
+  portainer:
+    image: portainer/portainer
+    container_name: "portainer"
+    command: --templates http://templates/templates.json --host=unix:///var/run/docker.sock
+    networks:
+      - goldaccessnet
+    ports:
+      - "9001:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/portainer/data:/data
+networks:
+  goldaccessnet:
+    driver: "bridge"

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use File;
 use App\OntProfile;
 use App\OntSoftware;
 use Illuminate\Http\Request;
@@ -28,9 +29,28 @@ class OntProfilesApiController extends Controller
      */
     public function store(Request $request, OntSoftware $ont_software)
     {
-        $profile = $ont_software->ont_profiles()->create($request->all());
-        $profile->addMediaFromRequest('uploaded_file')->toMediaCollection('default');
-        return $profile->load('media');
+        $validatedData = $request->validate([
+            'name' => 'required|unique:ont_profiles|max:255',
+        ]);
+
+        if ($ont_software->ont->manufacturer == 'Zhone') {
+            $parts = explode(".", $ont_software->version);
+            $configFileName = $parts[0] . $parts[1] . $parts[2] . '_0GF_generic.conf';
+
+            $profile = $ont_software->ont_profiles()->create($request->all());
+            $profile->addMediaFromRequest('uploaded_file')
+                ->usingFileName($configFileName)
+                ->toMediaCollection('default');
+
+            $this->copySoftwareImageToProfileDirectory($profile, $ont_software);
+
+            return $profile->load('media');
+        } else {
+            // S0301243_0GF_generic.conf
+            $profile = $ont_software->ont_profiles()->create($request->all());
+            $profile->addMediaFromRequest('uploaded_file')->toMediaCollection('default');
+            return $profile->load('media');
+        }
     }
 
     /**
@@ -76,5 +96,20 @@ class OntProfilesApiController extends Controller
     public function destroy(OntProfile $ont_profile)
     {
         $ont_profile->delete();
+    }
+
+    public function copySoftwareImageToProfileDirectory($profile, $ont_software)
+    {
+        $ont_software->getFirstMedia();
+        $source = $ont_software->file->getPath();
+
+        $profile_path = $profile->file->getPath();
+        $profile_path_parts = explode('/',$profile_path);
+        array_pop($profile_path_parts);
+        $profile_path_usable = implode('/',$profile_path_parts);
+
+        $destination = $profile_path_usable . '/' . $ont_software->file->file_name;
+
+        File::copy($source, $destination);
     }
 }

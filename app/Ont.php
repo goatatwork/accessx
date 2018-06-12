@@ -3,14 +3,16 @@
 namespace App;
 
 use Spatie\Sluggable\HasSlug;
+use OwenIt\Auditing\Auditable;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Ont extends Model implements HasMedia
+class Ont extends Model implements HasMedia, AuditableContract
 {
-    use HasMediaTrait, HasSlug;
+    use HasMediaTrait, HasSlug, Auditable;
 
     protected $fillable = [
         'model_number',
@@ -22,7 +24,7 @@ class Ont extends Model implements HasMedia
         'notes'
     ];
 
-    protected $appends = ['number_of_files'];
+    protected $appends = ['number_of_files', 'has_provisioning_records'];
 
     public function ont_software()
     {
@@ -42,5 +44,10 @@ class Ont extends Model implements HasMedia
     public function getNumberOfFilesAttribute()
     {
         return $this->media()->count();
+    }
+
+    public function getHasProvisioningRecordsAttribute()
+    {
+        return $this->ont_software()->get()->where('has_provisioning_records', true)->count() ? true : false;
     }
 }

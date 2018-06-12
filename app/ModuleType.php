@@ -3,12 +3,14 @@
 namespace App;
 
 use Spatie\Sluggable\HasSlug;
+use OwenIt\Auditing\Auditable;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class ModuleType extends Model
+class ModuleType extends Model implements AuditableContract
 {
-    use HasSlug;
+    use HasSlug, Auditable;
 
     protected $fillable = [
         'name',

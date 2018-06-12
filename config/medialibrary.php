@@ -12,7 +12,7 @@ return [
      * The maximum file size of an item in bytes.
      * Adding a larger file will result in an exception.
      */
-    'max_file_size' => 1024 * 1024 * 10,
+    'max_file_size' => 1024 * 1024 * 100,
 
     /*
      * This queue will be used to generate derived images.
@@ -23,8 +23,7 @@ return [
     /*
      * The class name of the media model that should be used.
      */
-    // 'media_model' => Spatie\MediaLibrary\Media::class,
-    'media_model' => App\Media::class,
+    'media_model' => Spatie\MediaLibrary\Media::class,
 
     /*
      * The engine that should perform the image conversions.
@@ -41,7 +40,7 @@ return [
     /*
      * The class that contains the strategy for determining a media file's path.
      */
-    'custom_path_generator_class' => null,
+    'custom_path_generator_class' => App\GoldAccess\Utilities\MediaLibraryPathGenerator::class,
 
     's3' => [
         /*

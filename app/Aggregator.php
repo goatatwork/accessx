@@ -3,13 +3,15 @@
 namespace App;
 
 use Spatie\Sluggable\HasSlug;
+use OwenIt\Auditing\Auditable;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
 use App\Exceptions\AggregatorAlreadyHasSlots;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Aggregator extends Model
+class Aggregator extends Model implements AuditableContract
 {
-    use HasSlug;
+    use HasSlug, Auditable;
 
     protected $fillable = [
         'platform_id',
@@ -21,7 +23,7 @@ class Aggregator extends Model
         'notes'
     ];
 
-    // protected $appends = ['slug'];
+    protected $appends = ['has_provisioning_records'];
 
     public function platform()
     {
@@ -61,4 +63,8 @@ class Aggregator extends Model
         }
     }
 
+    public function getHasProvisioningRecordsAttribute()
+    {
+        return $this->slots()->get()->where('has_provisioning_records', true)->count() ? true : false;
+    }
 }

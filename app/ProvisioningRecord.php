@@ -2,13 +2,15 @@
 
 namespace App;
 
+use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class ProvisioningRecord extends Model implements HasMedia
+class ProvisioningRecord extends Model implements HasMedia, AuditableContract
 {
-    use HasMediaTrait;
+    use HasMediaTrait, Auditable;
 
     protected $fillable = [
         'service_location_id',
@@ -20,7 +22,7 @@ class ProvisioningRecord extends Model implements HasMedia
         'notes'
     ];
 
-    protected $appends = ['port_tag', 'port_tag_unique', 'file'];
+    protected $appends = ['port_tag', 'port_tag_unique', 'file', 'is_suspended'];
 
     public function service_location() {
         return $this->belongsTo(ServiceLocation::class);
@@ -68,5 +70,45 @@ class ProvisioningRecord extends Model implements HasMedia
     public function getPortTagUniqueAttribute()
     {
         return $this->getPortTagAttribute() . '-' . $this->id;
+    }
+
+    public function getDhcpStringAttribute()
+    {
+        $dhcp_string =
+            ($this->ont_profile->ont_software->getFirstMedia()) ?
+            ($this->ont_profile->ont_software->getFirstMedia())->getCustomProperty('dhcp_string') :
+            'unknown';
+
+        return 'ont_profiles/' .
+            $this->ont_profile->ont_software->ont->slug .
+            '/' .
+            $this->ont_profile->ont_software->version .
+            '/' .
+            $this->ont_profile->slug .
+            '/' .
+            $dhcp_string;
+    }
+
+    public function getIsSuspendedAttribute()
+    {
+        return $this->ont_profile->name == 'Suspended';
+    }
+
+    /**
+     * @return int The ID of the last used profile OR the ID of the first profile
+     * for the software attached to this record, in the event that there is no
+     * last used profile.
+     */
+    public function getPreviousProfileIdAttribute()
+    {
+        $update_audits = $this->audits()->whereEvent('updated')->orderBy('created_at', 'desc')->get();
+
+        $profile_change_audit_record = $update_audits->first(function($audit, $key) {
+            if (array_has($audit->getModified(), 'ont_profile_id')) {
+                return $audit->new_values['ont_profile_id'] != $audit->old_values['ont_profile_id'];
+            }
+        });
+
+        return $profile_change_audit_record ? $profile_change_audit_record->old_values['ont_profile_id'] : $this->ont_profile->ont_software->ont_profiles()->first()->id;
     }
 }

@@ -1,0 +1,8 @@
+*
+!dhcp-script.sh
+!dnsmasq.conf
+!dnsmasq.d/
+!hosts.d/
+!leases/
+!options.d/
+!.gitignore

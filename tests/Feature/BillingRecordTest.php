@@ -30,4 +30,19 @@ class BillingRecordTest extends TestCase
             'phone1' => '111-111-1111'
         ]);
     }
+
+    /**
+     * @return void
+     */
+    public function test_web_can_update_billing_record()
+    {
+        $billing_record = factory(BillingRecord::class)->create();
+
+        $response = $this->actingAs($this->user, 'api')->json('PATCH', '/billing_records/' . $billing_record->id, ['phone1' => '111-111-1111']);
+
+        $b_record = BillingRecord::find($billing_record->id);
+        $this->assertEquals($b_record->phone1, '111-111-1111');
+
+    }
+
 }

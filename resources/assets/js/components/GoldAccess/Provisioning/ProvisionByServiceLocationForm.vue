@@ -31,7 +31,7 @@
                     </div>
                     <div class="form-group pull-right">
                         <a href="#" class="cancel-button" @click="cancelForm()">Cancel</a>
-                        <button class="btn btn-sm btn-success" @click="submitForm()">Okay</button>
+                        <button class="btn btn-sm btn-success" :disabled="submitIsDisabled" @click="submitForm()">Okay</button>
                     </div>
                 </div>
             </div>
@@ -66,7 +66,8 @@
                     len: '',
                     circuit_id: '',
                     notes: '',
-                }
+                },
+                submitIsDisabled: false,
             }
         },
 
@@ -106,6 +107,7 @@
                 }
             },
             submitForm: function() {
+                this.submitIsDisabled = true;
                 axios.post('/api/provisioning', this.form).then( (response) => {
                     this.resetForm();
                     window.location.href = "/provisioning/service_locations/"+this.location.id+"/show";

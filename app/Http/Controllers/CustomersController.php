@@ -15,7 +15,7 @@ class CustomersController extends Controller
      */
     public function index()
     {
-        $customers = Customer::with('billing_record')->with('service_locations')->get();
+        $customers = Customer::with('billing_record')->with('service_locations')->orderBy('created_at', 'desc')->get();
 
         return view('customers.index')->with('customers', $customers);
     }

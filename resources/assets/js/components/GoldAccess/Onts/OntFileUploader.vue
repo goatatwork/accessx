@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col">
                     <a
-                        class="btn btn-dark btn-sm float-right"
+                        class="btn btn-dark btn-sm"
                         data-toggle="collapse"
                         :href="collapseHref"
                         role="button"
@@ -13,7 +13,7 @@
                         :aria-controls="collapseId"
                         @click="toggleUploadArea()"
                     >
-                        UPLOAD A FILE
+                        <i class="material-icons mr-2">file_upload</i> UPLOAD A FILE
                     </a>
                 </div>
             </div>
@@ -205,7 +205,7 @@
                     addRemoveLinks: false,
                     previewTemplate: document.getElementById(this.previewTemplateId).innerHTML,
                     autoProcessQueue: false,
-                    dictDefaultMessage: 'Drop files here.',
+                    dictDefaultMessage: 'Drop a file here or click here to select a file.',
                     createImageThumbnails: false,
                     headers: {
                         "X-CSRF-TOKEN": window.axios.defaults.headers.common['X-CSRF-TOKEN'],

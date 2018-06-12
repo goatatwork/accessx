@@ -2,11 +2,13 @@
 
 namespace App;
 
+use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class IpAddress extends Model
+class IpAddress extends Model implements AuditableContract
 {
-    use Provisionable;
+    use Provisionable, Auditable;
 
     protected $fillable = ['address', 'vlan'];
 

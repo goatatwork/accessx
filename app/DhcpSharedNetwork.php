@@ -3,12 +3,14 @@
 namespace App;
 
 use Spatie\Sluggable\HasSlug;
+use OwenIt\Auditing\Auditable;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class DhcpSharedNetwork extends Model
+class DhcpSharedNetwork extends Model implements AuditableContract
 {
-    use HasSlug;
+    use HasSlug, Auditable;
 
     protected $fillable = [
         'name',
@@ -16,6 +18,8 @@ class DhcpSharedNetwork extends Model
         'vlan',
         'notes'
     ];
+
+    protected $appends = ['has_provisioning_records'];
 
     public function subnets()
     {
@@ -35,5 +39,10 @@ class DhcpSharedNetwork extends Model
         return SlugOptions::create()
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
+    }
+
+    public function getHasProvisioningRecordsAttribute()
+    {
+        return $this->subnets()->get()->where('has_provisioning_records', true)->count() ? true : false;
     }
 }

@@ -12,12 +12,12 @@ $factory->define(App\ServiceLocation::class, function (Faker $faker) {
         'poc_name' => $faker->firstName() . ' ' . $faker->lastName(),
         'poc_email' => $faker->safeEmail(),
         'phone1' => $faker->phoneNumber(),
-        'phone2' => $faker->randomElement(['',$faker->phoneNumber()]),
+        'phone2' => $faker->phoneNumber(),
         'address1' => $faker->buildingNumber() . ' ' . $faker->streetName(),
-        'address2' => $faker->randomElement(['',$faker->secondaryAddress()]),
+        'address2' => $faker->secondaryAddress(),
         'city' => $faker->city(),
         'state' => $faker->stateAbbr(),
         'zip' => $faker->postCode(),
-        'notes' => $faker->randomElement(['',$faker->sentence()])
+        'notes' => $faker->sentence()
     ];
 });

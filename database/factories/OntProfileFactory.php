@@ -16,6 +16,6 @@ $factory->define(App\OntProfile::class, function (Faker $faker) {
             'Debugging Package',
             'No Wifi Package'
         ]),
-        'notes' => $faker->randomElement(['', $faker->sentence()]),
+        'notes' => $faker->sentence(),
     ];
 });

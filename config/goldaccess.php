@@ -1,25 +1,43 @@
 <?php
+/**
+ * This file is part of the GoldAccess package.
+ *
+ * @author     Goat
+ */
 
 return [
 
     /*
     |--------------------------------------------------------------------------
-    | Dnsmasq Server Information
+    | Dockerbot Configuration
     |--------------------------------------------------------------------------
     |
-    | These are settings for the DHCP server on the network. The 'keyfile'
-    | is used to point to the private ssh key on the local host that
-    | corresponds with the remote user and who's public key has been
-    | added to the remote 'user' authorized_keys file.
+    | Configured Dockerbot's operational parameters
     |
     */
+    'settings' => [
+        'ga_devmode' => env('GA_DEVMODE', false)
+    ],
 
-    'dhcp' => [
-        'ip' => env('DHCP_IP', '127.0.0.1'),
-        'user' => env('DHCP_USER', 'root'),
-        'keyfile' => env('DHCP_KEYFILE', ''),
-        'configfile' => env('DHCP_CONFIGFILE', '/etc/dnsmasq.conf'),
-        'config_files_path' => env('DHCP_CONFIG_FILES_PATH', '/etc/dnsmasq.d'),
-        'pid' => env('DHCP_PID', '/run/dnsmasq/dnsmasq.pid')
+    'dockerbot' => [
+        'services' => [
+            'dhcp' => [
+                'container_name' => env('DOCKERBOT_DHCP_CONTAINERNAME', 'dnsmasq_server'),
+            ],
+            'nginx' => [
+                'container_name' => env('DOCKERBOT_NGINX_CONTAINERNAME', 'goldaccess_nginx_1'),
+            ],
+        ],
+    ],
+
+    'onts' => [
+        'factory' => [
+            'user' => env('FACTORY_DEFAULT_ONT_USER', 'admin'),
+            'password' => env('FACTORY_DEFAULT_ONT_PASSWORD', 'password')
+        ],
+        'defaults' => [
+            'user' => env('DEFAULT_ONT_USER', 'admin'),
+            'password' => env('DEFAULT_ONT_PASSWORD', 'password')
+        ]
     ]
 ];

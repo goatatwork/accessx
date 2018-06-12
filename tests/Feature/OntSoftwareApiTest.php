@@ -6,6 +6,7 @@ use App\Ont;
 use App\User;
 use Tests\TestCase;
 use App\OntSoftware;
+use App\ProvisioningRecord;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -55,7 +56,7 @@ class OntSoftwareApiTest extends TestCase
      */
     public function test_api_will_add_software_to_onts()
     {
-        $ont = factory(Ont::class)->create();
+        $ont = factory(Ont::class)->create(['manufacturer' => 'NotZhone']);
         $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
         // $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.jpg')];
         $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 2048)];
@@ -79,9 +80,36 @@ class OntSoftwareApiTest extends TestCase
      * @group onts
      * @return  void
      */
-    public function test_api_will_fetch_media_files_for_ont_sofware()
+    public function test_api_will_add_software_to_zhone_onts()
     {
         $ont = factory(Ont::class)->create();
+        $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
+        // $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.jpg')];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 2048)];
+        $form_data = array_merge($ont_software->toArray(), $file_to_upload);
+
+
+        $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/' . $ont->id . '/software', $form_data);
+
+        $response->assertJson([
+            'version' => 'S03.01.266',
+            'file' => [
+                'file_name' => 'ZNID24xxA_GRSIP_0301266_image_with_cfe.img'
+            ]
+        ]);
+
+        $software = OntSoftware::whereVersion('S03.01.266')->first();
+        $this->assertFileExists($software->file->getPath());
+        $software->clearMediaCollection('default');
+    }
+
+    /**
+     * @group onts
+     * @return  void
+     */
+    public function test_api_will_fetch_media_files_for_ont_sofware()
+    {
+        $ont = factory(Ont::class)->create(['manufacturer' => 'NotZhone']);
         $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
         $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 2048)];
         $form_data = array_merge($ont_software->toArray(), $file_to_upload);
@@ -123,7 +151,7 @@ class OntSoftwareApiTest extends TestCase
      */
     public function test_api_will_delete_ont_software()
     {
-        $ont = factory(Ont::class)->create();
+        $ont = factory(Ont::class)->create(['manufacturer' => 'NotZhone']);
         $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
         $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 2048)];
         $form_data = array_merge($ont_software->toArray(), $file_to_upload);
@@ -141,5 +169,21 @@ class OntSoftwareApiTest extends TestCase
 
         $this->assertDatabaseMissing('ont_software', ['version' => $software->version]);
         $this->assertFileNotExists($software->file->getPath());
+    }
+
+    public function test_ont_software_knows_if_it_has_provisioning_records()
+    {
+        $provrec = factory(ProvisioningRecord::class)->create();
+
+        $ont_software = $provrec->ont_profile->ont_software;
+
+        $this->assertTrue($ont_software->has_provisioning_records);
+    }
+
+    public function test_ont_software_knows_if_it_does_not_have_provisioning_records()
+    {
+        $ont_software = factory(OntSoftware::class)->create();
+
+        $this->assertFalse($ont_software->has_provisioning_records);
     }
 }

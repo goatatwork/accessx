@@ -42,41 +42,86 @@ class RebootOnt implements ShouldQueue
      */
     public function handle()
     {
-        try {
-            if (config('goldaccess.settings.ga_devmode'))
-            {
-                app('logbot')->log('The ONT for ' .
-                        $this->provisioning_record->service_location->customer->customer_name .
-                        ' at ' .
-                        $this->provisioning_record->ip_address->address .
-                        ' was NOT reset to factory defaults because we are in dev mode.', 'notice'
-                    );
-            } else {
-                $ont = new ZhoneOnt($this->provisioning_record->ip_address->address);
-
-                if ($ont->isConnected())
-                {
-                    $ont->login(config('goldaccess.onts.defaults.user'), config('goldaccess.onts.defaults.password'));
-                    $ont->factoryReset();
-                    app('logbot')->log('The ONT for ' .
-                            $this->provisioning_record->service_location->customer->customer_name .
-                            ' at ' .
-                            $this->provisioning_record->ip_address->address .
-                            ' was reset to factory defaults so that it can get its new config.'
-                        );
-                    return true;
-                } else {
-                    app('logbot')->log('The ONT for ' .
-                        $this->provisioning_record->service_location->customer->customer_name .
-                        ' at ' .
-                        $this->provisioning_record->ip_address->address .
-                        ' was NOT reset to factory defaults because I could not connect to it.', 'warning'
-                    );
-                }
-            }
-        } catch (\Bestnetwork\Telnet\TelnetException $e) {
-            \Log::info($e);
-            app('logbot')->log('There was a problem telnetting to an ONT at ' . $this->provisioning_record->ip_address->address);
+        if (config('goldaccess.settings.ga_devmode'))
+        {
+            $this->reportDevMode();
+            return;
         }
+
+        $ont = new ZhoneOnt($this->provisioning_record->ip_address->address);
+
+        if ( ! $ont->connected )
+        {
+            $this->reportNoConnection();
+            return;
+        }
+
+        $ont = $ont->login(config('goldaccess.onts.defaults.user'), config('goldaccess.onts.defaults.password'));
+
+        if ($ont->logged_in) {
+            $ont->factoryReset();
+            $this->reportFactoryReset();
+            return;
+        } else {
+            $ont = $ont->login(config('goldaccess.onts.factory.user'), config('goldaccess.onts.factory.password'));
+            if ($ont->logged_in) {
+                $ont->factoryReset();
+                $this->reportFactoryResetSecondaryAuth();
+                return;
+            } else {
+                $this->reportAuthFailure();
+                return;
+            }
+        }
+    }
+
+    protected function reportDevMode()
+    {
+            app('logbot')->log('The ONT for ' .
+                    $this->provisioning_record->service_location->customer->customer_name .
+                    ' at ' .
+                    $this->provisioning_record->ip_address->address .
+                    ' was NOT reset to factory defaults because we are in dev mode.', 'notice'
+                );
+    }
+
+    protected function reportAuthFailure()
+    {
+        app('logbot')->log('The ONT for ' .
+                $this->provisioning_record->service_location->customer->customer_name .
+                ' at ' .
+                $this->provisioning_record->ip_address->address .
+                ' was NOT reset to factory defaults so due to an authentication failure.'
+            );
+    }
+
+    protected function reportFactoryReset()
+    {
+        app('logbot')->log('The ONT for ' .
+                $this->provisioning_record->service_location->customer->customer_name .
+                ' at ' .
+                $this->provisioning_record->ip_address->address .
+                ' was reset to factory defaults so that it can get its new config.'
+            );
+    }
+
+    protected function reportFactoryResetSecondaryAuth()
+    {
+        app('logbot')->log('The ONT for ' .
+                $this->provisioning_record->service_location->customer->customer_name .
+                ' at ' .
+                $this->provisioning_record->ip_address->address .
+                ' was reset to factory defaults, using FACTORY_DEFAULT_ONT_USER and FACTORY_DEFAULT_ONT_PASSWORD, so that it can get its new config.'
+            );
+    }
+
+    protected function reportNoConnection()
+    {
+            app('logbot')->log('The ONT for ' .
+                $this->provisioning_record->service_location->customer->customer_name .
+                ' at ' .
+                $this->provisioning_record->ip_address->address .
+                ' was NOT reset to factory defaults because I could not connect to it.', 'warning'
+            );
     }
 }

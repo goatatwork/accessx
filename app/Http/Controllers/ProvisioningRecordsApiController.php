@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\RebootOnt;
 use App\ProvisioningRecord;
 use Illuminate\Http\Request;
 use App\Events\ServiceWasProvisioned;
@@ -81,6 +82,10 @@ class ProvisioningRecordsApiController extends Controller
         $provisioning_record = tap($provisioning_record)->update($request->all());
 
         event (new ProvisioningRecordWasUpdated($provisioning_record));
+
+        if ($request->ont_profile_id) {
+            RebootOnt::dispatch($provisioning_record);
+        }
 
         return $provisioning_record;
     }

@@ -31,6 +31,10 @@ return [
     ],
 
     'onts' => [
+        'factory' => [
+            'user' => env('FACTORY_DEFAULT_ONT_USER', 'admin'),
+            'password' => env('FACTORY_DEFAULT_ONT_PASSWORD', 'password')
+        ],
         'defaults' => [
             'user' => env('DEFAULT_ONT_USER', 'admin'),
             'password' => env('DEFAULT_ONT_PASSWORD', 'password')

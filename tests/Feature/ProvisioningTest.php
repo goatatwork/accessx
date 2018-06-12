@@ -11,8 +11,10 @@ use App\OntProfile;
 use Tests\TestCase;
 use App\OntSoftware;
 use App\ServiceLocation;
+use App\Jobs\RebootOnt;
 use App\ProvisioningRecord;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Queue;
 use App\Events\ServiceWasProvisioned;
 use App\GoldAccess\Dhcp\ManagementIp;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -114,6 +116,33 @@ class ProvisioningTest extends TestCase
         $updated_file = Storage::disk('dhcp_configs_test')->get('dnsmasq.d/'.$db_provisioning_record->port_tag_unique.'.conf');
 
         $this->assertEquals($this->file_to_array($updated_file), $this->dhcp_file_syntax($fresh_db_provisioning_record));
+
+    }
+
+    public function test_reboot_job_is_fired_if_pr_update_has_ont_profile_id()
+    {
+        Queue::fake();
+
+        $pr = factory(ProvisioningRecord::class)->create();
+
+        $profile = factory(OntProfile::class)->create(['ont_software_id' => $pr->ont_profile->ont_software->id]);
+
+        $response = $this->actingAs($this->user, 'api')->json('PATCH', '/api/provisioning/' . $pr->id, ['ont_profile_id' => $profile->id]);
+
+        Queue::assertPushed(RebootOnt::class);
+    }
+
+    public function test_reboot_job_is_not_fired_if_pr_update_doesnt_have_ont_profile_id()
+    {
+        Queue::fake();
+
+        $pr = factory(ProvisioningRecord::class)->create();
+
+        $service_location = factory(ServiceLocation::class)->create(['customer_id' => $pr->service_location->customer->id]);
+
+        $response = $this->actingAs($this->user, 'api')->json('PATCH', '/api/provisioning/' . $pr->id, ['service_location_id' => $service_location->id]);
+
+        Queue::assertNotPushed(RebootOnt::class);
     }
 
     public function test_api_can_add_provisioning_records_and_event_is_fired()

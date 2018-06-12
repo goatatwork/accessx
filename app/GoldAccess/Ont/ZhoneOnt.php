@@ -8,6 +8,11 @@ use Bestnetwork\Telnet\TelnetException;
 class ZhoneOnt extends TelnetClient
 {
     /**
+     * @var bool
+     */
+    public $connected = false;
+
+    /**
      * @var string
      */
     public $default_privilege_level = 'user';
@@ -16,6 +21,16 @@ class ZhoneOnt extends TelnetClient
      * @var string
      */
     public $default_uplink = 'eth0';
+
+    /**
+     * @var bool
+     */
+    public $logged_in = false;
+
+    /**
+     * @var bool
+     */
+    public $login_failed = false;
 
     /**
      * @var array
@@ -33,7 +48,7 @@ class ZhoneOnt extends TelnetClient
      * @param string $err_prompt
      * @throws TelnetException
      */
-    public function __construct( $host = '127.0.0.1', $port = 23, $timeout = 10, $prompt = '>', $err_prompt = 'ERROR' ){
+    public function __construct( $host = '127.0.0.1', $port = 23, $timeout = 4, $prompt = '>', $err_prompt = 'ERROR' ){
         $this->host = $host;
         $this->port = $port;
         $this->timeout = $timeout;
@@ -50,7 +65,7 @@ class ZhoneOnt extends TelnetClient
         $this->DONT = chr(254);
         $this->IAC = chr(255);
 
-        $this->connect();
+        $this->connected = $this->connect();
     }
 
     /**
@@ -74,10 +89,12 @@ class ZhoneOnt extends TelnetClient
         // attempt connection
         $this->socket = @fsockopen($this->host, $this->port, $this->errno, $this->errstr, $this->timeout);
 
-        if( !$this->socket ){
-            throw new TelnetException('Cannot connect to ' . $this->host . ' on port ' . $this->port);
-            // return false;
-        }
+        return ($this->socket) ? true : false;
+
+        // if( !$this->socket ){
+        //     // throw new TelnetException('Cannot connect to ' . $this->host . ' on port ' . $this->port);
+        //     return false;
+        // }
     }
 
     /**
@@ -122,8 +139,7 @@ class ZhoneOnt extends TelnetClient
             $this->setPrompt('#');
             $this->execute('en');
             $this->execute('config t');
-            $output = $this->execute('system restore factory-defaults');
-
+            $output = $this->execute('system restore factory-defaults', 'The system shell is being reset. Please wait...');
             return $output;
         } catch( TelnetException $e ) {
             return false;
@@ -168,16 +184,38 @@ class ZhoneOnt extends TelnetClient
      * @throws TelnetException
      */
     public function login( $username, $password ){
+        if ( ! $this->connected ) {
+            return $this;
+        }
+
         try{
-            $this->read('Login:');
-            $this->write((string) $username);
-            $this->read('Password:');
-            $this->write((string) $password);
-            $this->read('>');
-            return true;
+            $this->setPrompt('Login:');
+            $this->execute((string) $username, 'Password:');
+
+            if ($this->sendPassword($password)) {
+                return $this;
+            }
+
+            return $this;
+
+            // $this->execute((string) $username, 'Password:');
+            // $this->execute((string) $password, '>');
+            // $this->logged_in = true;
+            // return $this;
+
+            // $this->read('Login:');
+            // $this->write((string) $username);
+            // $this->read('Password:');
+            // $this->write((string) $password);
+            // $this->read('>');
+            // $this->logged_in = true;
+            // return $this;
         } catch( TelnetException $e ){
-            // throw new TelnetException('Login failed.', 0, $e);
-            return false;
+            // return (str_contains($e->getMessage(), [
+            //                 'Authorized login failed',
+            //                 'Login incorrect'
+            //             ])) ? 'login failed' : $e->getMessage();
+            dd('shit');
         }
     }
 
@@ -236,7 +274,7 @@ class ZhoneOnt extends TelnetClient
     /**
      * @return boolean
      */
-    public function getSocket()
+    protected function getSocket()
     {
         if (!$this->socket)
         {
@@ -264,6 +302,26 @@ class ZhoneOnt extends TelnetClient
         {
             $this->setPrompt('>');
             $this->execute('top');
+        }
+    }
+
+    /**
+     * Send the password to the ONT during authentication
+     * @param  string $password
+     * @return boolean
+     */
+    protected function sendPassword($password)
+    {
+        try {
+            $this->setPrompt('Password:');
+            $this->execute((string) $password, '>', 'Login:');
+            $this->logged_in = true;
+            $this->login_failed = false;
+            return true;
+        } catch (TelnetException $e) {
+            $this->logged_in = false;
+            $this->login_failed = true;
+            return false;
         }
     }
 }

@@ -6,6 +6,7 @@ use File;
 use App\OntProfile;
 use App\OntSoftware;
 use Illuminate\Http\Request;
+use App\Rules\OneSuspendedProfilePerSoftwareVersion;
 
 class OntProfilesApiController extends Controller
 {
@@ -30,7 +31,11 @@ class OntProfilesApiController extends Controller
     public function store(Request $request, OntSoftware $ont_software)
     {
         $validatedData = $request->validate([
-            'name' => 'required|unique:ont_profiles|max:255',
+            'name' => [
+                'required',
+                'max:255',
+                new OneSuspendedProfilePerSoftwareVersion($ont_software)
+            ]
         ]);
 
         if ($ont_software->ont->manufacturer == 'Zhone') {

@@ -270,4 +270,53 @@ class OntProfileApiTest extends TestCase
 
         $this->assertFalse($profile->has_provisioning_records);
     }
+
+    /**
+     * @return  void
+     */
+    public function test_api_will_fail_validation_for_profile_name_if_profile_name_is_not_present()
+    {
+        $ont = factory(Ont::class)->create(['manufacturer' => 'Zhone']);
+        $ont_software = factory(OntSoftware::class)->create(['ont_id' => $ont->id]);
+        $ont_profile = factory(OntProfile::class)->make(['ont_software_id' => null, 'name' => null]);
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 2048)];
+
+        $form_data = array_merge($ont_profile->toArray(), $file_to_upload);
+
+        $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/ont_software/' . $ont_software->id . '/ont_profiles', $form_data);
+
+        $response->assertJson([
+            'errors' => [
+                'name' => [
+                    'The name field is required.'
+                ]
+            ]
+        ]);
+    }
+
+    /**
+     * @return  void
+     */
+    public function test_api_will_fail_validation_for_profile_name_if_profile_name_is_duplicate_for_that_software_version()
+    {
+        $ont = factory(Ont::class)->create(['manufacturer' => 'Zhone']);
+        $ont_software = factory(OntSoftware::class)->create(['ont_id' => $ont->id]);
+        $ont_profile = factory(OntProfile::class)->create(['ont_software_id' => $ont_software->id, 'name' => 'Suspended']);
+
+
+        $new_ont_profile = factory(OntProfile::class)->make(['ont_software_id' => null, 'name' => 'Suspended']);
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 2048)];
+
+        $form_data = array_merge($new_ont_profile->toArray(), $file_to_upload);
+
+        $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/ont_software/' . $ont_software->id . '/ont_profiles', $form_data);
+
+        $response->assertJson([
+            'errors' => [
+                'name' => [
+                    'A profile with that name already exists for this software version.'
+                ]
+            ]
+        ]);
+    }
 }

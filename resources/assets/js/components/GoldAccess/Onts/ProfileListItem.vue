@@ -23,23 +23,37 @@
                                 </div>
                             </div>
                             <div class="media-right">
-                                <delete-modal :title="profile.file.file_name" :to-be-deleted="profile" v-on:delete-the-object="deleteTheObject()">
-                                    <div slot="button">
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm"
-                                            :class="deleteButtonClass"
-                                            data-toggle="modal"
-                                            :data-target="modalRef"
-                                            :disabled="profile.has_provisioning_records"
-                                        >
-                                            Delete
-                                        </button>
+                                <div class="row">
+                                    <div class="col">
+                                        <delete-modal :title="profile.file.file_name" :to-be-deleted="profile" v-on:delete-the-object="deleteTheObject()">
+                                            <div slot="button">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-sm"
+                                                    :class="deleteButtonClass"
+                                                    data-toggle="modal"
+                                                    :data-target="modalRef"
+                                                    :disabled="isProvisionedAnywhere"
+                                                >
+                                                    Delete
+                                                </button>
+                                            </div>
+                                            <div slot="body">
+                                                <p>Are you sure you wish to delete <strong>{{ profile.file.file_name }}</strong>?</p>
+                                            </div>
+                                        </delete-modal>
                                     </div>
-                                    <div slot="body">
-                                        <p>Are you sure you wish to delete <strong>{{ profile.file.file_name }}</strong>?</p>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <span v-show="isProvisionedAnywhere" class="font-italic text-dark">
+                                            <small>
+                                                Delete is disabled because<br>this profile is in use.
+                                            </small>
+                                        </span>
                                     </div>
-                                </delete-modal>
+                                </div>
+
                             </div>
                         </div>
 
@@ -66,11 +80,14 @@
                 return 'collapse-profile-'+this.profile.id;
             },
             deleteButtonClass: function() {
-                return this.profile.has_provisioning_records ? 'btn-outline-light' : 'btn-outline-dark';
+                return this.profile.has_provisioning_records ? 'btn-outline-light text-secondary font-italic' : 'btn-outline-dark';
+            },
+            isProvisionedAnywhere: function() {
+                return this.profile.has_provisioning_records;
             },
             modalRef: function() {
-                return '#deleteModal'+this.profile.id;
-            }
+                return '#deleteModal-'+this.profile.id;
+            },
         },
 
         methods: {

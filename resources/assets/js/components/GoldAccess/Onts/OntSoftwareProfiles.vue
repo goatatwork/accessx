@@ -55,8 +55,9 @@
                 this.profiles.push(response);
             }.bind(this));
             EventBus.$on('ont-profile-was-deleted', function(profile) {
-                let index = this.profiles.indexOf(profile);
-                this.profiles.splice(index, 1);
+                this.fetchProfiles();
+                // let index = this.profiles.indexOf(profile);
+                // this.profiles.splice(index, 1);
             }.bind(this));
         },
 

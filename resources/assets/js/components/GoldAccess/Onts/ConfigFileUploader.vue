@@ -35,6 +35,7 @@
 
                                         <div class="col text-danger" v-if="uploadErrors.message">
                                             {{ uploadErrors.errors.name[0] }}
+                                            <a :href="reloadUrl">Click here to continue</a>
                                         </div>
 
                                         <div class="col">
@@ -205,6 +206,9 @@
             },
             previewTemplateId: function() {
                 return 'preview-template-'+this.dropzoneId;
+            },
+            reloadUrl: function() {
+                return window.location.href;
             }
         },
 

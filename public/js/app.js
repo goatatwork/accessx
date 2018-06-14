@@ -60004,8 +60004,9 @@ var ConfigFileUploader = Vue.extend(__webpack_require__(119));
             this.profiles.push(response);
         }.bind(this));
         EventBus.$on('ont-profile-was-deleted', function (profile) {
-            var index = this.profiles.indexOf(profile);
-            this.profiles.splice(index, 1);
+            this.fetchProfiles();
+            // let index = this.profiles.indexOf(profile);
+            // this.profiles.splice(index, 1);
         }.bind(this));
     },
 
@@ -60132,6 +60133,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -60147,10 +60162,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return 'collapse-profile-' + this.profile.id;
         },
         deleteButtonClass: function deleteButtonClass() {
-            return this.profile.has_provisioning_records ? 'btn-outline-light' : 'btn-outline-dark';
+            return this.profile.has_provisioning_records ? 'btn-outline-light text-secondary font-italic' : 'btn-outline-dark';
+        },
+        isProvisionedAnywhere: function isProvisionedAnywhere() {
+            return this.profile.has_provisioning_records;
         },
         modalRef: function modalRef() {
-            return '#deleteModal' + this.profile.id;
+            return '#deleteModal-' + this.profile.id;
         }
     },
 
@@ -60226,59 +60244,87 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "media-right" },
-                [
+              _c("div", { staticClass: "media-right" }, [
+                _c("div", { staticClass: "row" }, [
                   _c(
-                    "delete-modal",
-                    {
-                      attrs: {
-                        title: _vm.profile.file.file_name,
-                        "to-be-deleted": _vm.profile
-                      },
-                      on: {
-                        "delete-the-object": function($event) {
-                          _vm.deleteTheObject()
-                        }
-                      }
-                    },
+                    "div",
+                    { staticClass: "col" },
                     [
-                      _c("div", { attrs: { slot: "button" }, slot: "button" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-sm",
-                            class: _vm.deleteButtonClass,
-                            attrs: {
-                              type: "button",
-                              "data-toggle": "modal",
-                              "data-target": _vm.modalRef,
-                              disabled: _vm.profile.has_provisioning_records
-                            }
+                      _c(
+                        "delete-modal",
+                        {
+                          attrs: {
+                            title: _vm.profile.file.file_name,
+                            "to-be-deleted": _vm.profile
                           },
-                          [
-                            _vm._v(
-                              "\n                                        Delete\n                                    "
-                            )
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { attrs: { slot: "body" }, slot: "body" }, [
-                        _c("p", [
-                          _vm._v("Are you sure you wish to delete "),
-                          _c("strong", [
-                            _vm._v(_vm._s(_vm.profile.file.file_name))
-                          ]),
-                          _vm._v("?")
-                        ])
-                      ])
-                    ]
+                          on: {
+                            "delete-the-object": function($event) {
+                              _vm.deleteTheObject()
+                            }
+                          }
+                        },
+                        [
+                          _c(
+                            "div",
+                            { attrs: { slot: "button" }, slot: "button" },
+                            [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-sm",
+                                  class: _vm.deleteButtonClass,
+                                  attrs: {
+                                    type: "button",
+                                    "data-toggle": "modal",
+                                    "data-target": _vm.modalRef,
+                                    disabled: _vm.isProvisionedAnywhere
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                                Delete\n                                            "
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { attrs: { slot: "body" }, slot: "body" }, [
+                            _c("p", [
+                              _vm._v("Are you sure you wish to delete "),
+                              _c("strong", [
+                                _vm._v(_vm._s(_vm.profile.file.file_name))
+                              ]),
+                              _vm._v("?")
+                            ])
+                          ])
+                        ]
+                      )
+                    ],
+                    1
                   )
-                ],
-                1
-              )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col" }, [
+                    _c(
+                      "span",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.isProvisionedAnywhere,
+                            expression: "isProvisionedAnywhere"
+                          }
+                        ],
+                        staticClass: "font-italic text-dark"
+                      },
+                      [_vm._m(0)]
+                    )
+                  ])
+                ])
+              ])
             ])
           ])
         ])
@@ -60286,7 +60332,22 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("small", [
+      _vm._v(
+        "\n                                            Delete is disabled because"
+      ),
+      _c("br"),
+      _vm._v(
+        "this profile is in use.\n                                        "
+      )
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -60513,6 +60574,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
@@ -60558,6 +60620,9 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
         },
         previewTemplateId: function previewTemplateId() {
             return 'preview-template-' + this.dropzoneId;
+        },
+        reloadUrl: function reloadUrl() {
+            return window.location.href;
         }
     },
 
@@ -60746,8 +60811,11 @@ var render = function() {
                                 _vm._v(
                                   "\n                                        " +
                                     _vm._s(_vm.uploadErrors.errors.name[0]) +
-                                    "\n                                    "
-                                )
+                                    "\n                                        "
+                                ),
+                                _c("a", { attrs: { href: _vm.reloadUrl } }, [
+                                  _vm._v("Click here to continue")
+                                ])
                               ])
                             : _vm._e(),
                           _vm._v(" "),

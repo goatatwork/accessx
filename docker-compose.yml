@@ -95,6 +95,20 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /opt/portainer/data:/data
+  sftp:
+    image: hermsi/alpine-sshd
+    environment:
+      ROOT_PASSWORD: 1q2w3e4r
+    networks:
+      - goldaccessnet
+    ports:
+      - "10022:22"
+    volumes:
+      - /opt/goldaccess_sftp_backups:/root
+      - /etc/ssh/ssh_host_dsa_key:/etc/ssh/ssh_host_dsa_key
+      - /etc/ssh/ssh_host_ecdsa_key:/etc/ssh/ssh_host_ecdsa_key
+      - /etc/ssh/ssh_host_ed25519_key:/etc/ssh/ssh_host_ed25519_key
+      - /etc/ssh/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key
 networks:
   goldaccessnet:
     driver: "bridge"

@@ -48,6 +48,27 @@ return [
             'root' => storage_path('app'),
         ],
 
+        'backups_local' => [
+            'driver' => 'local',
+            'root' => base_path('backups'),
+        ],
+
+        'backups_sftp' => [
+            'driver' => 'sftp',
+            'host' => env('SFTP_HOST', 'sftp'),
+            'port' => env('SFTP_PORT', 22),
+            'username' => env('SFTP_USER', 'sftp'),
+            'password' => env('SFTP_PASSWORD', 'password'),
+
+            // Settings for SSH key based authentication...
+            // 'privateKey' => '/path/to/privateKey',
+            // 'password' => 'encryption-password',
+
+            // Optional SFTP Settings...
+            // 'root' => '',
+            // 'timeout' => 30,
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

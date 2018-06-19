@@ -101,8 +101,6 @@ services:
       ROOT_PASSWORD: 1q2w3e4r
     networks:
       - goldaccessnet
-    ports:
-      - "10022:22"
     volumes:
       - /opt/goldaccess_sftp_backups:/root
       - /etc/ssh/ssh_host_dsa_key:/etc/ssh/ssh_host_dsa_key

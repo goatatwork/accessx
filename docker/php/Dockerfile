@@ -19,15 +19,13 @@ RUN apt-get install -y curl zip unzip git software-properties-common tzdata iput
     && php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer \
     && mkdir /run/php \
     && apt-get remove -y --purge software-properties-common \
-    && apt-get -y autoremove \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && rm -rf /etc/localtime \
     && ln -s /usr/share/zoneinfo/America/Chicago /etc/localtime \
     && dpkg-reconfigure -f noninteractive tzdata
 
 RUN apt-get update \
     && apt-get install -y mysql-client \
+    && apt-get -y autoremove \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 

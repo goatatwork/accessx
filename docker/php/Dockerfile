@@ -10,7 +10,7 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-RUN apt-get install -y curl zip unzip git software-properties-common tzdata iputils-ping nano \
+RUN apt-get install -y curl zip unzip git software-properties-common tzdata iputils-ping nano mysqldump \
     && add-apt-repository -y ppa:ondrej/php \
     && apt-get update \
     && apt-get install -y php7.1-fpm php7.1-cli php7.1-mcrypt php7.1-gd php7.1-mysql \
@@ -25,8 +25,6 @@ RUN apt-get install -y curl zip unzip git software-properties-common tzdata iput
     && rm -rf /etc/localtime \
     && ln -s /usr/share/zoneinfo/America/Chicago /etc/localtime \
     && dpkg-reconfigure -f noninteractive tzdata
-
-RUN apt-get install -y mysqldump
 
 COPY php-fpm.conf /etc/php/7.1/fpm/php-fpm.conf
 COPY php.ini /etc/php/7.1/fpm/php.ini

@@ -37,7 +37,5 @@ EXPOSE 9000
 
 WORKDIR /var/www/html
 
-RUN mkdir /var/www/.config && chown www-data.www-data /var/www/.config
-
 CMD ["php-fpm7.1"]
 

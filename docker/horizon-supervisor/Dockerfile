@@ -1,4 +1,4 @@
-FROM goatatwork/php-fpm7.1:latest
+FROM php:fpm
 
 MAINTAINER Goat
 

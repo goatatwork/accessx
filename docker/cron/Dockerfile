@@ -2,6 +2,8 @@ FROM ubuntu:18.04
 
 MAINTAINER Goat
 
+RUN apt-get update && apt-get install -y cron
+
 COPY laravel.conf /etc/crontab
 
 RUN touch /var/log/cron.log

@@ -3,7 +3,7 @@ FROM ubuntu:18.04
 MAINTAINER Goat
 
 RUN DEBIAN_FRONTEND=noninteractive && apt-get update \
-    && apt-get install -y php7.2 php7.2-cli php7.2-mysql php7.2-gd php7.2-curl \
+    && apt-get install -y software-properties-common php7.2 php7.2-cli php7.2-mysql php7.2-gd php7.2-curl \
         php7.2-xml php7.2-bz2 php7.2-mbstring php7.2-zip iputils-ping nano
 
 RUN apt-get -y --no-install-recommends install supervisor \

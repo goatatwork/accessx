@@ -22,5 +22,6 @@ RUN crontab /etc/cron.d/laravel
 
 RUN touch /var/log/cron.log
 
-CMD ["/bin/sh", "-c", "cron -f && tail -f /var/log/cron.log"]
+# CMD ["/bin/sh", "-c", "cron -f && tail -f /var/log/cron.log"]
+CMD ["cron", "-f"]
 

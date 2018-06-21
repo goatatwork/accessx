@@ -1,14 +1,10 @@
-FROM php:fpm
+FROM ubuntu:18.04
 
 MAINTAINER Goat
-
-RUN apt-get update \
-&& apt-get -y --no-install-recommends install cron nano \
-&& apt-get clean; rm -rf /var/lib/apt/lists/ /tmp/ /var/tmp/ /usr/share/doc/ \
-&& export TERM=xterm
 
 COPY laravel.conf /etc/crontab
 
 RUN touch /var/log/cron.log
 
-CMD ["/bin/sh", "-c", "cron && tail -f /var/log/cron.log"]
+CMD cron && tail -f /var/log/cron.log
+

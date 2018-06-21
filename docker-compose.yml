@@ -69,6 +69,15 @@ services:
       - ./:/var/www/html
     networks:
       - goldaccessnet
+  cron:
+    build:
+      context: ./docker/cron
+      dockerfile: Dockerfile
+    image: goldaccess/cron:production
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - goldaccessnet
   db:
     image: mysql:5.7
     environment:

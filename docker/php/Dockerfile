@@ -29,8 +29,6 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN mkdir /var/www/.config && chown www-data.www-data /var/www/.config
-
 COPY php-fpm.conf /etc/php/7.1/fpm/php-fpm.conf
 COPY php.ini /etc/php/7.1/fpm/php.ini
 ADD www.conf /etc/php/7.1/fpm/pool.d/www.conf
@@ -38,6 +36,8 @@ ADD www.conf /etc/php/7.1/fpm/pool.d/www.conf
 EXPOSE 9000
 
 WORKDIR /var/www/html
+
+RUN mkdir /var/www/.config && chown www-data.www-data /var/www/.config
 
 CMD ["php-fpm7.1"]
 

@@ -16,10 +16,14 @@ RUN apt-get install -y curl unzip zip software-properties-common php7.2 php7.2-c
 RUN apt-get -y --no-install-recommends install cron nano \
     && apt-get clean; rm -rf /var/lib/apt/lists/ /tmp/ /var/tmp/ /usr/share/doc/
 
-COPY laravel.conf /etc/crontab
+COPY laravel /etc/cron.d/laravel
+
+RUN chmod 0644 /etc/cron.d/laravel
+
+RUN /usr/bin/crontab /etc/cron.d/laravel
 
 RUN touch /var/log/cron.log
 
 # CMD ["/bin/sh", "-c", "cron && tail -f /var/log/cron.log"]
-CMD cron -f && tail -f /var/log/cron.log
+CMD /usr/bin/cron -f && tail -f /var/log/cron.log
 

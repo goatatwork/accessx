@@ -19,5 +19,9 @@ RUN crontab -l | { cat; echo "* * * * * /usr/bin/php /var/www/artisan schedule:r
 
 RUN touch /var/log/cron.log
 
+# Forward request and error logs to docker log collector
+RUN ln -sf /dev/stdout /var/log/cron.log \
+    && ln -sf /dev/stderr /var/log/cron.log
+
 CMD cron -f && tail -f /var/log/cron.log
 

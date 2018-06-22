@@ -20,5 +20,5 @@ RUN chmod +x /script.sh
 
 RUN touch /var/log/cron.log
 
-CMD ["cron", "-f"]
+CMD cron && tail -f /var/log/cron.log
 

@@ -18,6 +18,8 @@ RUN apt-get install -y --no-install-recommends cron rsyslog \
 
 COPY laravel /etc/cron.d/laravel
 
+COPY rsyslog.conf /etc/rsyslog.conf
+
 RUN chmod 0644 /etc/cron.d/laravel
 
 RUN crontab /etc/cron.d/laravel

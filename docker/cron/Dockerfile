@@ -20,6 +20,5 @@ COPY crontab /etc/crontab
 
 RUN touch /var/log/cron.log
 
-# CMD ["/bin/sh", "-c", "cron -f && tail -f /var/log/cron.log"]
-CMD ["cron", "-f"]
+CMD ["service cron start && tail -f /var/log/cron.log"]
 

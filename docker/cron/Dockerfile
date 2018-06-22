@@ -26,6 +26,8 @@ RUN crontab /etc/cron.d/laravel
 
 RUN touch /var/log/cron.log
 
+RUN touch /etc/crontab /etc/cron.*/*
+
 # CMD ["/bin/sh", "-c", "cron -f && tail -f /var/log/cron.log"]
 # CMD ["cron", "-f"]
 CMD rsyslogd && cron -f

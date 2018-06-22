@@ -10,18 +10,15 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y \
 RUN apt-get install -y --no-install-recommends cron \
     && apt-get clean; rm -rf /var/lib/apt/lists/ /tmp/ /var/tmp/ /usr/share/doc/
 
-# COPY laravel /etc/cron.d/laravel
-RUN crontab -l | { cat; echo "* * * * * /usr/bin/php /var/www/artisan schedule:run >> /dev/null 2>&1"; } | crontab -
+COPY laravel /etc/cron.d/laravel
 
-# RUN chmod 0644 /etc/cron.d/laravel
+RUN chmod 0644 /etc/cron.d/laravel
 
-# RUN crontab /etc/cron.d/laravel
+RUN crontab /etc/cron.d/laravel
 
 RUN touch /var/log/cron.log
 
-# Forward request and error logs to docker log collector
-RUN ln -sf /dev/stdout /var/log/cron.log \
-    && ln -sf /dev/stderr /var/log/cron.log
+RUN service cron start
 
-CMD cron -f && tail -f /var/log/cron.log
+CMD tail -f /var/log/cron.log
 

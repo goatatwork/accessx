@@ -10,15 +10,15 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y \
 RUN apt-get install -y --no-install-recommends cron \
     && apt-get clean; rm -rf /var/lib/apt/lists/ /tmp/ /var/tmp/ /usr/share/doc/
 
-COPY laravel /etc/cron.d/laravel
+COPY crontab /etc/cron.d/laravel
 
 RUN chmod 0644 /etc/cron.d/laravel
 
-RUN crontab /etc/cron.d/laravel
+COPY script.sh /script.sh
+
+RUN chmod +x /script.sh
 
 RUN touch /var/log/cron.log
 
-RUN service cron start
-
-CMD tail -f /var/log/cron.log
+CMD cron && tail -f /var/log/cron.log
 

@@ -5,7 +5,7 @@ MAINTAINER Goat
 RUN apt-get update
 RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y \
     curl unzip zip software-properties-common iputils-ping \
-    php7.2 php7.2-cli php7.2-mysql php7.2-gd php7.2-curl php7.2-xml php7.2-bz2 php7.2-mbstring php7.2-zip \
+    php7.2 php7.2-cli php7.2-mysql php7.2-gd php7.2-curl php7.2-xml php7.2-bz2 php7.2-mbstring php7.2-zip
 
 RUN apt-get install -y --no-install-recommends cron \
     && apt-get clean; rm -rf /var/lib/apt/lists/ /tmp/ /var/tmp/ /usr/share/doc/

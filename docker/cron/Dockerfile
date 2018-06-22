@@ -10,9 +10,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y \
 RUN apt-get install -y --no-install-recommends cron \
     && apt-get clean; rm -rf /var/lib/apt/lists/ /tmp/ /var/tmp/ /usr/share/doc/
 
-COPY crontab /etc/cron.d/laravel
-
-RUN chmod 0644 /etc/cron.d/laravel
+COPY crontab /etc/crontab
 
 COPY script.sh /script.sh
 

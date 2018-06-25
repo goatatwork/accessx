@@ -28,7 +28,8 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
         $schedule->command('goldaccess:logsomething')->everyMinute();
-        $schedule->command('backup:run')->hourlyAt(2);
+        $schedule->command('backup:clean')->daily()->at('01:00');
+        $schedule->command('backup:run')->daily()->at('02:00');
     }
 
     /**

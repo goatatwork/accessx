@@ -126,7 +126,7 @@ return [
             'name' => config('app.name'),
             'disks' => ['backups_local', 'backups_sftp'],
             'newestBackupsShouldNotBeOlderThanDays' => 1,
-            'storageUsedMayNotBeHigherThanMegabytes' => 5000,
+            'storageUsedMayNotBeHigherThanMegabytes' => 50000,
         ],
 
         /*

@@ -8,6 +8,6 @@ SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 # * * * * * www-data php /share/artisan schedule:run 1>> /dev/null 2>&1
-* * * * * www-data /usr/bin/php /var/www/html/artisan schedule:run >> /var/log/cron.log 2>&1
+#* * * * * www-data /usr/bin/php /var/www/html/artisan schedule:run >> /var/log/cron.log 2>&1
 * * * * * root /script.sh
 #

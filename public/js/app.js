@@ -64535,9 +64535,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.fetchOntSoftware(ontId);
         },
         profileWasSelected: function profileWasSelected(profileId) {
-            console.log('Profile ' + profileId + ' was selected.');
             EventBus.$emit('provisioning-profile-was-selected', profileId);
-            // this is the id value we need so do something usefull with it
         },
         softwareWasSelected: function softwareWasSelected(softwareId) {
             this.ont_profiles = {};

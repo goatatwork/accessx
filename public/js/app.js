@@ -64484,10 +64484,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
+            fetchingProfiles: false,
+            fetchingSoftware: false,
             onts: {},
             ont_software: {},
             ont_profiles: {}
@@ -64511,8 +64515,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchOntProfiles: function fetchOntProfiles(softwareId) {
             var _this2 = this;
 
+            this.fetchingProfiles = true;
             axios.get('/api/onts/ont_software/' + softwareId + '/ont_profiles').then(function (response) {
                 _this2.ont_profiles = response.data;
+                _this2.fetchingProfiles = false;
             }).catch(function (error) {
                 console.log(error);
             });
@@ -64520,8 +64526,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchOntSoftware: function fetchOntSoftware(ontId) {
             var _this3 = this;
 
+            this.fetchingSoftware = true;
             axios.get('/api/onts/' + ontId + '/software').then(function (response) {
                 _this3.ont_software = response.data;
+                _this3.fetchingSoftware = false;
             }).catch(function (error) {
                 console.log(error);
             });
@@ -64581,6 +64589,22 @@ var render = function() {
             })
           ],
           2
+        ),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.fetchingSoftware,
+                expression: "fetchingSoftware"
+              }
+            ],
+            staticClass: "text-danger"
+          },
+          [_vm._v("Fetching ONT Software...")]
         )
       ]),
       _vm._v(" "),
@@ -64623,6 +64647,22 @@ var render = function() {
               })
             ],
             2
+          ),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.fetchingProfiles,
+                  expression: "fetchingProfiles"
+                }
+              ],
+              staticClass: "text-danger"
+            },
+            [_vm._v("Fetching ONT Profiles...")]
           )
         ]
       ),
@@ -64719,10 +64759,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
+            fetchingSlots: false,
+            fetchingPorts: false,
             aggregators: {},
             slots: {},
             ports: {}
@@ -64746,8 +64790,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchPorts: function fetchPorts(slotId) {
             var _this2 = this;
 
+            this.fetchingPorts = true;
             axios.get('/api/infrastructure/slots/' + slotId + '/ports').then(function (response) {
                 _this2.ports = response.data;
+                _this2.fetchingPorts = false;
             }).catch(function (error) {
                 console.log(error);
             });
@@ -64755,8 +64801,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchSlots: function fetchSlots(aggregatorId) {
             var _this3 = this;
 
+            this.fetchingSlots = true;
             axios.get('/api/infrastructure/aggregators/' + aggregatorId + '/slots').then(function (response) {
                 _this3.slots = response.data;
+                _this3.fetchingSlots = false;
             }).catch(function (error) {
                 console.log(error);
             });
@@ -64820,6 +64868,22 @@ var render = function() {
             })
           ],
           2
+        ),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.fetchingSlots,
+                expression: "fetchingSlots"
+              }
+            ],
+            staticClass: "text-danger"
+          },
+          [_vm._v("Fetching Slots...")]
         )
       ]),
       _vm._v(" "),
@@ -64860,6 +64924,22 @@ var render = function() {
               })
             ],
             2
+          ),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.fetchingPorts,
+                  expression: "fetchingPorts"
+                }
+              ],
+              staticClass: "text-danger"
+            },
+            [_vm._v("Fetching Ports...")]
           )
         ]
       ),
@@ -64952,13 +65032,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             management_networks: {},
-            ip_addresses: {}
-            // ont_profiles: {},
+            ip_addresses: {},
+            fetchingIps: false
         };
     },
 
@@ -64979,8 +65060,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchIpAddresses: function fetchIpAddresses(dhcpSharedNetworkId) {
             var _this2 = this;
 
+            this.fetchingIps = true;
             axios.get('/api/dhcp/dhcp_shared_networks/' + dhcpSharedNetworkId + '/ip_addresses').then(function (response) {
                 _this2.ip_addresses = response.data;
+                _this2.fetchingIps = false;
             }).catch(function (error) {
                 console.log(error);
             });
@@ -65036,6 +65119,22 @@ var render = function() {
             })
           ],
           2
+        ),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.fetchingIps,
+                expression: "fetchingIps"
+              }
+            ],
+            staticClass: "text-danger"
+          },
+          [_vm._v("Fetching Addresses...")]
         )
       ]),
       _vm._v(" "),

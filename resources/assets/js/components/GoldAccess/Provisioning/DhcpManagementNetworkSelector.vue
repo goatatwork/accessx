@@ -8,6 +8,7 @@
                     <option value="0">Select</option>
                     <option v-for="network in management_networks" :value="network.id">{{ network.name }}</option>
                 </select>
+                <span v-show="fetchingIps" class="text-danger">Fetching Addresses...</span>
             </div>
 
             <div v-show="ip_addresses.length" class="form-group">
@@ -28,7 +29,7 @@
             return {
                 management_networks: {},
                 ip_addresses: {},
-                // ont_profiles: {},
+                fetchingIps: false,
             }
         },
 
@@ -45,8 +46,10 @@
                 });
             },
             fetchIpAddresses: function(dhcpSharedNetworkId) {
+                this.fetchingIps = true;
                 axios.get('/api/dhcp/dhcp_shared_networks/'+dhcpSharedNetworkId+'/ip_addresses').then(response => {
                     this.ip_addresses = response.data;
+                    this.fetchingIps = false;
                 }).catch(error => {
                     console.log(error);
                 });

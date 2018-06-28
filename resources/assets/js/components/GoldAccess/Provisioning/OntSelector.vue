@@ -74,9 +74,7 @@
                 this.fetchOntSoftware(ontId);
             },
             profileWasSelected: function(profileId) {
-                console.log('Profile '+profileId+' was selected.');
                 EventBus.$emit('provisioning-profile-was-selected', profileId);
-                // this is the id value we need so do something usefull with it
             },
             softwareWasSelected: function(softwareId) {
                 this.ont_profiles = {};

@@ -5,15 +5,16 @@
             <div class="form-group">
                 <label for="dhcp_shared_network_id">Management Network</label>
                 <select class="form-control" name="dhcp_shared_network_id" @change="managementNetworkWasSelected($event.target.value)">
-                    <option value="0">Select</option>
+                    <option value="">Select</option>
                     <option v-for="network in management_networks" :value="network.id">{{ network.name }}</option>
                 </select>
+                <span v-show="fetchingIps" class="text-danger">Fetching Addresses...</span>
             </div>
 
             <div v-show="ip_addresses.length" class="form-group">
                 <label for="ip_address_id">IP Address</label>
                 <select class="form-control" name="ip_address_id" @change="ipAddressWasSelected($event.target.value)">
-                    <option value="0">Select</option>
+                    <option value="">Select</option>
                     <option v-for="ip in ip_addresses" :value="ip.id" :disabled="ip.has_provisioning_records">{{ ip.address }}</option>
                 </select>
             </div>
@@ -28,7 +29,7 @@
             return {
                 management_networks: {},
                 ip_addresses: {},
-                // ont_profiles: {},
+                fetchingIps: false,
             }
         },
 
@@ -45,8 +46,10 @@
                 });
             },
             fetchIpAddresses: function(dhcpSharedNetworkId) {
+                this.fetchingIps = true;
                 axios.get('/api/dhcp/dhcp_shared_networks/'+dhcpSharedNetworkId+'/ip_addresses').then(response => {
                     this.ip_addresses = response.data;
+                    this.fetchingIps = false;
                 }).catch(error => {
                     console.log(error);
                 });
@@ -57,11 +60,12 @@
                     return;
                 }
                 this.fetchIpAddresses(dhcpSharedNetworkId);
+                this.$emit('dhcp-was-selected');
             },
             ipAddressWasSelected: function(ipAddressId) {
                 console.log('IP '+ipAddressId+' was selected.');
                 EventBus.$emit('provisioning-ip-address-was-selected', ipAddressId);
-                // this is the id value we need so do something usefull with it
+                this.$emit('ip-was-selected');
             },
         }
     }

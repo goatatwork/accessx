@@ -5,23 +5,25 @@
             <div class="form-group">
                 <label for="ont_id">ONT</label>
                 <select class="form-control" name="ont_id" @change="ontWasSelected($event.target.value)">
-                    <option value="0">Select</option>
+                    <option value="">Select</option>
                     <option v-for="ont in onts" :value="ont.id">{{ ont.model_number }}</option>
                 </select>
+                <span v-show="fetchingSoftware" class="text-danger">Fetching ONT Software...</span>
             </div>
 
             <div v-show="ont_software.length" class="form-group">
                 <label for="ont_software_id">ONT Software</label>
                 <select class="form-control" name="ont_software_id" @change="softwareWasSelected($event.target.value)">
-                    <option value="0">Select</option>
+                    <option value="">Select</option>
                     <option v-for="software in ont_software" :value="software.id">Version {{ software.version }}</option>
                 </select>
+                <span v-show="fetchingProfiles" class="text-danger">Fetching ONT Profiles...</span>
             </div>
 
             <div v-show="ont_profiles.length" class="form-group">
                 <label for="ont_profile_id">ONT Profile</label>
                 <select class="form-control" name="ont_profile_id" @change="profileWasSelected($event.target.value)">
-                    <option value="0">Select</option>
+                    <option value="">Select</option>
                     <option v-for="profile in ont_profiles" :value="profile.id">{{ profile.name }}</option>
                 </select>
             </div>
@@ -33,6 +35,8 @@
     export default {
         data: function() {
             return {
+                fetchingProfiles: false,
+                fetchingSoftware: false,
                 onts: {},
                 ont_software: {},
                 ont_profiles: {},
@@ -52,15 +56,19 @@
                 });
             },
             fetchOntProfiles: function(softwareId) {
+                this.fetchingProfiles = true;
                 axios.get('/api/onts/ont_software/'+softwareId+'/ont_profiles').then(response => {
                     this.ont_profiles = response.data;
+                    this.fetchingProfiles = false;
                 }).catch(error => {
                     console.log(error);
                 });
             },
             fetchOntSoftware: function(ontId) {
+                this.fetchingSoftware = true;
                 axios.get('/api/onts/'+ontId+'/software').then(response => {
                     this.ont_software = response.data;
+                    this.fetchingSoftware = false;
                 }).catch(error => {
                     console.log(error);
                 });
@@ -72,11 +80,11 @@
                     return;
                 }
                 this.fetchOntSoftware(ontId);
+                this.$emit('ont-was-selected');
             },
             profileWasSelected: function(profileId) {
-                console.log('Profile '+profileId+' was selected.');
                 EventBus.$emit('provisioning-profile-was-selected', profileId);
-                // this is the id value we need so do something usefull with it
+                this.$emit('profile-was-selected');
             },
             softwareWasSelected: function(softwareId) {
                 this.ont_profiles = {};
@@ -84,6 +92,7 @@
                     return;
                 }
                 this.fetchOntProfiles(softwareId);
+                this.$emit('software-was-selected');
             }
         }
     }

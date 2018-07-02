@@ -1,12 +1,65 @@
 <template>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col">
 
-            <ont-selector></ont-selector>
+            <div class="row" :class="ontSelectorClasses">
+                <div class="col">
+                    <ont-selector
+                        @ont-was-selected="clearOntErrors"
+                        @software-was-selected="clearOntErrors"
+                        @profile-was-selected="clearOntErrors"
+                    ></ont-selector>
+                </div>
+            </div>
 
-            <aggregator-selector></aggregator-selector>
+            <div v-show="ontSelectorHasErrors" class="row">
+                <div class="col text-danger">
+                    You must select an <strong>ONT</strong>, an <strong>ONT Software</strong>, and an <strong>ONT Profile</strong>
+                </div>
+            </div>
 
-            <dhcp-management-network-selector></dhcp-management-network-selector>
+            <div class="row">
+                <div class="col">
+                    <hr>
+                </div>
+            </div>
+
+            <div class="row" :class="aggregatorSelectorClasses">
+                <div class="col">
+                    <aggregator-selector
+                        @aggregator-was-selected="clearAggregatorErrors"
+                        @slot-was-selected="clearAggregatorErrors"
+                        @port-was-selected="clearAggregatorErrors"
+                    ></aggregator-selector>
+                </div>
+            </div>
+
+            <div v-show="aggregatorSelectorHasErrors" class="row">
+                <div class="col text-danger">
+                    You must provide an <strong>Aggregator</strong>, a <strong>Slot</strong>, and a <strong>Port</strong>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <hr>
+                </div>
+            </div>
+
+            <div class="row" :class="dhcpSelectorClasses">
+                <div class="col">
+                    <dhcp-management-network-selector
+                        @dhcp-was-selected="clearDhcpErrors"
+                        @ip-was-selected="clearDhcpErrors"
+                    ></dhcp-management-network-selector>
+                </div>
+            </div>
+
+            <div v-show="dhcpSelectorHasErrors" class="row">
+                <div class="col text-danger">
+                    You must provide a <strong>Management Network</strong> and an <strong>IP Address</strong>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-md-6">
@@ -67,8 +120,35 @@
                     circuit_id: '',
                     notes: '',
                 },
+                formErrors: {
+                    'service_location_id': [],
+                    'ont_profile_id': [],
+                    'port_id': [],
+                    'ip_address_id': [],
+                },
                 submitIsDisabled: false,
             }
+        },
+
+        computed: {
+            aggregatorSelectorHasErrors: function() {
+                return this.formErrors.port_id.length ? true : false;
+            },
+            dhcpSelectorHasErrors: function() {
+                return this.formErrors.port_id.length ? true : false;
+            },
+            ontSelectorHasErrors: function() {
+                return this.formErrors.ont_profile_id.length ? true : false;
+            },
+            aggregatorSelectorClasses: function() {
+                return this.formErrors.port_id.length ? '' : '';
+            },
+            dhcpSelectorClasses: function() {
+                return this.formErrors.ip_address_id.length ? '' : '';
+            },
+            ontSelectorClasses: function() {
+                return this.formErrors.ont_profile_id.length ? '' : '';
+            },
         },
 
         created: function() {
@@ -82,7 +162,16 @@
         methods: {
             cancelForm: function() {
                 this.resetForm();
-                window.location.href = "/customers/"+this.location.customer_id;
+                // window.location.href = "/customers/"+this.location.customer_id;
+            },
+            clearAggregatorErrors: function() {
+                this.formErrors.port_id = [];
+            },
+            clearDhcpErrors: function() {
+                this.formErrors.ip_address_id = [];
+            },
+            clearOntErrors: function() {
+                this.formErrors.ont_profile_id = [];
             },
             initializeEventBus: function() {
                 EventBus.$on('provisioning-profile-was-selected', function(profileId) {
@@ -106,13 +195,27 @@
                     notes: '',
                 }
             },
+            resetFormErrors: function() {
+                this.formErrors = {
+                    'service_location_id': [],
+                    'ont_profile_id': [],
+                    'port_id': [],
+                    'ip_address_id': [],
+                }
+            },
             submitForm: function() {
                 this.submitIsDisabled = true;
                 axios.post('/api/provisioning', this.form).then( (response) => {
                     this.resetForm();
+                    this.resetFormErrors();
+                    this.submitIsDisabled = false;
                     window.location.href = "/provisioning/service_locations/"+this.location.id+"/show";
                 }).catch( (error) => {
-                    console.log(error.response.data);
+                    this.resetFormErrors();
+                    this.submitIsDisabled = false;
+                    this.$nextTick().then( () => {
+                        this.formErrors = error.response.data.errors;
+                    });
                 });
             }
         }

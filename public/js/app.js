@@ -64484,10 +64484,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
+            fetchingProfiles: false,
+            fetchingSoftware: false,
             onts: {},
             ont_software: {},
             ont_profiles: {}
@@ -64511,8 +64515,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchOntProfiles: function fetchOntProfiles(softwareId) {
             var _this2 = this;
 
+            this.fetchingProfiles = true;
             axios.get('/api/onts/ont_software/' + softwareId + '/ont_profiles').then(function (response) {
                 _this2.ont_profiles = response.data;
+                _this2.fetchingProfiles = false;
             }).catch(function (error) {
                 console.log(error);
             });
@@ -64520,8 +64526,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchOntSoftware: function fetchOntSoftware(ontId) {
             var _this3 = this;
 
+            this.fetchingSoftware = true;
             axios.get('/api/onts/' + ontId + '/software').then(function (response) {
                 _this3.ont_software = response.data;
+                _this3.fetchingSoftware = false;
             }).catch(function (error) {
                 console.log(error);
             });
@@ -64533,11 +64541,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return;
             }
             this.fetchOntSoftware(ontId);
+            this.$emit('ont-was-selected');
         },
         profileWasSelected: function profileWasSelected(profileId) {
-            console.log('Profile ' + profileId + ' was selected.');
             EventBus.$emit('provisioning-profile-was-selected', profileId);
-            // this is the id value we need so do something usefull with it
+            this.$emit('profile-was-selected');
         },
         softwareWasSelected: function softwareWasSelected(softwareId) {
             this.ont_profiles = {};
@@ -64545,6 +64553,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return;
             }
             this.fetchOntProfiles(softwareId);
+            this.$emit('software-was-selected');
         }
     }
 });
@@ -64574,7 +64583,7 @@ var render = function() {
             }
           },
           [
-            _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
+            _c("option", { attrs: { value: "" } }, [_vm._v("Select")]),
             _vm._v(" "),
             _vm._l(_vm.onts, function(ont) {
               return _c("option", { domProps: { value: ont.id } }, [
@@ -64583,6 +64592,22 @@ var render = function() {
             })
           ],
           2
+        ),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.fetchingSoftware,
+                expression: "fetchingSoftware"
+              }
+            ],
+            staticClass: "text-danger"
+          },
+          [_vm._v("Fetching ONT Software...")]
         )
       ]),
       _vm._v(" "),
@@ -64616,7 +64641,7 @@ var render = function() {
               }
             },
             [
-              _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
+              _c("option", { attrs: { value: "" } }, [_vm._v("Select")]),
               _vm._v(" "),
               _vm._l(_vm.ont_software, function(software) {
                 return _c("option", { domProps: { value: software.id } }, [
@@ -64625,6 +64650,22 @@ var render = function() {
               })
             ],
             2
+          ),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.fetchingProfiles,
+                  expression: "fetchingProfiles"
+                }
+              ],
+              staticClass: "text-danger"
+            },
+            [_vm._v("Fetching ONT Profiles...")]
           )
         ]
       ),
@@ -64659,7 +64700,7 @@ var render = function() {
               }
             },
             [
-              _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
+              _c("option", { attrs: { value: "" } }, [_vm._v("Select")]),
               _vm._v(" "),
               _vm._l(_vm.ont_profiles, function(profile) {
                 return _c("option", { domProps: { value: profile.id } }, [
@@ -64721,10 +64762,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
+            fetchingSlots: false,
+            fetchingPorts: false,
             aggregators: {},
             slots: {},
             ports: {}
@@ -64748,8 +64793,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchPorts: function fetchPorts(slotId) {
             var _this2 = this;
 
+            this.fetchingPorts = true;
             axios.get('/api/infrastructure/slots/' + slotId + '/ports').then(function (response) {
                 _this2.ports = response.data;
+                _this2.fetchingPorts = false;
             }).catch(function (error) {
                 console.log(error);
             });
@@ -64757,8 +64804,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchSlots: function fetchSlots(aggregatorId) {
             var _this3 = this;
 
+            this.fetchingSlots = true;
             axios.get('/api/infrastructure/aggregators/' + aggregatorId + '/slots').then(function (response) {
                 _this3.slots = response.data;
+                _this3.fetchingSlots = false;
             }).catch(function (error) {
                 console.log(error);
             });
@@ -64770,11 +64819,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return;
             }
             this.fetchSlots(aggregatorId);
+            this.$emit('aggregator-was-selected');
         },
         portWasSelected: function portWasSelected(portId) {
             console.log('Port ' + portId + ' was selected.');
             EventBus.$emit('provisioning-port-was-selected', portId);
-            // this is the id value we need so do something usefull with it
+            this.$emit('port-was-selected');
         },
         slotWasSelected: function slotWasSelected(slotId) {
             this.ports = {};
@@ -64782,6 +64832,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return;
             }
             this.fetchPorts(slotId);
+            this.$emit('slot-was-selected');
         }
     }
 });
@@ -64813,7 +64864,7 @@ var render = function() {
             }
           },
           [
-            _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
+            _c("option", { attrs: { value: "" } }, [_vm._v("Select")]),
             _vm._v(" "),
             _vm._l(_vm.aggregators, function(aggregator) {
               return _c("option", { domProps: { value: aggregator.id } }, [
@@ -64822,6 +64873,22 @@ var render = function() {
             })
           ],
           2
+        ),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.fetchingSlots,
+                expression: "fetchingSlots"
+              }
+            ],
+            staticClass: "text-danger"
+          },
+          [_vm._v("Fetching Slots...")]
         )
       ]),
       _vm._v(" "),
@@ -64853,7 +64920,7 @@ var render = function() {
               }
             },
             [
-              _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
+              _c("option", { attrs: { value: "" } }, [_vm._v("Select")]),
               _vm._v(" "),
               _vm._l(_vm.slots, function(aSlot) {
                 return _c("option", { domProps: { value: aSlot.id } }, [
@@ -64862,6 +64929,22 @@ var render = function() {
               })
             ],
             2
+          ),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.fetchingPorts,
+                  expression: "fetchingPorts"
+                }
+              ],
+              staticClass: "text-danger"
+            },
+            [_vm._v("Fetching Ports...")]
           )
         ]
       ),
@@ -64894,7 +64977,7 @@ var render = function() {
               }
             },
             [
-              _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
+              _c("option", { attrs: { value: "" } }, [_vm._v("Select")]),
               _vm._v(" "),
               _vm._l(_vm.ports, function(port) {
                 return _c(
@@ -64954,13 +65037,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             management_networks: {},
-            ip_addresses: {}
-            // ont_profiles: {},
+            ip_addresses: {},
+            fetchingIps: false
         };
     },
 
@@ -64981,8 +65065,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchIpAddresses: function fetchIpAddresses(dhcpSharedNetworkId) {
             var _this2 = this;
 
+            this.fetchingIps = true;
             axios.get('/api/dhcp/dhcp_shared_networks/' + dhcpSharedNetworkId + '/ip_addresses').then(function (response) {
                 _this2.ip_addresses = response.data;
+                _this2.fetchingIps = false;
             }).catch(function (error) {
                 console.log(error);
             });
@@ -64993,11 +65079,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return;
             }
             this.fetchIpAddresses(dhcpSharedNetworkId);
+            this.$emit('dhcp-was-selected');
         },
         ipAddressWasSelected: function ipAddressWasSelected(ipAddressId) {
             console.log('IP ' + ipAddressId + ' was selected.');
             EventBus.$emit('provisioning-ip-address-was-selected', ipAddressId);
-            // this is the id value we need so do something usefull with it
+            this.$emit('ip-was-selected');
         }
     }
 });
@@ -65029,7 +65116,7 @@ var render = function() {
             }
           },
           [
-            _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
+            _c("option", { attrs: { value: "" } }, [_vm._v("Select")]),
             _vm._v(" "),
             _vm._l(_vm.management_networks, function(network) {
               return _c("option", { domProps: { value: network.id } }, [
@@ -65038,6 +65125,22 @@ var render = function() {
             })
           ],
           2
+        ),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.fetchingIps,
+                expression: "fetchingIps"
+              }
+            ],
+            staticClass: "text-danger"
+          },
+          [_vm._v("Fetching Addresses...")]
         )
       ]),
       _vm._v(" "),
@@ -65071,7 +65174,7 @@ var render = function() {
               }
             },
             [
-              _c("option", { attrs: { value: "0" } }, [_vm._v("Select")]),
+              _c("option", { attrs: { value: "" } }, [_vm._v("Select")]),
               _vm._v(" "),
               _vm._l(_vm.ip_addresses, function(ip) {
                 return _c(
@@ -66246,6 +66349,59 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var OntSelector = Vue.extend(__webpack_require__(18));
 var AggregatorSelector = Vue.extend(__webpack_require__(19));
@@ -66273,8 +66429,35 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(20));
                 circuit_id: '',
                 notes: ''
             },
+            formErrors: {
+                'service_location_id': [],
+                'ont_profile_id': [],
+                'port_id': [],
+                'ip_address_id': []
+            },
             submitIsDisabled: false
         };
+    },
+
+    computed: {
+        aggregatorSelectorHasErrors: function aggregatorSelectorHasErrors() {
+            return this.formErrors.port_id.length ? true : false;
+        },
+        dhcpSelectorHasErrors: function dhcpSelectorHasErrors() {
+            return this.formErrors.port_id.length ? true : false;
+        },
+        ontSelectorHasErrors: function ontSelectorHasErrors() {
+            return this.formErrors.ont_profile_id.length ? true : false;
+        },
+        aggregatorSelectorClasses: function aggregatorSelectorClasses() {
+            return this.formErrors.port_id.length ? '' : '';
+        },
+        dhcpSelectorClasses: function dhcpSelectorClasses() {
+            return this.formErrors.ip_address_id.length ? '' : '';
+        },
+        ontSelectorClasses: function ontSelectorClasses() {
+            return this.formErrors.ont_profile_id.length ? '' : '';
+        }
     },
 
     created: function created() {
@@ -66288,7 +66471,16 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(20));
     methods: {
         cancelForm: function cancelForm() {
             this.resetForm();
-            window.location.href = "/customers/" + this.location.customer_id;
+            // window.location.href = "/customers/"+this.location.customer_id;
+        },
+        clearAggregatorErrors: function clearAggregatorErrors() {
+            this.formErrors.port_id = [];
+        },
+        clearDhcpErrors: function clearDhcpErrors() {
+            this.formErrors.ip_address_id = [];
+        },
+        clearOntErrors: function clearOntErrors() {
+            this.formErrors.ont_profile_id = [];
         },
         initializeEventBus: function initializeEventBus() {
             EventBus.$on('provisioning-profile-was-selected', function (profileId) {
@@ -66312,15 +66504,29 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(20));
                 notes: ''
             };
         },
+        resetFormErrors: function resetFormErrors() {
+            this.formErrors = {
+                'service_location_id': [],
+                'ont_profile_id': [],
+                'port_id': [],
+                'ip_address_id': []
+            };
+        },
         submitForm: function submitForm() {
             var _this = this;
 
             this.submitIsDisabled = true;
             axios.post('/api/provisioning', this.form).then(function (response) {
                 _this.resetForm();
+                _this.resetFormErrors();
+                _this.submitIsDisabled = false;
                 window.location.href = "/provisioning/service_locations/" + _this.location.id + "/show";
             }).catch(function (error) {
-                console.log(error.response.data);
+                _this.resetFormErrors();
+                _this.submitIsDisabled = false;
+                _this.$nextTick().then(function () {
+                    _this.formErrors = error.response.data.errors;
+                });
             });
         }
     }
@@ -66335,141 +66541,286 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c(
-      "div",
-      { staticClass: "col-md-12" },
-      [
-        _c("ont-selector"),
-        _vm._v(" "),
-        _c("aggregator-selector"),
-        _vm._v(" "),
-        _c("dhcp-management-network-selector"),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-6" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "len" } }, [_vm._v("LEN")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.len,
-                    expression: "form.len"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", name: "len" },
-                domProps: { value: _vm.form.len },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.form, "len", $event.target.value)
-                  }
+    _c("div", { staticClass: "col" }, [
+      _c("div", { staticClass: "row", class: _vm.ontSelectorClasses }, [
+        _c(
+          "div",
+          { staticClass: "col" },
+          [
+            _c("ont-selector", {
+              on: {
+                "ont-was-selected": _vm.clearOntErrors,
+                "software-was-selected": _vm.clearOntErrors,
+                "profile-was-selected": _vm.clearOntErrors
+              }
+            })
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.ontSelectorHasErrors,
+              expression: "ontSelectorHasErrors"
+            }
+          ],
+          staticClass: "row"
+        },
+        [_vm._m(0)]
+      ),
+      _vm._v(" "),
+      _vm._m(1),
+      _vm._v(" "),
+      _c("div", { staticClass: "row", class: _vm.aggregatorSelectorClasses }, [
+        _c(
+          "div",
+          { staticClass: "col" },
+          [
+            _c("aggregator-selector", {
+              on: {
+                "aggregator-was-selected": _vm.clearAggregatorErrors,
+                "slot-was-selected": _vm.clearAggregatorErrors,
+                "port-was-selected": _vm.clearAggregatorErrors
+              }
+            })
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.aggregatorSelectorHasErrors,
+              expression: "aggregatorSelectorHasErrors"
+            }
+          ],
+          staticClass: "row"
+        },
+        [_vm._m(2)]
+      ),
+      _vm._v(" "),
+      _vm._m(3),
+      _vm._v(" "),
+      _c("div", { staticClass: "row", class: _vm.dhcpSelectorClasses }, [
+        _c(
+          "div",
+          { staticClass: "col" },
+          [
+            _c("dhcp-management-network-selector", {
+              on: {
+                "dhcp-was-selected": _vm.clearDhcpErrors,
+                "ip-was-selected": _vm.clearDhcpErrors
+              }
+            })
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.dhcpSelectorHasErrors,
+              expression: "dhcpSelectorHasErrors"
+            }
+          ],
+          staticClass: "row"
+        },
+        [_vm._m(4)]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "len" } }, [_vm._v("LEN")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.len,
+                  expression: "form.len"
                 }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-6" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "circuit_id" } }, [
-                _vm._v("Circuit ID")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.circuit_id,
-                    expression: "form.circuit_id"
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", name: "len" },
+              domProps: { value: _vm.form.len },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
                   }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", name: "circuit_id" },
-                domProps: { value: _vm.form.circuit_id },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.form, "circuit_id", $event.target.value)
-                  }
+                  _vm.$set(_vm.form, "len", $event.target.value)
                 }
-              })
-            ])
+              }
+            })
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "notes" } }, [_vm._v("Notes")]),
-              _vm._v(" "),
-              _c("textarea", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.notes,
-                    expression: "form.notes"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { name: "body" },
-                domProps: { value: _vm.form.notes },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.form, "notes", $event.target.value)
-                  }
-                }
-              })
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "circuit_id" } }, [
+              _vm._v("Circuit ID")
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "form-group pull-right" }, [
-              _c(
-                "a",
+            _c("input", {
+              directives: [
                 {
-                  staticClass: "cancel-button",
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      _vm.cancelForm()
-                    }
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.circuit_id,
+                  expression: "form.circuit_id"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", name: "circuit_id" },
+              domProps: { value: _vm.form.circuit_id },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
                   }
-                },
-                [_vm._v("Cancel")]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-sm btn-success",
-                  attrs: { disabled: _vm.submitIsDisabled },
-                  on: {
-                    click: function($event) {
-                      _vm.submitForm()
-                    }
-                  }
-                },
-                [_vm._v("Okay")]
-              )
-            ])
+                  _vm.$set(_vm.form, "circuit_id", $event.target.value)
+                }
+              }
+            })
           ])
         ])
-      ],
-      1
-    )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "notes" } }, [_vm._v("Notes")]),
+            _vm._v(" "),
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.notes,
+                  expression: "form.notes"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { name: "body" },
+              domProps: { value: _vm.form.notes },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.form, "notes", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group pull-right" }, [
+            _c(
+              "a",
+              {
+                staticClass: "cancel-button",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    _vm.cancelForm()
+                  }
+                }
+              },
+              [_vm._v("Cancel")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-sm btn-success",
+                attrs: { disabled: _vm.submitIsDisabled },
+                on: {
+                  click: function($event) {
+                    _vm.submitForm()
+                  }
+                }
+              },
+              [_vm._v("Okay")]
+            )
+          ])
+        ])
+      ])
+    ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col text-danger" }, [
+      _vm._v("\n                You must select an "),
+      _c("strong", [_vm._v("ONT")]),
+      _vm._v(", an "),
+      _c("strong", [_vm._v("ONT Software")]),
+      _vm._v(", and an "),
+      _c("strong", [_vm._v("ONT Profile")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col" }, [_c("hr")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col text-danger" }, [
+      _vm._v("\n                You must provide an "),
+      _c("strong", [_vm._v("Aggregator")]),
+      _vm._v(", a "),
+      _c("strong", [_vm._v("Slot")]),
+      _vm._v(", and a "),
+      _c("strong", [_vm._v("Port")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col" }, [_c("hr")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col text-danger" }, [
+      _vm._v("\n                You must provide a "),
+      _c("strong", [_vm._v("Management Network")]),
+      _vm._v(" and an "),
+      _c("strong", [_vm._v("IP Address")])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

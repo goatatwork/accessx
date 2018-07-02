@@ -5,7 +5,7 @@
             <div class="form-group">
                 <label for="aggregator_id">Aggregator</label>
                 <select class="form-control" name="aggregator_id" @change="aggregatorWasSelected($event.target.value)">
-                    <option value="0">Select</option>
+                    <option value="">Select</option>
                     <option v-for="aggregator in aggregators" :value="aggregator.id">{{ aggregator.name }}</option>
                 </select>
                 <span v-show="fetchingSlots" class="text-danger">Fetching Slots...</span>
@@ -14,7 +14,7 @@
             <div v-show="slots.length" class="form-group">
                 <label for="slot_id">Slot</label>
                 <select class="form-control" name="slot_id" @change="slotWasSelected($event.target.value)">
-                    <option value="0">Select</option>
+                    <option value="">Select</option>
                     <option v-for="aSlot in slots" :value="aSlot.id">Slot {{ aSlot.slot_number }}</option>
                 </select>
                 <span v-show="fetchingPorts" class="text-danger">Fetching Ports...</span>
@@ -23,7 +23,7 @@
             <div v-show="ports.length" class="form-group">
                 <label for="port_id">Ports</label>
                 <select class="form-control" name="port_id" @change="portWasSelected($event.target.value)">
-                    <option value="0">Select</option>
+                    <option value="">Select</option>
                     <option v-for="port in ports" :value="port.id" :disabled="port.has_provisioning_records">Port {{ port.port_number }}</option>
                 </select>
             </div>
@@ -80,11 +80,12 @@
                     return;
                 }
                 this.fetchSlots(aggregatorId);
+                this.$emit('aggregator-was-selected');
             },
             portWasSelected: function(portId) {
                 console.log('Port '+portId+' was selected.');
                 EventBus.$emit('provisioning-port-was-selected', portId);
-                // this is the id value we need so do something usefull with it
+                this.$emit('port-was-selected');
             },
             slotWasSelected: function(slotId) {
                 this.ports = {};
@@ -92,6 +93,7 @@
                     return;
                 }
                 this.fetchPorts(slotId);
+                this.$emit('slot-was-selected');
             }
         }
     }

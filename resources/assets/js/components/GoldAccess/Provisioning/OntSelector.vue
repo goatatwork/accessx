@@ -5,7 +5,7 @@
             <div class="form-group">
                 <label for="ont_id">ONT</label>
                 <select class="form-control" name="ont_id" @change="ontWasSelected($event.target.value)">
-                    <option value="0">Select</option>
+                    <option value="">Select</option>
                     <option v-for="ont in onts" :value="ont.id">{{ ont.model_number }}</option>
                 </select>
                 <span v-show="fetchingSoftware" class="text-danger">Fetching ONT Software...</span>
@@ -14,7 +14,7 @@
             <div v-show="ont_software.length" class="form-group">
                 <label for="ont_software_id">ONT Software</label>
                 <select class="form-control" name="ont_software_id" @change="softwareWasSelected($event.target.value)">
-                    <option value="0">Select</option>
+                    <option value="">Select</option>
                     <option v-for="software in ont_software" :value="software.id">Version {{ software.version }}</option>
                 </select>
                 <span v-show="fetchingProfiles" class="text-danger">Fetching ONT Profiles...</span>
@@ -23,7 +23,7 @@
             <div v-show="ont_profiles.length" class="form-group">
                 <label for="ont_profile_id">ONT Profile</label>
                 <select class="form-control" name="ont_profile_id" @change="profileWasSelected($event.target.value)">
-                    <option value="0">Select</option>
+                    <option value="">Select</option>
                     <option v-for="profile in ont_profiles" :value="profile.id">{{ profile.name }}</option>
                 </select>
             </div>
@@ -80,9 +80,11 @@
                     return;
                 }
                 this.fetchOntSoftware(ontId);
+                this.$emit('ont-was-selected');
             },
             profileWasSelected: function(profileId) {
                 EventBus.$emit('provisioning-profile-was-selected', profileId);
+                this.$emit('profile-was-selected');
             },
             softwareWasSelected: function(softwareId) {
                 this.ont_profiles = {};
@@ -90,6 +92,7 @@
                     return;
                 }
                 this.fetchOntProfiles(softwareId);
+                this.$emit('software-was-selected');
             }
         }
     }

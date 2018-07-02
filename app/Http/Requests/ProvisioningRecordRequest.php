@@ -24,11 +24,17 @@ class ProvisioningRecordRequest extends FormRequest
      */
     public function rules()
     {
+        if ($this->method() == 'POST') {
+            return [
+                'service_location_id' => 'required',
+                'ont_profile_id' => 'required',
+                'port_id' => 'required',
+                'ip_address_id' => 'required',
+            ];
+        }
+
         return [
-            'service_location_id' => 'required',
-            'ont_profile_id' => 'required',
-            'port_id' => 'required',
-            'ip_address_id' => 'required',
+            //
         ];
     }
 

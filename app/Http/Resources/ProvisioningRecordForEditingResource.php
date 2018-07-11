@@ -27,6 +27,8 @@ class ProvisioningRecordForEditingResource extends Resource
             'shared_network' => $this->ip_address->subnet->dhcp_shared_network,
             'subnet' => $this->ip_address->subnet,
             'ip' => $this->ip_address,
+            'len' => $this->len,
+            'circuit_id' => $this->circuit_id,
         ];
     }
 }

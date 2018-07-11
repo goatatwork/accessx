@@ -119,7 +119,7 @@ class ProvisioningTest extends TestCase
 
     }
 
-    public function test_reboot_job_is_fired_if_pr_update_has_ont_profile_id()
+    public function test_reboot_job_is_fired_if_pr_update_has_reboot_set_to_true()
     {
         Queue::fake();
 
@@ -127,12 +127,12 @@ class ProvisioningTest extends TestCase
 
         $profile = factory(OntProfile::class)->create(['ont_software_id' => $pr->ont_profile->ont_software->id]);
 
-        $response = $this->actingAs($this->user, 'api')->json('PATCH', '/api/provisioning/' . $pr->id, ['ont_profile_id' => $profile->id]);
+        $response = $this->actingAs($this->user, 'api')->json('PATCH', '/api/provisioning/' . $pr->id, ['reboot' => true, 'ont_profile_id' => $profile->id]);
 
         Queue::assertPushed(RebootOnt::class);
     }
 
-    public function test_reboot_job_is_not_fired_if_pr_update_doesnt_have_ont_profile_id()
+    public function test_reboot_job_is_not_fired_if_pr_update_has_reboot_set_to_false()
     {
         Queue::fake();
 
@@ -140,7 +140,7 @@ class ProvisioningTest extends TestCase
 
         $service_location = factory(ServiceLocation::class)->create(['customer_id' => $pr->service_location->customer->id]);
 
-        $response = $this->actingAs($this->user, 'api')->json('PATCH', '/api/provisioning/' . $pr->id, ['service_location_id' => $service_location->id]);
+        $response = $this->actingAs($this->user, 'api')->json('PATCH', '/api/provisioning/' . $pr->id, ['reboot' => false, 'service_location_id' => $service_location->id]);
 
         Queue::assertNotPushed(RebootOnt::class);
     }

@@ -64321,6 +64321,54 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var OntSelector = Vue.extend(__webpack_require__(18));
 var AggregatorSelector = Vue.extend(__webpack_require__(19));
@@ -64348,11 +64396,16 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(20));
     data: function data() {
         return {
             editingOnt: false,
+            editingLen: false,
+            editingCircuitid: false,
             editingNetworkOrIp: false,
             formData: {
                 ont_profile_id: this.provisioningRecord.ont_profile.id,
                 ip_address_id: this.provisioningRecord.ip.id,
-                port_id: this.provisioningRecord.port.id
+                port_id: this.provisioningRecord.port.id,
+                len: this.provisioningRecord.len,
+                circuit_id: this.provisioningRecord.circuit_id,
+                reboot: true
             }
         };
     },
@@ -64376,25 +64429,53 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(20));
     },
 
     methods: {
+        cancelEditCircuitid: function cancelEditCircuitid() {
+            this.editingCircuitid = false;
+            this.formData.circuit_id = this.provisoiningRecord.circuit_id;
+        },
+        cancelEditLen: function cancelEditLen() {
+            this.editingLen = false;
+            this.formData.len = this.provisoiningRecord.len;
+        },
+        editCircuitid: function editCircuitid() {
+            this.editingOnt = false;
+            this.editingLen = false;
+            this.editingCircuitid = true;
+            this.editingNetworkOrIp = false;
+        },
         editIp: function editIp() {
             this.editingOnt = false;
+            this.editingLen = false;
+            this.editingCircuitid = false;
             this.editingNetworkOrIp = true;
             $('#network-location-selector').collapse('hide');
             $('#dhcp-management-network-selector').collapse('show');
         },
+        editLen: function editLen() {
+            this.editingOnt = false;
+            this.editingLen = true;
+            this.editingCircuitid = false;
+            this.editingNetworkOrIp = false;
+        },
         editLocation: function editLocation() {
             this.editingOnt = false;
+            this.editingLen = false;
+            this.editingCircuitid = false;
             this.editingNetworkOrIp = true;
             $('#network-location-selector').collapse('show');
             $('#dhcp-management-network-selector').collapse('hide');
         },
         editLocationOrIp: function editLocationOrIp() {
             this.editingOnt = false;
+            this.editingLen = false;
+            this.editingCircuitid = false;
             this.editingNetworkOrIp = !this.editingNetworkOrIp;
             $('#network-location-selector').collapse('hide');
             $('#dhcp-management-network-selector').collapse('hide');
         },
         editOnt: function editOnt() {
+            this.editingLen = false;
+            this.editingCircuitid = false;
             this.editingNetworkOrIp = false;
             this.editingOnt = !this.editingOnt;
             $('#network-location-selector').collapse('hide');
@@ -64417,8 +64498,11 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(20));
             this.formData = {
                 ont_profile_id: this.provisioningRecord.ont_profile.id,
                 ip_address_id: this.provisioningRecord.ip.id,
-                port_id: this.provisioningRecord.port.id
-            }, this.editingOnt = false, this.editingNetworkOrIp = false;
+                port_id: this.provisioningRecord.port.id,
+                len: this.provisioningRecord.len,
+                circuit_id: this.provisioningRecord.circuit_id,
+                reboot: true
+            }, this.editingOnt = false, this.editingLen = false, this.editingCircuitid = false, this.editingNetworkOrIp = false;
             $('#ont-selector').collapse('hide');
             $('#network-location-selector').collapse('hide');
             $('#dhcp-management-network-selector').collapse('hide');
@@ -64434,7 +64518,28 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(20));
                 console.log(error.response.data);
             });
         },
+        submitLenChange: function submitLenChange() {
+            var _this2 = this;
 
+            this.formData.reboot = false;
+            axios.patch('/api/provisioning/' + this.provisioningRecord.id, this.formData).then(function (response) {
+                _this2.formData.len = response.data.len;
+                _this2.editingLen = false;
+            }).catch(function (error) {
+                console.log(error.response.data);
+            });
+        },
+        submitCircuitidChange: function submitCircuitidChange() {
+            var _this3 = this;
+
+            this.formData.reboot = false;
+            axios.patch('/api/provisioning/' + this.provisioningRecord.id, this.formData).then(function (response) {
+                _this3.formData.circuit_id = response.data.circuit_id;
+                _this3.editingCircuitid = false;
+            }).catch(function (error) {
+                console.log(error.response.data);
+            });
+        },
         updateIpId: function updateIpId(id) {
             this.formData.ip_address_id = id;
         },
@@ -65513,7 +65618,272 @@ var render = function() {
                 1
               )
             ]
-          )
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col" }, [
+              _c("table", { staticClass: "table table-sm" }, [
+                _vm._m(4),
+                _vm._v(" "),
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td", { staticClass: "text-center" }, [_vm._v("LEN")]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-left" }, [
+                      _c(
+                        "span",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: !_vm.editingLen,
+                              expression: "! editingLen"
+                            }
+                          ]
+                        },
+                        [_vm._v(_vm._s(_vm.formData.len))]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.editingLen,
+                              expression: "editingLen"
+                            }
+                          ]
+                        },
+                        [
+                          _c(
+                            "label",
+                            { staticClass: "sr-only", attrs: { for: "LEN" } },
+                            [_vm._v("LEN")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.formData.len,
+                                expression: "formData.len"
+                              }
+                            ],
+                            staticClass: "form-control form-control-sm",
+                            attrs: { type: "text", name: "len" },
+                            domProps: { value: _vm.formData.len },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.formData,
+                                  "len",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _c(
+                        "button",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: !_vm.editingLen,
+                              expression: "! editingLen"
+                            }
+                          ],
+                          staticClass: "btn btn-sm btn-dark",
+                          on: { click: _vm.editLen }
+                        },
+                        [_vm._v("EDIT")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.editingLen,
+                              expression: "editingLen"
+                            }
+                          ],
+                          staticClass: "btn-group",
+                          attrs: {
+                            role: "group",
+                            "aria-label": "LEN Editing Form Controls"
+                          }
+                        },
+                        [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-success",
+                              on: { click: _vm.submitLenChange }
+                            },
+                            [_vm._v("Save")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-secondary",
+                              on: { click: _vm.cancelEditLen }
+                            },
+                            [_vm._v("Cancel")]
+                          )
+                        ]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", { staticClass: "text-center" }, [
+                      _vm._v("Circuit ID")
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-left" }, [
+                      _c(
+                        "span",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: !_vm.editingCircuitid,
+                              expression: "! editingCircuitid"
+                            }
+                          ]
+                        },
+                        [_vm._v(_vm._s(_vm.formData.circuit_id))]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.editingCircuitid,
+                              expression: "editingCircuitid"
+                            }
+                          ]
+                        },
+                        [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "sr-only",
+                              attrs: { for: "Circuit ID" }
+                            },
+                            [_vm._v("Circuit ID")]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.formData.circuit_id,
+                                expression: "formData.circuit_id"
+                              }
+                            ],
+                            staticClass: "form-control form-control-sm",
+                            attrs: { type: "text", name: "circuit_id" },
+                            domProps: { value: _vm.formData.circuit_id },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.formData,
+                                  "circuit_id",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _c(
+                        "button",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: !_vm.editingCircuitid,
+                              expression: "! editingCircuitid"
+                            }
+                          ],
+                          staticClass: "btn btn-sm btn-dark",
+                          on: { click: _vm.editCircuitid }
+                        },
+                        [_vm._v("EDIT")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.editingCircuitid,
+                              expression: "editingCircuitid"
+                            }
+                          ],
+                          staticClass: "btn-group",
+                          attrs: {
+                            role: "group",
+                            "aria-label": "Circuit ID Editing Form Controls"
+                          }
+                        },
+                        [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-success",
+                              on: { click: _vm.submitCircuitidChange }
+                            },
+                            [_vm._v("Save")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-secondary",
+                              on: { click: _vm.cancelEditCircuitid }
+                            },
+                            [_vm._v("Cancel")]
+                          )
+                        ]
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ])
         ])
       ])
     ])
@@ -65571,6 +65941,18 @@ var staticRenderFns = [
         _c("th", { staticClass: "text-center" }, [_vm._v("IP Address")]),
         _vm._v(" "),
         _c("th", { staticClass: "text-center" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-dark" }, [
+      _c("tr", [
+        _c("th", { staticClass: "text-center", attrs: { colspan: "3" } }, [
+          _vm._v("Plant Identifiers")
+        ])
       ])
     ])
   }

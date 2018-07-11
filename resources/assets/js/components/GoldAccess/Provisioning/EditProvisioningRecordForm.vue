@@ -147,6 +147,54 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col">
+                            <table class="table table-sm">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th class="text-center" colspan="3">Plant Identifiers</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">LEN</td>
+                                        <td class="text-left">
+                                            <span v-show="! editingLen">{{ formData.len }}</span>
+                                            <span v-show="editingLen">
+                                                <label for="LEN" class="sr-only">LEN</label>
+                                                <input type="text" class="form-control form-control-sm" name="len" v-model="formData.len"></span>
+                                            </span>
+                                        </td>
+                                        <td class="text-right">
+                                            <button v-show="! editingLen" class="btn btn-sm btn-dark" @click="editLen">EDIT</button>
+                                            <div v-show="editingLen" class="btn-group" role="group" aria-label="LEN Editing Form Controls">
+                                                <button class="btn btn-sm btn-success" @click="submitLenChange">Save</button>
+                                                <button class="btn btn-sm btn-secondary" @click="cancelEditLen">Cancel</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">Circuit ID</td>
+                                        <td class="text-left">
+                                            <span v-show="! editingCircuitid">{{ formData.circuit_id }}</span>
+                                            <span v-show="editingCircuitid">
+                                                <label for="Circuit ID" class="sr-only">Circuit ID</label>
+                                                <input type="text" class="form-control form-control-sm" name="circuit_id" v-model="formData.circuit_id"></span>
+                                            </span>
+                                        </td>
+                                        <td class="text-right">
+                                            <button v-show="! editingCircuitid" class="btn btn-sm btn-dark" @click="editCircuitid">EDIT</button>
+                                            <div v-show="editingCircuitid" class="btn-group" role="group" aria-label="Circuit ID Editing Form Controls">
+                                                <button class="btn btn-sm btn-success" @click="submitCircuitidChange">Save</button>
+                                                <button class="btn btn-sm btn-secondary" @click="cancelEditCircuitid">Cancel</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -181,11 +229,16 @@
         data: function() {
             return {
                 editingOnt: false,
+                editingLen: false,
+                editingCircuitid: false,
                 editingNetworkOrIp: false,
                 formData: {
                     ont_profile_id: this.provisioningRecord.ont_profile.id,
                     ip_address_id: this.provisioningRecord.ip.id,
                     port_id: this.provisioningRecord.port.id,
+                    len: this.provisioningRecord.len,
+                    circuit_id: this.provisioningRecord.circuit_id,
+                    reboot: true,
                 }
             }
         },
@@ -209,25 +262,53 @@
         },
 
         methods: {
+            cancelEditCircuitid: function() {
+                this.editingCircuitid = false;
+                this.formData.circuit_id = this.provisoiningRecord.circuit_id;
+            },
+            cancelEditLen: function() {
+                this.editingLen = false;
+                this.formData.len = this.provisoiningRecord.len;
+            },
+            editCircuitid: function() {
+                this.editingOnt = false;
+                this.editingLen = false;
+                this.editingCircuitid = true;
+                this.editingNetworkOrIp = false;
+            },
             editIp: function() {
                 this.editingOnt = false;
+                this.editingLen = false;
+                this.editingCircuitid = false;
                 this.editingNetworkOrIp = true;
                 $('#network-location-selector').collapse('hide');
                 $('#dhcp-management-network-selector').collapse('show');
             },
+            editLen: function() {
+                this.editingOnt = false;
+                this.editingLen = true;
+                this.editingCircuitid = false;
+                this.editingNetworkOrIp = false;
+            },
             editLocation: function() {
                 this.editingOnt = false;
+                this.editingLen = false;
+                this.editingCircuitid = false;
                 this.editingNetworkOrIp = true;
                 $('#network-location-selector').collapse('show');
                 $('#dhcp-management-network-selector').collapse('hide');
             },
             editLocationOrIp: function() {
                 this.editingOnt = false;
+                this.editingLen = false;
+                this.editingCircuitid = false;
                 this.editingNetworkOrIp = ! this.editingNetworkOrIp;
                 $('#network-location-selector').collapse('hide');
                 $('#dhcp-management-network-selector').collapse('hide');
             },
             editOnt: function() {
+                this.editingLen = false;
+                this.editingCircuitid = false;
                 this.editingNetworkOrIp = false;
                 this.editingOnt = ! this.editingOnt;
                 $('#network-location-selector').collapse('hide');
@@ -251,8 +332,13 @@
                     ont_profile_id: this.provisioningRecord.ont_profile.id,
                     ip_address_id: this.provisioningRecord.ip.id,
                     port_id: this.provisioningRecord.port.id,
+                    len: this.provisioningRecord.len,
+                    circuit_id: this.provisioningRecord.circuit_id,
+                    reboot: true,
                 },
                 this.editingOnt = false,
+                this.editingLen = false,
+                this.editingCircuitid = false,
                 this.editingNetworkOrIp = false;
                 $('#ont-selector').collapse('hide');
                 $('#network-location-selector').collapse('hide');
@@ -267,7 +353,24 @@
                     console.log(error.response.data);
                 });
             },
-
+            submitLenChange: function() {
+                this.formData.reboot = false;
+                axios.patch('/api/provisioning/'+this.provisioningRecord.id, this.formData).then( (response) => {
+                    this.formData.len = response.data.len;
+                    this.editingLen = false;
+                }).catch( (error) => {
+                    console.log(error.response.data);
+                });
+            },
+            submitCircuitidChange: function() {
+                this.formData.reboot = false;
+                axios.patch('/api/provisioning/'+this.provisioningRecord.id, this.formData).then( (response) => {
+                    this.formData.circuit_id = response.data.circuit_id;
+                    this.editingCircuitid = false;
+                }).catch( (error) => {
+                    console.log(error.response.data);
+                });
+            },
             updateIpId: function(id) {
                 this.formData.ip_address_id = id;
             },

@@ -83,7 +83,7 @@ class ProvisioningRecordsApiController extends Controller
 
         event (new ProvisioningRecordWasUpdated($provisioning_record));
 
-        if ($request->ont_profile_id) {
+        if ($request->reboot) {
             RebootOnt::dispatch($provisioning_record);
         }
 

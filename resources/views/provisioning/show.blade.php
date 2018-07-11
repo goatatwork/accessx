@@ -344,30 +344,34 @@
                 </tr>
                 <tr>
                     <th class="text-center border-0"></th>
-                    <th class="text-center border-0"></th>
-                    <th class="text-center border-0">Customer</th>
-                    <th class="text-center border-0">Location</th>
-                    <th class="text-center border-0">Package</th>
                     <th class="text-center border-0">Management IP</th>
                     <th class="text-center border-0">NetLocation</th>
-                    <th class="text-center border-0">ONT</th>
+                    <th class="text-center border-0">ONT/Software</th>
+                    <th class="text-center border-0">Package</th>
+                    <th class="text-center border-0">LEN</th>
+                    @if ($provisioning_record->circuit_id != '')
+                        <th class="text-center border-0">Circuit ID</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td><a href="/provisioning/{{ $provisioning_record->id }}/edit" class="btn btn-sm btn-dark">EDIT</a></td>
-                    <td class="text-center font-italic">
-                        <span class="fas fa-map-marker-alt text-success"></span> Created {{ $provisioning_record->created_at->format('l, M j, Y g:i A') }}
+
+                    <td class="text-center">
+                        <a href="{{ $provisioning_record->ip_address->address }}" target="_blank">{{ $provisioning_record->ip_address->address }}</a>
                     </td>
                     <td class="text-center">
-                        <a href="/customers/{{ $provisioning_record->service_location->customer->id }}" class="text-dark">
-                            {{ $provisioning_record->service_location->customer->customer_name }}
-                        </a>
+                        {{ $provisioning_record->port->slot->aggregator->name }}
+                        <span class="fas fa-long-arrow-alt-right"></span>
+                        Slot {{ $provisioning_record->port->slot->slot_number }}
+                        <span class="fas fa-long-arrow-alt-right"></span>
+                        Port {{ $provisioning_record->port->port_number }}
                     </td>
                     <td class="text-center">
-                        <a href="/provisioning/service_locations/{{ $provisioning_record->service_location->id }}/show" class="text-dark">
-                            {{ $provisioning_record->service_location->address1 }}
-                        </a>
+                        {{ $provisioning_record->ont_profile->ont_software->ont->model_number }}
+                        <span class="fas fa-long-arrow-alt-right"></span>
+                        {{ $provisioning_record->ont_profile->ont_software->version }}
                     </td>
                     <td class="text-center">
 
@@ -389,21 +393,14 @@
                         @endif
 
                     </td>
-                    <td class="text-center">
-                        <a href="{{ $provisioning_record->ip_address->address }}" target="_blank">{{ $provisioning_record->ip_address->address }}</a>
+                    <td class="text-center font-italic">
+                        {{ $provisioning_record->len ? $provisioning_record->len : '' }}
                     </td>
-                    <td class="text-center">
-                        {{ $provisioning_record->port->slot->aggregator->name }}
-                        <span class="fas fa-long-arrow-alt-right"></span>
-                        Slot {{ $provisioning_record->port->slot->slot_number }}
-                        <span class="fas fa-long-arrow-alt-right"></span>
-                        Port {{ $provisioning_record->port->port_number }}
-                    </td>
-                    <td class="text-center">
-                        {{ $provisioning_record->ont_profile->ont_software->ont->model_number }}
-                        <span class="fas fa-long-arrow-alt-right"></span>
-                        {{ $provisioning_record->ont_profile->ont_software->version }}
-                    </td>
+                    @if ($provisioning_record->circuit_id != '')
+                        <td class="text-center font-italic">
+                            {{ $provisioning_record->circuit_id ? $provisioning_record->circuit_id : '' }}
+                        </td>
+                    @endif
                 </tr>
             </tbody>
         </table>

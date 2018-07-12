@@ -64869,6 +64869,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -64886,6 +64888,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        addModuleTypeNames: function addModuleTypeNames(slots) {
+            _.forEach(slots, function (slot) {
+                if (slot.populated) {
+                    axios.get('/api/infrastructure/module_types/' + slot.module_type_id).then(function (response) {
+                        Vue.set(slot, 'module_type_name', response.data.name);
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                } else {
+                    Vue.set(slot, 'module_type_name', 'unpopulated');
+                }
+            });
+        },
+        aggregatorWasSelected: function aggregatorWasSelected(aggregatorId) {
+            this.slots = {};
+            this.ports = {};
+            if (aggregatorId == 0) {
+                return;
+            }
+            this.fetchSlots(aggregatorId);
+            this.$emit('aggregator-was-selected');
+        },
         fetchAggregators: function fetchAggregators() {
             var _this = this;
 
@@ -64912,19 +64936,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.fetchingSlots = true;
             axios.get('/api/infrastructure/aggregators/' + aggregatorId + '/slots').then(function (response) {
                 _this3.slots = response.data;
+                _this3.addModuleTypeNames(response.data);
                 _this3.fetchingSlots = false;
             }).catch(function (error) {
                 console.log(error);
             });
-        },
-        aggregatorWasSelected: function aggregatorWasSelected(aggregatorId) {
-            this.slots = {};
-            this.ports = {};
-            if (aggregatorId == 0) {
-                return;
-            }
-            this.fetchSlots(aggregatorId);
-            this.$emit('aggregator-was-selected');
         },
         portWasSelected: function portWasSelected(portId) {
             console.log('Port ' + portId + ' was selected.');
@@ -65028,9 +65044,22 @@ var render = function() {
               _c("option", { attrs: { value: "" } }, [_vm._v("Select")]),
               _vm._v(" "),
               _vm._l(_vm.slots, function(aSlot) {
-                return _c("option", { domProps: { value: aSlot.id } }, [
-                  _vm._v("Slot " + _vm._s(aSlot.slot_number))
-                ])
+                return _c(
+                  "option",
+                  {
+                    attrs: { disabled: !aSlot.populated },
+                    domProps: { value: aSlot.id }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    Slot " +
+                        _vm._s(aSlot.slot_number) +
+                        " - " +
+                        _vm._s(aSlot.module_type_name) +
+                        "\n                "
+                    )
+                  ]
+                )
               })
             ],
             2

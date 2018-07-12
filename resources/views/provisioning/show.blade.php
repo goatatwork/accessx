@@ -359,7 +359,7 @@
                     <td><a href="/provisioning/{{ $provisioning_record->id }}/edit" class="btn btn-sm btn-dark">EDIT</a></td>
 
                     <td class="text-center">
-                        <a href="{{ $provisioning_record->ip_address->address }}" target="_blank">{{ $provisioning_record->ip_address->address }}</a>
+                        <a href="http://{{ $provisioning_record->ip_address->address }}" target="_blank">{{ $provisioning_record->ip_address->address }}</a>
                     </td>
                     <td class="text-center">
                         {{ $provisioning_record->port->slot->aggregator->name }}

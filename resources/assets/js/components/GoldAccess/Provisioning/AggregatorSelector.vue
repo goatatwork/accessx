@@ -26,7 +26,10 @@
                 <label for="port_id">Ports</label>
                 <select class="form-control" name="port_id" @change="portWasSelected($event.target.value)">
                     <option value="">Select</option>
-                    <option v-for="port in ports" :value="port.id" :disabled="port.has_provisioning_records">Port {{ port.port_number }}</option>
+                    <option v-for="port in ports" :value="port.id" :disabled="port.has_provisioning_records">
+                        Port {{ port.port_number }}
+                        <span v-if="port.has_provisioning_records">In use</span>
+                    </option>
                 </select>
             </div>
         </div>

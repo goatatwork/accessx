@@ -64871,6 +64871,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -65120,7 +65123,16 @@ var render = function() {
                     attrs: { disabled: port.has_provisioning_records },
                     domProps: { value: port.id }
                   },
-                  [_vm._v("Port " + _vm._s(port.port_number))]
+                  [
+                    _vm._v(
+                      "\n                    Port " +
+                        _vm._s(port.port_number) +
+                        "\n                    "
+                    ),
+                    port.has_provisioning_records
+                      ? _c("span", [_vm._v("In use")])
+                      : _vm._e()
+                  ]
                 )
               })
             ],

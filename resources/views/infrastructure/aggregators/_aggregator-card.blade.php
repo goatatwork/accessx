@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card mt-3 mb-3">
 
     <a href="/infrastructure/aggregators/{{ $aggregator->id }}" class="text-dark">
         <div class="card-header text-center">

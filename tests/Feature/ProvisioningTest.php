@@ -340,6 +340,8 @@ class ProvisioningTest extends TestCase
 
         $netmask = $provisioning_record->ip_address->subnet->subnet_mask;
 
+        $leasetime = config('goldaccess.settings.dhcp_default_lease_time') . 's';
+
         $gateway = $provisioning_record->ip_address->subnet->routers;
 
         $dns = $provisioning_record->ip_address->subnet->dns_servers;
@@ -347,7 +349,7 @@ class ProvisioningTest extends TestCase
         return [
             '## Management IP for '.$name.' (ID:'.$id.')',
             'dhcp-subscrid=set:"' . $subscriberId . '","' . $subscriberId . '"', // match subscriber id
-            'dhcp-range=tag:"' . $subscriberId . '",' . $ip . ',' . $ip . ',' . $netmask . ',10m', // the IP
+            'dhcp-range=tag:"' . $subscriberId . '",' . $ip . ',' . $ip . ',' . $netmask . ',' . $leasetime, // the IP
             'dhcp-option=tag:"' . $subscriberId . '",3,' . $gateway, // The gateway
             'dhcp-option=tag:"' . $subscriberId . '",1,' . $netmask, // The netmask
             'dhcp-option=tag:"' . $subscriberId . '",5,' . $dns, // The dns server

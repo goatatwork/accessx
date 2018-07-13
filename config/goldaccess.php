@@ -6,16 +6,6 @@
  */
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Dockerbot Configuration
-    |--------------------------------------------------------------------------
-    |
-    | Configured Dockerbot's operational parameters
-    |
-    */
-
     /*
     |--------------------------------------------------------------------------
     | Via AppServiceProvider, settings are read in from the ga_settings table
@@ -29,6 +19,15 @@ return [
         'dhcp_default_lease_time' => env('DHCP_DEFAULT_LEASE_TIME', '1800'),
     ],
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Dockerbot Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configured Dockerbot's operational parameters
+    |
+    */
     'dockerbot' => [
         'services' => [
             'dhcp' => [

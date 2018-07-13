@@ -9,18 +9,18 @@
     </ol>
 </nav>
 
-<div class="row mb-5">
+<div class="row mb-3">
     <div class="col">
-
         <dl class="float-left">
             <dt>Total Shared Networks</dt>
             <dd>There are {{ $dhcp_shared_networks->count() }} shared networks.</dd>
         </dl>
+    </div>
 
+    <div class="col">
         <span class="float-right">
             <a href="/dhcp/shared_networks/create" class="btn btn-secondary"><i class="material-icons mr-2">add</i>Add A Shared Network</a>
         </span>
-
     </div>
 </div>
 

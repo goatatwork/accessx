@@ -59910,6 +59910,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 var DeleteModal = Vue.extend(__webpack_require__(7));
 
@@ -59972,7 +59973,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "col-4" }, [
-    _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card mt-3 mb-3" }, [
       _c("a", { staticClass: "text-dark", attrs: { href: _vm.showUrl } }, [
         _c("div", { staticClass: "card-header text-center" }, [
           _c("span", { staticClass: "font-weight-bold" }, [
@@ -60025,6 +60026,13 @@ var render = function() {
               _c("li", [
                 _c("strong", [_vm._v("Files:")]),
                 _vm._v(" " + _vm._s(_vm.numberOfFiles))
+              ]),
+              _vm._v(" "),
+              _c("li", [
+                _vm._v(
+                  _vm._s(_vm.ont.number_of_software_versions) +
+                    " software versions"
+                )
               ])
             ])
           ])

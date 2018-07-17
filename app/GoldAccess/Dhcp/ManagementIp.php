@@ -3,6 +3,7 @@
 namespace App\GoldAccess\Dhcp;
 
 use Storage;
+use App\GaSetting;
 use App\ProvisioningRecord;
 
 class ManagementIp
@@ -108,8 +109,8 @@ class ManagementIp
      */
     public function getDhcpDefaultLeaseTime()
     {
-        return (config('goldaccess.settings.dhcp_default_lease_time')) ?
-            config('goldaccess.settings.dhcp_default_lease_time') :
+        return (GaSetting::where('name', 'dhcp_default_lease_time')->first()) ?
+            (GaSetting::where('name', 'dhcp_default_lease_time')->first())->value :
             '1800';
     }
 

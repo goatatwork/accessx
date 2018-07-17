@@ -55192,6 +55192,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -55216,8 +55217,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             errors: {},
             is_success: false,
+            currentValue: this.setting.value,
             collapseToggleIcon: 'arrow_right',
-            settingData: Object.assign({}, this.setting)
+            settingProp: Object.assign({}, this.setting),
+            settingData: Object.assign({}, this.setting),
+            closeButtonClasses: 'animated pulse infinite'
         };
     },
 
@@ -55233,14 +55237,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         reset: function reset() {
             this.errors = {}, $(this.collapseHref).collapse('hide');
             this.collapseToggleIcon = 'arrow_right';
-            this.settingData = Object.assign({}, this.setting);
+            this.settingData = Object.assign({}, this.settingProp);
         },
         submit: function submit() {
             var _this = this;
 
+            this.closeButtonClasses = 'animated pulse infinite';
             axios.patch('/api/settings/' + this.setting.name, this.settingData).then(function (response) {
                 _this.is_success = true;
                 _this.settingData = response.data;
+                _this.settingProp = response.data;
+                setTimeout(function () {
+                    _this.closeButtonClasses = '';
+                }, 4000);
             }).catch(function (error) {
                 _this.errors = error.response.data.errors;
             });
@@ -55271,7 +55280,7 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col d-flex align-items-center" }, [
             _c("span", { staticClass: "float-left" }, [
-              _vm._v(_vm._s(_vm.setting.value))
+              _vm._v(_vm._s(_vm.settingData.value))
             ])
           ]),
           _vm._v(" "),
@@ -55334,7 +55343,8 @@ var render = function() {
                   type: "text",
                   "aria-described-by": _vm.descriptionId,
                   name: "value",
-                  required: ""
+                  required: "",
+                  disabled: _vm.is_success
                 },
                 domProps: { value: _vm.settingData.value },
                 on: {
@@ -55455,6 +55465,7 @@ var render = function() {
                   "button",
                   {
                     staticClass: "btn btn-sm btn-dark",
+                    class: _vm.closeButtonClasses,
                     on: { click: _vm.close }
                   },
                   [_vm._v("Close")]

@@ -9,7 +9,7 @@
 
                 <div class="row">
                     <div class="col d-flex align-items-center">
-                        <span class="float-left">{{ setting.value }}</span>
+                        <span class="float-left">{{ settingData.value }}</span>
                     </div>
                     <div class="col d-flex align-items-center justify-content-end">
                         <button class="btn btn-link text-dark" data-toggle="collapse" :data-target="collapseHref" @click="toggleOpenDetails">
@@ -39,6 +39,7 @@
                                 required
                                 @keydown="delete errors.value"
                                 @keydown.enter="submit"
+                                :disabled="is_success"
                             >
                             <small v-show="errors.value">
                                 <ul class="list-unstyled text-danger mt-3">
@@ -53,7 +54,7 @@
                         </div>
                         <div v-show="is_success" class="form-group">
                             <button class="btn btn-sm btn-success" disabled>SUCCESS!</button>
-                            <button class="btn btn-sm btn-dark" @click="close">Close</button>
+                            <button class="btn btn-sm btn-dark" :class="closeButtonClasses" @click="close">Close</button>
                         </div>
                     </div>
                 </div>
@@ -87,8 +88,11 @@
             return {
                 errors: {},
                 is_success: false,
+                currentValue: this.setting.value,
                 collapseToggleIcon: 'arrow_right',
-                settingData: Object.assign({}, this.setting)
+                settingProp: Object.assign({}, this.setting),
+                settingData: Object.assign({}, this.setting),
+                closeButtonClasses: 'animated pulse infinite',
             }
         },
 
@@ -105,12 +109,17 @@
                 this.errors = {},
                 $(this.collapseHref).collapse('hide');
                 this.collapseToggleIcon = 'arrow_right';
-                this.settingData = Object.assign({}, this.setting);
+                this.settingData = Object.assign({}, this.settingProp);
             },
             submit: function() {
+                this.closeButtonClasses = 'animated pulse infinite';
                 axios.patch('/api/settings/'+this.setting.name, this.settingData).then( (response) => {
                     this.is_success = true;
                     this.settingData = response.data;
+                    this.settingProp = response.data;
+                    setTimeout( () => {
+                        this.closeButtonClasses = '';
+                    }, 4000);
                 }).catch( (error) => {
                     this.errors = error.response.data.errors;
                 });

@@ -1,6 +1,6 @@
 <template>
     <div class="col-4">
-        <div class="card">
+        <div class="card mt-3 mb-3">
 
             <a :href="showUrl" class="text-dark">
                 <div class="card-header text-center">
@@ -26,6 +26,7 @@
                             <li><strong>POTS lines:</strong> {{ ont.number_of_pots_lines }}</li>
                             <li><strong>Notes:</strong> {{ ont.notes }}</li>
                             <li><strong>Files:</strong> {{ numberOfFiles }}</li>
+                            <li>{{ ont.number_of_software_versions }} software versions</li>
                         </ul>
                     </div>
                 </div>

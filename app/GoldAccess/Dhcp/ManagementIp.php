@@ -3,6 +3,7 @@
 namespace App\GoldAccess\Dhcp;
 
 use Storage;
+use App\GaSetting;
 use App\ProvisioningRecord;
 
 class ManagementIp
@@ -104,6 +105,16 @@ class ManagementIp
     }
 
     /**
+     * @return string The lease time for this record
+     */
+    public function getDhcpDefaultLeaseTime()
+    {
+        return (GaSetting::where('name', 'dhcp_default_lease_time')->first()) ?
+            (GaSetting::where('name', 'dhcp_default_lease_time')->first())->value :
+            '1800';
+    }
+
+    /**
      * @return  string The dns servers
      */
     public function getDns()
@@ -156,12 +167,13 @@ class ManagementIp
         $subscriberId = $this->getSubscriberId();
         $ip = $this->getManagementIp();
         $netmask = $this->getNetmask();
+        $leasetime = $this->getDhcpDefaultLeaseTime();
         $gateway = $this->getGateway();
         $dns = $this->getDns();
 
         return [
             'dhcp-subscrid=set:"' . $subscriberId . '","' . $subscriberId . '"', // match subscriber id
-            'dhcp-range=tag:"' . $subscriberId . '",' . $ip . ',' . $ip . ',' . $netmask . ',10m', // the IP
+            'dhcp-range=tag:"' . $subscriberId . '",' . $ip . ',' . $ip . ',' . $netmask . ',' . $leasetime, // the IP
             'dhcp-option=tag:"' . $subscriberId . '",3,' . $gateway, // The gateway
             'dhcp-option=tag:"' . $subscriberId . '",1,' . $netmask, // The netmask
             'dhcp-option=tag:"' . $subscriberId . '",5,' . $dns, // The dns server

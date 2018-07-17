@@ -25,15 +25,11 @@
 </div>
 
 <div class="row">
-
-        <div class="col">
-            <div class="card-deck">
-                @foreach($aggregators as $aggregator)
-                    @include('infrastructure.aggregators._aggregator-card')
-                @endforeach
-            </div>
+    @foreach($aggregators as $aggregator)
+        <div class="col-4">
+            @include('infrastructure.aggregators._aggregator-card')
         </div>
-
+    @endforeach
 </div>
 
 @foreach($aggregators as $aggregator)

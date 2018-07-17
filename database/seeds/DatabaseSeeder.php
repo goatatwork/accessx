@@ -11,6 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(GaSettingsSeeder::class);
+
         $this->call(StatesSeeder::class);
 
         $this->call(PlatformsAndModuleTypesSeeder::class);

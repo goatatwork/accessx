@@ -16,5 +16,3 @@ ADD dnsmasq.conf /etc/dnsmasq/dnsmasq.conf
 
 CMD ["dnsmasq", "-k", "--log-facility=-", "--conf-file=/etc/dnsmasq/dnsmasq.conf"]
 ENTRYPOINT []
-
-# The last time this was built was March 19, 2018 and it was tagged as goatatwork/dnsmasq-ubuntu:0.3 and :latest

@@ -104,6 +104,16 @@ class ManagementIp
     }
 
     /**
+     * @return string The lease time for this record
+     */
+    public function getDhcpDefaultLeaseTime()
+    {
+        return (config('goldaccess.settings.dhcp_default_lease_time')) ?
+            config('goldaccess.settings.dhcp_default_lease_time') :
+            '1800';
+    }
+
+    /**
      * @return  string The dns servers
      */
     public function getDns()
@@ -156,9 +166,7 @@ class ManagementIp
         $subscriberId = $this->getSubscriberId();
         $ip = $this->getManagementIp();
         $netmask = $this->getNetmask();
-        $leasetime = (config('goldaccess.settings.dhcp_default_lease_time')) ?
-            config('goldaccess.settings.dhcp_default_lease_time') :
-            '1800';
+        $leasetime = $this->getDhcpDefaultLeaseTime();
         $gateway = $this->getGateway();
         $dns = $this->getDns();
 

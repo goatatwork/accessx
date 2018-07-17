@@ -14,6 +14,9 @@
         <dl class="float-left">
             <dt>Total Shared Networks</dt>
             <dd>There are {{ $dhcp_shared_networks->count() }} shared networks.</dd>
+            <dd>The default lease time is {{ config('goldaccess.settings.dhcp_default_lease_time') }}.
+                <small>As per the <a href="/settings" class="text-info">system settings</a></small>
+            </dd>
         </dl>
     </div>
 

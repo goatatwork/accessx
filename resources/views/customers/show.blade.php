@@ -89,7 +89,15 @@
                                                 <div class="row">
                                                     <div class="col">
                                                         @if($service_location->has_provisioning_records)
-                                                            <a href="/provisioning/service_locations/{{ $service_location->id }}/show">See Provisioning Records</a>
+                                                            <small>
+                                                                <span class="font-weight-bold">Services Provisioned Here</span>
+                                                                <br>
+                                                                @foreach($service_location->provisioning_records as $record)
+                                                                    <a href="/provisioning/{{ $record->id }}">
+                                                                        View service {{ $loop->iteration }}
+                                                                    </a>
+                                                                @endforeach
+                                                            </small>
                                                         @else
                                                             <a href="/provisioning/service_locations/{{ $service_location->id }}/create">Provision Service Here</a>
                                                         @endif

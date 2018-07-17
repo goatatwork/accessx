@@ -3,7 +3,6 @@
 namespace App\GoldAccess\Dhcp;
 
 use Storage;
-use App\GaSetting;
 use App\ProvisioningRecord;
 
 class ManagementIp
@@ -157,8 +156,8 @@ class ManagementIp
         $subscriberId = $this->getSubscriberId();
         $ip = $this->getManagementIp();
         $netmask = $this->getNetmask();
-        $leasetime = (GaSetting::where('name', 'dhcp_default_lease_time')->first()) ?
-            (GaSetting::where('name', 'dhcp_default_lease_time')->first())->value :
+        $leasetime = (config('goldaccess.settings.dhcp_default_lease_time')) ?
+            config('goldaccess.settings.dhcp_default_lease_time') :
             '1800';
         $gateway = $this->getGateway();
         $dns = $this->getDns();

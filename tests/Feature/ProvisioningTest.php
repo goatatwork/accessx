@@ -6,12 +6,13 @@ use Storage;
 use App\Ont;
 use App\Port;
 use App\User;
+use App\GaSetting;
 use App\IpAddress;
 use App\OntProfile;
 use Tests\TestCase;
 use App\OntSoftware;
-use App\ServiceLocation;
 use App\Jobs\RebootOnt;
+use App\ServiceLocation;
 use App\ProvisioningRecord;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
@@ -27,6 +28,11 @@ class ProvisioningTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
+        $this->dhcp_default_lease_time_setting = factory(GaSetting::class)->create([
+            'name' => 'dhcp_default_lease_time',
+            'value' => '1800',
+            'description' => ''
+        ]);
     }
 
     public function test_api_can_edit_provisioning_record_ont_profile()
@@ -340,7 +346,7 @@ class ProvisioningTest extends TestCase
 
         $netmask = $provisioning_record->ip_address->subnet->subnet_mask;
 
-        $leasetime = config('goldaccess.settings.dhcp_default_lease_time') . 's';
+        $leasetime = config('goldaccess.settings.dhcp_default_lease_time');
 
         $gateway = $provisioning_record->ip_address->subnet->routers;
 

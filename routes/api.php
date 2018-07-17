@@ -133,3 +133,9 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'authorization'], function
         return new \App\Http\Resources\UserRoleResource($user);
     });
 });
+
+Route::group(['prefix' => 'settings'], function() {
+    Route::get('/', 'GaSettingsApiController@index');
+    Route::get('{setting}', 'GaSettingsApiController@show');
+    Route::patch('{setting}', 'GaSettingsApiController@update');
+});

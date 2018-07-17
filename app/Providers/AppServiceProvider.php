@@ -22,7 +22,6 @@ class AppServiceProvider extends ServiceProvider
 
         if (Schema::hasTable('ga_settings')) {
             foreach (GaSetting::all() as $setting) {
-                \Log::info('AppServiceProvider registering config-->goldaccess.settings.' . $setting->name);
                 Config::set('goldaccess.settings.' . $setting->name, $setting->value);
             }
         }

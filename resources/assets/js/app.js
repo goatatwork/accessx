@@ -17,6 +17,7 @@ Vue.component('passport-personal-access-tokens', require('./components/passport/
 
 Vue.component('echo-messages', require('./components/GoldAccess/Echo/EchoMessages.vue'));
 Vue.component('presence-information', require('./components/GoldAccess/Echo/EchoPresence.vue'));
+Vue.component('settings-manager', require('./components/GoldAccess/GaSettings/GaSettings.vue'));
 
 Vue.component('media-file', require('./components/GoldAccess/Core/MediaFile.vue'));
 Vue.component('media-file-list', require('./components/GoldAccess/Core/MediaFileList.vue'));

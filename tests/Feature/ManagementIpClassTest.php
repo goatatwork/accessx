@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\User;
 use App\Port;
+use App\GaSetting;
 use App\IpAddress;
 use Tests\TestCase;
 use App\OntProfile;
@@ -21,6 +22,11 @@ class ManagementIpClassTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
+        $this->dhcp_default_lease_time_setting = factory(GaSetting::class)->create([
+            'name' => 'dhcp_default_lease_time',
+            'value' => '1800',
+            'description' => ''
+        ]);
     }
 
     /**

@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\GaSetting;
 use Illuminate\Http\Request;
+use App\Http\Requests\GaSettingRequest;
 
-class GaSettingsController extends Controller
+class GaSettingsApiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,7 @@ class GaSettingsController extends Controller
      */
     public function index()
     {
-        return view('settings.index');
+        return GaSetting::all();
     }
 
     /**
@@ -30,10 +31,10 @@ class GaSettingsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\GaSettingRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GaSettingRequest $request)
     {
         //
     }
@@ -41,12 +42,12 @@ class GaSettingsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\GaSetting  $setting
+     * @param  string  $setting
      * @return \Illuminate\Http\Response
      */
-    public function show(GaSetting $setting)
+    public function show($setting)
     {
-        //
+        return GaSetting::where('name', $setting)->first() ?? abort(404);
     }
 
     /**
@@ -63,13 +64,15 @@ class GaSettingsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\GaSetting  $gaSetting
+     * @param  \App\Http\Requests\GaSettingRequest  $request
+     * @param  string  $setting
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, GaSetting $gaSetting)
+    public function update(GaSettingRequest $request, $setting)
     {
-        //
+        $setting = GaSetting::where('name', $setting)->first() ?? abort(404);
+
+        return tap($setting)->update($request->all());
     }
 
     /**

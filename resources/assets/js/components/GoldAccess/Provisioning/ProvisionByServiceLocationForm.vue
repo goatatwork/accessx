@@ -209,7 +209,7 @@
                     this.resetForm();
                     this.resetFormErrors();
                     this.submitIsDisabled = false;
-                    window.location.href = "/provisioning/service_locations/"+this.location.id+"/show";
+                    window.location.href = "/provisioning/"+response.data.id;
                 }).catch( (error) => {
                     this.resetFormErrors();
                     this.submitIsDisabled = false;

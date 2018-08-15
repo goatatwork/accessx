@@ -97,7 +97,7 @@ services:
   portainer:
     image: portainer/portainer
     container_name: "portainer"
-    command: --templates http://templates/templates.json --host=unix:///var/run/docker.sock
+    command: --host=unix:///var/run/docker.sock
     networks:
       - goldaccessnet
     ports:

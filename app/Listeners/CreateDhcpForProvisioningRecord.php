@@ -46,6 +46,9 @@ class CreateDhcpForProvisioningRecord implements ShouldQueue
 
         app('logbot')->log('CreateDhcpForProvisioningRecord listener restarting dhcp server');
 
-        app('dockerbot')->containerRestart(config('goldaccess.dockerbot.services.dhcp.container_name'));
+        if (env('APP_ENV') != 'testing') {
+            app('dockerbot')->containerRestart(config('goldaccess.dockerbot.services.dhcp.container_name'));
+        }
+
     }
 }

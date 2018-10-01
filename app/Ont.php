@@ -21,7 +21,8 @@ class Ont extends Model implements HasMedia, AuditableContract
         'wifi',
         'number_of_ethernet_ports',
         'number_of_pots_lines',
-        'notes'
+        'notes',
+        'oem'
     ];
 
     protected $appends = ['number_of_files', 'has_provisioning_records', 'number_of_software_versions'];

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Set environment variables
-export WEB_PORT=${WEB_PORT:-8088}
+export WEB_PORT=${WEB_PORT:-80}
 export DB_PORT=${DB_PORT:-3306}
 
 # if the number of arguments passed to this script is gt (greater than) zero

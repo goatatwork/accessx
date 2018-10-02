@@ -6,6 +6,8 @@ use File;
 use App\OntProfile;
 use App\OntSoftware;
 use Illuminate\Http\Request;
+use App\GoldAccess\Ont\ZhoneFilenameConverter;
+use App\GoldAccess\Ont\ZhoneConfigFilenameGenerator;
 use App\Rules\OneSuspendedProfilePerSoftwareVersion;
 
 class OntProfilesApiController extends Controller
@@ -39,8 +41,9 @@ class OntProfilesApiController extends Controller
         ]);
 
         if ($ont_software->ont->manufacturer == 'Zhone') {
-            $parts = explode(".", $ont_software->version);
-            $configFileName = $parts[0] . $parts[1] . $parts[2] . '_0GF_generic.conf';
+
+            $config_filename_generator = new ZhoneConfigFilenameGenerator($ont_software);
+            $configFileName = $config_filename_generator->generate();
 
             $profile = $ont_software->ont_profiles()->create($request->all());
             $profile->addMediaFromRequest('uploaded_file')

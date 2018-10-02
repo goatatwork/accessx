@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use App\OntSoftware;
+use App\GoldAccess\Ont\ZhoneConfigFile;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\GoldAccess\Ont\ZhoneFilenameConverter;
 use Illuminate\Foundation\Testing\RefreshDatabase;

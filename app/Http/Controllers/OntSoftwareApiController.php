@@ -33,7 +33,7 @@ class OntSoftwareApiController extends Controller
 
         if ($ont->manufacturer == 'Zhone') {  // ZNID-24xxA-301266-SIP.img is how these start
 
-            $converter = new ZhoneFilenameConverter($request->uploaded_file->getClientOriginalName(), $ont->oem);
+            $converter = new ZhoneFilenameConverter($request->uploaded_file->getClientOriginalName(), $ont->oem, $ont->model_number);
             $converter->calculate();
 
             $software = $ont->ont_software()->create(['version' => $converter->version_string_for_database, 'notes' => $request->notes]);

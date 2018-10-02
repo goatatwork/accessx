@@ -27,7 +27,7 @@ class ZhoneFilenameConverter
     public $type;
 
     /**
-     * @var  string The model number indicator
+     * @var  string The model number indicator in the filename
      */
     public $model_number;
 
@@ -43,7 +43,6 @@ class ZhoneFilenameConverter
 
     /**
      * @var  string The version string used in the database
-     * @var [type]
      */
     public $version_string_for_database;
 

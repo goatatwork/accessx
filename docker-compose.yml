@@ -10,11 +10,11 @@ services:
       - ./storage/app/services/dnsmasq:/etc/dnsmasq
       - ./storage/app/public/media:/tftpboot
       - ./storage/app/services/dnsmasq/leases:/var/lib/misc
-    # ports:
-    #   - "67:67"
-    #   - "67:67/udp"
-    #   - "69:69"
-    #   - "69:69/udp"
+    ports:
+      - "67:67"
+      - "67:67/udp"
+      - "69:69"
+      - "69:69/udp"
   nginx:
     build:
       context: ./docker/nginx
@@ -87,7 +87,7 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: 1q2w3e4r
     volumes:
-      - ./system/opt/goldaccess_db:/var/lib/mysql
+      - /opt/goldaccess_db:/var/lib/mysql
     networks:
       - goldaccessnet
   redis:
@@ -104,7 +104,7 @@ services:
       - "9001:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./system/opt/portainer/data:/data
+      - /opt/portainer/data:/data
   sftp:
     image: hermsi/alpine-sshd
     environment:
@@ -112,11 +112,11 @@ services:
     networks:
       - goldaccessnet
     volumes:
-      - ./system/opt/goldaccess_sftp_backups:/root
-      - ./system/etc/ssh/ssh_host_dsa_key:/etc/ssh/ssh_host_dsa_key
-      - ./system/etc/ssh/ssh_host_ecdsa_key:/etc/ssh/ssh_host_ecdsa_key
-      - ./system/etc/ssh/ssh_host_ed25519_key:/etc/ssh/ssh_host_ed25519_key
-      - ./system/etc/ssh/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key
+      - /opt/goldaccess_sftp_backups:/root
+      - /etc/ssh/ssh_host_dsa_key:/etc/ssh/ssh_host_dsa_key
+      - /etc/ssh/ssh_host_ecdsa_key:/etc/ssh/ssh_host_ecdsa_key
+      - /etc/ssh/ssh_host_ed25519_key:/etc/ssh/ssh_host_ed25519_key
+      - /etc/ssh/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key
 networks:
   goldaccessnet:
     driver: "bridge"

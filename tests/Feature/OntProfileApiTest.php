@@ -98,6 +98,103 @@ class OntProfileApiTest extends TestCase
         $response->assertJson([
             'version' => 'S03.01.266',
             'file' => [
+                'file_name' => 'ZNID24xxASIP_0301266_image_with_cfe.img'
+            ]
+        ]);
+
+        $software = OntSoftware::whereVersion('S03.01.266')->first();
+        $this->assertFileExists($software->file->getPath());
+        // End adding the Software
+
+        // Attempt to create the OntProfile
+        $ont_profile = factory(OntProfile::class)->make(['ont_software_id' => null]);
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.conf', 1024)];
+        $form_data = array_merge($ont_profile->toArray(), $file_to_upload);
+
+        $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/ont_software/' . $software->id . '/ont_profiles', $form_data);
+
+        $response->assertJson([
+            'name' => $ont_profile->name,
+            'file' => [
+                'file_name' => 'S0301266_0GF_generic.conf'
+            ]
+        ]);
+
+        $the_new_profile = OntProfile::whereName($ont_profile->name)->first();
+        $this->assertFileExists($the_new_profile->file->getPath());
+
+        // Clear the Media Collections
+        $software->clearMediaCollection('default');
+        $the_new_profile->clearMediaCollection('default');
+    }
+
+    /**
+     * @group onts
+     * @return  void
+     */
+    public function test_api_will_add_profiles_to_zhone_27xx_onts()
+    {
+        // Start adding the Software
+        $ont = factory(Ont::class)->create(['model_number' => '2728A1']);
+        $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
+        // $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.jpg')];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-27xxA1-401086-SIP.img', 2048)];
+        $form_data = array_merge($ont_software->toArray(), $file_to_upload);
+
+        $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/' . $ont->id . '/software', $form_data);
+
+        $response->assertJson([
+            'version' => 'S04.01.086',
+            'file' => [
+                'file_name' => 'ZNID27xxA1SIP_0401086_image_with_cfe.img'
+            ]
+        ]);
+
+        $software = OntSoftware::whereVersion('S04.01.086')->first();
+        $this->assertFileExists($software->file->getPath());
+        // End adding the Software
+
+        // Attempt to create the OntProfile
+        $ont_profile = factory(OntProfile::class)->make(['ont_software_id' => null]);
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.conf', 1024)];
+        $form_data = array_merge($ont_profile->toArray(), $file_to_upload);
+
+        $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/ont_software/' . $software->id . '/ont_profiles', $form_data);
+
+        $response->assertJson([
+            'name' => $ont_profile->name,
+            'file' => [
+                'file_name' => 'S0401086_2728A1_generic.conf'
+            ]
+        ]);
+
+        $the_new_profile = OntProfile::whereName($ont_profile->name)->first();
+        $this->assertFileExists($the_new_profile->file->getPath());
+
+        // Clear the Media Collections
+        $software->clearMediaCollection('default');
+        $the_new_profile->clearMediaCollection('default');
+    }
+
+    /**
+     * @group onts
+     * @return  void
+     */
+    public function test_api_will_add_profiles_to_zhone_goldfield_oem_onts()
+    {
+        // Start adding the Software
+        $ont = factory(Ont::class)->create(['oem' => true]);
+        $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
+        // $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.jpg')];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 2048)];
+        $form_data = array_merge($ont_software->toArray(), $file_to_upload);
+
+
+        $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/' . $ont->id . '/software', $form_data);
+
+        $response->assertJson([
+            'version' => 'S03.01.266',
+            'file' => [
                 'file_name' => 'ZNID24xxA_GRSIP_0301266_image_with_cfe.img'
             ]
         ]);
@@ -162,6 +259,98 @@ class OntProfileApiTest extends TestCase
         $response->assertJson([
             'version' => 'S03.01.266',
             'file' => [
+                'file_name' => 'ZNID24xxASIP_0301266_image_with_cfe.img'
+            ]
+        ]);
+
+        $software = OntSoftware::whereVersion('S03.01.266')->first();
+        $this->assertFileExists($software->file->getPath());
+        // End adding the Software
+
+        $ont_profile = factory(OntProfile::class)->make(['ont_software_id' => null]);
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 2048)];
+        $form_data = array_merge($ont_profile->toArray(), $file_to_upload);
+        $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/ont_software/' . $software->id . '/ont_profiles', $form_data);
+        $response->assertJson([
+            'name' => $ont_profile->name
+        ]);
+
+        $profile = OntProfile::whereName($ont_profile->name)->first();
+        $this->assertFileExists($profile->file->getPath());
+
+        $response = $this->actingAs($this->user, 'api')->json('DELETE', '/api/onts/ont_profiles/' . $profile->id);
+
+        $this->assertDatabaseMissing('ont_profiles', ['name' => $ont_profile->name]);
+        $this->assertFileNotExists($profile->file->getPath());
+
+        $profile->clearMediaCollection('default');
+    }
+
+    /**
+     * @group onts
+     * @return  void
+     */
+    public function test_api_will_delete_profiles_for_27xx_models()
+    {
+        // Start adding the Software
+        $ont = factory(Ont::class)->create();
+        $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
+        // $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.jpg')];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-27xxA1-401086-SIP.img', 2048)];
+        $form_data = array_merge($ont_software->toArray(), $file_to_upload);
+
+
+        $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/' . $ont->id . '/software', $form_data);
+
+        $response->assertJson([
+            'version' => 'S04.01.086',
+            'file' => [
+                'file_name' => 'ZNID27xxA1SIP_0401086_image_with_cfe.img'
+            ]
+        ]);
+
+        $software = OntSoftware::whereVersion('S04.01.086')->first();
+        $this->assertFileExists($software->file->getPath());
+        // End adding the Software
+
+        $ont_profile = factory(OntProfile::class)->make(['ont_software_id' => null]);
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 2048)];
+        $form_data = array_merge($ont_profile->toArray(), $file_to_upload);
+        $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/ont_software/' . $software->id . '/ont_profiles', $form_data);
+        $response->assertJson([
+            'name' => $ont_profile->name
+        ]);
+
+        $profile = OntProfile::whereName($ont_profile->name)->first();
+        $this->assertFileExists($profile->file->getPath());
+
+        $response = $this->actingAs($this->user, 'api')->json('DELETE', '/api/onts/ont_profiles/' . $profile->id);
+
+        $this->assertDatabaseMissing('ont_profiles', ['name' => $ont_profile->name]);
+        $this->assertFileNotExists($profile->file->getPath());
+
+        $profile->clearMediaCollection('default');
+    }
+
+    /**
+     * @group onts
+     * @return  void
+     */
+    public function test_api_will_delete_profiles_for_goldfield_oem_models()
+    {
+        // Start adding the Software
+        $ont = factory(Ont::class)->create(['oem' => true]);
+        $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
+        // $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.jpg')];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 2048)];
+        $form_data = array_merge($ont_software->toArray(), $file_to_upload);
+
+
+        $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/' . $ont->id . '/software', $form_data);
+
+        $response->assertJson([
+            'version' => 'S03.01.266',
+            'file' => [
                 'file_name' => 'ZNID24xxA_GRSIP_0301266_image_with_cfe.img'
             ]
         ]);
@@ -196,6 +385,72 @@ class OntProfileApiTest extends TestCase
     {
 
         $ont = factory(Ont::class)->create();
+        $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
+        // $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.jpg')];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 2048)];
+        $form_data = array_merge($ont_software->toArray(), $file_to_upload);
+
+
+        $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/' . $ont->id . '/software', $form_data);
+
+        $response->assertJson([
+            'version' => 'S03.01.266',
+            'file' => [
+                'file_name' => 'ZNID24xxASIP_0301266_image_with_cfe.img'
+            ]
+        ]);
+
+        $software = OntSoftware::whereVersion('S03.01.266')->first();
+        $this->assertFileExists($software->file->getPath());
+
+
+        ///////////////////////////////////////////////////////////////////////
+
+        $ont_profile = factory(OntProfile::class)->make(['ont_software_id' => null]);
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 2048)];
+
+        $form_data = array_merge($ont_profile->toArray(), $file_to_upload);
+
+        $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/ont_software/' . $software->id . '/ont_profiles', $form_data);
+
+        $response->assertJson([
+            'name' => $ont_profile->name,
+            'file' => [
+                'file_name' => 'S0301266_0GF_generic.conf'
+            ]
+        ]);
+
+        $profile = OntProfile::whereName($ont_profile->name)->first();
+        $this->assertFileExists($profile->file->getPath());
+        // \Log::info($profile->file->getUrl());
+
+        $provisioning_record = factory(ProvisioningRecord::class)->create([
+            'service_location_id' => '1',
+            'ont_profile_id' => $profile->id,
+            'port_id' => '1',
+            'ip_address_id' => '1',
+            'len' => 'A LEN For A Circuit',
+            'circuit_id' => 'CIRCUIT01',
+            'notes' => 'Some notes',
+        ]);
+
+        $this->assertEquals(
+            $provisioning_record->dhcp_string,
+            'ont_profiles/'.$provisioning_record->ont_profile->ont_software->ont->slug.'/S03.01.266/'.$profile->slug.'/S0301266'
+        );
+
+
+        $software->clearMediaCollection('default');
+        $profile->clearMediaCollection('default');
+    }
+
+    /**
+     * Test that ProvisioningRecord has a dhcp string
+     */
+    public function test_that_a_provisioning_record_knows_its_own_dhcp_string_for_goldfield_oem_models()
+    {
+
+        $ont = factory(Ont::class)->create(['oem' => true]);
         $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
         // $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.jpg')];
         $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 2048)];

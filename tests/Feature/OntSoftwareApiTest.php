@@ -84,10 +84,58 @@ class OntSoftwareApiTest extends TestCase
     {
         $ont = factory(Ont::class)->create();
         $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
-        // $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.jpg')];
         $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 2048)];
         $form_data = array_merge($ont_software->toArray(), $file_to_upload);
 
+        $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/' . $ont->id . '/software', $form_data);
+
+        $response->assertJson([
+            'version' => 'S03.01.266',
+            'file' => [
+                'file_name' => 'ZNID24xxASIP_0301266_image_with_cfe.img'
+            ]
+        ]);
+
+        $software = OntSoftware::whereVersion('S03.01.266')->first();
+        $this->assertFileExists($software->file->getPath());
+        $software->clearMediaCollection('default');
+    }
+
+    /**
+     * @group onts
+     * @return  void
+     */
+    public function test_api_will_add_software_to_zhone_27xx_onts()
+    {
+        $ont = factory(Ont::class)->create();
+        $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-27xxA1-401086-SIP.img', 2048)];
+        $form_data = array_merge($ont_software->toArray(), $file_to_upload);
+
+        $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/' . $ont->id . '/software', $form_data);
+
+        $response->assertJson([
+            'version' => 'S04.01.086',
+            'file' => [
+                'file_name' => 'ZNID27xxA1SIP_0401086_image_with_cfe.img'
+            ]
+        ]);
+
+        $software = OntSoftware::whereVersion('S04.01.086')->first();
+        $this->assertFileExists($software->file->getPath());
+        $software->clearMediaCollection('default');
+    }
+
+    /**
+     * @group onts
+     * @return  void
+     */
+    public function test_api_will_add_software_to_zhone_goldfield_oem_onts()
+    {
+        $ont = factory(Ont::class)->create(['oem' => true]);
+        $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 2048)];
+        $form_data = array_merge($ont_software->toArray(), $file_to_upload);
 
         $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/' . $ont->id . '/software', $form_data);
 

@@ -81,6 +81,7 @@ class AggregatorApiTest extends TestCase
             );
 
         $response->assertJson([
+            'id' => $aggregator->id,
             'name' => 'MyAggregator'
         ]);
 

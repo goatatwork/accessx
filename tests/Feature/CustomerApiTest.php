@@ -72,6 +72,12 @@ class CustomerApiTest extends TestCase
             'first_name' => 'Burt',
             'last_name' => 'Muston'
         ]);
+
+        $this->assertDatabaseHas('customers', [
+            'id' => $customer->id,
+            'first_name' => 'Burt',
+            'last_name' => 'Muston'
+        ]);
     }
 
     /**

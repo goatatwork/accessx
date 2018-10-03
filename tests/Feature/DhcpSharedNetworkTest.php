@@ -30,6 +30,8 @@ class DhcpSharedNetworkTest extends TestCase
         $response->assertJson([
             'name' => $sn->name
         ]);
+
+        $this->assertDatabaseHas('dhcp_shared_networks', ['name' => $sn->name]);
     }
 
     /**
@@ -39,11 +41,16 @@ class DhcpSharedNetworkTest extends TestCase
     {
         $sn = factory(DhcpSharedNetwork::class)->create();
 
-        $response = $this->actingAs($this->user, 'api')->json('PATCH', '/api/dhcp/dhcp_shared_networks/' . $sn->id, ['name' => 'Goat Network']);
+        $sn_newdata = factory(DhcpSharedNetwork::class)->make();
+
+        $response = $this->actingAs($this->user, 'api')->json('PATCH', '/api/dhcp/dhcp_shared_networks/' . $sn->id, $sn_newdata->toArray());
 
         $response->assertJson([
-            'name' => 'Goat Network'
+            'id' => $sn->id,
+            'name' => $sn_newdata->name
         ]);
+
+        $this->assertDatabaseHas('dhcp_shared_networks', ['id' => $sn->id, 'name' => $sn_newdata->name]);
     }
 
     /**

@@ -72,6 +72,12 @@ class CustomerApiTest extends TestCase
             'first_name' => 'Burt',
             'last_name' => 'Muston'
         ]);
+
+        $this->assertDatabaseHas('customers', [
+            'id' => $customer->id,
+            'first_name' => 'Burt',
+            'last_name' => 'Muston'
+        ]);
     }
 
     /**
@@ -88,11 +94,15 @@ class CustomerApiTest extends TestCase
         $response = $this->actingAs($this->user, 'api')->json('DELETE', '/api/customers/' . $customer->id);
 
         $this->assertDatabaseMissing('customers', [
+            'id' => $customer->id,
             'first_name' => $customer->first_name
         ]);
     }
 
     /**
+     * This happens because of how the migrations are written. Billing records
+     * are onDelete('cascade');
+     *
      * @return  void
      */
     public function test_api_will_delete_a_customer_also_deleting_billing_record_but_leaving_service_location()
@@ -102,14 +112,17 @@ class CustomerApiTest extends TestCase
         $service_location = factory(ServiceLocation::class)->create(['customer_id' => $customer->id]);
 
         $this->assertDatabaseHas('customers', [
+            'id' => $customer->id,
             'first_name' => $customer->first_name
         ]);
 
         $this->assertDatabaseHas('billing_records', [
+            'customer_id' => $customer->id,
             'phone1' => $billing_record->phone1
         ]);
 
         $this->assertDatabaseHas('service_locations', [
+            'customer_id' => $customer->id,
             'phone1' => $service_location->phone1
         ]);
 

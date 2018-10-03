@@ -29,6 +29,10 @@ class BillingRecordTest extends TestCase
         $response->assertJson([
             'phone1' => '111-111-1111'
         ]);
+
+        $b_record = BillingRecord::find($billing_record->id);
+        $this->assertEquals($b_record->phone1, '111-111-1111');
+
     }
 
     /**

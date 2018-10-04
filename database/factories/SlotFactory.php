@@ -8,7 +8,7 @@ $factory->define(App\Slot::class, function (Faker $faker) {
     return [
         'aggregator_id' => $aggregator->id,
         'module_type_id' => null,
-        'slot_number' => $faker->numberBetween(1, $aggregator->platform->number_of_slots),
+        'slot_number' => 1,
         'notes' => $faker->sentence()
     ];
 });

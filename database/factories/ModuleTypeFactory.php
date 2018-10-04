@@ -9,7 +9,7 @@ $factory->define(App\ModuleType::class, function (Faker $faker) {
             return factory(Platform::class)->create()->id;
         },
         'name' => ucfirst($faker->word),
-        'number_of_ports' => $faker->randomElement([24, 48]),
-        'notes' => $faker->randomElement(['', $faker->sentence()])
+        'number_of_ports' => 24,
+        'notes' => $faker->sentence()
     ];
 });

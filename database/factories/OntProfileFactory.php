@@ -8,14 +8,7 @@ $factory->define(App\OntProfile::class, function (Faker $faker) {
         'ont_software_id' => function() {
             return factory(OntSoftware::class)->create()->id;
         },
-        'name' => $faker->randomElement([
-            '5x5 Package',
-            '25x25 Package',
-            '50x50 Package',
-            '25x5 Package',
-            'Debugging Package',
-            'No Wifi Package'
-        ]),
+        'name' => 'Unlimited',
         'notes' => $faker->sentence(),
     ];
 });

@@ -62,7 +62,15 @@ class AggregatorShowPageTest extends DuskTestCase
 
             $browser->press('Slot ' . $pr['slot']->slot_number . ' ' . $pr['module_type']->name)
                 ->pause(1000)
-                ->assertSee('Port ' . $pr['slot']->slot_number . ' provisioned');
+                ->assertSee('Port ' . $pr['port']->port_number)
+                ->assertSeeLink($pr['customer']->customer_name)
+                ->assertSee(
+                    $pr['ont_profile']->ont_software->ont->model_number .
+                    '/' .
+                    $pr['ont_profile']->ont_software->version .
+                    '/' .
+                    $pr['ont_profile']->name
+                );
         });
     }
 
@@ -80,8 +88,8 @@ class AggregatorShowPageTest extends DuskTestCase
         $port = factory(Port::class)->create(['slot_id' => $slot->id]);
         $ip = factory(IpAddress::class)->create();
         $customer = factory(Customer::class)->create();
-        $billing_record = factory(BillingRecord::class)->make(['customer_id' => null]);
-        $service_location = factory(ServiceLocation::class)->make(['customer_id' => null]);
+        $billing_record = factory(BillingRecord::class)->create(['customer_id' => $customer->id]);
+        $service_location = factory(ServiceLocation::class)->create(['customer_id' => $customer->id]);
         $ont_profile = factory(OntProfile::class)->create();
         $provisioning_record = factory(ProvisioningRecord::class)->create([
             'service_location_id' => $service_location->id,

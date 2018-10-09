@@ -12,7 +12,7 @@
                     data-target="#unpopulated-slot-{{ $aggregator_slot->id }}"
                     @if ($aggregator_slot->has_provisioning_records) {{ 'disabled' }} @endif
                     >
-                    Unpopulated This Slot
+                    Unpopulate This Slot
                 </button>
                 @if ($aggregator_slot->has_provisioning_records)
                 <small class="font-italic">
@@ -27,11 +27,36 @@
                 <ul class="list-unstyled">
                     @foreach($aggregator_slot->ports as $port)
                         <li class="list-group-item">
-                            Port {{ $port->port_number }}
+
                             @if ($port->has_provisioning_records)
-                                provisioned
+
+                                <span class="float_left">
+                                    <a href="/provisioning/{{ $port->provisioning_records[0]->id }}" class="btn btn-sm btn-primary">
+                                        Port {{ $port->port_number }}
+                                    </a>
+                                </span>
+
+                                <span>
+                                    @if ($port->provisioning_records[0]->service_location->customer->customer_type == 'Residential')
+                                        <i class="material-icons">person</i>
+                                    @elseif ($port->provisioning_records[0]->service_location->customer->customer_type == 'Business')
+                                        <i class="material-icons">business</i>
+                                    @endif
+                                    <a href="/customers/{{ $port->provisioning_records[0]->service_location->customer->id }}">
+                                        {{ $port->provisioning_records[0]->service_location->customer->customer_name }}
+                                    </a>
+                                </span>
+
+                                <span class="float-right">
+                                    {{ $port->provisioning_records[0]->ont_profile->ont_software->ont->model_number }}/{{ $port->provisioning_records[0]->ont_profile->ont_software->version }}/{{ $port->provisioning_records[0]->ont_profile->name }}
+                                </span>
+
                             @else
-                                not provisioned
+                                <a href="#" class="btn btn-sm btn-secondary disabled">
+                                    Port {{ $port->port_number }}
+                                </a>
+
+                                <span class="font-italic">not provisioned</span>
                             @endif
                         </li>
                     @endforeach

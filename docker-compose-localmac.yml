@@ -40,6 +40,10 @@ services:
       - "9000:9000"
     networks:
       - goldaccessnet
+  selenium:
+    image: selenium/standalone-chrome:3.14
+    networks:
+      - goldaccessnet
   npm:
     build:
       context: ./docker/npm

@@ -51,7 +51,6 @@ class AggregatorShowPageTest extends TestCase
         $billing_record = factory(BillingRecord::class)->make(['customer_id' => null]);
         $service_location = factory(ServiceLocation::class)->make(['customer_id' => null]);
         $billing_record = $customer->billing_record()->create($billing_record->toarray());
-        $billing_record = $customer->billing_record()->create($billing_record->toarray());
 
         $ont_profile = factory(OntProfile::class)->create();
 

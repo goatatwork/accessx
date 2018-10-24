@@ -30,16 +30,25 @@ services:
       - php
   php:
     build:
-      context: ./docker/php
+      context: ./docker/php7.2
       dockerfile: Dockerfile
     image: goldaccess/php-fpm:production
     volumes:
       - ./:/var/www/html
-      - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - "9000:9000"
     networks:
       - goldaccessnet
+  # php:
+  #   build:
+  #     context: ./docker/php
+  #     dockerfile: Dockerfile
+  #   image: goldaccess/php-fpm:production
+  #   volumes:
+  #     - ./:/var/www/html
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   ports:
+  #     - "9000:9000"
+  #   networks:
+  #     - goldaccessnet
   selenium:
     image: selenium/standalone-chrome:3.14
     networks:

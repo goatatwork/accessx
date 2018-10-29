@@ -6,7 +6,7 @@ COPY www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY php-fpm.conf /usr/local/etc/php-fpm.conf
 
 RUN apt-get update \
-    && apt-get install -y curl zip unzip git mysql-client zlib1g-dev libpng-dev \
+    && apt-get install -y curl zip unzip git mysql-client zlib1g-dev libpng-dev libjpeg-dev \
     && apt-get -y autoremove \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

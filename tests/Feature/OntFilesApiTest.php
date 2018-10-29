@@ -33,26 +33,26 @@ class OntFilesApiTest extends TestCase
     public function test_api_can_list_files_for_an_ont()
     {
         $this->withoutExceptionHandling();
-        $file_to_upload1 = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo1.jpg'), 'description' => 'Description for uploaded_file1'];
+        $file_to_upload1 = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo1.png'), 'description' => 'Description for uploaded_file1'];
         $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/' . $this->ont->id . '/files', $file_to_upload1);
-        $file_to_upload2 = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo2.jpg'), 'description' => 'Description for uploaded_file2'];
+        $file_to_upload2 = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo2.png'), 'description' => 'Description for uploaded_file2'];
         $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/' . $this->ont->id . '/files', $file_to_upload2);
-        $file_to_upload3 = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo3.jpg'), 'description' => 'Description for uploaded_file3'];
+        $file_to_upload3 = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo3.png'), 'description' => 'Description for uploaded_file3'];
         $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/' . $this->ont->id . '/files', $file_to_upload3);
 
         $response = $this->actingAs($this->user, 'api')->json('GET', '/api/onts/' . $this->ont->id . '/files');
 
         $response->assertJson([
             0 => [
-                'file_name' => 'photo1.jpg',
+                'file_name' => 'photo1.png',
                 'description' => 'Description for uploaded_file1'
             ],
             1 => [
-                'file_name' => 'photo2.jpg',
+                'file_name' => 'photo2.png',
                  'description' => 'Description for uploaded_file2'
             ],
             2 => [
-                'file_name' => 'photo3.jpg',
+                'file_name' => 'photo3.png',
                 'description' => 'Description for uploaded_file3'
             ]
         ]);
@@ -67,13 +67,13 @@ class OntFilesApiTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.jpg'), 'description' => 'Description for file'];
-        // $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photo.jpg', 2048)];
+        $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.png'), 'description' => 'Description for file'];
+        // $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photo.png', 2048)];
 
         $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/' . $this->ont->id . '/files', $file_to_upload);
 
         $response->assertJson([
-            'file_name' => 'photo.jpg',
+            'file_name' => 'photo.png',
             'collection_name' => 'default',
             'description' => 'Description for file'
         ]);
@@ -93,10 +93,10 @@ class OntFilesApiTest extends TestCase
     public function test_api_can_delete_media_files_when_ont_is_deleted()
     {
         $this->withoutExceptionHandling();
-        $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.jpg'), 'description' => 'Description for file'];
+        $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.png'), 'description' => 'Description for file'];
         $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/' . $this->ont->id . '/files', $file_to_upload);
         $response->assertJson([
-            'file_name' => 'photo.jpg',
+            'file_name' => 'photo.png',
             'collection_name' => 'default',
             'description' => 'Description for file'
         ]);

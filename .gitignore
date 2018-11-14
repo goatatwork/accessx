@@ -14,3 +14,4 @@ yarn-error.log
 /storage/app/public
 /storage/app/public/.DS_Store
 /system
+.phpunit.result.cache

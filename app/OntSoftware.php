@@ -5,7 +5,7 @@ namespace App;
 use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 class OntSoftware extends Model implements HasMedia, AuditableContract

@@ -18,7 +18,7 @@ class OntSoftwareApiTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-        config()->set('medialibrary.default_filesystem', 'media_test');
+        config()->set('medialibrary.disk_name', 'media_test');
     }
 
 

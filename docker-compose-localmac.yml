@@ -40,18 +40,6 @@ services:
       - ./:/var/www/html
     networks:
       - goldaccessnet
-  # php:
-  #   build:
-  #     context: ./docker/php
-  #     dockerfile: Dockerfile
-  #   image: goldaccess/php-fpm:production
-  #   volumes:
-  #     - ./:/var/www/html
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #   ports:
-  #     - "9000:9000"
-  #   networks:
-  #     - goldaccessnet
   selenium:
     container_name: accessx_selenium
     image: selenium/standalone-chrome:3.14
@@ -118,8 +106,8 @@ services:
     networks:
       - goldaccessnet
   portainer:
+    container_name: accessx_portainer
     image: portainer/portainer
-    container_name: "accessx_portainer"
     command: --host=unix:///var/run/docker.sock
     networks:
       - goldaccessnet

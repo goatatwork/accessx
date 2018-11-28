@@ -18,7 +18,7 @@ class OntSoftwareApiTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-        config()->set('medialibrary.default_filesystem', 'media_test');
+        config()->set('medialibrary.disk_name', 'media_test');
     }
 
 
@@ -54,7 +54,7 @@ class OntSoftwareApiTest extends TestCase
      * @group onts
      * @return  void
      */
-    public function test_api_will_add_software_to_onts()
+    public function test_api_will_add_software_to_onts_that_are_not_zhone()
     {
         $ont = factory(Ont::class)->create(['manufacturer' => 'NotZhone']);
         $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
@@ -98,6 +98,35 @@ class OntSoftwareApiTest extends TestCase
 
         $software = OntSoftware::whereVersion('S03.01.266')->first();
         $this->assertFileExists($software->file->getPath());
+        $software->clearMediaCollection('default');
+    }
+
+    /**
+     * @group onts
+     * @return  void
+     */
+    public function test_when_software_is_added_to_an_ont_a_dhcp_string_custom_property_is_calculated_on_the_media_file_object()
+    {
+        $ont = factory(Ont::class)->create();
+        $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 2048)];
+        $form_data = array_merge($ont_software->toArray(), $file_to_upload);
+
+        $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/' . $ont->id . '/software', $form_data);
+
+        $response->assertJson([
+            'version' => 'S03.01.266',
+            'file' => [
+                'file_name' => 'ZNID24xxASIP_0301266_image_with_cfe.img'
+            ]
+        ]);
+
+        $software = OntSoftware::whereVersion('S03.01.266')->first();
+
+        $this->assertFileExists($software->file->getPath());
+
+        $this->assertEquals('S0301266', $software->file->getCustomProperty('dhcp_string'));
+
         $software->clearMediaCollection('default');
     }
 
@@ -171,6 +200,8 @@ class OntSoftwareApiTest extends TestCase
 
         $software = OntSoftware::whereVersion($ont_software->version)->first();
         $media_response = $this->actingAs($this->user, 'api')->json('GET', '/api/onts/software/' . $software->id . '/files');
+
+        $software->clearMediaCollection('default');
     }
 
     /**

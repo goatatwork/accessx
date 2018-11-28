@@ -71,10 +71,29 @@ class SuspendServiceTest extends TestCase
     {
         $software = factory(OntSoftware::class)->create();
 
-        $unlimited = factory(OntProfile::class)->create(['ont_software_id' => $software->id, 'name' => 'Unlimited', 'slug' => 'unlimited']);
-        $tenbyten = factory(OntProfile::class)->create(['ont_software_id' => $software->id, 'name' => '10x10', 'slug' => '10x10']);
-        $suspended = factory(OntProfile::class)->create(['ont_software_id' => $software->id, 'name' => 'Suspended', 'slug' => 'suspended']);
-        $fiftybyfifty = factory(OntProfile::class)->create(['ont_software_id' => $software->id, 'name' => '50x50', 'slug' => '50x50']);
+        $unlimited = factory(OntProfile::class)->create([
+            'ont_software_id' => $software->id,
+            'name' => 'Unlimited',
+            'slug' => 'unlimited'
+        ]);
+
+        $tenbyten = factory(OntProfile::class)->create([
+            'ont_software_id' => $software->id,
+            'name' => '10x10',
+            'slug' => '10x10'
+        ]);
+
+        $suspended = factory(OntProfile::class)->create([
+            'ont_software_id' => $software->id,
+            'name' => 'Suspended',
+            'slug' => 'suspended'
+        ]);
+
+        $fiftybyfifty = factory(OntProfile::class)->create([
+            'ont_software_id' => $software->id,
+            'name' => '50x50',
+            'slug' => '50x50'
+        ]);
 
         // First, provision with Unlimited
         $pr = factory(ProvisioningRecord::class)->create(['ont_profile_id' => $fiftybyfifty->id]);

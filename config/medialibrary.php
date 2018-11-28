@@ -6,7 +6,8 @@ return [
      * The filesystems on which to store added files and derived images by default. Choose
      * one or more of the filesystems you've configured in config/filesystems.php.
      */
-    'default_filesystem' => 'media',
+    // 'default_filesystem' => 'media',
+    'disk_name' => 'media',
 
     /*
      * The maximum file size of an item in bytes.
@@ -40,7 +41,8 @@ return [
     /*
      * The class that contains the strategy for determining a media file's path.
      */
-    'custom_path_generator_class' => App\GoldAccess\Utilities\MediaLibraryPathGenerator::class,
+    // 'custom_path_generator_class' => App\GoldAccess\Utilities\MediaLibraryPathGenerator::class,
+    'path_generator' => App\GoldAccess\Utilities\MediaLibraryPathGenerator::class,
 
     's3' => [
         /*

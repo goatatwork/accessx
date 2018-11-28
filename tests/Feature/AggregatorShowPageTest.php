@@ -28,11 +28,6 @@ class AggregatorShowPageTest extends TestCase
         $this->user = factory(User::class)->create();
     }
 
-    public function test_bs()
-    {
-        $this->assertTrue(true);
-    }
-
     /**
      *
      * @return void

@@ -12,6 +12,7 @@ use App\OntSoftware;
 use App\ServiceLocation;
 use App\ProvisioningRecord;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class OntProfileApiTest extends TestCase
@@ -22,8 +23,14 @@ class OntProfileApiTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-        config()->set('medialibrary.default_filesystem', 'media_test');
+        config()->set('medialibrary.disk_name', 'media_test');
     }
+
+    // public function tearDown()
+    // {
+    //     $storage = Storage::disk('media_test');
+    //     $storage->deleteDirectory('ont_profiles');
+    // }
 
     /**
      * @group onts
@@ -33,6 +40,7 @@ class OntProfileApiTest extends TestCase
     {
         $ont_software = factory(OntSoftware::class)->create();
         $ont_profiles = factory(OntProfile::class, 3)->make(['ont_software_id' => null]);
+
         foreach ($ont_profiles as $profile)
         {
             $ont_software->ont_profiles()->save($profile);
@@ -61,8 +69,10 @@ class OntProfileApiTest extends TestCase
     {
         $ont = factory(Ont::class)->create(['manufacturer' => 'NotZhone']);
         $ont_software = factory(OntSoftware::class)->create(['ont_id' => $ont->id]);
+
         $ont_profile = factory(OntProfile::class)->make(['ont_software_id' => null]);
-        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 2048)];
+
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 512)];
 
         $form_data = array_merge($ont_profile->toArray(), $file_to_upload);
 
@@ -89,7 +99,7 @@ class OntProfileApiTest extends TestCase
         $ont = factory(Ont::class)->create();
         $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
         // $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.jpg')];
-        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 2048)];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 512)];
         $form_data = array_merge($ont_software->toArray(), $file_to_upload);
 
 
@@ -121,10 +131,63 @@ class OntProfileApiTest extends TestCase
         ]);
 
         $the_new_profile = OntProfile::whereName($ont_profile->name)->first();
+
         $this->assertFileExists($the_new_profile->file->getPath());
 
         // Clear the Media Collections
         $software->clearMediaCollection('default');
+        $the_new_profile->clearMediaCollection('default');
+    }
+
+    /**
+     * @group onts
+     * @return  void
+     */
+    public function test_api_will_add_profiles_to_zhone_onts_and_copy_their_files_to_the_tftp_storage()
+    {
+        $ont = factory(Ont::class)->create();
+
+        $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 512)];
+
+        $form_data = array_merge($ont_software->toArray(), $file_to_upload);
+
+        $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/' . $ont->id . '/software', $form_data);
+
+        $response->assertJson([
+            'version' => 'S03.01.266',
+            'file' => [
+                'file_name' => 'ZNID24xxASIP_0301266_image_with_cfe.img'
+            ]
+        ]);
+
+        $this->assertCount(1, OntSoftware::all());
+        $software = OntSoftware::whereVersion('S03.01.266')->first();
+
+        $this->assertFileExists($software->file->getPath());
+
+
+        $ont_profile = factory(OntProfile::class)->make(['ont_software_id' => null]);
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.conf', 1024)];
+
+        $form_data = array_merge($ont_profile->toArray(), $file_to_upload);
+
+        $response = $this->actingAs($this->user, 'api')
+            ->json('POST', '/api/onts/ont_software/' . $software->id . '/ont_profiles', $form_data);
+
+        $response->assertJson([
+            'name' => $ont_profile->name,
+            'file' => [
+                'file_name' => 'S0301266_0GF_generic.conf'
+            ]
+        ]);
+
+        $the_new_profile = OntProfile::whereName($ont_profile->name)->first();
+
+        $this->assertFileExists($the_new_profile->file->getPath());
+
+        $software->clearMediaCollection('default');
+
         $the_new_profile->clearMediaCollection('default');
     }
 
@@ -138,7 +201,7 @@ class OntProfileApiTest extends TestCase
         $ont = factory(Ont::class)->create(['model_number' => '2728A1']);
         $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
         // $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.jpg')];
-        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-27xxA1-401086-SIP.img', 2048)];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-27xxA1-401086-SIP.img', 512)];
         $form_data = array_merge($ont_software->toArray(), $file_to_upload);
 
         $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/' . $ont->id . '/software', $form_data);
@@ -186,7 +249,7 @@ class OntProfileApiTest extends TestCase
         $ont = factory(Ont::class)->create(['oem' => true]);
         $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
         // $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.jpg')];
-        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 2048)];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 512)];
         $form_data = array_merge($ont_software->toArray(), $file_to_upload);
 
 
@@ -250,7 +313,7 @@ class OntProfileApiTest extends TestCase
         $ont = factory(Ont::class)->create();
         $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
         // $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.jpg')];
-        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 2048)];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 512)];
         $form_data = array_merge($ont_software->toArray(), $file_to_upload);
 
 
@@ -268,7 +331,7 @@ class OntProfileApiTest extends TestCase
         // End adding the Software
 
         $ont_profile = factory(OntProfile::class)->make(['ont_software_id' => null]);
-        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 2048)];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 512)];
         $form_data = array_merge($ont_profile->toArray(), $file_to_upload);
         $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/ont_software/' . $software->id . '/ont_profiles', $form_data);
         $response->assertJson([
@@ -283,6 +346,7 @@ class OntProfileApiTest extends TestCase
         $this->assertDatabaseMissing('ont_profiles', ['name' => $ont_profile->name]);
         $this->assertFileNotExists($profile->file->getPath());
 
+        $software->clearMediaCollection('default');
         $profile->clearMediaCollection('default');
     }
 
@@ -296,7 +360,7 @@ class OntProfileApiTest extends TestCase
         $ont = factory(Ont::class)->create();
         $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
         // $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.jpg')];
-        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-27xxA1-401086-SIP.img', 2048)];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-27xxA1-401086-SIP.img', 512)];
         $form_data = array_merge($ont_software->toArray(), $file_to_upload);
 
 
@@ -314,7 +378,7 @@ class OntProfileApiTest extends TestCase
         // End adding the Software
 
         $ont_profile = factory(OntProfile::class)->make(['ont_software_id' => null]);
-        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 2048)];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 512)];
         $form_data = array_merge($ont_profile->toArray(), $file_to_upload);
         $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/ont_software/' . $software->id . '/ont_profiles', $form_data);
         $response->assertJson([
@@ -329,6 +393,7 @@ class OntProfileApiTest extends TestCase
         $this->assertDatabaseMissing('ont_profiles', ['name' => $ont_profile->name]);
         $this->assertFileNotExists($profile->file->getPath());
 
+        $software->clearMediaCollection('default');
         $profile->clearMediaCollection('default');
     }
 
@@ -342,7 +407,7 @@ class OntProfileApiTest extends TestCase
         $ont = factory(Ont::class)->create(['oem' => true]);
         $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
         // $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.jpg')];
-        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 2048)];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 512)];
         $form_data = array_merge($ont_software->toArray(), $file_to_upload);
 
 
@@ -360,7 +425,7 @@ class OntProfileApiTest extends TestCase
         // End adding the Software
 
         $ont_profile = factory(OntProfile::class)->make(['ont_software_id' => null]);
-        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 2048)];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 512)];
         $form_data = array_merge($ont_profile->toArray(), $file_to_upload);
         $response = $this->actingAs($this->user, 'api')->json('POST', '/api/onts/ont_software/' . $software->id . '/ont_profiles', $form_data);
         $response->assertJson([
@@ -375,6 +440,7 @@ class OntProfileApiTest extends TestCase
         $this->assertDatabaseMissing('ont_profiles', ['name' => $ont_profile->name]);
         $this->assertFileNotExists($profile->file->getPath());
 
+        $software->clearMediaCollection('default');
         $profile->clearMediaCollection('default');
     }
 
@@ -387,7 +453,7 @@ class OntProfileApiTest extends TestCase
         $ont = factory(Ont::class)->create();
         $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
         // $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.jpg')];
-        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 2048)];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 512)];
         $form_data = array_merge($ont_software->toArray(), $file_to_upload);
 
 
@@ -407,7 +473,7 @@ class OntProfileApiTest extends TestCase
         ///////////////////////////////////////////////////////////////////////
 
         $ont_profile = factory(OntProfile::class)->make(['ont_software_id' => null]);
-        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 2048)];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 512)];
 
         $form_data = array_merge($ont_profile->toArray(), $file_to_upload);
 
@@ -453,7 +519,7 @@ class OntProfileApiTest extends TestCase
         $ont = factory(Ont::class)->create(['oem' => true]);
         $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
         // $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.jpg')];
-        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 2048)];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 512)];
         $form_data = array_merge($ont_software->toArray(), $file_to_upload);
 
 
@@ -473,7 +539,7 @@ class OntProfileApiTest extends TestCase
         ///////////////////////////////////////////////////////////////////////
 
         $ont_profile = factory(OntProfile::class)->make(['ont_software_id' => null]);
-        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 2048)];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 512)];
 
         $form_data = array_merge($ont_profile->toArray(), $file_to_upload);
 
@@ -534,7 +600,7 @@ class OntProfileApiTest extends TestCase
         $ont = factory(Ont::class)->create(['manufacturer' => 'Zhone']);
         $ont_software = factory(OntSoftware::class)->create(['ont_id' => $ont->id]);
         $ont_profile = factory(OntProfile::class)->make(['ont_software_id' => null, 'name' => null]);
-        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 2048)];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 512)];
 
         $form_data = array_merge($ont_profile->toArray(), $file_to_upload);
 
@@ -560,7 +626,7 @@ class OntProfileApiTest extends TestCase
 
 
         $new_ont_profile = factory(OntProfile::class)->make(['ont_software_id' => null, 'name' => 'Suspended']);
-        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 2048)];
+        $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('photoooo.jpg', 512)];
 
         $form_data = array_merge($new_ont_profile->toArray(), $file_to_upload);
 

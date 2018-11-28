@@ -1,6 +1,7 @@
 version: "2"
 services:
   dhcp:
+    container_name: accessx_dhcp
     build:
       context: ./docker/dnsmasq
       dockerfile: Dockerfile
@@ -16,6 +17,7 @@ services:
     #   - "69:69"
     #   - "69:69/udp"
   nginx:
+    container_name: accessx_nginx
     build:
       context: ./docker/nginx
       dockerfile: Dockerfile
@@ -23,12 +25,13 @@ services:
     volumes:
       - ./:/var/www/html
     ports:
-      - "${WEB_PORT}:80"
+      - "8088:80"
     networks:
       - goldaccessnet
     depends_on:
       - php
   php:
+    container_name: accessx_php
     build:
       context: ./docker/php7.2
       dockerfile: Dockerfile
@@ -37,23 +40,13 @@ services:
       - ./:/var/www/html
     networks:
       - goldaccessnet
-  # php:
-  #   build:
-  #     context: ./docker/php
-  #     dockerfile: Dockerfile
-  #   image: goldaccess/php-fpm:production
-  #   volumes:
-  #     - ./:/var/www/html
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #   ports:
-  #     - "9000:9000"
-  #   networks:
-  #     - goldaccessnet
   selenium:
+    container_name: accessx_selenium
     image: selenium/standalone-chrome:3.14
     networks:
       - goldaccessnet
   npm:
+    container_name: accessx_npm
     build:
       context: ./docker/npm
       dockerfile: Dockerfile
@@ -63,6 +56,7 @@ services:
     networks:
       - goldaccessnet
   laravel-echo-server:
+    container_name: accessx_echo
     build:
       context: ./docker/laravel-echo-server
       dockerfile: Dockerfile
@@ -74,6 +68,7 @@ services:
     networks:
       - goldaccessnet
   horizon-supervisor:
+    container_name: accessx_horizon
     build:
       context: ./docker/horizon-supervisor
       dockerfile: Dockerfile
@@ -83,6 +78,7 @@ services:
     networks:
       - goldaccessnet
   cron:
+    container_name: accessx_cron
     build:
       context: ./docker/cron
       dockerfile: Dockerfile
@@ -93,6 +89,7 @@ services:
     networks:
       - goldaccessnet
   db:
+    container_name: accessx_db
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: 1q2w3e4r
@@ -104,12 +101,13 @@ services:
     networks:
       - goldaccessnet
   redis:
+    container_name: accessx_redis
     image: redis:alpine
     networks:
       - goldaccessnet
   portainer:
+    container_name: accessx_portainer
     image: portainer/portainer
-    container_name: "portainer"
     command: --host=unix:///var/run/docker.sock
     networks:
       - goldaccessnet
@@ -119,6 +117,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./system/opt/portainer/data:/data
   sftp:
+    container_name: accessx_sftp
     image: hermsi/alpine-sshd
     environment:
       ROOT_PASSWORD: 1q2w3e4r

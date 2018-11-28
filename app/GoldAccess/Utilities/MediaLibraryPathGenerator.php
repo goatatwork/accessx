@@ -4,7 +4,7 @@ namespace App\GoldAccess\Utilities;
 
 use App\OntProfile;
 use App\OntSoftware;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\PathGenerator\PathGenerator;
 
 class MediaLibraryPathGenerator implements PathGenerator
@@ -23,6 +23,14 @@ class MediaLibraryPathGenerator implements PathGenerator
     public function getPathForConversions(Media $media): string
     {
         return $this->getBasePath($media).'/conversions/';
+    }
+
+    /*
+     * Get the path for responsive images of the given media, relative to the root storage path.
+     */
+    public function getPathForResponsiveImages(Media $media): string
+    {
+        return $this->getBasePath($media).'/responsive/';
     }
 
     /*

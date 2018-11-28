@@ -21,6 +21,10 @@ class ZhoneConfigFilenameGenerator
         $this->ont_software = $ont_software;
     }
 
+    /**
+     * The filename that the zhone ONT will ask for
+     * @return string
+     */
     public function generate()
     {
         if ($this->is27xx()) {

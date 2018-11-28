@@ -6,8 +6,8 @@ use Spatie\Sluggable\HasSlug;
 use OwenIt\Auditing\Auditable;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 class OntProfile extends Model implements HasMedia, AuditableContract

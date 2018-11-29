@@ -15,3 +15,4 @@ yarn-error.log
 /storage/app/public/.DS_Store
 /system
 .phpunit.result.cache
+*.img

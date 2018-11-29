@@ -13,3 +13,11 @@ $factory->define(App\Ont::class, function (Faker $faker) {
         'oem' => false
     ];
 });
+
+$factory->state(App\Ont::class, 'oem', [
+    'oem' => true,
+]);
+
+$factory->state(App\Ont::class, 'nonoem', [
+    'oem' => false,
+]);

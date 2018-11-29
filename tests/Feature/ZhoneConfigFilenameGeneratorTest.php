@@ -70,7 +70,7 @@ class ZhoneConfigFilenameGeneratorTest extends TestCase
      *
      * @return void
      */
-    public function test_the_generator_can_generate_config_filename_for_27xx_models_that_the_ont_will_ask_for_based_on_the_ontsoftware()
+    public function test_given_any_filename_zhoneconfigfilegenerator_will_generate_the_config_filename_for_for_27xx_models()
     {
         $spec = 'S0401086_2728A1_generic.conf';
         $filename = 'anything.conf';

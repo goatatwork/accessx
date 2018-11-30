@@ -74,8 +74,12 @@
             <div class="row">
                 <div class="col">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="wifi" id="wifi-input" value="1" @if($ont->wifi) checked @endif>
-                        <label class="form-check-label" for="wifi ">
+                        <input class="form-check-input" type="checkbox" name="wifi" id="wifi-input" value="1"
+                            @if($ont->wifi)
+                                checked
+                            @endif
+                        >
+                        <label class="form-check-label" for="wifi">
                             Wifi
                         </label>
                     </div>
@@ -85,9 +89,28 @@
             <div class="row">
                 <div class="col">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="indoor" id="indoor-input" value="1" @if($ont->indoor) checked @endif>
-                        <label class="form-check-label" for="indoor ">
+                        <input class="form-check-input" type="checkbox" name="indoor" id="indoor-input" value="1"
+                            @if($ont->indoor)
+                                checked
+                            @endif
+                        >
+                        <label class="form-check-label" for="indoor">
                             Indoor
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="oem" id="oem-input" value="1"
+                            @if($ont->oem)
+                                checked
+                            @endif
+                        >
+                        <label class="form-check-label" for="oem">
+                            OEM
                         </label>
                     </div>
                 </div>
@@ -162,7 +185,7 @@
 
             <div class="form-group row">
                 <div class="col text-right">
-                    <button type="submit" class="btn btn-primary">
+                    <button dusk="edit-ont-submit-button" type="submit" class="btn btn-primary">
                         Save Changes
                     </button>
                 </div>

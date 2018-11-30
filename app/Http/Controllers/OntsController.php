@@ -87,7 +87,19 @@ class OntsController extends Controller
      */
     public function update(OntRequest $request, Ont $ont)
     {
-        $ont = tap($ont)->update($request->all());
+        $update_data = $request->all();
+
+        if (!$request->has('indoor')) {
+            data_fill($update_data, 'indoor', false);
+        }
+        if (!$request->has('wifi')) {
+            data_fill($update_data, 'wifi', false);
+        }
+        if (!$request->has('oem')) {
+            data_fill($update_data, 'oem', false);
+        }
+
+        $ont = tap($ont)->update($update_data);
 
         return redirect('/onts/'.$ont->id)->with('ont', $ont);
     }

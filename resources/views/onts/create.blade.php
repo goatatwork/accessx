@@ -93,6 +93,17 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="oem" id="oem-input" value="1">
+                        <label class="form-check-label" for="oem ">
+                            OEM
+                        </label>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group"> <!-- input for number_of_pots_lines -->
 
                 <label for="number_of_pots_lines">number_of_pots_lines</label>
@@ -162,7 +173,7 @@
 
             <div class="form-group row">
                 <div class="col text-right">
-                    <button type="submit" class="btn btn-primary">
+                    <button dusk="create-ont-submit-button" type="submit" class="btn btn-primary">
                         Create ONT
                     </button>
                 </div>

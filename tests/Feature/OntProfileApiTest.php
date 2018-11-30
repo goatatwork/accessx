@@ -126,7 +126,7 @@ class OntProfileApiTest extends TestCase
         $response->assertJson([
             'name' => $ont_profile->name,
             'file' => [
-                'file_name' => 'S0301266_0GF_generic.conf'
+                'file_name' => 'S0301266_2427A_generic.conf'
             ]
         ]);
 
@@ -178,7 +178,7 @@ class OntProfileApiTest extends TestCase
         $response->assertJson([
             'name' => $ont_profile->name,
             'file' => [
-                'file_name' => 'S0301266_0GF_generic.conf'
+                'file_name' => 'S0301266_2427A_generic.conf'
             ]
         ]);
 
@@ -447,10 +447,10 @@ class OntProfileApiTest extends TestCase
     /**
      * Test that ProvisioningRecord has a dhcp string
      */
-    public function test_that_a_provisioning_record_knows_its_own_dhcp_string()
+    public function test_that_a_provisioning_record_knows_its_own_dhcp_string_for_an_non_oem_ont()
     {
 
-        $ont = factory(Ont::class)->create();
+        $ont = factory(Ont::class)->states(['nonoem'])->create();
         $ont_software = factory(OntSoftware::class)->make(['ont_id' => null]);
         // $file_to_upload = ['uploaded_file' => \Illuminate\Http\Testing\File::image('photo.jpg')];
         $file_to_upload = ['uploaded_file' => UploadedFile::fake()->create('ZNID-24xxA-301266-SIP.img', 512)];
@@ -482,7 +482,7 @@ class OntProfileApiTest extends TestCase
         $response->assertJson([
             'name' => $ont_profile->name,
             'file' => [
-                'file_name' => 'S0301266_0GF_generic.conf'
+                'file_name' => 'S0301266_2427A_generic.conf'
             ]
         ]);
 

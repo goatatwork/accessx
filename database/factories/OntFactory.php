@@ -4,13 +4,14 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Ont::class, function (Faker $faker) {
     return [
-        'model_number' => $faker->bothify('CPE-####?'),
+        'model_number' => '2427A',
         'manufacturer' => 'Zhone',
-        'wifi' => true,
-        'indoor' => true,
+        'wifi' => false,
+        'indoor' => false,
         'number_of_pots_lines' => 2,
         'number_of_ethernet_ports' => 4,
-        'oem' => false
+        'oem' => false,
+        'notes' => $faker->sentence,
     ];
 });
 

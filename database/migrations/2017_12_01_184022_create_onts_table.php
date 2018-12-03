@@ -18,7 +18,7 @@ class CreateOntsTable extends Migration
             $table->string('model_number');
             $table->string('manufacturer')->nullable();
             $table->string('slug')->nullable();
-            $table->boolean('indoor')->default(true);
+            $table->boolean('indoor')->default(false);
             $table->boolean('wifi')->default(false);
             $table->integer('number_of_ethernet_ports')->nullable();
             $table->integer('number_of_pots_lines')->nullable();

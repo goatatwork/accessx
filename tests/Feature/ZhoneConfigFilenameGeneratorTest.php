@@ -11,6 +11,8 @@ use App\GoldAccess\Ont\ZhoneConfigFilenameGenerator;
 
 class ZhoneConfigFilenameGeneratorTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function setup()
     {
         parent::setUp();
@@ -34,10 +36,11 @@ class ZhoneConfigFilenameGeneratorTest extends TestCase
      */
     public function test_given_any_filename_zhoneconfigfilegenerator_will_generate_the_config_filename_for_a_nonoem_ont()
     {
-        $spec = 'S0301266_0GN_generic.conf';
+        $ont = factory(Ont::class)->states(['nonoem'])->create();
+
+        $spec = 'S0301266_'.$ont->model_number.'_generic.conf';
         $filename = 'anything.conf';
 
-        $ont = factory(Ont::class)->states(['nonoem'])->create();
         $ont_software = factory(OntSoftware::class)->create(['ont_id' => $ont->id, 'version' => 'S03.01.266']);
 
         $config_filename_generator = new ZhoneConfigFilenameGenerator($ont_software);

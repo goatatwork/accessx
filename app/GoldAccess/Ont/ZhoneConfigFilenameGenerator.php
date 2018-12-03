@@ -32,7 +32,7 @@ class ZhoneConfigFilenameGenerator
             $configFilename = $parts[0] . $parts[1] . $parts[2] . '_' . $this->ont_software->ont->model_number . '_generic.conf';
         } else {
             $parts = explode(".", $this->ont_software->version);
-            $tail = $this->ont_software->ont->oem ? '_0GF_generic.conf' : '_0GN_generic.conf';
+            $tail = $this->ont_software->ont->oem ? '_0GF_generic.conf' : '_' . $this->ont_software->ont->model_number . '_generic.conf';
             $configFilename = $parts[0] . $parts[1] . $parts[2] . $tail;
         }
 

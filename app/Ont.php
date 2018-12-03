@@ -25,6 +25,17 @@ class Ont extends Model implements HasMedia, AuditableContract
         'oem'
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'indoor' => 'boolean',
+        'wifi' => 'boolean',
+        'oem' => 'boolean',
+    ];
+
     protected $appends = ['number_of_files', 'has_provisioning_records', 'number_of_software_versions'];
 
     public function ont_software()

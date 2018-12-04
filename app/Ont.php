@@ -43,6 +43,11 @@ class Ont extends Model implements HasMedia, AuditableContract
         return $this->hasMany(OntSoftware::class);
     }
 
+    public function ont_profiles()
+    {
+        return $this->hasManyThrough(OntProfile::class, OntSoftware::class);
+    }
+
     /**
      * Get the options for generating the slug.
      */

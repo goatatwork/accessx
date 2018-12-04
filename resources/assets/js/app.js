@@ -56,6 +56,9 @@ Vue.component('customers-table', require('./components/GoldAccess/Customers/Cust
 Vue.component('user-management', require('./components/GoldAccess/Users/UserManagement.vue'));
 Vue.component('create-user-modal', require('./components/GoldAccess/Users/CreateUserModal.vue'));
 
+Vue.component('ont-software-file-uploader', require('./components/GoldAccess/Core/OntSoftwareFileUploader.vue'));
+Vue.component('ont-config-file-uploader', require('./components/GoldAccess/Core/OntConfigFileUploader.vue'));
+
 window.EventBus = new Vue({});
 
 const app = new Vue({

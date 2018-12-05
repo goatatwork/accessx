@@ -69,6 +69,21 @@ class OntSoftwareController extends Controller
      */
     public function update(Request $request, OntSoftware $ont_software)
     {
+        if ($request->has('rename') && $request->rename == 'true') {
+
+            $ont_software->file->file_name = $request->new_filename;
+            $ont_software->file->save();
+
+            $ont_software->ont_profiles()->each(function($profile, $key) use ($request) {
+                if ($profile->software_file) {
+                    $profile->software_file->file_name = $request->new_filename;
+                    $profile->software_file->save();
+                }
+            });
+
+            return back();
+        }
+
         //
     }
 

@@ -108,16 +108,10 @@ class OntProfilesApiController extends Controller
 
     public function copySoftwareImageToProfileDirectory($profile, $ont_software)
     {
-        $ont_software->getFirstMedia();
-        $source = $ont_software->file->getPath();
+        $software_image = $ont_software->file;
+        $profile->addMedia($software_image->getPath())
+            ->preservingOriginal()
+            ->toMediaCollection('software_image');
 
-        $profile_path = $profile->file->getPath();
-        $profile_path_parts = explode('/',$profile_path);
-        array_pop($profile_path_parts);
-        $profile_path_usable = implode('/',$profile_path_parts);
-
-        $destination = $profile_path_usable . '/' . $ont_software->file->file_name;
-
-        File::copy($source, $destination);
     }
 }

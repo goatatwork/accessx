@@ -15,8 +15,6 @@
     </ol>
 </nav>
 
-
-
 @if ($view_software)
 
     @include('onts._view_software')

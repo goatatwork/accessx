@@ -69,6 +69,13 @@ class OntProfilesController extends Controller
      */
     public function update(Request $request, OntProfile $ont_profile)
     {
+        if ($request->has('rename') && $request->rename == 'true') {
+            $ont_profile->file->file_name = $request->new_filename;
+            $ont_profile->file->save();
+
+            return back();
+        }
+
         //
     }
 

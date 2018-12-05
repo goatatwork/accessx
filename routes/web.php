@@ -45,11 +45,13 @@ Route::group(['middleware' => 'auth', 'prefix' => 'onts'], function() {
     Route::delete('{ont}', 'OntsController@destroy');
     Route::get('{ont}/edit', 'OntsController@edit');
 
-    Route::delete('ont_profiles/{ont_profile}', 'OntProfilesController@destroy');
     Route::delete('ont_software/{ont_software}', 'OntSoftwareController@destroy');
-
-    // Route::get('ont_software/{ont_software}/update', 'OntSoftwareController@index');
     Route::patch('ont_software/{ont_software}/update', 'OntSoftwareController@update')->name('ontsoftware.update');
+
+
+    Route::delete('ont_profiles/{ont_profile}', 'OntProfilesController@destroy');
+    Route::patch('ont_profiles/{ont_profile}/update', 'OntProfilesController@update')->name('ontprofile.update');
+
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'dhcp'], function() {

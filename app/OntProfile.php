@@ -37,4 +37,9 @@ class OntProfile extends Model implements HasMedia, AuditableContract
     {
         return $this->getFirstMedia();
     }
+
+    public function getSoftwareFileAttribute()
+    {
+        return $this->getFirstMedia('software_image');
+    }
 }

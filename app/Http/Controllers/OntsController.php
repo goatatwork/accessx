@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Ont;
+use App\OntSoftware;
 use Illuminate\Http\Request;
 use App\Http\Requests\OntRequest;
 
@@ -45,15 +46,35 @@ class OntsController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Ont  $ont
+     * @param  \Illuminate\Http\Request $request
      * @return \App\Ont with data from ->getMedia()
      */
-    public function show(Ont $ont)
+    public function show(Ont $ont, Request $request)
     {
-        $ont->getMedia();
+        // $the_files = $ont->getMedia()->map(function($file, $key) {
+        //     return array_merge(
+        //         $file->getAttributes(),
+        //         [
+        //             'url' => $file->getUrl(),
+        //             'human_readable_size' => $file->human_readable_size,
+        //             'description' => $file->getCustomProperty('description')
+        //         ]
+        //     );
+        // });
 
-        $media_files = $ont->getMedia();
+        // return view('onts.show')->with('ont', $ont)->with('media_files', $the_files);
 
-        $the_files = $media_files->map(function($file, $key) {
+        if ($request->has('viewsoftware')) {
+            if ($ont->ont_software()->pluck('id')->contains($request->viewsoftware)) {
+                $view_software = OntSoftware::find($request->viewsoftware);
+            } else {
+                $view_software = null;
+            }
+        } else {
+            $view_software = null;
+        }
+
+        $the_files = $ont->getMedia()->map(function($file, $key) {
             return array_merge(
                 $file->getAttributes(),
                 [
@@ -64,7 +85,7 @@ class OntsController extends Controller
             );
         });
 
-        return view('onts.show')->with('ont', $ont)->with('media_files', $the_files);
+        return view('onts.show1')->with('ont', $ont)->with('media_files', $the_files)->with('view_software', $view_software);
     }
 
     /**

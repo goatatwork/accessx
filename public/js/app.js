@@ -18083,7 +18083,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(22);
-module.exports = __webpack_require__(210);
+module.exports = __webpack_require__(216);
 
 
 /***/ }),
@@ -18147,6 +18147,9 @@ Vue.component('customers-table', __webpack_require__(174));
 
 Vue.component('user-management', __webpack_require__(180));
 Vue.component('create-user-modal', __webpack_require__(207));
+
+Vue.component('ont-software-file-uploader', __webpack_require__(210));
+Vue.component('ont-config-file-uploader', __webpack_require__(213));
 
 window.EventBus = new Vue({});
 
@@ -63490,11 +63493,15 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "row mb-5" }, [
       _c("div", { staticClass: "col" }, [
-        _c("dl", { staticClass: "float-left" }, [
-          _c("dt", [_vm._v("Total ONTs")]),
-          _vm._v(" "),
-          _c("dd", [_vm._v("There are " + _vm._s(_vm.onts.length) + " ONTs")])
-        ]),
+        !_vm.onts.length
+          ? _c("dl", { staticClass: "float-left" }, [
+              _c("dt", [_vm._v("Total ONTs")]),
+              _vm._v(" "),
+              _c("dd", [
+                _vm._v("There are " + _vm._s(_vm.onts.length) + " ONTs")
+              ])
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _vm._m(1)
       ])
@@ -63508,13 +63515,7 @@ var render = function() {
       })
     ),
     _vm._v(" "),
-    !_vm.onts.length
-      ? _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col" }, [
-            _vm._v("\n            THERE ARE NO ONTS HERE\n        ")
-          ])
-        ])
-      : _vm._e()
+    !_vm.onts.length ? _c("div", { staticClass: "row" }, [_vm._m(2)]) : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -63552,6 +63553,15 @@ var staticRenderFns = [
           _vm._v("Create An ONT")
         ]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col" }, [
+      _c("span", { staticClass: "fas fa-spin fa-spinner" }),
+      _vm._v(" FETCHING ONTS...\n        ")
     ])
   }
 ]
@@ -71299,6 +71309,1438 @@ if (false) {
 
 /***/ }),
 /* 210 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(211)
+/* template */
+var __vue_template__ = __webpack_require__(212)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/GoldAccess/Core/OntSoftwareFileUploader.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-79ba52da", Component.options)
+  } else {
+    hotAPI.reload("data-v-79ba52da", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 211 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_dropzone__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_dropzone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_dropzone__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+__WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        uploadUrl: '',
+        dropzoneId: ''
+    },
+
+    data: function data() {
+        return {
+            myDropzone: {},
+            showDropHere: true,
+            readyForUpload: false,
+            uploadAreaIsOpen: false,
+            formData: {
+                version: '',
+                notes: ''
+            }
+        };
+    },
+
+    computed: {
+        collapseHref: function collapseHref() {
+            return '#collapse-softwarefileuploader-' + this.dropzoneId;
+        },
+        collapseId: function collapseId() {
+            return 'collapse-softwarefileuploader-' + this.dropzoneId;
+        },
+        dropzoneHref: function dropzoneHref() {
+            return '#' + this.dropzoneId;
+        },
+        modalHref: function modalHref() {
+            return '#modal-softwarefileuploader-' + this.dropzoneId;
+        },
+        modalId: function modalId() {
+            return 'modal-softwarefileuploader-' + this.dropzoneId;
+        },
+        modalLabel: function modalLabel() {
+            return 'modal-softwarefileuploader-' + this.dropzoneId + '-label';
+        },
+        previewTemplateId: function previewTemplateId() {
+            return 'preview-template-softwarefileuploader-' + this.dropzoneId;
+        }
+    },
+
+    methods: {
+        configureDropzone: function configureDropzone() {
+            this.showDropHere = true;
+            var self = this;
+            // this.myDropzone = $('#'+this.dropzoneId).dropzone({
+            this.myDropzone = new __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a(this.dropzoneHref, {
+                url: this.uploadUrl,
+                paramName: "uploaded_file",
+                maxFiles: 1,
+                clickable: true,
+                maxFilesize: 50,
+                acceptedFiles: '.img, .txt, .cnf, .config, .cfg',
+                addRemoveLinks: false,
+                previewTemplate: document.getElementById(this.previewTemplateId).innerHTML,
+                autoProcessQueue: false,
+                createImageThumbnails: false,
+                headers: {
+                    "X-CSRF-TOKEN": window.axios.defaults.headers.common['X-CSRF-TOKEN']
+                },
+                init: function init() {
+                    this.on("addedfile", function (file) {
+                        self.onDropzoneAddedFile(file);
+                    });
+                    this.on("error", function (file, errorMessage, xhr) {
+                        self.onDropzoneError(file, errorMessage, xhr);
+                    });
+                    this.on("maxfilesexceeded", function (file) {
+                        self.onDropzoneMaxFilesExceeded(file);
+                    });
+                    this.on("maxfilesreached", function (file) {
+                        self.onDropzoneMaxFilesReached(file);
+                    });
+                    this.on("removedfile", function (file) {
+                        self.onDropzoneRemovedFile(file);
+                    });
+                    this.on("sending", function (file, xhr, formData) {
+                        self.onDropzoneSending(file, xhr, formData);
+                    });
+                    this.on("success", function (file, response) {
+                        self.onDropzoneSuccess(file, response);
+                    });
+                    this.on("uploadprogress", function (file, progress, bytesSent) {
+                        self.onDropzoneUploadProgress(file, progress, bytesSent);
+                    });
+                }
+            });
+        },
+        destroyDropzone: function destroyDropzone() {
+            console.log('destroying dropzone');
+            this.myDropzone = {};
+        },
+        flashSuccessModal: function flashSuccessModal() {
+            var self = this;
+            $(this.modalHref).modal('show');
+            setTimeout(function () {
+                $(self.modalHref).modal('hide');
+                window.location.reload();
+            }, 1500);
+        },
+        initializeDropzone: function initializeDropzone() {
+            this.configureDropzone();
+        },
+        onDropzoneAddedFile: function onDropzoneAddedFile(file) {
+            this.showDropHere = false;
+            this.formData.version = file.name;
+            console.log(file);
+            console.log('!!!!!!!!!!!!!!!!!!!! file added !!!!!!!!!!!!!!!!!!!!');
+        },
+        onDropzoneError: function onDropzoneError(file, errorMessage, xhr) {
+            console.log(file);
+            console.log(errorMessage);
+            console.log(xhr);
+            console.log('!!!!!!!!!!!!!!!!!!!! error !!!!!!!!!!!!!!!!!!!!');
+        },
+        onDropzoneMaxFilesExceeded: function onDropzoneMaxFilesExceeded(file) {
+            // console.log(file);
+            // console.log('!!!!!!!!!!!!!!!!!!!! max files exceeded !!!!!!!!!!!!!!!!!!!!');
+        },
+        onDropzoneMaxFilesReached: function onDropzoneMaxFilesReached(file) {
+            this.readyForUpload = true;
+            // console.log(file);
+            // console.log('!!!!!!!!!!!!!!!!!!!! max files reached !!!!!!!!!!!!!!!!!!!!');
+        },
+        onDropzoneRemovedFile: function onDropzoneRemovedFile(file) {
+            this.readyForUpload = false;
+        },
+        onDropzoneSending: function onDropzoneSending(file, xhr, formData) {
+            formData.append("version", this.formData.version);
+            formData.append("notes", this.formData.notes);
+        },
+        onDropzoneSuccess: function onDropzoneSuccess(file, response) {
+            var self = this;
+            this.myDropzone.removeAllFiles(true);
+            this.readyForUpload = false;
+            this.uploadAreaIsOpen = false;
+            $(this.collapseHref).collapse('hide');
+            this.myDropzone.destroy();
+            this.myDropzone = {};
+            this.flashSuccessModal();
+            EventBus.$emit('ont-software-was-added', response);
+        },
+        onDropzoneUploadProgress: function onDropzoneUploadProgress(file, progress, bytesSent) {
+            document.querySelector("#software-progress-bar").style.width = progress + "%";
+        },
+        toggleUploadArea: function toggleUploadArea() {
+            if (this.myDropzone.options) {
+                this.uploadAreaIsOpen = false;
+                $(this.collapseHref).collapse('hide');
+                this.myDropzone.removeAllFiles(true);
+                this.myDropzone.destroy();
+                this.myDropzone = {};
+                this.showDropHere = true;
+            } else {
+                this.uploadAreaIsOpen = true;
+                this.initializeDropzone();
+            }
+        },
+        processQueue: function processQueue() {
+            this.myDropzone.processQueue();
+        }
+    }
+});
+
+/***/ }),
+/* 212 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col" }, [
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-dark btn-sm",
+              attrs: {
+                "data-toggle": "collapse",
+                href: _vm.collapseHref,
+                role: "button",
+                "aria-expanded": "false",
+                "aria-controls": _vm.collapseId
+              },
+              on: {
+                click: function($event) {
+                  _vm.toggleUploadArea()
+                }
+              }
+            },
+            [
+              _c("i", { staticClass: "material-icons mr-2" }, [
+                _vm._v("file_upload")
+              ]),
+              _vm._v("UPLOAD ONT SOFTWARE\n                ")
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row mt-2" }, [
+        _c(
+          "div",
+          {
+            staticClass: "col collapse",
+            attrs: { id: _vm.collapseId, "data-toggle": _vm.uploadAreaIsOpen }
+          },
+          [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col" }, [
+                    _c(
+                      "form",
+                      {
+                        staticClass: "dropzone",
+                        attrs: { id: _vm.dropzoneId, action: _vm.uploadUrl }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.showDropHere,
+                                expression: "showDropHere"
+                              }
+                            ],
+                            staticClass: "dz-default dz-message"
+                          },
+                          [
+                            _c("span", [
+                              _vm._v(
+                                "Click Here To Upload A New Software Image!"
+                              )
+                            ])
+                          ]
+                        )
+                      ]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm.readyForUpload
+                  ? _c("div", { staticClass: "row mt-2" }, [
+                      _c("div", { staticClass: "col" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-danger float-left",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.toggleUploadArea()
+                              }
+                            }
+                          },
+                          [
+                            _c("span", {
+                              staticClass: "fas fa-cloud-upload-alt"
+                            }),
+                            _vm._v(" Cancel\n                                ")
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-dark float-right",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.processQueue()
+                              }
+                            }
+                          },
+                          [
+                            _c("span", {
+                              staticClass: "fas fa-cloud-upload-alt"
+                            }),
+                            _vm._v(" Upload\n                                ")
+                          ]
+                        )
+                      ])
+                    ])
+                  : _vm._e()
+              ])
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "row",
+          staticStyle: { display: "none" },
+          attrs: { id: _vm.previewTemplateId }
+        },
+        [
+          _c("div", { staticClass: "col dz-preview dz-file-preview" }, [
+            _c("div", { staticClass: "dz-details mb-3" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "notes" } }, [_vm._v("Notes")]),
+                    _vm._v(" "),
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.formData.notes,
+                          expression: "formData.notes"
+                        }
+                      ],
+                      staticClass: "form-control form-control-sm",
+                      attrs: { id: "notes-input", rows: "2", name: "notes" },
+                      domProps: { value: _vm.formData.notes },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.formData, "notes", $event.target.value)
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(0),
+              _vm._v(" "),
+              _vm._m(1)
+            ])
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal fade",
+          attrs: {
+            tabindex: "-1",
+            role: "dialog",
+            id: _vm.modalId,
+            "aria-labelledby": _vm.modalLabel,
+            "aria-hidden": "true"
+          }
+        },
+        [
+          _c(
+            "div",
+            { staticClass: "modal-dialog", attrs: { role: "document" } },
+            [
+              _c("div", { staticClass: "modal-content" }, [
+                _c("div", { staticClass: "modal-header" }, [
+                  _c(
+                    "h5",
+                    {
+                      staticClass: "modal-title",
+                      attrs: { id: _vm.modalLabel }
+                    },
+                    [_vm._v("Success")]
+                  ),
+                  _vm._v(" "),
+                  _vm._m(2)
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-body" }, [
+                  _vm._v(
+                    "\n                        The file was successfully uploaded.\n                    "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-footer" })
+              ])
+            ]
+          )
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col" }, [
+        _c("div", { staticClass: "progress", staticStyle: { height: "3em" } }, [
+          _c(
+            "div",
+            {
+              staticClass:
+                "progress-bar bg-dark progress-bar-striped progress-bar-animated",
+              staticStyle: { width: "0%" },
+              attrs: {
+                "data-dz-uploadprogress": "",
+                id: "software-progress-bar",
+                role: "progressbar",
+                "aria-valuenow": "0",
+                "aria-valuemin": "0",
+                "aria-valuemax": "100"
+              }
+            },
+            [_c("span", { staticClass: "sr-only" }, [_vm._v("0% Complete")])]
+          )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col" }, [
+        _c("div", { staticClass: "dz-filename d-flex flex-column mr-5" }, [
+          _c("span", { attrs: { "data-dz-name": "" } }),
+          _vm._v(" "),
+          _c("span", { staticClass: "fas fa-file align-self-center" }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "dz-size align-self-center",
+            attrs: { "data-dz-size": "" }
+          })
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-79ba52da", module.exports)
+  }
+}
+
+/***/ }),
+/* 213 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(214)
+/* template */
+var __vue_template__ = __webpack_require__(215)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/GoldAccess/Core/OntConfigFileUploader.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-01f186b5", Component.options)
+  } else {
+    hotAPI.reload("data-v-01f186b5", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 214 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_dropzone__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_dropzone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_dropzone__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+__WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        uploadUrl: '',
+        dropzoneId: ''
+    },
+
+    data: function data() {
+        return {
+            myDropzone: {},
+            showDropHere: true,
+            readyForUpload: false,
+            uploadAreaIsOpen: false,
+            uploadIsDisabled: false,
+            uploadErrors: {},
+            formData: {
+                name: '',
+                notes: ''
+            }
+        };
+    },
+
+    computed: {
+        collapseHref: function collapseHref() {
+            return '#collapse-' + this.dropzoneId;
+        },
+        collapseId: function collapseId() {
+            return 'collapse-' + this.dropzoneId;
+        },
+        dropzoneHref: function dropzoneHref() {
+            return '#' + this.dropzoneId;
+        },
+        modalHref: function modalHref() {
+            return '#modal-' + this.dropzoneId;
+        },
+        modalId: function modalId() {
+            return 'modal-' + this.dropzoneId;
+        },
+        modalLabel: function modalLabel() {
+            return 'modal-' + this.dropzoneId + '-label';
+        },
+        previewTemplateId: function previewTemplateId() {
+            return 'preview-template-' + this.dropzoneId;
+        },
+        reloadUrl: function reloadUrl() {
+            return window.location.href;
+        }
+    },
+
+    methods: {
+        configureDropzone: function configureDropzone() {
+            this.showDropHere = true;
+            var self = this;
+            // this.myDropzone = $('#'+this.dropzoneId).dropzone({
+            this.myDropzone = new __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a(this.dropzoneHref, {
+                url: this.uploadUrl,
+                paramName: "uploaded_file",
+                maxFiles: 1,
+                clickable: true,
+                maxFilesize: 50,
+                acceptedFiles: '.img, .txt, .cnf, .config, .cfg, .conf',
+                addRemoveLinks: false,
+                previewTemplate: document.getElementById(this.previewTemplateId).innerHTML,
+                autoProcessQueue: false,
+                createImageThumbnails: false,
+                headers: {
+                    "X-CSRF-TOKEN": window.axios.defaults.headers.common['X-CSRF-TOKEN']
+                },
+                init: function init() {
+                    this.on("addedfile", function (file) {
+                        self.onDropzoneAddedFile(file);
+                    });
+                    this.on("error", function (file, errorMessage, xhr) {
+                        self.onDropzoneError(file, errorMessage, xhr);
+                    });
+                    this.on("maxfilesexceeded", function (file) {
+                        self.onDropzoneMaxFilesExceeded(file);
+                    });
+                    this.on("maxfilesreached", function (file) {
+                        self.onDropzoneMaxFilesReached(file);
+                    });
+                    this.on("removedfile", function (file) {
+                        self.onDropzoneRemovedFile(file);
+                    });
+                    this.on("sending", function (file, xhr, formData) {
+                        self.onDropzoneSending(file, xhr, formData);
+                    });
+                    this.on("success", function (file, response) {
+                        self.onDropzoneSuccess(file, response);
+                    });
+                    this.on("uploadprogress", function (file, progress, bytesSent) {
+                        self.onDropzoneUploadProgress(file, progress, bytesSent);
+                    });
+                }
+            });
+        },
+        destroyDropzone: function destroyDropzone() {
+            console.log('destroying dropzone');
+            this.myDropzone = {};
+        },
+        flashSuccessModal: function flashSuccessModal() {
+            var self = this;
+            $(this.modalHref).modal('show');
+            setTimeout(function () {
+                $(self.modalHref).modal('hide');
+                window.location.reload();
+            }, 1500);
+        },
+        initializeDropzone: function initializeDropzone() {
+            this.configureDropzone();
+        },
+        onDropzoneAddedFile: function onDropzoneAddedFile(file) {
+            this.showDropHere = false;
+            console.log(file);
+            console.log('!!!!!!!!!!!!!!!!!!!! file added !!!!!!!!!!!!!!!!!!!!');
+        },
+        onDropzoneError: function onDropzoneError(file, errorMessage, xhr) {
+            // console.log(file);
+            this.uploadErrors = errorMessage;
+            console.log(errorMessage);
+            this.uploadIsDisabled = true;
+            // console.log(xhr);
+            // console.log('!!!!!!!!!!!!!!!!!!!! error !!!!!!!!!!!!!!!!!!!!');
+        },
+        onDropzoneMaxFilesExceeded: function onDropzoneMaxFilesExceeded(file) {
+            // console.log(file);
+            // console.log('!!!!!!!!!!!!!!!!!!!! max files exceeded !!!!!!!!!!!!!!!!!!!!');
+        },
+        onDropzoneMaxFilesReached: function onDropzoneMaxFilesReached(file) {
+            this.readyForUpload = true;
+            // console.log(file);
+            // console.log('!!!!!!!!!!!!!!!!!!!! max files reached !!!!!!!!!!!!!!!!!!!!');
+        },
+        onDropzoneRemovedFile: function onDropzoneRemovedFile(file) {
+            this.readyForUpload = false;
+        },
+        onDropzoneSending: function onDropzoneSending(file, xhr, formData) {
+            formData.append("name", this.formData.name);
+            formData.append("notes", this.formData.notes);
+        },
+        onDropzoneSuccess: function onDropzoneSuccess(file, response) {
+            var self = this;
+            this.myDropzone.removeAllFiles(true);
+            this.readyForUpload = false;
+            this.uploadAreaIsOpen = false;
+            $(this.collapseHref).collapse('hide');
+            this.myDropzone.destroy();
+            this.myDropzone = {};
+            this.flashSuccessModal();
+            EventBus.$emit('ont-software-profile-was-added', response);
+        },
+        onDropzoneUploadProgress: function onDropzoneUploadProgress(file, progress, bytesSent) {
+            document.querySelector("#software-progress-bar").style.width = progress + "%";
+        },
+        toggleUploadArea: function toggleUploadArea() {
+            if (this.myDropzone.options) {
+                this.uploadAreaIsOpen = false;
+                $(this.collapseHref).collapse('hide');
+                this.myDropzone.removeAllFiles(true);
+                this.myDropzone.destroy();
+                this.myDropzone = {};
+                this.showDropHere = true;
+            } else {
+                this.uploadAreaIsOpen = true;
+                this.initializeDropzone();
+            }
+        },
+        processQueue: function processQueue() {
+            this.myDropzone.processQueue();
+        }
+    }
+});
+
+/***/ }),
+/* 215 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col" }, [
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-dark btn-sm",
+              attrs: {
+                "data-toggle": "collapse",
+                href: _vm.collapseHref,
+                role: "button",
+                "aria-expanded": "false",
+                "aria-controls": _vm.collapseId
+              },
+              on: {
+                click: function($event) {
+                  _vm.toggleUploadArea()
+                }
+              }
+            },
+            [
+              _c("i", { staticClass: "material-icons mr-2" }, [
+                _vm._v("file_upload")
+              ]),
+              _vm._v("CREATE A NEW PROFILE\n                ")
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row mt-2" }, [
+        _c(
+          "div",
+          {
+            staticClass: "col collapse",
+            attrs: { id: _vm.collapseId, "data-toggle": _vm.uploadAreaIsOpen }
+          },
+          [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col" }, [
+                    _c(
+                      "form",
+                      {
+                        staticClass: "dropzone",
+                        attrs: { id: _vm.dropzoneId, action: _vm.uploadUrl }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.showDropHere,
+                                expression: "showDropHere"
+                              }
+                            ],
+                            staticClass: "dz-default dz-message"
+                          },
+                          [
+                            _c("span", [
+                              _vm._v("Click Here To Upload A Config File!")
+                            ])
+                          ]
+                        )
+                      ]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm.readyForUpload
+                  ? _c("div", { staticClass: "row mt-2" }, [
+                      _vm.uploadErrors.message
+                        ? _c("div", { staticClass: "col text-danger" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.uploadErrors.errors.name[0]) +
+                                "\n                                "
+                            ),
+                            _c("a", { attrs: { href: _vm.reloadUrl } }, [
+                              _vm._v("Click here to continue")
+                            ])
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-danger float-left",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.toggleUploadArea()
+                              }
+                            }
+                          },
+                          [
+                            _c("span", {
+                              staticClass: "fas fa-cloud-upload-alt"
+                            }),
+                            _vm._v(" Cancel\n                                ")
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-dark float-right",
+                            attrs: {
+                              type: "button",
+                              disabled: _vm.uploadIsDisabled
+                            },
+                            on: {
+                              click: function($event) {
+                                _vm.processQueue()
+                              }
+                            }
+                          },
+                          [
+                            _c("span", {
+                              staticClass: "fas fa-cloud-upload-alt"
+                            }),
+                            _vm._v(" Upload\n                                ")
+                          ]
+                        )
+                      ])
+                    ])
+                  : _vm._e()
+              ])
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "row",
+          staticStyle: { display: "none" },
+          attrs: { id: _vm.previewTemplateId }
+        },
+        [
+          _c("div", { staticClass: "col dz-preview dz-file-preview" }, [
+            _c("div", { staticClass: "dz-details mb-3" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "name" } }, [
+                      _vm._v("Profile Name")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.formData.name,
+                          expression: "formData.name"
+                        }
+                      ],
+                      staticClass: "form-control form-control-sm",
+                      attrs: {
+                        type: "text",
+                        name: "name",
+                        id: "name-input",
+                        "aria-describedby": "name-help",
+                        placeholder: "name"
+                      },
+                      domProps: { value: _vm.formData.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.formData, "name", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "small",
+                      {
+                        staticClass: "form-text text-muted",
+                        attrs: { id: "name-help" }
+                      },
+                      [
+                        _vm._v(
+                          "This is the name that will show up while provisioning customers...."
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "notes" } }, [_vm._v("Notes")]),
+                    _vm._v(" "),
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.formData.notes,
+                          expression: "formData.notes"
+                        }
+                      ],
+                      staticClass: "form-control form-control-sm",
+                      attrs: { id: "notes-input", rows: "2", name: "notes" },
+                      domProps: { value: _vm.formData.notes },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.formData, "notes", $event.target.value)
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(0),
+              _vm._v(" "),
+              _vm._m(1)
+            ])
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal fade",
+          attrs: {
+            tabindex: "-1",
+            role: "dialog",
+            id: _vm.modalId,
+            "aria-labelledby": _vm.modalLabel,
+            "aria-hidden": "true"
+          }
+        },
+        [
+          _c(
+            "div",
+            { staticClass: "modal-dialog", attrs: { role: "document" } },
+            [
+              _c("div", { staticClass: "modal-content" }, [
+                _c("div", { staticClass: "modal-header" }, [
+                  _c(
+                    "h5",
+                    {
+                      staticClass: "modal-title",
+                      attrs: { id: _vm.modalLabel }
+                    },
+                    [_vm._v("Success")]
+                  ),
+                  _vm._v(" "),
+                  _vm._m(2)
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-body" }, [
+                  _vm._v(
+                    "\n                        The file was successfully uploaded.\n                    "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-footer" })
+              ])
+            ]
+          )
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col" }, [
+        _c("div", { staticClass: "progress", staticStyle: { height: "3em" } }, [
+          _c(
+            "div",
+            {
+              staticClass:
+                "progress-bar bg-dark progress-bar-striped progress-bar-animated",
+              staticStyle: { width: "0%" },
+              attrs: {
+                "data-dz-uploadprogress": "",
+                id: "software-progress-bar",
+                role: "progressbar",
+                "aria-valuenow": "0",
+                "aria-valuemin": "0",
+                "aria-valuemax": "100"
+              }
+            },
+            [_c("span", { staticClass: "sr-only" }, [_vm._v("0% Complete")])]
+          )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col" }, [
+        _c("div", { staticClass: "dz-filename d-flex flex-column mr-5" }, [
+          _c("span", { attrs: { "data-dz-name": "" } }),
+          _vm._v(" "),
+          _c("span", { staticClass: "fas fa-file align-self-center" }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "dz-size align-self-center",
+            attrs: { "data-dz-size": "" }
+          })
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-01f186b5", module.exports)
+  }
+}
+
+/***/ }),
+/* 216 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

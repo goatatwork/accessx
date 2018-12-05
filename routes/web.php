@@ -40,10 +40,13 @@ Route::group(['middleware' => 'auth', 'prefix' => 'onts'], function() {
     Route::get('/', 'OntsController@index');
     Route::post('/', 'OntsController@store');
     Route::get('create', 'OntsController@create');
-    Route::get('{ont}', 'OntsController@show');
+    Route::get('{ont}', 'OntsController@show')->name('ont.show');
     Route::patch('{ont}', 'OntsController@update');
     Route::delete('{ont}', 'OntsController@destroy');
     Route::get('{ont}/edit', 'OntsController@edit');
+
+    Route::delete('ont_profiles/{ont_profile}', 'OntProfilesController@destroy');
+    Route::delete('ont_software/{ont_software}', 'OntSoftwareController@destroy');
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'dhcp'], function() {

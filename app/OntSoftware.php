@@ -47,4 +47,5 @@ class OntSoftware extends Model implements HasMedia, AuditableContract
     {
         return $this->ont_profiles()->whereName('Suspended')->exists();
     }
+
 }

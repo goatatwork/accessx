@@ -174,7 +174,7 @@ class ShowOntPageTest extends DuskTestCase
         $profile = factory(OntProfile::class)->create(['ont_software_id' => $software->id]);
 
         $this->browse(function($browser) use ($ont, $user, $software, $profile) {
-            $browser->loginAs($user)->visit('/onts/'.$ont->id.'?viewsoftware='.$software->id)->assertSee($profile->notes);
+            $browser->loginAs($user)->visit('/onts/'.$ont->id.'?viewsoftware='.$software->id)->assertSee($profile->name);
         });
     }
 
@@ -183,15 +183,15 @@ class ShowOntPageTest extends DuskTestCase
      * @group ont-destroy
      * @test
      */
-    public function test_profiles_can_be_deleted_from_the_web_interface()
-    {
-        $ont = factory(Ont::class)->create();
-        $user = factory(User::class)->create();
+    // public function test_profiles_can_be_deleted_from_the_web_interface()
+    // {
+    //     $ont = factory(Ont::class)->create();
+    //     $user = factory(User::class)->create();
 
-        $software = factory(OntSoftware::class)->create(['ont_id' => $ont->id]);
-        $profile = factory(OntProfile::class)->create(['ont_software_id' => $software->id]);
+    //     $software = factory(OntSoftware::class)->create(['ont_id' => $ont->id]);
+    //     $profile = factory(OntProfile::class)->create(['ont_software_id' => $software->id]);
 
 
-    }
+    // }
 
 }

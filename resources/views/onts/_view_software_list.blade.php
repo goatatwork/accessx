@@ -108,7 +108,7 @@
                                     <td class="text-center">
                                         <small>
                                             @if ($software->file)
-                                                <a href="{{ $software->file->getUrl() }}">{{ $software->file->file_name }}</a>
+                                                {{ $software->file->file_name }}
                                             @else
                                                 <span class="font-italic">--</span>
                                             @endif
@@ -236,7 +236,7 @@
                                     <td class="text-center">
                                         <small>
                                             @if ($profile->file)
-                                                <a href="{{ $profile->file->getUrl() }}">{{ $profile->file->file_name }}</a>
+                                                {{ $profile->file->file_name }}
                                             @else
                                                 <span class="font-italic">--</span>
                                             @endif

@@ -108,6 +108,9 @@
                                     <td class="text-center">
                                         <small>
                                             @if ($software->file)
+                                                <a href="{{ $software->file->getFullUrl() }}">
+                                                    <i class="material-icons">save</i>
+                                                </a>
                                                 {{ $software->file->file_name }}
                                             @else
                                                 <span class="font-italic">--</span>
@@ -236,6 +239,9 @@
                                     <td class="text-center">
                                         <small>
                                             @if ($profile->file)
+                                                <a href="{{ $profile->file->getFullUrl() }}">
+                                                    <i class="material-icons">save</i>
+                                                </a>
                                                 {{ $profile->file->file_name }}
                                             @else
                                                 <span class="font-italic">--</span>

@@ -63493,11 +63493,15 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "row mb-5" }, [
       _c("div", { staticClass: "col" }, [
-        _c("dl", { staticClass: "float-left" }, [
-          _c("dt", [_vm._v("Total ONTs")]),
-          _vm._v(" "),
-          _c("dd", [_vm._v("There are " + _vm._s(_vm.onts.length) + " ONTs")])
-        ]),
+        !_vm.onts.length
+          ? _c("dl", { staticClass: "float-left" }, [
+              _c("dt", [_vm._v("Total ONTs")]),
+              _vm._v(" "),
+              _c("dd", [
+                _vm._v("There are " + _vm._s(_vm.onts.length) + " ONTs")
+              ])
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _vm._m(1)
       ])
@@ -63511,13 +63515,7 @@ var render = function() {
       })
     ),
     _vm._v(" "),
-    !_vm.onts.length
-      ? _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col" }, [
-            _vm._v("\n            THERE ARE NO ONTS HERE\n        ")
-          ])
-        ])
-      : _vm._e()
+    !_vm.onts.length ? _c("div", { staticClass: "row" }, [_vm._m(2)]) : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -63555,6 +63553,15 @@ var staticRenderFns = [
           _vm._v("Create An ONT")
         ]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col" }, [
+      _c("span", { staticClass: "fas fa-spin fa-spinner" }),
+      _vm._v(" FETCHING ONTS...\n        ")
     ])
   }
 ]
@@ -71549,6 +71556,7 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
 
     methods: {
         configureDropzone: function configureDropzone() {
+            this.showDropHere = true;
             var self = this;
             // this.myDropzone = $('#'+this.dropzoneId).dropzone({
             this.myDropzone = new __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a(this.dropzoneHref, {
@@ -71602,6 +71610,7 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
             $(this.modalHref).modal('show');
             setTimeout(function () {
                 $(self.modalHref).modal('hide');
+                window.location.reload();
             }, 1500);
         },
         initializeDropzone: function initializeDropzone() {
@@ -71656,6 +71665,7 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
                 this.myDropzone.removeAllFiles(true);
                 this.myDropzone.destroy();
                 this.myDropzone = {};
+                this.showDropHere = true;
             } else {
                 this.uploadAreaIsOpen = true;
                 this.initializeDropzone();
@@ -71813,9 +71823,7 @@ var render = function() {
               _c("div", { staticClass: "row" }, [
                 _c("div", { staticClass: "col" }, [
                   _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "notes" } }, [
-                      _vm._v("Your Note")
-                    ]),
+                    _c("label", { attrs: { for: "notes" } }, [_vm._v("Notes")]),
                     _vm._v(" "),
                     _c("textarea", {
                       directives: [
@@ -72178,6 +72186,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
@@ -72232,6 +72254,7 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
 
     methods: {
         configureDropzone: function configureDropzone() {
+            this.showDropHere = true;
             var self = this;
             // this.myDropzone = $('#'+this.dropzoneId).dropzone({
             this.myDropzone = new __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a(this.dropzoneHref, {
@@ -72285,6 +72308,7 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
             $(this.modalHref).modal('show');
             setTimeout(function () {
                 $(self.modalHref).modal('hide');
+                window.location.reload();
             }, 1500);
         },
         initializeDropzone: function initializeDropzone() {
@@ -72340,6 +72364,7 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
                 this.myDropzone.removeAllFiles(true);
                 this.myDropzone.destroy();
                 this.myDropzone = {};
+                this.showDropHere = true;
             } else {
                 this.uploadAreaIsOpen = true;
                 this.initializeDropzone();
@@ -72452,7 +72477,26 @@ var render = function() {
                         _c(
                           "button",
                           {
-                            staticClass: "btn btn-dark float-right",
+                            staticClass: "btn btn-sm btn-danger float-left",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.toggleUploadArea()
+                              }
+                            }
+                          },
+                          [
+                            _c("span", {
+                              staticClass: "fas fa-cloud-upload-alt"
+                            }),
+                            _vm._v(" Cancel\n                                ")
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-dark float-right",
                             attrs: {
                               type: "button",
                               disabled: _vm.uploadIsDisabled
@@ -72467,7 +72511,7 @@ var render = function() {
                             _c("span", {
                               staticClass: "fas fa-cloud-upload-alt"
                             }),
-                            _vm._v(" Upload")
+                            _vm._v(" Upload\n                                ")
                           ]
                         )
                       ])

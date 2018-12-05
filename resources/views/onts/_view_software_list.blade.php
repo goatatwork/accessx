@@ -48,63 +48,239 @@
 
 <div class="row">
     <div class="col">
+        <hr>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-10">
 
         <div class="row">
             <div class="col">
                 <table class="table table-hover table-sm">
                     <thead>
                         <tr>
-                            <th colspan="5" class="border-0">
-                                @if ($ont->ont_profiles()->count() == 1)
-                                    There is {{ $ont->ont_profiles()->count() }} profile for this ONT
+                            <th colspan="7" class="text-center border-0">
+                                @if ($ont->ont_software()->count() == 1)
+                                    There is 1 Software Images For This ONT
                                 @else
-                                    There are {{ $ont->ont_profiles()->count() }} profiles for this ONT
+                                    There are {{ $ont->ont_software()->count() }} Software Images For This ONT
                                 @endif
+                                <small>
+                                    <span class="text-muted float-right">
+                                        Click on a software version to add profiles for it
+                                    </span>
+                                </small>
                             </th>
                         </tr>
                         <tr>
-                            <th>Profile Name</th>
-                            <th>Description</th>
-                            <th>Software Version</th>
-                            <th>File</th>
-                            <th></th>
+                            <th class="text-center">
+                                Software
+                            </th>
+                            <th class="text-center">
+                                File Name
+                            </th>
+                            <th class="text-left">
+                                Size
+                            </th>
+                            <th class="text-center">
+                                Profiles
+                            </th>
+                            <th class="text-center">
+                                Customers
+                            </th>
+                            <th>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if ($ont->ont_profiles()->count())
-                            @foreach ($ont->ont_profiles as $profile)
+                        @if ($ont->ont_software()->count())
+
+                            @foreach($ont->ont_software as $software)
                                 <tr>
-                                    <td>{{ $profile->name }}</td>
-                                    <td>{{ $profile->notes }}</td>
-                                    <td>
-                                        <a href="?viewsoftware={{ $profile->ont_software->id }}">
-                                            {{ $profile->ont_software->version }}
+                                    <td class="text-center">
+                                        <a href="?viewsoftware={{ $software->id }}">
+                                            {{ $software->version }}
                                         </a>
                                     </td>
-                                    <td>
-                                        @if ($profile->file)
-                                            <a href="{{ $profile->file->url }}">{{ $profile->file->file_name }}</a>
-                                            {{$profile->file->human_readable_size}}
-                                        @else
-                                            'no file'
-                                        @endif
+                                    <td class="text-center">
+                                        <small>
+                                            @if ($software->file)
+                                                {{ $software->file->file_name }}
+                                            @else
+                                                <span class="font-italic">--</span>
+                                            @endif
+                                        </small>
+                                    </td>
+                                    <td class="text-left">
+                                        <small>
+                                            @if ($software->file)
+                                                {{ $software->file->human_readable_size }}
+                                            @else
+                                                <span class="font-italic">--</span>
+                                            @endif
+                                        </small>
+                                    </td>
+                                    <td class="text-center">
+                                        {{ $software->ont_profiles()->count() }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ $software->provisioning_records()->count() }}
                                     </td>
                                     <td>
-                                        <button class="btn btn-danger btn-sm"
+                                        <button class="btn btn-danger btn-sm float-right"
                                             data-toggle="modal"
-                                            data-target="#delete-modal-for-profile-{{ $profile->id }}"
+                                            data-target="#delete-modal-for-software-{{ $software->id }}"
+                                            @if ($software->provisioning_records()->count()) disabled @endif
                                         >
-                                            Delete
+                                            Delete {{ $software->version }}
                                         </button>
                                     </td>
                                 </tr>
                             @endforeach
+
+                        @else
+
+                            <tr>
+                                <td colspan="7">There is no software here</td>
+                            </tr>
+
                         @endif
                     </tbody>
                 </table>
             </div>
         </div>
 
+        <div class="row">
+            <div class="col">
+                @if ($ont->ont_software()->count())
+                    @foreach ($ont->ont_software as $software)
+                        <div class="modal fade"
+                            id="delete-modal-for-software-{{ $software->id }}"
+                            tabindex="-1"
+                            role="dialog"
+                            aria-labelledby="exampleModalLabel"
+                            aria-hidden="true"
+                        >
+                            <div class="modal-dialog" role="document">
+                                <form action="/onts/ont_software/{{ $software->id }}" method="POST">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Delete ONT Software</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to remove the <span class="font-weight-bold">{{ $software->version }}</span> software?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            <button type="submit" class="btn btn-primary">Confirm Delete {{ $software->version }}</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+
+        <div class="row">
+            <div class="col">
+                <table class="table table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th colspan="6" class="text-center border-0">
+                                @if ($ont->ont_profiles()->count() == 1)
+                                    There is 1 profile that uses this software
+                                @else
+                                    There are {{ $ont->ont_profiles()->count() }} profiles that use this software
+                                @endif
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Profile</th>
+                            <th class="text-center">File Name</th>
+                            <th class="text-left">Size</th>
+                            <th class="text-center">Software</th>
+                            <th class="text-center">Customers Using</th>
+                            <th class="text-center">Notes</th>
+                            <th class="text-center"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if ($ont->ont_profiles()->count())
+                            @foreach ($ont->ont_profiles as $profile)
+                                <tr>
+                                    <td class="text-center">{{ $profile->name }}</td>
+                                    <td class="text-center">
+                                        <small>
+                                            @if ($profile->file)
+                                                <a href="{{ $profile->file->getUrl() }}">{{ $profile->file->file_name }}</a>
+                                            @else
+                                                <span class="font-italic">--</span>
+                                            @endif
+                                        </small>
+                                    </td>
+                                    <td class="text-left">
+                                        <small>
+                                            @if ($profile->file)
+                                                {{ $profile->file->human_readable_size }}
+                                            @else
+                                                <span class="font-italic">--</span>
+                                            @endif
+                                        </small>
+                                    </td>
+                                    <td class="text-center">
+                                        {{ $profile->ont_software->version }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ $profile->provisioning_records()->count() }}
+                                    </td>
+                                    <td class="text-left">
+                                        <small>
+                                            {{ $profile->notes }}
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger btn-sm"
+                                            data-toggle="modal"
+                                            data-target="#delete-modal-for-profile-{{ $profile->id }}"
+                                            @if ($profile->provisioning_records()->count()) disabled @endif
+                                        >
+                                            Delete
+                                        </button>
+                                    </td>
+
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="6">There are no profiles here</td>
+                            </tr>
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col">
@@ -146,46 +322,5 @@
             </div>
         </div>
 
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-auto">
-        <table class="table table-hover table-sm">
-            <thead>
-                <tr>
-                    <th>
-                        Software Version
-                    </th>
-                    <th>
-                        Number Of Profiles
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @if ($ont->ont_software()->count())
-
-                    @foreach($ont->ont_software as $software)
-                        <tr>
-                            <td class="text-center">
-                                <a href="?viewsoftware={{ $software->id }}">
-                                    {{ $software->version }}
-                                </a>
-                            </td>
-                            <td class="text-center">
-                                {{ $software->ont_profiles()->count() }}
-                            </td>
-                        </tr>
-                    @endforeach
-
-                @else
-
-                    <tr>
-                        <td colspan="2">There is no software here</td>
-                    </tr>
-
-                @endif
-            </tbody>
-        </table>
     </div>
 </div>

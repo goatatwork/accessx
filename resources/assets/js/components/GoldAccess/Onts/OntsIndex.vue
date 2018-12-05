@@ -12,7 +12,7 @@
         <div class="row mb-5">
             <div class="col">
 
-                <dl class="float-left">
+                <dl v-if="!onts.length" class="float-left">
                     <dt>Total ONTs</dt>
                     <dd>There are {{ onts.length }} ONTs</dd>
                 </dl>
@@ -30,7 +30,7 @@
 
         <div class="row" v-if="!onts.length" >
             <div class="col">
-                THERE ARE NO ONTS HERE
+                <span class="fas fa-spin fa-spinner"></span> FETCHING ONTS...
             </div>
         </div>
 

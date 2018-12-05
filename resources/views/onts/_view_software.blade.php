@@ -8,7 +8,8 @@
 
         <ul class="list-unstyled mt-2">
             <li>
-                <i class="material-icons text-primary">router</i> This image is used on the {{ $ont->manufacturer }} {{ $ont->model_number }}
+                <i class="material-icons text-primary">router</i> This image is used on the
+                <span class="font-weight-bold">{{ $ont->manufacturer }} {{ $ont->model_number }}</span>
             </li>
             <li>
                 @if ($ont->indoor)
@@ -48,13 +49,19 @@
 
 <div class="row">
     <div class="col">
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
 
         <div class="row">
             <div class="col">
                 <table class="table table-hover table-sm">
                     <thead>
                         <tr>
-                            <th colspan="4" class="border-0">
+                            <th colspan="6" class="border-0">
                                 @if ($view_software->ont_profiles()->count() == 1)
                                     There is 1 profile that uses this software
                                 @else
@@ -63,29 +70,54 @@
                             </th>
                         </tr>
                         <tr>
-                            <th>Profile</th>
-                            <th>File Name</th>
-                            <th>Notes</th>
-                            <th></th>
+                            <th class="text-center">Profile</th>
+                            <th class="text-center">File Name</th>
+                            <th class="text-left">Size</th>
+                            <th class="text-center">Software</th>
+                            <th class="text-center">Customers Using</th>
+                            <th class="text-center">Notes</th>
+                            <th class="text-center"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @if ($view_software->ont_profiles()->count())
                             @foreach ($view_software->ont_profiles as $profile)
                                 <tr>
-                                    <td>{{ $profile->name }}</td>
-                                    <td>
-                                        @if ($profile->file)
-                                            <a href="{{ $profile->file->getUrl() }}">{{ $profile->file->file_name }}</a>{{ $profile->file->human_readable_size }}
-                                        @else
-                                            'no file'
-                                        @endif
+                                    <td class="text-center">{{ $profile->name }}</td>
+                                    <td class="text-center">
+                                        <small>
+                                            @if ($profile->file)
+                                                <a href="{{ $profile->file->getUrl() }}">{{ $profile->file->file_name }}</a>
+                                            @else
+                                                <span class="font-italic">--</span>
+                                            @endif
+                                        </small>
                                     </td>
-                                    <td>{{ $profile->notes }}</td>
+                                    <td class="text-left">
+                                        <small>
+                                            @if ($profile->file)
+                                                {{ $profile->file->human_readable_size }}
+                                            @else
+                                                <span class="font-italic">--</span>
+                                            @endif
+                                        </small>
+                                    </td>
+                                    <td class="text-center">
+                                        {{ $profile->ont_software->version }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ $profile->provisioning_records()->count() }}
+                                    </td>
+                                    <td>
+                                        <small>
+                                            {{ $profile->notes }}
+                                        </small>
+                                    </td>
                                     <td>
                                         <button class="btn btn-danger btn-sm"
                                             data-toggle="modal"
                                             data-target="#delete-modal-for-profile-{{ $profile->id }}"
+                                            @if ($profile->provisioning_records()->count()) disabled @endif
                                         >
                                             Delete
                                         </button>
@@ -95,7 +127,7 @@
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="2">There are no profiles here</td>
+                                <td colspan="6">There are no profiles here</td>
                             </tr>
                         @endif
                     </tbody>

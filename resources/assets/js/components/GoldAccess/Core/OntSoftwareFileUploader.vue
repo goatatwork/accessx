@@ -68,7 +68,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-group"> <!-- input for notes -->
-                                            <label for="notes">Your Note</label>
+                                            <label for="notes">Notes</label>
                                             <textarea
                                                 class="form-control form-control-sm"
                                                 id="notes-input"
@@ -192,6 +192,7 @@
 
         methods: {
             configureDropzone: function() {
+                this.showDropHere = true;
                 let self = this;
                 // this.myDropzone = $('#'+this.dropzoneId).dropzone({
                 this.myDropzone = new Dropzone(this.dropzoneHref, {
@@ -245,6 +246,7 @@
                 $(this.modalHref).modal('show');
                 setTimeout(function() {
                     $(self.modalHref).modal('hide');
+                    window.location.reload();
                 }, 1500);
             },
             initializeDropzone: function() {
@@ -299,6 +301,7 @@
                     this.myDropzone.removeAllFiles(true);
                     this.myDropzone.destroy();
                     this.myDropzone = {};
+                    this.showDropHere = true;
                 } else {
                     this.uploadAreaIsOpen = true;
                     this.initializeDropzone();

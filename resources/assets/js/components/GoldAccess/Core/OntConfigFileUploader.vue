@@ -41,7 +41,21 @@
                                 </div>
 
                                 <div class="col">
-                                    <button type="button" class="btn btn-dark float-right" :disabled="uploadIsDisabled" @click="processQueue()"><span class="fas fa-cloud-upload-alt"></span> Upload</button>
+
+                                    <button type="button"
+                                        class="btn btn-sm btn-danger float-left"
+                                        @click="toggleUploadArea()"
+                                    >
+                                        <span class="fas fa-cloud-upload-alt"></span> Cancel
+                                    </button>
+
+                                    <button type="button"
+                                        class="btn btn-sm btn-dark float-right"
+                                        :disabled="uploadIsDisabled"
+                                        @click="processQueue()"
+                                    >
+                                        <span class="fas fa-cloud-upload-alt"></span> Upload
+                                    </button>
                                 </div>
 
                             </div>
@@ -204,6 +218,7 @@
 
         methods: {
             configureDropzone: function() {
+                this.showDropHere = true;
                 let self = this;
                 // this.myDropzone = $('#'+this.dropzoneId).dropzone({
                 this.myDropzone = new Dropzone(this.dropzoneHref, {
@@ -257,6 +272,7 @@
                 $(this.modalHref).modal('show');
                 setTimeout(function() {
                     $(self.modalHref).modal('hide');
+                    window.location.reload();
                 }, 1500);
             },
             initializeDropzone: function() {
@@ -312,6 +328,7 @@
                     this.myDropzone.removeAllFiles(true);
                     this.myDropzone.destroy();
                     this.myDropzone = {};
+                    this.showDropHere = true;
                 } else {
                     this.uploadAreaIsOpen = true;
                     this.initializeDropzone();

@@ -67,9 +67,11 @@
                                     There are {{ $ont->ont_software()->count() }} Software Images For This ONT
                                 @endif
                                 <small>
-                                    <span class="text-muted float-right">
-                                        Click on a software version to add profiles for it
-                                    </span>
+                                    @if ($ont->ont_software()->count())
+                                        <span class="text-muted float-right">
+                                            Click on a software version to add profiles for it
+                                        </span>
+                                    @endif
                                 </small>
                             </th>
                         </tr>
@@ -106,7 +108,7 @@
                                     <td class="text-center">
                                         <small>
                                             @if ($software->file)
-                                                {{ $software->file->file_name }}
+                                                <a href="{{ $software->file->getUrl() }}">{{ $software->file->file_name }}</a>
                                             @else
                                                 <span class="font-italic">--</span>
                                             @endif
@@ -210,9 +212,9 @@
                         <tr>
                             <th colspan="6" class="text-center border-0">
                                 @if ($ont->ont_profiles()->count() == 1)
-                                    There is 1 profile that uses this software
+                                    There is 1 profile for this ONT
                                 @else
-                                    There are {{ $ont->ont_profiles()->count() }} profiles that use this software
+                                    There are {{ $ont->ont_profiles()->count() }} profiles for this ONT
                                 @endif
                             </th>
                         </tr>

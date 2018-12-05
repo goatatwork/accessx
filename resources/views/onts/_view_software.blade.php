@@ -61,7 +61,7 @@
                 <table class="table table-hover table-sm">
                     <thead>
                         <tr>
-                            <th colspan="6" class="border-0">
+                            <th colspan="6" class="text-center border-0">
                                 @if ($view_software->ont_profiles()->count() == 1)
                                     There is 1 profile that uses this software
                                 @else

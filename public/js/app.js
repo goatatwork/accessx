@@ -71498,18 +71498,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
@@ -71523,6 +71511,7 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
     data: function data() {
         return {
             myDropzone: {},
+            showDropHere: true,
             readyForUpload: false,
             uploadAreaIsOpen: false,
             formData: {
@@ -71570,7 +71559,6 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
                 addRemoveLinks: false,
                 previewTemplate: document.getElementById(this.previewTemplateId).innerHTML,
                 autoProcessQueue: false,
-                dictDefaultMessage: 'Drop ONT software images here',
                 createImageThumbnails: false,
                 headers: {
                     "X-CSRF-TOKEN": window.axios.defaults.headers.common['X-CSRF-TOKEN']
@@ -71618,6 +71606,8 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
             this.configureDropzone();
         },
         onDropzoneAddedFile: function onDropzoneAddedFile(file) {
+            this.showDropHere = false;
+            this.formData.version = file.name;
             console.log(file);
             console.log('!!!!!!!!!!!!!!!!!!!! file added !!!!!!!!!!!!!!!!!!!!');
         },
@@ -71660,6 +71650,8 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
         toggleUploadArea: function toggleUploadArea() {
             if (this.myDropzone.options) {
                 this.uploadAreaIsOpen = false;
+                $(this.collapseHref).collapse('hide');
+                this.myDropzone.removeAllFiles(true);
                 this.myDropzone.destroy();
                 this.myDropzone = {};
             } else {
@@ -71722,161 +71714,133 @@ var render = function() {
           [
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col" }, [
-                _c("div", { staticClass: "card mb-3" }, [
-                  _c("div", { staticClass: "card-body" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col" }, [
-                        _c("form", {
-                          staticClass: "dropzone",
-                          attrs: { id: _vm.dropzoneId, action: _vm.uploadUrl }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _vm.readyForUpload
-                      ? _c("div", { staticClass: "row mt-2" }, [
-                          _c("div", { staticClass: "col" }, [
-                            _c(
-                              "button",
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col" }, [
+                    _c(
+                      "form",
+                      {
+                        staticClass: "dropzone",
+                        attrs: { id: _vm.dropzoneId, action: _vm.uploadUrl }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            directives: [
                               {
-                                staticClass: "btn btn-dark float-right",
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.processQueue()
-                                  }
-                                }
-                              },
-                              [
-                                _c("span", {
-                                  staticClass: "fas fa-cloud-upload-alt"
-                                }),
-                                _vm._v(" Upload")
-                              ]
-                            )
-                          ])
-                        ])
-                      : _vm._e()
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.showDropHere,
+                                expression: "showDropHere"
+                              }
+                            ],
+                            staticClass: "dz-default dz-message"
+                          },
+                          [_c("span", [_vm._v("Drop A Software Image Here!")])]
+                        )
+                      ]
+                    )
                   ])
-                ])
+                ]),
+                _vm._v(" "),
+                _vm.readyForUpload
+                  ? _c("div", { staticClass: "row mt-2" }, [
+                      _c("div", { staticClass: "col" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-danger float-left",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.toggleUploadArea()
+                              }
+                            }
+                          },
+                          [
+                            _c("span", {
+                              staticClass: "fas fa-cloud-upload-alt"
+                            }),
+                            _vm._v(" Cancel\n                                ")
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-dark float-right",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.processQueue()
+                              }
+                            }
+                          },
+                          [
+                            _c("span", {
+                              staticClass: "fas fa-cloud-upload-alt"
+                            }),
+                            _vm._v(" Upload\n                                ")
+                          ]
+                        )
+                      ])
+                    ])
+                  : _vm._e()
               ])
             ])
           ]
         )
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col" }, [
-          _c(
-            "div",
-            {
-              staticClass: "card",
-              staticStyle: { display: "none" },
-              attrs: { id: _vm.previewTemplateId }
-            },
-            [
-              _c(
-                "div",
-                { staticClass: "card-body dz-preview dz-file-preview" },
-                [
-                  _c("div", { staticClass: "dz-details mb-3" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col" }, [
-                        _c("div", { staticClass: "form-group" }, [
-                          _c("label", { attrs: { for: "version" } }, [
-                            _vm._v("Version")
-                          ]),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.formData.version,
-                                expression: "formData.version"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: {
-                              type: "text",
-                              name: "version",
-                              id: "version-input",
-                              "aria-describedby": "version-help",
-                              placeholder: "version"
-                            },
-                            domProps: { value: _vm.formData.version },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.formData,
-                                  "version",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "small",
-                            {
-                              staticClass: "form-text text-muted",
-                              attrs: { id: "version-help" }
-                            },
-                            [_vm._v("Software version number....")]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "form-group" }, [
-                          _c("label", { attrs: { for: "notes" } }, [
-                            _vm._v("Your Note")
-                          ]),
-                          _vm._v(" "),
-                          _c("textarea", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.formData.notes,
-                                expression: "formData.notes"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: {
-                              id: "notes-input",
-                              rows: "5",
-                              name: "notes"
-                            },
-                            domProps: { value: _vm.formData.notes },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.formData,
-                                  "notes",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
-                        ])
-                      ])
+      _c(
+        "div",
+        {
+          staticClass: "row",
+          staticStyle: { display: "none" },
+          attrs: { id: _vm.previewTemplateId }
+        },
+        [
+          _c("div", { staticClass: "col dz-preview dz-file-preview" }, [
+            _c("div", { staticClass: "dz-details mb-3" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "notes" } }, [
+                      _vm._v("Your Note")
                     ]),
                     _vm._v(" "),
-                    _vm._m(0),
-                    _vm._v(" "),
-                    _vm._m(1)
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.formData.notes,
+                          expression: "formData.notes"
+                        }
+                      ],
+                      staticClass: "form-control form-control-sm",
+                      attrs: { id: "notes-input", rows: "2", name: "notes" },
+                      domProps: { value: _vm.formData.notes },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.formData, "notes", $event.target.value)
+                        }
+                      }
+                    })
                   ])
-                ]
-              )
-            ]
-          )
-        ])
-      ]),
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(0),
+              _vm._v(" "),
+              _vm._m(1)
+            ])
+          ])
+        ]
+      ),
       _vm._v(" "),
       _c(
         "div",
@@ -71960,30 +71924,14 @@ var staticRenderFns = [
     return _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col" }, [
         _c("div", { staticClass: "dz-filename d-flex flex-column mr-5" }, [
-          _c("span", { staticClass: "fas fa-2x fa-file align-self-center" }),
-          _vm._v(" "),
           _c("span", { attrs: { "data-dz-name": "" } }),
+          _vm._v(" "),
+          _c("span", { staticClass: "fas fa-file align-self-center" }),
           _vm._v(" "),
           _c("div", {
             staticClass: "dz-size align-self-center",
             attrs: { "data-dz-size": "" }
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "mt-3" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-sm btn-dark form-control",
-                attrs: { type: "button", "data-dz-remove": "" }
-              },
-              [
-                _c("span", { staticClass: "fas fa-trash" }),
-                _vm._v(
-                  "\n                                                        Remove\n                                                    "
-                )
-              ]
-            )
-          ])
+          })
         ])
       ])
     ])
@@ -72220,17 +72168,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
@@ -72244,6 +72181,7 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
     data: function data() {
         return {
             myDropzone: {},
+            showDropHere: true,
             readyForUpload: false,
             uploadAreaIsOpen: false,
             uploadIsDisabled: false,
@@ -72296,7 +72234,6 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
                 addRemoveLinks: false,
                 previewTemplate: document.getElementById(this.previewTemplateId).innerHTML,
                 autoProcessQueue: false,
-                dictDefaultMessage: 'Drop ONT config files here',
                 createImageThumbnails: false,
                 headers: {
                     "X-CSRF-TOKEN": window.axios.defaults.headers.common['X-CSRF-TOKEN']
@@ -72344,6 +72281,7 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
             this.configureDropzone();
         },
         onDropzoneAddedFile: function onDropzoneAddedFile(file) {
+            this.showDropHere = false;
             console.log(file);
             console.log('!!!!!!!!!!!!!!!!!!!! file added !!!!!!!!!!!!!!!!!!!!');
         },
@@ -72388,6 +72326,8 @@ __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
         toggleUploadArea: function toggleUploadArea() {
             if (this.myDropzone.options) {
                 this.uploadAreaIsOpen = false;
+                $(this.collapseHref).collapse('hide');
+                this.myDropzone.removeAllFiles(true);
                 this.myDropzone.destroy();
                 this.myDropzone = {};
             } else {
@@ -72450,177 +72390,171 @@ var render = function() {
           [
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col" }, [
-                _c("div", { staticClass: "card mb-3" }, [
-                  _c("div", { staticClass: "card-body" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col" }, [
-                        _c("form", {
-                          staticClass: "dropzone",
-                          attrs: { id: _vm.dropzoneId, action: _vm.uploadUrl }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _vm.readyForUpload
-                      ? _c("div", { staticClass: "row mt-2" }, [
-                          _vm.uploadErrors.message
-                            ? _c("div", { staticClass: "col text-danger" }, [
-                                _vm._v(
-                                  "\n                                        " +
-                                    _vm._s(_vm.uploadErrors.errors.name[0]) +
-                                    "\n                                        "
-                                ),
-                                _c("a", { attrs: { href: _vm.reloadUrl } }, [
-                                  _vm._v("Click here to continue")
-                                ])
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col" }, [
-                            _c(
-                              "button",
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col" }, [
+                    _c(
+                      "form",
+                      {
+                        staticClass: "dropzone",
+                        attrs: { id: _vm.dropzoneId, action: _vm.uploadUrl }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            directives: [
                               {
-                                staticClass: "btn btn-dark float-right",
-                                attrs: {
-                                  type: "button",
-                                  disabled: _vm.uploadIsDisabled
-                                },
-                                on: {
-                                  click: function($event) {
-                                    _vm.processQueue()
-                                  }
-                                }
-                              },
-                              [
-                                _c("span", {
-                                  staticClass: "fas fa-cloud-upload-alt"
-                                }),
-                                _vm._v(" Upload")
-                              ]
-                            )
-                          ])
-                        ])
-                      : _vm._e()
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.showDropHere,
+                                expression: "showDropHere"
+                              }
+                            ],
+                            staticClass: "dz-default dz-message"
+                          },
+                          [_c("span", [_vm._v("Drop A Config File Here!")])]
+                        )
+                      ]
+                    )
                   ])
-                ])
+                ]),
+                _vm._v(" "),
+                _vm.readyForUpload
+                  ? _c("div", { staticClass: "row mt-2" }, [
+                      _vm.uploadErrors.message
+                        ? _c("div", { staticClass: "col text-danger" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.uploadErrors.errors.name[0]) +
+                                "\n                                "
+                            ),
+                            _c("a", { attrs: { href: _vm.reloadUrl } }, [
+                              _vm._v("Click here to continue")
+                            ])
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-dark float-right",
+                            attrs: {
+                              type: "button",
+                              disabled: _vm.uploadIsDisabled
+                            },
+                            on: {
+                              click: function($event) {
+                                _vm.processQueue()
+                              }
+                            }
+                          },
+                          [
+                            _c("span", {
+                              staticClass: "fas fa-cloud-upload-alt"
+                            }),
+                            _vm._v(" Upload")
+                          ]
+                        )
+                      ])
+                    ])
+                  : _vm._e()
               ])
             ])
           ]
         )
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col" }, [
-          _c(
-            "div",
-            {
-              staticClass: "card",
-              staticStyle: { display: "none" },
-              attrs: { id: _vm.previewTemplateId }
-            },
-            [
-              _c(
-                "div",
-                { staticClass: "card-body dz-preview dz-file-preview" },
-                [
-                  _c("div", { staticClass: "dz-details mb-3" }, [
-                    _vm._m(0),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col" }, [
-                        _c("div", { staticClass: "form-group" }, [
-                          _c("label", { attrs: { for: "name" } }, [
-                            _vm._v("Profile Name")
-                          ]),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.formData.name,
-                                expression: "formData.name"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: {
-                              type: "text",
-                              name: "name",
-                              id: "name-input",
-                              "aria-describedby": "name-help",
-                              placeholder: "name"
-                            },
-                            domProps: { value: _vm.formData.name },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.formData,
-                                  "name",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "small",
-                            {
-                              staticClass: "form-text text-muted",
-                              attrs: { id: "name-help" }
-                            },
-                            [_vm._v("A name for this profile....")]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "form-group" }, [
-                          _c("label", { attrs: { for: "notes" } }, [
-                            _vm._v("Your Note")
-                          ]),
-                          _vm._v(" "),
-                          _c("textarea", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.formData.notes,
-                                expression: "formData.notes"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: {
-                              id: "notes-input",
-                              rows: "5",
-                              name: "notes"
-                            },
-                            domProps: { value: _vm.formData.notes },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.formData,
-                                  "notes",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
-                        ])
-                      ])
+      _c(
+        "div",
+        {
+          staticClass: "row",
+          staticStyle: { display: "none" },
+          attrs: { id: _vm.previewTemplateId }
+        },
+        [
+          _c("div", { staticClass: "col dz-preview dz-file-preview" }, [
+            _c("div", { staticClass: "dz-details mb-3" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "name" } }, [
+                      _vm._v("Profile Name")
                     ]),
                     _vm._v(" "),
-                    _vm._m(1)
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.formData.name,
+                          expression: "formData.name"
+                        }
+                      ],
+                      staticClass: "form-control form-control-sm",
+                      attrs: {
+                        type: "text",
+                        name: "name",
+                        id: "name-input",
+                        "aria-describedby": "name-help",
+                        placeholder: "name"
+                      },
+                      domProps: { value: _vm.formData.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.formData, "name", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "small",
+                      {
+                        staticClass: "form-text text-muted",
+                        attrs: { id: "name-help" }
+                      },
+                      [_vm._v("A name for this profile....")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "notes" } }, [_vm._v("Notes")]),
+                    _vm._v(" "),
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.formData.notes,
+                          expression: "formData.notes"
+                        }
+                      ],
+                      staticClass: "form-control form-control-sm",
+                      attrs: { id: "notes-input", rows: "2", name: "notes" },
+                      domProps: { value: _vm.formData.notes },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.formData, "notes", $event.target.value)
+                        }
+                      }
+                    })
                   ])
-                ]
-              )
-            ]
-          )
-        ])
-      ]),
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(0),
+              _vm._v(" "),
+              _vm._m(1)
+            ])
+          ])
+        ]
+      ),
       _vm._v(" "),
       _c(
         "div",
@@ -72675,41 +72609,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col" }, [
-        _c("div", { staticClass: "dz-filename d-flex flex-column mr-5" }, [
-          _c("span", { staticClass: "fas fa-2x fa-file align-self-center" }),
-          _vm._v(" "),
-          _c("span", { attrs: { "data-dz-name": "" } }),
-          _vm._v(" "),
-          _c("div", {
-            staticClass: "dz-size align-self-center",
-            attrs: { "data-dz-size": "" }
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "mt-3" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-sm btn-dark form-control",
-                attrs: { type: "button", "data-dz-remove": "" }
-              },
-              [
-                _c("span", { staticClass: "fas fa-trash" }),
-                _vm._v(
-                  "\n                                                        Remove\n                                                    "
-                )
-              ]
-            )
-          ])
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col" }, [
         _c("div", { staticClass: "progress", staticStyle: { height: "3em" } }, [
           _c(
             "div",
@@ -72728,6 +72627,25 @@ var staticRenderFns = [
             },
             [_c("span", { staticClass: "sr-only" }, [_vm._v("0% Complete")])]
           )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col" }, [
+        _c("div", { staticClass: "dz-filename d-flex flex-column mr-5" }, [
+          _c("span", { attrs: { "data-dz-name": "" } }),
+          _vm._v(" "),
+          _c("span", { staticClass: "fas fa-file align-self-center" }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "dz-size align-self-center",
+            attrs: { "data-dz-size": "" }
+          })
         ])
       ])
     ])

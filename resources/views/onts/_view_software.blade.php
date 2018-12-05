@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col">
+    <div class="col-auto">
 
         <span class="font-weight-bold">
             <i class="material-icons text-secondary">sd_storage</i>
@@ -38,7 +38,7 @@
         </ul>
     </div>
 
-    <div class="col-5 d-flex justify-content-end align-items-end">
+    <div class="col">
         <ont-config-file-uploader
             upload-url="/api/onts/ont_software/{{ $view_software->id }}/ont_profiles"
             dropzone-id="dropzone-for-profile-{{ $view_software->id }}">
@@ -83,7 +83,7 @@
                                     </td>
                                     <td>{{ $profile->notes }}</td>
                                     <td>
-                                        <button class="btn btn-danger">Delete</button>
+                                        <button class="btn btn-danger btn-sm">Delete</button>
                                     </td>
 
                                 </tr>

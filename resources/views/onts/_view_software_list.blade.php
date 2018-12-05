@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col">
+    <div class="col-auto">
 
         <span class="font-weight-bold">
             You are viewing details for the {{ $ont->manufacturer }} {{ $ont->model_number }}
@@ -34,7 +34,7 @@
         </ul>
     </div>
 
-    <div class="col-5 d-flex justify-content-end align-items-end">
+    <div class="col">
         <div class="row">
             <div class="col">
                 <ont-software-file-uploader

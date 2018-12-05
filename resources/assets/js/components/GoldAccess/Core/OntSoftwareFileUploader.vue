@@ -22,23 +22,35 @@
                 <div :id="collapseId" class="col collapse" :data-toggle="uploadAreaIsOpen">
                     <div class="row">
                         <div class="col">
-                            <div class="card mb-3">
-                                <div class="card-body">
 
-                                    <div class="row">
-                                        <div class="col">
-                                            <form :id="dropzoneId" :action="uploadUrl" class="dropzone"></form>
-                                        </div>
-                                    </div>
+                            <div class="row">
+                                <div class="col">
+                                    <form :id="dropzoneId" :action="uploadUrl" class="dropzone">
+                                        <div v-show="showDropHere" class="dz-default dz-message"><span>Drop A Software Image Here!</span></div>
+                                    </form>
+                                </div>
+                            </div>
 
-                                    <div class="row mt-2" v-if="readyForUpload">
-                                        <div class="col">
-                                            <button type="button" class="btn btn-dark float-right" @click="processQueue()"><span class="fas fa-cloud-upload-alt"></span> Upload</button>
-                                        </div>
-                                    </div>
+                            <div class="row mt-2" v-if="readyForUpload">
+                                <div class="col">
+
+                                    <button type="button"
+                                        class="btn btn-sm btn-danger float-left"
+                                        @click="toggleUploadArea()"
+                                    >
+                                        <span class="fas fa-cloud-upload-alt"></span> Cancel
+                                    </button>
+
+                                    <button type="button"
+                                        class="btn btn-sm btn-dark float-right"
+                                        @click="processQueue()"
+                                    >
+                                        <span class="fas fa-cloud-upload-alt"></span> Upload
+                                    </button>
 
                                 </div>
                             </div>
+
                         </div>
                     </div>
 
@@ -47,78 +59,54 @@
 
 
 
-            <div class="row">
-                <div class="col">
-                    <div class="card" :id="previewTemplateId"  style="display: none;">
-                        <div class="card-body dz-preview dz-file-preview">
-                            <div class="dz-details mb-3">
+            <div class="row" :id="previewTemplateId"  style="display: none;">
+                <div class="col dz-preview dz-file-preview">
+                    <div class="dz-details mb-3">
 
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="form-group"> <!-- input for version -->
-                                                    <label for="version">Version</label>
-                                                    <input
-                                                        type="text"
-                                                        name="version"
-                                                        class="form-control"
-                                                        id="version-input"
-                                                        aria-describedby="version-help"
-                                                        placeholder="version"
-                                                        v-model="formData.version"
-                                                    >
-                                                    <small id="version-help" class="form-text text-muted">Software version number....</small>
-                                                </div> <!-- input for version -->
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group"> <!-- input for notes -->
+                                            <label for="notes">Your Note</label>
+                                            <textarea
+                                                class="form-control form-control-sm"
+                                                id="notes-input"
+                                                rows="2"
+                                                name="notes"
+                                                v-model="formData.notes"
+                                            ></textarea>
+                                        </div> <!-- input for notes -->
+                                    </div>
+                                </div>
 
-                                                <div class="form-group"> <!-- input for notes -->
-                                                    <label for="notes">Your Note</label>
-                                                    <textarea
-                                                        class="form-control"
-                                                        id="notes-input"
-                                                        rows="5"
-                                                        name="notes"
-                                                        v-model="formData.notes"
-                                                    ></textarea>
-                                                </div> <!-- input for notes -->
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="progress" style="height:3em;">
+                                            <div
+                                                data-dz-uploadprogress
+                                                id="software-progress-bar"
+                                                class="progress-bar bg-dark progress-bar-striped progress-bar-animated"
+                                                role="progressbar"
+                                                aria-valuenow="0"
+                                                aria-valuemin="0"
+                                                aria-valuemax="100"
+                                                style="width: 0%"
+                                            >
+                                                <span class="sr-only">0% Complete</span>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
 
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="progress" style="height:3em;">
-                                                    <div
-                                                        data-dz-uploadprogress
-                                                        id="software-progress-bar"
-                                                        class="progress-bar bg-dark progress-bar-striped progress-bar-animated"
-                                                        role="progressbar"
-                                                        aria-valuenow="0"
-                                                        aria-valuemin="0"
-                                                        aria-valuemax="100"
-                                                        style="width: 0%"
-                                                    >
-                                                        <span class="sr-only">0% Complete</span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="dz-filename d-flex flex-column mr-5">
+                                            <span data-dz-name></span>
+                                            <span class="fas fa-file align-self-center"></span>
+                                            <div class="dz-size align-self-center" data-dz-size></div>
                                         </div>
+                                    </div>
+                                </div>
 
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="dz-filename d-flex flex-column mr-5">
-                                                    <span class="fas fa-2x fa-file align-self-center"></span>
-                                                    <span data-dz-name></span>
-                                                    <div class="dz-size align-self-center" data-dz-size></div>
-                                                    <div class="mt-3">
-                                                        <button type="button" class="btn btn-sm btn-dark form-control" data-dz-remove>
-                                                            <span class="fas fa-trash"></span>
-                                                            Remove
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -166,6 +154,7 @@
         data: function() {
             return {
                 myDropzone: {},
+                showDropHere: true,
                 readyForUpload: false,
                 uploadAreaIsOpen: false,
                 formData: {
@@ -213,7 +202,6 @@
                     addRemoveLinks: false,
                     previewTemplate: document.getElementById(this.previewTemplateId).innerHTML,
                     autoProcessQueue: false,
-                    dictDefaultMessage: 'Drop ONT software images here',
                     createImageThumbnails: false,
                     headers: {
                         "X-CSRF-TOKEN": window.axios.defaults.headers.common['X-CSRF-TOKEN'],
@@ -261,6 +249,8 @@
                 this.configureDropzone();
             },
             onDropzoneAddedFile: function(file) {
+                this.showDropHere = false;
+                this.formData.version = file.name;
                 console.log(file);
                 console.log('!!!!!!!!!!!!!!!!!!!! file added !!!!!!!!!!!!!!!!!!!!')
             },
@@ -303,6 +293,8 @@
             toggleUploadArea: function() {
                 if (this.myDropzone.options) {
                     this.uploadAreaIsOpen = false;
+                    $(this.collapseHref).collapse('hide');
+                    this.myDropzone.removeAllFiles(true);
                     this.myDropzone.destroy();
                     this.myDropzone = {};
                 } else {

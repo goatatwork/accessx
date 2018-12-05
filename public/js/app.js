@@ -71498,6 +71498,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
@@ -71736,7 +71738,13 @@ var render = function() {
                             ],
                             staticClass: "dz-default dz-message"
                           },
-                          [_c("span", [_vm._v("Drop A Software Image Here!")])]
+                          [
+                            _c("span", [
+                              _vm._v(
+                                "Click Here To Upload A New Software Image!"
+                              )
+                            ])
+                          ]
                         )
                       ]
                     )
@@ -72168,6 +72176,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a.autoDiscover = false;
@@ -72374,7 +72384,7 @@ var render = function() {
               _c("i", { staticClass: "material-icons mr-2" }, [
                 _vm._v("file_upload")
               ]),
-              _vm._v("UPLOAD AN ONT CONFIG\n                ")
+              _vm._v("CREATE A NEW PROFILE\n                ")
             ]
           )
         ])
@@ -72412,7 +72422,11 @@ var render = function() {
                             ],
                             staticClass: "dz-default dz-message"
                           },
-                          [_c("span", [_vm._v("Drop A Config File Here!")])]
+                          [
+                            _c("span", [
+                              _vm._v("Click Here To Upload A Config File!")
+                            ])
+                          ]
                         )
                       ]
                     )
@@ -72516,7 +72530,11 @@ var render = function() {
                         staticClass: "form-text text-muted",
                         attrs: { id: "name-help" }
                       },
-                      [_vm._v("A name for this profile....")]
+                      [
+                        _vm._v(
+                          "This is the name that will show up while provisioning customers...."
+                        )
+                      ]
                     )
                   ]),
                   _vm._v(" "),

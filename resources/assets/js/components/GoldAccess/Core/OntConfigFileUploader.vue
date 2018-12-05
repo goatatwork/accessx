@@ -13,7 +13,7 @@
                         :aria-controls="collapseId"
                         @click="toggleUploadArea()"
                     >
-                        <i class="material-icons mr-2">file_upload</i>UPLOAD AN ONT CONFIG
+                        <i class="material-icons mr-2">file_upload</i>CREATE A NEW PROFILE
                     </a>
                 </div>
             </div>
@@ -26,7 +26,9 @@
                             <div class="row">
                                 <div class="col">
                                     <form :id="dropzoneId" :action="uploadUrl" class="dropzone">
-                                        <div v-show="showDropHere" class="dz-default dz-message"><span>Drop A Config File Here!</span></div>
+                                        <div v-show="showDropHere" class="dz-default dz-message">
+                                            <span>Click Here To Upload A Config File!</span>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -68,7 +70,7 @@
                                         placeholder="name"
                                         v-model="formData.name"
                                     >
-                                    <small id="name-help" class="form-text text-muted">A name for this profile....</small>
+                                    <small id="name-help" class="form-text text-muted">This is the name that will show up while provisioning customers....</small>
                                 </div> <!-- input for name -->
 
                                 <div class="form-group"> <!-- input for notes -->

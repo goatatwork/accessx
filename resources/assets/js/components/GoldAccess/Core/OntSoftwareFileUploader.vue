@@ -26,7 +26,9 @@
                             <div class="row">
                                 <div class="col">
                                     <form :id="dropzoneId" :action="uploadUrl" class="dropzone">
-                                        <div v-show="showDropHere" class="dz-default dz-message"><span>Drop A Software Image Here!</span></div>
+                                        <div v-show="showDropHere" class="dz-default dz-message">
+                                            <span>Click Here To Upload A New Software Image!</span>
+                                        </div>
                                     </form>
                                 </div>
                             </div>

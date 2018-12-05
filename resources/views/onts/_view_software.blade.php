@@ -83,7 +83,12 @@
                                     </td>
                                     <td>{{ $profile->notes }}</td>
                                     <td>
-                                        <button class="btn btn-danger btn-sm">Delete</button>
+                                        <button class="btn btn-danger btn-sm"
+                                            data-toggle="modal"
+                                            data-target="#delete-modal-for-profile-{{ $profile->id }}"
+                                        >
+                                            Delete
+                                        </button>
                                     </td>
 
                                 </tr>
@@ -95,6 +100,46 @@
                         @endif
                     </tbody>
                 </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                @if ($view_software->ont_profiles()->count())
+                    @foreach ($view_software->ont_profiles as $profile)
+                        <div class="modal fade"
+                            id="delete-modal-for-profile-{{ $profile->id }}"
+                            tabindex="-1"
+                            role="dialog"
+                            aria-labelledby="exampleModalLabel"
+                            aria-hidden="true"
+                        >
+                            <div class="modal-dialog" role="document">
+                                <form action="/onts/ont_profiles/{{ $profile->id }}" method="POST">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Delete ONT Profile</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to remove the <span class="font-weight-bold">{{ $profile->name }}</span> profile?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            <button type="submit" class="btn btn-primary">Confirm Delete {{ $profile->name }}</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
             </div>
         </div>
 

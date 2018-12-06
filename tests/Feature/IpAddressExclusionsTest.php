@@ -32,10 +32,12 @@ class IpAddressExclusionsTest extends TestCase
             }
         }
 
+        $this->assertCount(253, $subnet->ip_addresses()->whereExcludeFromDhcp(false)->get());
+
         $subnet->ip_addresses[2]->exclude_from_dhcp = true;
         $subnet->ip_addresses[2]->save();
 
-        $this->assertCount(253, $subnet->ip_addresses()->whereExcludeFromDhcp(false)->get());
+        $this->assertCount(252, $subnet->ip_addresses()->whereExcludeFromDhcp(false)->get());
 
     }
 

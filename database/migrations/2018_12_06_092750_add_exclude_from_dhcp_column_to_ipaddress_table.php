@@ -26,7 +26,7 @@ class AddExcludeFromDhcpColumnToIpaddressTable extends Migration
     public function down()
     {
         Schema::table('ip_addresses', function (Blueprint $table) {
-            $this->dropColumn('exclude_from_dhcp');
+            $table->dropColumn('exclude_from_dhcp');
         });
     }
 }

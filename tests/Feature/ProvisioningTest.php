@@ -81,9 +81,9 @@ class ProvisioningTest extends TestCase
 
         $db_provisioning_record = ProvisioningRecord::whereLen($provisioning_record->len)->first();
 
-        $this->assertFileExists(storage_path('app/services/dnsmasq_test/dnsmasq.d/'.$db_provisioning_record->port_tag_unique.'.conf'));
+        $this->assertFileExists(storage_path('app/services/dnsmasq_test/dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf'));
 
-        $file = Storage::disk('dhcp_configs_test')->get('dnsmasq.d/'.$db_provisioning_record->port_tag_unique.'.conf');
+        $file = Storage::disk('dhcp_configs_test')->get('dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf');
 
         $this->assertEquals($this->file_to_array($file), $this->dhcp_file_syntax($db_provisioning_record));
 
@@ -110,10 +110,10 @@ class ProvisioningTest extends TestCase
             // 'notes' => $provisioning_record->notes,          // has issues with empty vs null
         ]);
 
-        $this->assertFileExists(storage_path('app/services/dnsmasq_test/dnsmasq.d/'.$db_provisioning_record->port_tag_unique.'.conf'));
+        $this->assertFileExists(storage_path('app/services/dnsmasq_test/dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf'));
 
         $fresh_db_provisioning_record = ProvisioningRecord::whereLen($provisioning_record->len)->first();
-        $updated_file = Storage::disk('dhcp_configs_test')->get('dnsmasq.d/'.$db_provisioning_record->port_tag_unique.'.conf');
+        $updated_file = Storage::disk('dhcp_configs_test')->get('dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf');
 
         $this->assertEquals($this->file_to_array($updated_file), $this->dhcp_file_syntax($fresh_db_provisioning_record));
 
@@ -249,7 +249,7 @@ class ProvisioningTest extends TestCase
 
         $db_provisioning_record = ProvisioningRecord::whereLen($provisioning_record->len)->first();
 
-        $this->assertFileExists(storage_path('app/services/dnsmasq_test/dnsmasq.d/'.$db_provisioning_record->port_tag_unique.'.conf'));
+        $this->assertFileExists(storage_path('app/services/dnsmasq_test/dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf'));
     }
 
     /**
@@ -303,7 +303,7 @@ class ProvisioningTest extends TestCase
 
         $db_provisioning_record = ProvisioningRecord::whereLen($provisioning_record->len)->first();
 
-        $this->assertFileExists(storage_path('app/services/dnsmasq_test/dnsmasq.d/'.$db_provisioning_record->port_tag_unique.'.conf'));
+        $this->assertFileExists(storage_path('app/services/dnsmasq_test/dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf'));
 
         $delete_response = $this->actingAs($this->user, 'api')->json('DELETE', '/api/provisioning/' . $db_provisioning_record->id);
 
@@ -317,7 +317,7 @@ class ProvisioningTest extends TestCase
             // 'notes' => $provisioning_record->notes,          // has issues with empty vs null
         ]);
 
-        $this->assertFileNotExists(storage_path('app/services/dnsmasq_test/dnsmasq.d/'.$db_provisioning_record->port_tag_unique.'.conf'));
+        $this->assertFileNotExists(storage_path('app/services/dnsmasq_test/dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf'));
     }
 
     /**

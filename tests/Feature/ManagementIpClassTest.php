@@ -74,7 +74,7 @@ class ManagementIpClassTest extends TestCase
 
         $db_provisioning_record = ProvisioningRecord::whereLen($provisioning_record->len)->first();
 
-        $this->assertFileExists(storage_path('app/services/dnsmasq_test/dnsmasq.d/'.$db_provisioning_record->port_tag_unique.'.conf'));
+        $this->assertFileExists(storage_path('app/services/dnsmasq_test/dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf'));
 
         $management_ip = new ManagementIp($db_provisioning_record);
 

@@ -87,7 +87,7 @@ class ManagementIp
      */
     protected function filename()
     {
-        return 'dnsmasq.d/'.$this->provisioning_record->port_tag_unique.'.conf';
+        return 'dnsmasq.d/'.$this->provisioning_record->port_tag.'.conf';
     }
 
     /**

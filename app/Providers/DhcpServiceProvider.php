@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\GoldAccess\Dhcp\Dhcpbot;
 use App\GoldAccess\Dhcp\DnsmasqServer;
+use Illuminate\Support\ServiceProvider;
 
 class DhcpServiceProvider extends ServiceProvider
 {
@@ -24,10 +25,12 @@ class DhcpServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // \Log::info('register() method on DhcpServiceProvider was called');
-
         $this->app->bind('dhcp', function() {
             return new DnsmasqServer();
+        });
+
+        $this->app->bind('dhcpbot', function() {
+            return new Dhcpbot();
         });
     }
 }

@@ -10,7 +10,7 @@ class IpAddress extends Model implements AuditableContract
 {
     use Provisionable, Auditable;
 
-    protected $fillable = ['address', 'vlan'];
+    protected $fillable = ['address', 'vlan', 'exclude_from_dhcp'];
 
     protected $appends = ['has_provisioning_records'];
 

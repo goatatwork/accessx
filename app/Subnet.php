@@ -46,4 +46,9 @@ class Subnet extends Model implements AuditableContract
     {
         return $this->provisioning_records()->exists();
     }
+
+    public function getIsManagementAttribute()
+    {
+        return ($this->dhcp_shared_network) ? $this->dhcp_shared_network->management : null;
+    }
 }

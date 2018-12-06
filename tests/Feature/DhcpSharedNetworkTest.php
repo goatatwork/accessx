@@ -19,6 +19,19 @@ class DhcpSharedNetworkTest extends TestCase
     }
 
     /**
+     * @group dhcpbot
+     * @group dhcp_shared_network
+     * @test
+     */
+    public function test_a_shared_network_has_a_slug()
+    {
+        $sn = factory(DhcpSharedNetwork::class)->create(['name' => 'My Shared Network']);
+
+        $this->assertEquals('my-shared-network', $sn->slug);
+    }
+
+
+    /**
      * @return void
      */
     public function test_api_can_create_dhcp_shared_network()

@@ -21,6 +21,7 @@ class EventServiceProvider extends ServiceProvider
         // Goat
         'App\Events\SubnetWasCreated' => [
             'App\Listeners\CreateDhcpIpAddresses',
+            'App\Listeners\CreateDhcpFileForSubnet',
         ],
         'App\Events\ServiceWasProvisioned' => [
             'App\Listeners\CreateDhcpForProvisioningRecord',

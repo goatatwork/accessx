@@ -19,7 +19,7 @@ class DnsmasqConfigFileTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-        // config()->set('medialibrary.default_filesystem', 'dhcp_configs_test');
+        config()->set('medialibrary.disk_name', 'dhcp_configs_test');
     }
 
     public function test_bs_test()

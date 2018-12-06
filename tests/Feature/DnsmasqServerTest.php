@@ -65,7 +65,10 @@ class DnsmasqServerTest extends TestCase
 
         $this->assertTrue($config_file->checkOption82StaticIpFor($provisioning_record));
         $this->assertFileExists($record->file->getPath());
+    }
 
-
+    public function test_dnsmasq_server_test_is_disabled()
+    {
+        //
     }
 }

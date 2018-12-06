@@ -7,6 +7,6 @@ $factory->define(App\DhcpSharedNetwork::class, function (Faker $faker) {
     return [
         'name' => ucfirst($name) . ' Network',
         'management' => false,
-        'vlan' => rand(1,4096)
+        'vlan' => 4
     ];
 });

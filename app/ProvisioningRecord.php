@@ -22,7 +22,7 @@ class ProvisioningRecord extends Model implements HasMedia, AuditableContract
         'notes'
     ];
 
-    protected $appends = ['port_tag', 'port_tag_unique', 'file', 'is_suspended'];
+    protected $appends = ['port_tag', 'file', 'is_suspended'];
 
     public function service_location() {
         return $this->belongsTo(ServiceLocation::class);
@@ -59,17 +59,6 @@ class ProvisioningRecord extends Model implements HasMedia, AuditableContract
         $slot = $this->port->slot->slot_number;
         $port = $this->port->port_number;
         return $aggregator . '-' . $slot . '-' . $port;
-    }
-
-    /**
-     * Similar to getPortTagAttribute, but this includes the provisioning
-     * record's model ID to make the string a little more unique. This is
-     * useful for things such as naming dhcp config files.
-     * @return string The port tag with model ID attached
-     */
-    public function getPortTagUniqueAttribute()
-    {
-        return $this->getPortTagAttribute() . '-' . $this->id;
     }
 
     public function getDhcpStringAttribute()

@@ -38,7 +38,7 @@ class DnsmasqRestartApiServiceController extends Controller
         app('logbot')->log($request->user()->name . ' (' . $request->user()->id . ') restarted dnsmasq.');
         $restart = app('dockerbot')->containerRestart(config('goldaccess.dockerbot.services.dhcp.container_name'));
 
-        return (is_null($restart)) ? json_encode(['restarted' => true]) : json_encode(['restarted' => false]);
+        return ($restart) ? json_encode(['restarted' => true]) : json_encode(['restarted' => false]);
     }
 
     /**

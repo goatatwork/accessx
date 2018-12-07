@@ -29,11 +29,13 @@ class UpdateDhcpServer implements ShouldQueue
     {
         $dhcp_for_this_record = new ManagementIp($event->provisioning_record);
 
+        $dhcp_for_this_record->remove();
+
         $dhcp_for_this_record->make();
 
         $this->logIt($event->provisioning_record);
 
-        // app('dockerbot')->containerRestart(config('goldaccess.dockerbot.services.dhcp.container_name'));
+        app('dockerbot')->containerRestart(config('goldaccess.dockerbot.services.dhcp.container_name'));
     }
 
     /**

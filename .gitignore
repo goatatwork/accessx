@@ -16,3 +16,4 @@ yarn-error.log
 /system
 .phpunit.result.cache
 *.img
+.env.backup

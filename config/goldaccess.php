@@ -31,10 +31,10 @@ return [
     'dockerbot' => [
         'services' => [
             'dhcp' => [
-                'container_name' => env('DOCKERBOT_DHCP_CONTAINERNAME', 'dnsmasq_server'),
+                'container_name' => env('DOCKERBOT_DHCP_CONTAINERNAME', 'accessx_dhcp'),
             ],
             'nginx' => [
-                'container_name' => env('DOCKERBOT_NGINX_CONTAINERNAME', 'goldaccess_nginx_1'),
+                'container_name' => env('DOCKERBOT_NGINX_CONTAINERNAME', 'accessx_nginx'),
             ],
         ],
     ],

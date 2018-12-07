@@ -59641,6 +59641,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -59649,6 +59659,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 isUp: true,
                 uptime: ''
             },
+            fetchingUptime: false,
             restarting: false,
             restartButtonText: 'Restart Server',
             restartButtonClasses: 'btn-dark text-light'
@@ -59667,6 +59678,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         uptimeText: function uptimeText() {
             return this.status.uptime ? this.status.uptime : 'DOWN';
+        },
+        fetchingUptimeClass: function fetchingUptimeClass() {
+            return this.fetchingUptime ? 'show' : 'fade';
         }
     },
 
@@ -59678,8 +59692,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getStatus: function getStatus() {
             var _this = this;
 
+            this.fetchingUptime = true;
             axios.get('/api/docker/services/dhcp/statuscard').then(function (response) {
                 _this.status = response.data;
+                _this.fetchingUptime = false;
             }).catch(function (error) {
                 console.log(error);
             });
@@ -59693,7 +59709,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 self.restartButtonClasses = 'btn-dark text-light';
                 self.restartButtonText = 'Restart Server';
                 self.getStatus();
-            }, 3000);
+            }, 2000);
         },
         onRestartSuccess: function onRestartSuccess() {
             var self = this;
@@ -59704,7 +59720,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 self.restartButtonClasses = 'btn-dark text-light';
                 self.restartButtonText = 'Restart Server';
                 self.getStatus();
-            }, 3000);
+            }, 2000);
         },
         restartContainer: function restartContainer() {
             var _this2 = this;
@@ -59739,20 +59755,52 @@ var render = function() {
             _c("span", { staticClass: "h2" }, [_vm._v(_vm._s(_vm.statusText))]),
             _c("br"),
             _vm._v(" "),
-            _c(
-              "small",
-              {
-                directives: [
+            _c("ul", { staticClass: "list-unstyled" }, [
+              _c("li", [
+                _c(
+                  "small",
                   {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.status.uptime,
-                    expression: "status.uptime"
-                  }
-                ]
-              },
-              [_vm._v("Last Started " + _vm._s(_vm.uptimeText))]
-            )
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.status.uptime,
+                        expression: "status.uptime"
+                      }
+                    ]
+                  },
+                  [_vm._v(_vm._s(_vm.uptimeText))]
+                ),
+                _vm._v(" "),
+                _c(
+                  "small",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.status.uptime,
+                        expression: "!status.uptime"
+                      }
+                    ]
+                  },
+                  [_vm._v(" ")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("li", [
+                _c("small", [
+                  _c(
+                    "span",
+                    {
+                      staticClass: "text-muted",
+                      class: _vm.fetchingUptimeClass
+                    },
+                    [_vm._v("Fetching uptime")]
+                  )
+                ])
+              ])
+            ])
           ])
         ]),
         _vm._v(" "),

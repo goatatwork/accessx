@@ -9,8 +9,18 @@
         <div class="card-body text-center" :class="cardBodyClasses">
             <div class="row">
                 <div class="col">
-                <span class="h2">{{ statusText }}</span><br>
-                <small v-show="status.uptime">Last Started {{ uptimeText }}</small>
+                    <span class="h2">{{ statusText }}</span><br>
+                    <ul class="list-unstyled">
+                        <li>
+                            <small v-show="status.uptime">{{ uptimeText }}</small>
+                            <small v-show="!status.uptime">&nbsp;</small>
+                        </li>
+                        <li>
+                            <small>
+                                <span class="text-muted" :class="fetchingUptimeClass">Fetching uptime</span>
+                            </small>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="row pt-3">
@@ -39,6 +49,7 @@
                     isUp: true,
                     uptime: '',
                 },
+                fetchingUptime: false,
                 restarting: false,
                 restartButtonText: 'Restart Server',
                 restartButtonClasses: 'btn-dark text-light'
@@ -57,6 +68,9 @@
             },
             uptimeText: function() {
                 return (this.status.uptime) ? this.status.uptime : 'DOWN';
+            },
+            fetchingUptimeClass() {
+                return (this.fetchingUptime) ? 'show' : 'fade';
             }
         },
 
@@ -66,8 +80,10 @@
 
         methods: {
             getStatus: function() {
+                this.fetchingUptime = true;
                 axios.get('/api/docker/services/dhcp/statuscard').then(response => {
                     this.status = response.data;
+                    this.fetchingUptime = false;
                 }).catch(error => {
                     console.log(error);
                 });
@@ -81,7 +97,7 @@
                     self.restartButtonClasses = 'btn-dark text-light';
                     self.restartButtonText = 'Restart Server';
                     self.getStatus();
-                }, 3000);
+                }, 2000);
             },
             onRestartSuccess: function() {
                 let self = this;
@@ -92,7 +108,7 @@
                     self.restartButtonClasses = 'btn-dark text-light';
                     self.restartButtonText = 'Restart Server';
                     self.getStatus();
-                }, 3000);
+                }, 2000);
             },
             restartContainer: function() {
                 this.restarting = true;

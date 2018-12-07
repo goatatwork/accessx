@@ -33,7 +33,7 @@ class UpdateDhcpServer implements ShouldQueue
 
         $this->logIt($event->provisioning_record);
 
-        // app('dockerbot')->containerRestart(config('goldaccess.dockerbot.services.dhcp.container_name'));
+        app('dockerbot')->containerRestart(config('goldaccess.dockerbot.services.dhcp.container_name'));
     }
 
     /**

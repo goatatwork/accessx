@@ -40,11 +40,9 @@ services:
       - ./:/var/www/html
     networks:
       - goldaccessnet
-  selenium:
-    container_name: accessx_selenium
-    image: selenium/standalone-chrome:3.14
-    networks:
-      - goldaccessnet
+    environment:
+      - DOCKER_HOST=tcp://socat:2375
+      - DOCKER_TLS_VERIFY=false
   npm:
     container_name: accessx_npm
     build:
@@ -129,6 +127,22 @@ services:
       - ./system/etc/ssh/ssh_host_ecdsa_key:/etc/ssh/ssh_host_ecdsa_key
       - ./system/etc/ssh/ssh_host_ed25519_key:/etc/ssh/ssh_host_ed25519_key
       - ./system/etc/ssh/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key
+  socat:
+    container_name: goldaccess_socat
+    build:
+      context: ./docker/socat
+      dockerfile: Dockerfile
+    image: goldaccess/socat:for-mac
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - goldaccessnet
+    command: ["TCP4-LISTEN:2375,fork,reuseaddr", "UNIX-CONNECT:/var/run/docker.sock"]
+  selenium:
+    container_name: accessx_selenium
+    image: selenium/standalone-chrome:3.14
+    networks:
+      - goldaccessnet
 networks:
   goldaccessnet:
     driver: "bridge"

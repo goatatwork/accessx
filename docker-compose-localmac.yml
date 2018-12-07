@@ -1,5 +1,10 @@
 version: "2"
 services:
+  selenium:
+    container_name: accessx_selenium
+    image: selenium/standalone-chrome:3.14
+    networks:
+      - goldaccessnet
   dhcp:
     container_name: accessx_dhcp
     build:
@@ -138,11 +143,6 @@ services:
     networks:
       - goldaccessnet
     command: ["TCP4-LISTEN:2375,fork,reuseaddr", "UNIX-CONNECT:/var/run/docker.sock"]
-  selenium:
-    container_name: accessx_selenium
-    image: selenium/standalone-chrome:3.14
-    networks:
-      - goldaccessnet
 networks:
   goldaccessnet:
     driver: "bridge"

@@ -13,7 +13,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr is="customer-table-row" v-for="customer in customerListSorted" :the-customer="customer">
+                    <tr is="customer-table-row" v-for="customer in customerListSorted" :key="customer.id" :the-customer="customer">
                     </tr>
                 </tbody>
             </table>

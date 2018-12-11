@@ -40,6 +40,18 @@ class DhcpbotTest extends TestCase
      * @group dhcpbot
      * @test
      */
+    public function test_bot_can_get_the_dnsmasq_tag_for_a_subnet()
+    {
+        $subnet = factory(Subnet::class)->create(['network_address' => '10.1.2.0']);
+
+        $expected_string = $subnet->dhcp_shared_network->slug . '-10_1_2_0';
+        $this->assertEquals($expected_string, app('dhcpbot')->getDnsmasqTag($subnet));
+    }
+
+    /**
+     * @group dhcpbot
+     * @test
+     */
     public function test_bot_knows_if_a_dnsmasq_config_file_for_a_subnet_does_not_exist_on_the_disk()
     {
         $subnet = factory(Subnet::class)->create(['network_address' => '10.1.2.0']);
@@ -127,7 +139,8 @@ class DhcpbotTest extends TestCase
         $subnet = factory(Subnet::class)->create(['network_address' => '10.1.2.0']);
 
         $expected_string = '# DHCP Range For ' . $subnet->dhcp_shared_network->name . ' On VLAN 4' . "\n" .
-            'dhcp-range='.$subnet->start_ip.','.$subnet->end_ip.','.$subnet->subnet_mask.',1h';
+            'dhcp-range=set:"'.$subnet->dhcp_shared_network->slug .'-10_1_2_0",'.$subnet->start_ip.','.$subnet->end_ip.','.$subnet->subnet_mask.',1h' . "\n" .
+            'dhcp-option=tag:"'.$subnet->dhcp_shared_network->slug. '-10_1_2_0' . '",3,' . $subnet->routers;
 
         $this->assertEquals($expected_string, app('dhcpbot')->fileContent($subnet));
     }

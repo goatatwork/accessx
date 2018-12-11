@@ -26,6 +26,6 @@
     "marked": "^0.3.16",
     "uiv": "^0.14.4",
     "vue-carousel-3d": "^0.1.19",
-    "vue-slider-component": "^2.4.7"
+    "vue-slider-component": "^2.8.2"
   }
 }

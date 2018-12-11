@@ -31,7 +31,7 @@ class SubnetCalculator
         $this->ip = $ip;
         $this->cidr = $cidr;
         $this->gateway_preference = $gateway_preference;
-        $this->network_object = IP\NetworkAddress::factory($this->ip, $this->cidr);
+        $this->network_object = IPv4\NetworkAddress::factory($this->ip, $this->cidr);
     }
 
     /**
@@ -47,10 +47,13 @@ class SubnetCalculator
             'subnet_mask' => $this->getSubnetMask(),
             'network_address' => $this->getNetworkAddress(),
             'start_ip' => $this->getStartIp(),
+            'start_ip_last_octet' => $this->getStartIpLastOctet(),
             'end_ip' => $this->getEndIp(),
+            'end_ip_last_octet' => $this->getEndIpLastOctet(),
             'broadcast_address' => $this->getBroadcastAddress(),
             'routers' => $this->getRouter(),
             'usable_addresses' => $this->getAddressCount(),
+            'addresses' => $this->getAllTheAddresses(),
             'default_lease_time' => '3600',
             'max_lease_time' => '3601',
             'dns_servers' => '8.8.8.8',
@@ -60,6 +63,22 @@ class SubnetCalculator
             'dns_4' => '',
         ];
         return $calculations;
+    }
+
+    public function getAllTheAddresses()
+    {
+        $addresses = [];
+
+        foreach ($this->network_object as $ip) {
+            array_push($addresses, $ip->__toString());
+        }
+
+        array_shift($addresses);
+        array_pop($addresses);
+
+        $this->gateway_preference == 'top' ? array_pop($addresses) : array_shift($addresses);
+
+        return $addresses;
     }
 
     /**
@@ -103,6 +122,14 @@ class SubnetCalculator
     }
 
     /**
+     * @return string The last usable IP
+     */
+    protected function getEndIpLastOctet()
+    {
+        return $this->gateway_preference == 'top' ? $this->network_object->get_address_in_network(-2)->get_octet(-1) : $this->network_object->get_address_in_network(-1)->get_octet(-1);
+    }
+
+    /**
      * @return string The network address
      */
     protected function getNetworkAddress()
@@ -124,6 +151,11 @@ class SubnetCalculator
     protected function getStartIp()
     {
         return $this->gateway_preference == 'top' ? $this->network_object->get_address_in_network(1)->__toString() : $this->network_object->get_address_in_network(2)->__toString();
+    }
+
+    protected function getStartIpLastOctet()
+    {
+        return $this->gateway_preference == 'top' ? $this->network_object->get_address_in_network(1)->get_octet(-1) : $this->network_object->get_address_in_network(2)->get_octet(-1);
     }
 
     /**

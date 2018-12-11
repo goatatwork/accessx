@@ -131,9 +131,11 @@
 
         <div class="col-8 pt-3">
 
+            <subnet-calculator :shared-network="{{ $dhcp_shared_network }}"></subnet-calculator>
+
             <div id="accordion"> <!-- accordion -->
 
-                <add-subnet-accordion-card :shared-network="{{ $dhcp_shared_network }}"></add-subnet-accordion-card>
+                <!-- <add-subnet-accordion-card :shared-network="{{ $dhcp_shared_network }}"></add-subnet-accordion-card> -->
 
                 @foreach($dhcp_shared_network->subnets as $subnet)
                     <div class="card"> <!-- card -->

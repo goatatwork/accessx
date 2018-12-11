@@ -57,9 +57,11 @@ class Dhcpbot
     {
         $name = $subnet->dhcp_shared_network->name;
         $vlan = $subnet->dhcp_shared_network->vlan ?: 'none';
+        $dnsmasq_tag = $this->getDnsmasqTag($subnet);
 
         return '# DHCP Range For ' . $name . ' On VLAN ' . $vlan . "\n" .
-            'dhcp-range=' . $this->rangeFor($subnet) . ',1h';
+            'dhcp-range=set:"'.$dnsmasq_tag.'",' . $this->rangeFor($subnet) . ',1h' . "\n" .
+            'dhcp-option=tag:"'.$dnsmasq_tag.'",3,'.$subnet->routers;
     }
 
     /**
@@ -90,5 +92,15 @@ class Dhcpbot
     public function getDhcpFilename(Subnet $subnet)
     {
         return $this->file_location_prefix . $subnet->dhcp_shared_network->slug . '-' . preg_replace('/\./', '_', $subnet->network_address) . '.conf';
+    }
+
+    /**
+     * Generate the filename
+     * @param  Subnet $subnet
+     * @return string
+     */
+    public function getDnsmasqTag(Subnet $subnet)
+    {
+        return $subnet->dhcp_shared_network->slug . '-' . preg_replace('/\./', '_', $subnet->network_address);
     }
 }

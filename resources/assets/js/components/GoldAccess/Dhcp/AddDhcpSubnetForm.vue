@@ -217,9 +217,9 @@
             submitForm: function() {
                 self = this;
                 axios.post('/api/dhcp/dhcp_shared_networks/'+this.sharedNetwork.id+'/subnets', this.calculatedSubnet).then(function(response) {
-                    EventBus.$emit('subnet-was-added', response.data);
+                    window.location.reload();
                 }).catch(function(error) {
-                    self.formErrors = error.response.data;
+                    console.log(error.response.data);
                 });
             },
             theCallback: function(value) {

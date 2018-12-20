@@ -4,11 +4,13 @@ namespace App;
 
 use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Subnet extends Model implements AuditableContract
+class Subnet extends Model implements AuditableContract, HasMedia
 {
-    use Auditable;
+    use Auditable, HasMediaTrait;
 
     protected $fillable = [
         'comment',

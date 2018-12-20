@@ -2,6 +2,7 @@
 
 namespace App\GoldAccess\Utilities;
 
+use App\Subnet;
 use App\OntProfile;
 use App\OntSoftware;
 use Spatie\MediaLibrary\Models\Media;
@@ -56,6 +57,12 @@ class MediaLibraryPathGenerator implements PathGenerator
             if ($origin->ont->manufacturer == 'Zhone') {
                 return 'ont_profiles/' . $origin->ont->slug . '/' . $origin->version . '/SoftwareImage';
             }
+
+        }
+
+        if ($media->model instanceOf Subnet) {
+
+            return 'dnsmasq.d';
 
         }
 

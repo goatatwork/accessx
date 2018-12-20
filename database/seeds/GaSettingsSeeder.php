@@ -18,5 +18,10 @@ class GaSettingsSeeder extends Seeder
             'value' => '1800',
             'description' => 'The default length of any lease, in seconds'
         ]);
+        GaSetting::create([
+            'name' => 'acs_url',
+            'value' => '',
+            'description' => 'The value used in DHCP option 43 to specify the URL of the ACS server'
+        ]);
     }
 }

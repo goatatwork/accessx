@@ -40,6 +40,8 @@ class DhcpbotTest extends TestCase
 
         // \Storage::disk('dhcp_origins_testing')->assertExists($this->whereTheOriginFileLives($subnet, 'dhcp_subnet_definition'));
         \Storage::disk('dhcp_origins_testing')->assertExists(app('dhcpbot')->getOriginPath($subnet, 'dhcp_subnet_definition'));
+
+        app('dhcpbot')->destroy($subnet, 'dhcp_subnet_definition');
     }
 
     /**
@@ -56,6 +58,8 @@ class DhcpbotTest extends TestCase
 
         $this->assertTrue(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_option43'));
         \Storage::disk('dhcp_origins_testing')->assertExists(app('dhcpbot')->getOriginPath($subnet, 'dhcp_subnet_option43'));
+
+        app('dhcpbot')->destroy($subnet, 'dhcp_subnet_option43');
     }
 
     /**
@@ -79,6 +83,8 @@ class DhcpbotTest extends TestCase
 
         $this->assertTrue(app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_definition'));
         \Storage::disk('dhcp_configs_testing')->assertExists(app('dhcpbot')->getDeployPath($subnet, 'dhcp_subnet_definition'));
+
+        app('dhcpbot')->destroy($subnet, 'dhcp_subnet_definition');
     }
 
     /**
@@ -102,6 +108,8 @@ class DhcpbotTest extends TestCase
 
         $this->assertTrue(app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_option43'));
         \Storage::disk('dhcp_configs_testing')->assertExists(app('dhcpbot')->getDeployPath($subnet, 'dhcp_subnet_option43'));
+
+        app('dhcpbot')->destroy($subnet, 'dhcp_subnet_option43');
     }
 
     /**
@@ -132,6 +140,8 @@ class DhcpbotTest extends TestCase
         \Storage::disk('dhcp_configs_testing')->assertMissing(app('dhcpbot')->getDeployPath($subnet, 'dhcp_subnet_definition'));
         $this->assertTrue(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_definition'));
         \Storage::disk('dhcp_origins_testing')->assertExists(app('dhcpbot')->getOriginPath($subnet, 'dhcp_subnet_definition'));
+
+        app('dhcpbot')->destroy($subnet, 'dhcp_subnet_definition');
     }
 
     /**
@@ -162,6 +172,8 @@ class DhcpbotTest extends TestCase
         \Storage::disk('dhcp_configs_testing')->assertMissing(app('dhcpbot')->getDeployPath($subnet, 'dhcp_subnet_option43'));
         $this->assertTrue(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_option43'));
         \Storage::disk('dhcp_origins_testing')->assertExists(app('dhcpbot')->getOriginPath($subnet, 'dhcp_subnet_option43'));
+
+        app('dhcpbot')->destroy($subnet, 'dhcp_subnet_option43');
     }
 
     /**
@@ -192,6 +204,8 @@ class DhcpbotTest extends TestCase
         $this->assertFalse(app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_definition'));
         \Storage::disk('dhcp_configs_testing')->assertMissing(app('dhcpbot')->getDeployPath($subnet, 'dhcp_subnet_definition'));
         \Storage::disk('dhcp_origins_testing')->assertMissing(app('dhcpbot')->getOriginPath($subnet, 'dhcp_subnet_definition'));
+
+        app('dhcpbot')->destroy($subnet, 'dhcp_subnet_definition');
     }
 
     /**
@@ -222,5 +236,7 @@ class DhcpbotTest extends TestCase
         $this->assertFalse(app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_option43'));
         \Storage::disk('dhcp_configs_testing')->assertMissing(app('dhcpbot')->getDeployPath($subnet, 'dhcp_subnet_option43'));
         \Storage::disk('dhcp_origins_testing')->assertMissing(app('dhcpbot')->getOriginPath($subnet, 'dhcp_subnet_option43'));
+
+        app('dhcpbot')->destroy($subnet, 'dhcp_subnet_option43');
     }
 }

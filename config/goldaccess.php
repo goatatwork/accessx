@@ -16,7 +16,7 @@ return [
      */
     'settings' => [
         'ga_devmode' => env('GA_DEVMODE', false),
-        'dhcp_default_lease_time' => env('DHCP_DEFAULT_LEASE_TIME', '1800'),
+        'dhcp_default_lease_time' => env('DHCP_DEFAULT_LEASE_TIME', '10m'),
         'acs_url' => env('ACS_URL', 'acsurl'),
     ],
 

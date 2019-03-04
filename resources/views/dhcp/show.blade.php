@@ -12,6 +12,7 @@
 
 <div class="row">
         <div class="col-4">
+
             <div class="card mt-3 mb-3">
                 <div class="card-header">
 
@@ -127,6 +128,7 @@
                     </small>
                 </div>
             </div>
+
         </div>
 
         <div class="col-8 pt-3">
@@ -149,6 +151,9 @@
 
                         <div id="collapseArea-{{ $subnet->id }}" class="collapse" aria-labelledby="slotHeading-{{ $subnet->id }}" data-parent="#accordion">
                             <div class="card-body">
+
+                                <dhcpbot-option43-toggle :subnet="{{ $subnet }}"></dhcpbot-option43-toggle>
+
                                 <ul class="list-unstyled">
                                     @foreach ($subnet->ip_addresses as $ip)
                                         <li class="list-group-item">{{ $ip->address }}

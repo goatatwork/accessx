@@ -15,7 +15,7 @@ class DhcpServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // \Log::info('boot() method on DhcpServiceProvider was called');
+        //
     }
 
     /**

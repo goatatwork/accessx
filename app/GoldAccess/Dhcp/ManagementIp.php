@@ -173,11 +173,11 @@ class ManagementIp
 
         return [
             'dhcp-subscrid=set:"' . $subscriberId . '","' . $subscriberId . '"', // match subscriber id
-            'dhcp-range=tag:"' . $subscriberId . '",' . $ip . ',' . $ip . ',' . $netmask . ',' . $leasetime, // the IP
-            'dhcp-option=tag:"' . $subscriberId . '",3,' . $gateway, // The gateway
-            'dhcp-option=tag:"' . $subscriberId . '",1,' . $netmask, // The netmask
-            'dhcp-option=tag:"' . $subscriberId . '",5,' . $dns, // The dns server
-            'dhcp-option=tag:"' . $subscriberId . '",67,' . $this->provisioning_record->dhcp_string,
+            'dhcp-range=tag:"' . $subscriberId . '",tag:!internet-pool,' . $ip . ',' . $ip . ',' . $netmask . ',' . $leasetime, // the IP
+            'dhcp-option=tag:"' . $subscriberId . '",tag:!internet-pool,3,' . $gateway, // The gateway
+            'dhcp-option=tag:"' . $subscriberId . '",tag:!internet-pool,1,' . $netmask, // The netmask
+            'dhcp-option=tag:"' . $subscriberId . '",tag:!internet-pool,5,' . $dns, // The dns server
+            'dhcp-option=tag:"' . $subscriberId . '",tag:!internet-pool,67,' . $this->provisioning_record->dhcp_string,
             // 'option-logserver' => 'dhcp-option=tag:"BasementStack/1/3/2",7,10.0.0.4',
         ];
     }

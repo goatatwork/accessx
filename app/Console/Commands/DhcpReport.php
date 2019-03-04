@@ -12,7 +12,7 @@ class DhcpReport extends Command
      *
      * @var string
      */
-    protected $signature = 'goldaccess:dhcp {--report=none : A subnet in CIDR, like "192.168.200.128/25" or "192.168.201.0/24"}';
+    protected $signature = 'goldaccess:dhcp {--report : Get current state of DHCP config files and options for a subnet}';
 
     /**
      * The console command description.
@@ -38,30 +38,23 @@ class DhcpReport extends Command
      */
     public function handle()
     {
-        if ($this->option('report') == 'none') {
-            $this->info('Have a default day');
-        } elseif ($this->option('report') == null) {
-            $this->info('Have a null day');
-        } else {
-            $subnet_parts = explode("/", $this->option('report'));
-            $network = $subnet_parts[0];
-            $cidr = $subnet_parts[1];
+        $subnets = Subnet::all()->where('is_management', false);
 
-            $subnet = Subnet::whereNetworkAddress($network)->whereCidr($cidr)->first();
+        $subnet = $this->choice('Which subnet would you like to report on?', $subnets->pluck('slug', 'id')->toArray());
 
-            if ($subnet) {
-                // $headers = ['Module', 'Origin Exists', 'Origin Path', 'Is Deployed', 'Deploy Path'];
-                $headers = ['Module', 'Origin Exists', 'Is Deployed', 'Deploy Path'];
-                $this->table($headers, $this->makeData()->toArray());
-            } else {
-                $this->info('I did not find that subnet');
-            }
-        }
+        $this->line('DHCP Deployment Report');
+        $this->table($this->makeHeaders(), $this->makeData($subnet)->toArray());
     }
 
-    public function makeData()
+    public function makeHeaders()
     {
-        $subnet = Subnet::find(22);
+        return ['Feature', 'Is Built', 'Is Deployed', 'Deploy Path'];
+    }
+
+    public function makeData($slug)
+    {
+        $subnet = Subnet::all()->where('slug', $slug)->first();
+
         $data = collect(app('dhcpbot')->report($subnet));
 
         return $data->map(function($media_library) {

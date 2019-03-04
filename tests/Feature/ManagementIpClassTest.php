@@ -9,7 +9,7 @@ use Tests\TestCase;
 use App\OntProfile;
 use App\ServiceLocation;
 use App\ProvisioningRecord;
-use App\GoldAccess\Dhcp\ManagementIp;
+// use App\GoldAccess\Dhcp\ManagementIp;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -76,12 +76,9 @@ class ManagementIpClassTest extends TestCase
 
         $this->assertFileExists(storage_path('app/services/dnsmasq_testing/dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf'));
 
-        $management_ip = new ManagementIp($db_provisioning_record);
+        // $management_ip = new ManagementIp($db_provisioning_record);
 
-        $this->assertTrue($management_ip->check());
+        $this->assertTrue(app('dhcpbot')->isDeployed($db_provisioning_record, 'dhcp_management_ip'));
 
     }
-
-
-
 }

@@ -139,3 +139,18 @@ Route::group(['prefix' => 'settings'], function() {
     Route::get('{setting}', 'GaSettingsApiController@show');
     Route::patch('{setting}', 'GaSettingsApiController@update');
 });
+
+Route::group(['middleware' => 'auth:api', 'prefix' => 'dhcpbot'], function() {
+    Route::patch('subnet/{subnet}/option43', function(App\Subnet $subnet) {
+        if ( app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_option43') ) {
+            app('dhcpbot')->destroy($subnet, 'dhcp_subnet_option43');
+
+            return 'false';
+        } else {
+            app('dhcpbot')->build($event->subnet, 'dhcp_subnet_option43');
+            app('dhcpbot')->deploy($event->subnet, 'dhcp_subnet_option43');
+
+            return 'true';
+        }
+    });
+});

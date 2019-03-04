@@ -27,7 +27,10 @@ class CreateDhcpFileForSubnet
     public function handle(SubnetWasCreated $event)
     {
         if ( ! $event->subnet->is_management ) {
-            app('dhcpbot')->writeFile($event->subnet);
+
+            app('dhcpbot')->build($event->subnet);
+            app('dhcpbot')->deploy($event->subnet);
+
         }
     }
 }

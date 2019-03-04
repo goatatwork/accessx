@@ -147,8 +147,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'dhcpbot'], function() {
 
             return 'false';
         } else {
-            app('dhcpbot')->build($event->subnet, 'dhcp_subnet_option43');
-            app('dhcpbot')->deploy($event->subnet, 'dhcp_subnet_option43');
+            app('dhcpbot')->build($subnet, 'dhcp_subnet_option43');
+            app('dhcpbot')->deploy($subnet, 'dhcp_subnet_option43');
 
             return 'true';
         }

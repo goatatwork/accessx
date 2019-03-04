@@ -235,7 +235,7 @@ class ZhoneOnt extends TelnetClient
         // $enabled = $this->execute('ethernet enable');
         // $this->execute('exit');
         $output = $this->cleanUpRebootOutput($reboot);
-        // Log::info('Factory resetting ' . $output);
+
         return $output;
     }
 
@@ -264,8 +264,6 @@ class ZhoneOnt extends TelnetClient
      */
     protected function cleanUpRebootOutput($output)
     {
-        \Log::info('reboot output was a ' . typeof($output));
-
         $output_array = preg_split('/\r\r\n/', $output);
 
         return $output_array[1];

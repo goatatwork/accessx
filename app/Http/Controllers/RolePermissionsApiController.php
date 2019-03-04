@@ -71,7 +71,7 @@ class RolePermissionsApiController extends Controller
     public function update(Request $request, Role $role, $permission)
     {
         $role->hasPermissionTo($permission) ? $role->revokePermissionTo($permission) : $role->givePermissionTo($permission);
-        \Log::info('okay');
+
         return 'okay';
     }
 

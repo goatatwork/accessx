@@ -22,13 +22,17 @@ class SubnetApiTest extends TestCase
     }
 
     /**
+     * @group subnets-api
      * @test
      */
     public function test_the_subnetwascreated_event_is_fired_when_the_api_creates_a_new_subnet()
     {
+        $this->withoutExceptionHandling();
+
         Event::fake();
 
         $sn = factory(DhcpSharedNetwork::class)->create();
+
         $subnet = factory(Subnet::class)->make(['dhcp_shared_network_id' => null]);
 
         $response = $this->actingAs($this->user, 'api')
@@ -38,6 +42,7 @@ class SubnetApiTest extends TestCase
     }
 
     /**
+     * @group subnets-api
      * @test
      */
     public function test_the_new_subnet_is_passed_to_subnetwascreated_when_the_api_creates_a_new_subnet()
@@ -55,6 +60,10 @@ class SubnetApiTest extends TestCase
         });
     }
 
+    /**
+     * @group subnets-api
+     * @test
+     */
     public function test_api_can_create_subnet()
     {
         $sn = factory(DhcpSharedNetwork::class)->create();
@@ -73,8 +82,14 @@ class SubnetApiTest extends TestCase
         $this->assertCount(253, $subnet->ip_addresses);
     }
 
+    /**
+     * @group subnets-api
+     * @test
+     */
     public function test_subnet_knows_if_it_has_provisioning_records()
     {
+        Event::fake();
+
         $provrec = factory(ProvisioningRecord::class)->create();
 
         $subnet = $provrec->ip_address->subnet;
@@ -82,8 +97,14 @@ class SubnetApiTest extends TestCase
         $this->assertTrue($subnet->has_provisioning_records);
     }
 
+    /**
+     * @group subnets-api
+     * @test
+     */
     public function test_subnet_knows_if_it_does_not_have_provisioning_records()
     {
+        Event::fake();
+
         $subnet = factory(Subnet::class)->create();
 
         $this->assertFalse($subnet->has_provisioning_records);

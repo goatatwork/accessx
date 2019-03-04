@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\ServiceWasProvisioned;
-use App\GoldAccess\Dhcp\ManagementIp;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -27,7 +26,10 @@ class CreateDhcpForProvisioningRecord implements ShouldQueue
      */
     public function handle(ServiceWasProvisioned $event)
     {
-        $management_ip = new ManagementIp($event->provisioning_record);
+        // $management_ip = new ManagementIp($event->provisioning_record);
+
+        app('dhcpbot')->build($event->provisioning_record, 'dhcp_management_ip');
+        app('dhcpbot')->deploy($event->provisioning_record, 'dhcp_management_ip');
 
         $ip = $event->provisioning_record->ip_address->address;
         $username = $event->provisioning_record->service_location->customer->customer_name;
@@ -42,9 +44,7 @@ class CreateDhcpForProvisioningRecord implements ShouldQueue
             $servicelocationname . '(' . $servicelocationid . ').'
         );
 
-        $management_ip->make();
-
-        app('logbot')->log('CreateDhcpForProvisioningRecord listener restarting dhcp server');
+        // $management_ip->make();
 
         if (env('APP_ENV') != 'testing') {
             app('dockerbot')->containerRestart(config('goldaccess.dockerbot.services.dhcp.container_name'));

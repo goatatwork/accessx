@@ -2,9 +2,8 @@
 
 namespace App\Listeners;
 
-use App\GoldAccess\Dhcp\ManagementIp;
-use App\Events\DeletingProvisioningRecord;
 use Illuminate\Queue\InteractsWithQueue;
+use App\Events\DeletingProvisioningRecord;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class RemoveManagementIp
@@ -27,7 +26,7 @@ class RemoveManagementIp
      */
     public function handle(DeletingProvisioningRecord $event)
     {
-        $management_ip = new ManagementIp($event->provisioning_record);
+        app('dhcpbot')->destroy($event->provisioning_record, 'dhcp_management_ip');
 
         $ip = $event->provisioning_record->ip_address->address;
         $username = $event->provisioning_record->service_location->customer->customer_name;
@@ -41,7 +40,5 @@ class RemoveManagementIp
             $username . '(' . $userid . ') at service location ' .
             $servicelocationname . '(' . $servicelocationid . ').'
         );
-
-        $management_ip->remove();
     }
 }

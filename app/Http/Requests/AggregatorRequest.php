@@ -34,7 +34,6 @@ class AggregatorRequest extends FormRequest
      */
     public function persist()
     {
-        \Log::info($this->all());
         return Aggregator::create($this->all());
     }
 }

@@ -2,8 +2,10 @@
 
 namespace App\GoldAccess\Utilities;
 
+use App\Subnet;
 use App\OntProfile;
 use App\OntSoftware;
+use App\ProvisioningRecord;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\PathGenerator\PathGenerator;
 
@@ -15,6 +17,26 @@ class MediaLibraryPathGenerator implements PathGenerator
     public function getPath(Media $media): string
     {
         return $this->getBasePath($media).'/';
+    }
+
+    /*
+     * Get the path for the given model relative to the live/deployed
+     * dhcp directory.
+     */
+    public function getDeployPath(Media $media): string
+    {
+
+        if ($media->model instanceof Subnet) {
+
+            return 'dnsmasq.d/' . $media->file_name;
+
+        }
+
+        if ($media->model instanceof ProvisioningRecord) {
+
+            return 'dnsmasq.d/' . $media->file_name;
+
+        }
     }
 
     /*
@@ -57,6 +79,21 @@ class MediaLibraryPathGenerator implements PathGenerator
                 return 'ont_profiles/' . $origin->ont->slug . '/' . $origin->version . '/SoftwareImage';
             }
 
+        }
+
+        if ($media->model instanceOf Subnet) {
+
+            $origin = $media->model;
+
+            return $origin->dhcp_shared_network->slug . '-' . preg_replace('/\./', '_', $origin->network_address) . '_' . $origin->cidr . '/' . $media->getKey();
+
+        }
+
+        if ($media->model instanceof ProvisioningRecord) {
+
+            $origin = $media->model;
+
+            return 'management_ips/' . $origin->port_tag . '/' . $media->getKey();
         }
 
         return $media->getKey();

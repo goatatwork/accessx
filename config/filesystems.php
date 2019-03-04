@@ -90,15 +90,27 @@ return [
             'visibility' => 'public',
         ],
 
+        'dhcp_origins' => [
+            'driver' => 'local',
+            'root' => storage_path('app/services/dhcp_origins'),
+            'visibility' => 'public',
+        ],
+
+        'dhcp_origins_testing' => [
+            'driver' => 'local',
+            'root' => storage_path('app/services/dhcp_origins_testing'),
+            'visibility' => 'public',
+        ],
+
         'dhcp_configs' => [
             'driver' => 'local',
             'root' => storage_path('app/services/dnsmasq'),
             'visibility' => 'public',
         ],
 
-        'dhcp_configs_test' => [
+        'dhcp_configs_testing' => [
             'driver' => 'local',
-            'root' => storage_path('app/services/dnsmasq_test'),
+            'root' => storage_path('app/services/dnsmasq_testing'),
             'visibility' => 'public',
         ],
 

@@ -12,7 +12,7 @@ class IpAddressExclusionsTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * @group goat
+     * @group dhcp-exclusions
      * @test
      */
     public function test_subnet_can_be_created_by_the_factory()

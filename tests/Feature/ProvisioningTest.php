@@ -16,7 +16,8 @@ use App\ProvisioningRecord;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use App\Events\ServiceWasProvisioned;
-use App\GoldAccess\Dhcp\ManagementIp;
+// use App\GoldAccess\Dhcp\ManagementIp;
+use App\GoldAccess\Dhcp\Options\ManagementIp;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProvisioningTest extends TestCase
@@ -33,7 +34,7 @@ class ProvisioningTest extends TestCase
      * @group provisioning
      * @test
      */
-    public function ttest_DISABLED_api_can_edit_provisioning_record_ont_profile()
+    public function api_can_edit_provisioning_record_ont_profile()
     {
         $provisioning_record = factory(ProvisioningRecord::class)->make([
             'service_location_id' => null,
@@ -89,7 +90,8 @@ class ProvisioningTest extends TestCase
 
         $file = Storage::disk('dhcp_configs_testing')->get('dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf');
 
-        $this->assertEquals($this->file_to_array($file), $this->dhcp_file_syntax($db_provisioning_record));
+        // $this->assertEquals($this->dhcp_file_syntax($db_provisioning_record), $this->file_to_array($file));
+        $this->assertEquals($this->dhcp_file_syntax($db_provisioning_record), $file);
 
         $edit_response = $this->actingAs($this->user, 'api')
             ->json('PATCH', '/api/provisioning/' . $db_provisioning_record->id, ['ont_profile_id' => $new_ont_profile->id]);
@@ -119,7 +121,8 @@ class ProvisioningTest extends TestCase
         $fresh_db_provisioning_record = ProvisioningRecord::whereLen($provisioning_record->len)->first();
         $updated_file = Storage::disk('dhcp_configs_testing')->get('dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf');
 
-        $this->assertEquals($this->file_to_array($updated_file), $this->dhcp_file_syntax($fresh_db_provisioning_record));
+        // $this->assertEquals($this->file_to_array($updated_file), $this->dhcp_file_syntax($fresh_db_provisioning_record));
+        $this->assertEquals($this->dhcp_file_syntax($fresh_db_provisioning_record), $updated_file);
 
     }
 
@@ -348,34 +351,35 @@ class ProvisioningTest extends TestCase
      */
     protected function dhcp_file_syntax($provisioning_record)
     {
-        $name = $provisioning_record->service_location->customer->customer_name;
-        $id = $provisioning_record->service_location->customer->id;
+        return ManagementIp::make($provisioning_record);
+        // $name = $provisioning_record->service_location->customer->customer_name;
+        // $id = $provisioning_record->service_location->customer->id;
 
-        $subscriberId = $provisioning_record->port->slot->aggregator->slug . '/' .
-            $provisioning_record->port->slot->slot_number . '/' .
-            '1/' .
-            $provisioning_record->port->port_number;
+        // $subscriberId = $provisioning_record->port->slot->aggregator->slug . '/' .
+        //     $provisioning_record->port->slot->slot_number . '/' .
+        //     '1/' .
+        //     $provisioning_record->port->port_number;
 
-        $ip = $provisioning_record->ip_address->address;
+        // $ip = $provisioning_record->ip_address->address;
 
-        $netmask = $provisioning_record->ip_address->subnet->subnet_mask;
+        // $netmask = $provisioning_record->ip_address->subnet->subnet_mask;
 
-        $leasetime = config('goldaccess.settings.dhcp_default_lease_time');
+        // $leasetime = config('goldaccess.settings.dhcp_default_lease_time');
 
-        $gateway = $provisioning_record->ip_address->subnet->routers;
+        // $gateway = $provisioning_record->ip_address->subnet->routers;
 
-        $dns = $provisioning_record->ip_address->subnet->dns_servers;
+        // $dns = $provisioning_record->ip_address->subnet->dns_servers;
 
-        return [
-            '## Management IP for '.$name.' (ID:'.$id.')',
-            'dhcp-subscrid=set:"' . $subscriberId . '","' . $subscriberId . '"', // match subscriber id
-            'dhcp-range=tag:"' . $subscriberId . '",' . $ip . ',' . $ip . ',' . $netmask . ',' . $leasetime, // the IP
-            'dhcp-option=tag:"' . $subscriberId . '",3,' . $gateway, // The gateway
-            'dhcp-option=tag:"' . $subscriberId . '",1,' . $netmask, // The netmask
-            'dhcp-option=tag:"' . $subscriberId . '",5,' . $dns, // The dns server
-            'dhcp-option=tag:"' . $subscriberId . '",67,' . $provisioning_record->dhcp_string,
-            // 'option-logserver' => 'dhcp-option=tag:"BasementStack/1/3/2",7,10.0.0.4',
-        ];
+        // return [
+        //     '## Management IP for '.$name.' (ID:'.$id.')',
+        //     'dhcp-subscrid=set:"' . $subscriberId . '","' . $subscriberId . '"', // match subscriber id
+        //     'dhcp-range=tag:"' . $subscriberId . '",tag:!internet-pool,' . $ip . ',' . $ip . ',' . $netmask . ',' . $leasetime, // the IP
+        //     'dhcp-option=tag:"' . $subscriberId . '",tag:!internet-pool,3,' . $gateway, // The gateway
+        //     'dhcp-option=tag:"' . $subscriberId . '",tag:!internet-pool,1,' . $netmask, // The netmask
+        //     'dhcp-option=tag:"' . $subscriberId . '",tag:!internet-pool,5,' . $dns, // The dns server
+        //     'dhcp-option=tag:"' . $subscriberId . '",tag:!internet-pool,67,' . $provisioning_record->dhcp_string,
+        //     // 'option-logserver' => 'dhcp-option=tag:"BasementStack/1/3/2",7,10.0.0.4',
+        // ];
     }
 
     /**

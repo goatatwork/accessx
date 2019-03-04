@@ -6,8 +6,10 @@ use App\User;
 use App\Subnet;
 use App\IpAddress;
 use Tests\TestCase;
-use App\ProvisioningRecord;
 use App\DhcpSharedNetwork;
+use App\ProvisioningRecord;
+use App\Events\SubnetWasCreated;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class IpAddressesApiTest extends TestCase

@@ -24,7 +24,7 @@ class ManagementIp
     public function __construct(ProvisioningRecord $provisioning_record)
     {
         $this->provisioning_record = $provisioning_record;
-        $this->storage = (env('APP_ENV') == 'testing') ? Storage::disk('dhcp_configs_test') : Storage::disk('dhcp_configs');
+        $this->storage = (env('APP_ENV') == 'testing') ? Storage::disk('dhcp_configs_testing') : Storage::disk('dhcp_configs');
     }
 
     public function check()
@@ -105,13 +105,14 @@ class ManagementIp
     }
 
     /**
+     * The configured lease time beats the system/environment lease time
      * @return string The lease time for this record
      */
     public function getDhcpDefaultLeaseTime()
     {
         return (GaSetting::where('name', 'dhcp_default_lease_time')->first()) ?
             (GaSetting::where('name', 'dhcp_default_lease_time')->first())->value :
-            '1800';
+            config('goldaccess.settings.dhcp_default_lease_time');
     }
 
     /**
@@ -163,7 +164,6 @@ class ManagementIp
      */
     public function options()
     {
-        \Log::info('THE PROFILE NAME FOR THIS RECORD IS ' . $this->provisioning_record->ont_profile->name);
         $subscriberId = $this->getSubscriberId();
         $ip = $this->getManagementIp();
         $netmask = $this->getNetmask();

@@ -27,15 +27,20 @@ class UpdateDhcpServer implements ShouldQueue
      */
     public function handle(ProvisioningRecordWasUpdated $event)
     {
-        $dhcp_for_this_record = new ManagementIp($event->provisioning_record);
+        // $dhcp_for_this_record = new ManagementIp($event->provisioning_record);
 
-        $dhcp_for_this_record->remove();
+        // $dhcp_for_this_record->remove();
 
-        $dhcp_for_this_record->make();
+        // $dhcp_for_this_record->make();
+
+        app('dhcpbot')->build($event->provisioning_record, 'dhcp_management_ip');
+        app('dhcpbot')->deploy($event->provisioning_record, 'dhcp_management_ip');
 
         $this->logIt($event->provisioning_record);
 
-        app('dockerbot')->containerRestart(config('goldaccess.dockerbot.services.dhcp.container_name'));
+        if (env('APP_ENV') != 'testing') {
+            app('dockerbot')->containerRestart(config('goldaccess.dockerbot.services.dhcp.container_name'));
+        }
     }
 
     /**

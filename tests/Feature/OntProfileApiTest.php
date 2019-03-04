@@ -488,7 +488,6 @@ class OntProfileApiTest extends TestCase
 
         $profile = OntProfile::whereName($ont_profile->name)->first();
         $this->assertFileExists($profile->file->getPath());
-        // \Log::info($profile->file->getUrl());
 
         $provisioning_record = factory(ProvisioningRecord::class)->create([
             'service_location_id' => '1',
@@ -554,7 +553,6 @@ class OntProfileApiTest extends TestCase
 
         $profile = OntProfile::whereName($ont_profile->name)->first();
         $this->assertFileExists($profile->file->getPath());
-        // \Log::info($profile->file->getUrl());
 
         $provisioning_record = factory(ProvisioningRecord::class)->create([
             'service_location_id' => '1',

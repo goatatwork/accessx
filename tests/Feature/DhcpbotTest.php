@@ -28,189 +28,199 @@ class DhcpbotTest extends TestCase
      * @group dhcpbot
      * @test
      */
-    public function test_bot_can_generate_the_filename_for_the_dnsmasq_config_file_for_a_subnet()
-    {
-        $subnet = factory(Subnet::class)->create(['network_address' => '10.1.2.0']);
-
-        $expected_string = $subnet->dhcp_shared_network->slug . '-10_1_2_0.conf';
-
-        $this->assertEquals($expected_string, app('dhcpbot')->getDhcpFilename($subnet));
-    }
-
-    /**
-     * @group dhcpbot
-     * @test
-     */
-    public function test_bot_can_generate_the_filename_for_the_dnsmasq_option43_file_for_a_subnet()
-    {
-        $subnet = factory(Subnet::class)->create(['network_address' => '10.1.2.0']);
-
-        $expected_string = $subnet->dhcp_shared_network->slug . '-10_1_2_0-option43.conf';
-
-        $this->assertEquals($expected_string, app('dhcpbot')->getOption43Filename($subnet));
-    }
-
-    /**
-     * @group dhcpbot
-     * @test
-     */
-    public function given_a_subnet_model_the_bot_can_create_and_write_dnsmasq_dhcp_config_files_in_the_directory_that_dnsmasq_needs_them_in()
+    public function bot_will_create_a_dhcp_subnet_definition_file()
     {
         $subnet = factory(Subnet::class)->create(['network_address' => '10.2.3.0']);
 
-        $newfile = app('dhcpbot')->writeFile($subnet);
+        $this->assertFalse(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_definition'));
 
-        $this->assertEquals($newfile->file_name, $subnet->dhcp_shared_network->slug.'-10_2_3_0.conf');
+        app('dhcpbot')->build($subnet, 'dhcp_subnet_definition');
 
-        \Storage::disk('dhcp_configs_test')->assertExists('dnsmasq.d/'.$newfile->file_name);
+        $this->assertTrue(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_definition'));
 
-        $subnet_again = Subnet::find($subnet->id);
-
-        $this->assertTrue(app('dhcpbot')->fileExists($subnet_again));
+        // \Storage::disk('dhcp_origins_testing')->assertExists($this->whereTheOriginFileLives($subnet, 'dhcp_subnet_definition'));
+        \Storage::disk('dhcp_origins_testing')->assertExists(app('dhcpbot')->getOriginPath($subnet, 'dhcp_subnet_definition'));
     }
 
     /**
      * @group dhcpbot
      * @test
      */
-    public function given_a_subnet_model_the_bot_can_create_and_write_dnsmasq_option43_files_in_the_directory_that_dnsmasq_needs_them_in()
+    public function bot_will_create_a_dhcp_subnet_option43_file()
     {
         $subnet = factory(Subnet::class)->create(['network_address' => '10.2.3.0']);
 
-        $newfile = app('dhcpbot')->writeOption43File($subnet);
+        $this->assertFalse(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_option43'));
 
-        $this->assertEquals($newfile->file_name, $subnet->dhcp_shared_network->slug.'-10_2_3_0-option43.conf');
+        app('dhcpbot')->build($subnet, 'dhcp_subnet_option43');
 
-        \Storage::disk('dhcp_configs_test')->assertExists('dnsmasq.d/'.$newfile->file_name);
-
-        $subnet_again = Subnet::find($subnet->id);
-
-        $this->assertTrue(app('dhcpbot')->option43FileExists($subnet_again));
+        $this->assertTrue(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_option43'));
+        \Storage::disk('dhcp_origins_testing')->assertExists(app('dhcpbot')->getOriginPath($subnet, 'dhcp_subnet_option43'));
     }
 
     /**
      * @group dhcpbot
      * @test
      */
-    public function given_a_subnet_model_the_bot_can_create_write_and_delete_dnsmasq_dhcp_config_files_in_the_directory_that_dnsmasq_needs_them_in()
+    public function bot_will_create_and_deploy_a_dhcp_subnet_definition_file()
     {
         $subnet = factory(Subnet::class)->create(['network_address' => '10.2.3.0']);
 
-        $newfile = app('dhcpbot')->writeFile($subnet);
+        $this->assertFalse(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_definition'));
 
-        $this->assertEquals($newfile->file_name, $subnet->dhcp_shared_network->slug.'-10_2_3_0.conf');
+        app('dhcpbot')->build($subnet, 'dhcp_subnet_definition');
 
-        \Storage::disk('dhcp_configs_test')->assertExists('dnsmasq.d/'.$newfile->file_name);
+        $this->assertTrue(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_definition'));
+        \Storage::disk('dhcp_origins_testing')->assertExists(app('dhcpbot')->getOriginPath($subnet, 'dhcp_subnet_definition'));
 
-        $subnet_again = Subnet::find($subnet->id);
+        $this->assertFalse(app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_definition'));
 
-        $this->assertTrue(app('dhcpbot')->fileExists($subnet_again));
+        app('dhcpbot')->deploy($subnet, 'dhcp_subnet_definition');
 
-        app('dhcpbot')->deleteFile($subnet_again);
-
-        $subnet_again_again = Subnet::find($subnet->id);
-
-        $this->assertFalse(app('dhcpbot')->fileExists($subnet_again_again));
+        $this->assertTrue(app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_definition'));
+        \Storage::disk('dhcp_configs_testing')->assertExists(app('dhcpbot')->getDeployPath($subnet, 'dhcp_subnet_definition'));
     }
 
     /**
      * @group dhcpbot
      * @test
      */
-    public function given_a_subnet_model_the_bot_can_create_write_and_delete_dnsmasq_option43_files_in_the_directory_that_dnsmasq_needs_them_in()
+    public function bot_will_create_and_deploy_a_dhcp_subnet_option43_file()
     {
         $subnet = factory(Subnet::class)->create(['network_address' => '10.2.3.0']);
 
-        $newfile = app('dhcpbot')->writeOption43File($subnet);
+        $this->assertFalse(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_option43'));
 
-        $this->assertEquals($newfile->file_name, $subnet->dhcp_shared_network->slug.'-10_2_3_0-option43.conf');
+        app('dhcpbot')->build($subnet, 'dhcp_subnet_option43');
 
-        \Storage::disk('dhcp_configs_test')->assertExists('dnsmasq.d/'.$newfile->file_name);
+        $this->assertTrue(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_option43'));
+        \Storage::disk('dhcp_origins_testing')->assertExists(app('dhcpbot')->getOriginPath($subnet, 'dhcp_subnet_option43'));
 
-        $subnet_again = Subnet::find($subnet->id);
+        $this->assertFalse(app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_option43'));
 
-        $this->assertTrue(app('dhcpbot')->option43FileExists($subnet_again));
+        app('dhcpbot')->deploy($subnet, 'dhcp_subnet_option43');
 
-        app('dhcpbot')->deleteOption43File($subnet_again);
-
-        $subnet_again_again = Subnet::find($subnet->id);
-
-        $this->assertFalse(app('dhcpbot')->option43FileExists($subnet_again_again));
+        $this->assertTrue(app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_option43'));
+        \Storage::disk('dhcp_configs_testing')->assertExists(app('dhcpbot')->getDeployPath($subnet, 'dhcp_subnet_option43'));
     }
 
     /**
      * @group dhcpbot
      * @test
      */
-    public function bot_has_a_fileExists_method_that_reports_correctly_when_the_real_dnsmasq_file_exists()
+    public function bot_will_create_deploy_and_undeploy_a_dhcp_subnet_definition_file()
     {
         $subnet = factory(Subnet::class)->create(['network_address' => '10.2.3.0']);
 
-        $this->assertFalse(app('dhcpbot')->fileExists($subnet));
+        $this->assertFalse(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_definition'));
 
-        $newfile = app('dhcpbot')->writeFile($subnet);
+        app('dhcpbot')->build($subnet, 'dhcp_subnet_definition');
 
-        $this->assertEquals($newfile->file_name, $subnet->dhcp_shared_network->slug.'-10_2_3_0.conf');
+        $this->assertTrue(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_definition'));
+        \Storage::disk('dhcp_origins_testing')->assertExists(app('dhcpbot')->getOriginPath($subnet, 'dhcp_subnet_definition'));
 
-        \Storage::disk('dhcp_configs_test')->assertExists('dnsmasq.d/'.$newfile->file_name);
+        $this->assertFalse(app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_definition'));
 
-        $subnet_again = Subnet::find($subnet->id);
+        app('dhcpbot')->deploy($subnet, 'dhcp_subnet_definition');
 
-        $this->assertTrue(app('dhcpbot')->fileExists($subnet_again));
+        $this->assertTrue(app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_definition'));
+        \Storage::disk('dhcp_configs_testing')->assertExists(app('dhcpbot')->getDeployPath($subnet, 'dhcp_subnet_definition'));
+
+        app('dhcpbot')->undeploy($subnet, 'dhcp_subnet_definition');
+
+        $this->assertFalse(app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_definition'));
+        \Storage::disk('dhcp_configs_testing')->assertMissing(app('dhcpbot')->getDeployPath($subnet, 'dhcp_subnet_definition'));
+        $this->assertTrue(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_definition'));
+        \Storage::disk('dhcp_origins_testing')->assertExists(app('dhcpbot')->getOriginPath($subnet, 'dhcp_subnet_definition'));
     }
 
     /**
      * @group dhcpbot
      * @test
      */
-    public function bot_has_a_fileExists_method_that_reports_correctly_when_the_real_dnsmasq_option43_file_exists()
+    public function bot_will_create_deploy_and_undeploy_a_dhcp_subnet_option43_file()
     {
         $subnet = factory(Subnet::class)->create(['network_address' => '10.2.3.0']);
 
-        $this->assertFalse(app('dhcpbot')->option43FileExists($subnet));
+        $this->assertFalse(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_option43'));
 
-        $newfile = app('dhcpbot')->writeOption43File($subnet);
+        app('dhcpbot')->build($subnet, 'dhcp_subnet_option43');
 
-        $this->assertEquals($newfile->file_name, $subnet->dhcp_shared_network->slug.'-10_2_3_0-option43.conf');
+        $this->assertTrue(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_option43'));
+        \Storage::disk('dhcp_origins_testing')->assertExists(app('dhcpbot')->getOriginPath($subnet, 'dhcp_subnet_option43'));
 
-        \Storage::disk('dhcp_configs_test')->assertExists('dnsmasq.d/'.$newfile->file_name);
+        $this->assertFalse(app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_option43'));
 
-        $subnet_again = Subnet::find($subnet->id);
+        app('dhcpbot')->deploy($subnet, 'dhcp_subnet_option43');
 
-        $this->assertTrue(app('dhcpbot')->option43FileExists($subnet_again));
+        $this->assertTrue(app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_option43'));
+        \Storage::disk('dhcp_configs_testing')->assertExists(app('dhcpbot')->getDeployPath($subnet, 'dhcp_subnet_option43'));
+
+        app('dhcpbot')->undeploy($subnet, 'dhcp_subnet_option43');
+
+        $this->assertFalse(app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_option43'));
+        \Storage::disk('dhcp_configs_testing')->assertMissing(app('dhcpbot')->getDeployPath($subnet, 'dhcp_subnet_option43'));
+        $this->assertTrue(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_option43'));
+        \Storage::disk('dhcp_origins_testing')->assertExists(app('dhcpbot')->getOriginPath($subnet, 'dhcp_subnet_option43'));
     }
 
     /**
      * @group dhcpbot
      * @test
      */
-    public function bot_has_a_fileExists_method_that_reports_correctly_when_the_real_dnsmasq_file_does_not_exist()
+    public function bot_will_create_deploy_and_destroy_a_dhcp_subnet_definition_file()
     {
-        $subnet = factory(Subnet::class)->create(['network_address' => '10.3.4.0']);
+        $subnet = factory(Subnet::class)->create(['network_address' => '10.2.3.0']);
 
-        // $newfile = app('dhcpbot')->writeFile($subnet);
+        $this->assertFalse(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_definition'));
 
-        \Storage::disk('dhcp_configs_test')->assertMissing('dnsmasq.d/'.$subnet->dhcp_shared_network->slug.'-10_3_4_0.conf');
+        app('dhcpbot')->build($subnet, 'dhcp_subnet_definition');
 
-        $subnet_again = Subnet::find($subnet->id);
+        $this->assertTrue(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_definition'));
+        \Storage::disk('dhcp_origins_testing')->assertExists(app('dhcpbot')->getOriginPath($subnet, 'dhcp_subnet_definition'));
 
-        $this->assertFalse(app('dhcpbot')->fileExists($subnet_again));
+        $this->assertFalse(app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_definition'));
+
+        app('dhcpbot')->deploy($subnet, 'dhcp_subnet_definition');
+
+        $this->assertTrue(app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_definition'));
+        \Storage::disk('dhcp_configs_testing')->assertExists(app('dhcpbot')->getDeployPath($subnet, 'dhcp_subnet_definition'));
+
+        app('dhcpbot')->destroy($subnet, 'dhcp_subnet_definition');
+
+        $this->assertFalse(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_definition'));
+        $this->assertFalse(app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_definition'));
+        \Storage::disk('dhcp_configs_testing')->assertMissing(app('dhcpbot')->getDeployPath($subnet, 'dhcp_subnet_definition'));
+        \Storage::disk('dhcp_origins_testing')->assertMissing(app('dhcpbot')->getOriginPath($subnet, 'dhcp_subnet_definition'));
     }
 
     /**
      * @group dhcpbot
      * @test
      */
-    public function bot_has_a_fileExists_method_that_reports_correctly_when_the_real_dnsmasq_option43_file_does_not_exist()
+    public function bot_will_create_deploy_and_destroy_a_dhcp_subnet_option43_file()
     {
-        $subnet = factory(Subnet::class)->create(['network_address' => '10.3.4.0']);
+        $subnet = factory(Subnet::class)->create(['network_address' => '10.2.3.0']);
 
-        // $newfile = app('dhcpbot')->writeFile($subnet);
+        $this->assertFalse(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_option43'));
 
-        \Storage::disk('dhcp_configs_test')->assertMissing('dnsmasq.d/'.$subnet->dhcp_shared_network->slug.'-10_3_4_0-option43.conf');
+        app('dhcpbot')->build($subnet, 'dhcp_subnet_option43');
 
-        $subnet_again = Subnet::find($subnet->id);
+        $this->assertTrue(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_option43'));
+        \Storage::disk('dhcp_origins_testing')->assertExists(app('dhcpbot')->getOriginPath($subnet, 'dhcp_subnet_option43'));
 
-        $this->assertFalse(app('dhcpbot')->option43FileExists($subnet_again));
+        $this->assertFalse(app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_option43'));
+
+        app('dhcpbot')->deploy($subnet, 'dhcp_subnet_option43');
+
+        $this->assertTrue(app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_option43'));
+        \Storage::disk('dhcp_configs_testing')->assertExists(app('dhcpbot')->getDeployPath($subnet, 'dhcp_subnet_option43'));
+
+        app('dhcpbot')->destroy($subnet, 'dhcp_subnet_option43');
+
+        $this->assertFalse(app('dhcpbot')->isBuilt($subnet, 'dhcp_subnet_option43'));
+        $this->assertFalse(app('dhcpbot')->isDeployed($subnet, 'dhcp_subnet_option43'));
+        \Storage::disk('dhcp_configs_testing')->assertMissing(app('dhcpbot')->getDeployPath($subnet, 'dhcp_subnet_option43'));
+        \Storage::disk('dhcp_origins_testing')->assertMissing(app('dhcpbot')->getOriginPath($subnet, 'dhcp_subnet_option43'));
     }
 }

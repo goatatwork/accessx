@@ -29,6 +29,10 @@ class ProvisioningTest extends TestCase
         $this->user = factory(User::class)->create();
     }
 
+    /**
+     * @group provisioning
+     * @test
+     */
     public function ttest_DISABLED_api_can_edit_provisioning_record_ont_profile()
     {
         $provisioning_record = factory(ProvisioningRecord::class)->make([
@@ -81,9 +85,9 @@ class ProvisioningTest extends TestCase
 
         $db_provisioning_record = ProvisioningRecord::whereLen($provisioning_record->len)->first();
 
-        $this->assertFileExists(storage_path('app/services/dnsmasq_test/dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf'));
+        $this->assertFileExists(storage_path('app/services/dnsmasq_testing/dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf'));
 
-        $file = Storage::disk('dhcp_configs_test')->get('dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf');
+        $file = Storage::disk('dhcp_configs_testing')->get('dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf');
 
         $this->assertEquals($this->file_to_array($file), $this->dhcp_file_syntax($db_provisioning_record));
 
@@ -110,15 +114,19 @@ class ProvisioningTest extends TestCase
             // 'notes' => $provisioning_record->notes,          // has issues with empty vs null
         ]);
 
-        $this->assertFileExists(storage_path('app/services/dnsmasq_test/dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf'));
+        $this->assertFileExists(storage_path('app/services/dnsmasq_testing/dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf'));
 
         $fresh_db_provisioning_record = ProvisioningRecord::whereLen($provisioning_record->len)->first();
-        $updated_file = Storage::disk('dhcp_configs_test')->get('dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf');
+        $updated_file = Storage::disk('dhcp_configs_testing')->get('dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf');
 
         $this->assertEquals($this->file_to_array($updated_file), $this->dhcp_file_syntax($fresh_db_provisioning_record));
 
     }
 
+    /**
+     * @group provisioning
+     * @test
+     */
     public function test_reboot_job_is_fired_if_pr_update_has_reboot_set_to_true()
     {
         Queue::fake();
@@ -132,6 +140,10 @@ class ProvisioningTest extends TestCase
         Queue::assertPushed(RebootOnt::class);
     }
 
+    /**
+     * @group provisioning
+     * @test
+     */
     public function test_reboot_job_is_not_fired_if_pr_update_has_reboot_set_to_false()
     {
         Queue::fake();
@@ -145,6 +157,10 @@ class ProvisioningTest extends TestCase
         Queue::assertNotPushed(RebootOnt::class);
     }
 
+    /**
+     * @group provisioning
+     * @test
+     */
     public function test_api_can_add_provisioning_records_and_event_is_fired()
     {
         Event::fake();
@@ -199,10 +215,13 @@ class ProvisioningTest extends TestCase
     }
 
     /**
-     * @return void
+     * @group provisioning
+     * @test
      */
     public function test_api_can_add_provisioning_records_and_dnsmasq_file_is_created()
     {
+        $this->withoutExceptionHandling();
+
         $provisioning_record = factory(ProvisioningRecord::class)->make([
             'service_location_id' => null,
             'ont_profile_id' => null,
@@ -249,11 +268,12 @@ class ProvisioningTest extends TestCase
 
         $db_provisioning_record = ProvisioningRecord::whereLen($provisioning_record->len)->first();
 
-        $this->assertFileExists(storage_path('app/services/dnsmasq_test/dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf'));
+        $this->assertFileExists(storage_path('app/services/dnsmasq_testing/dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf'));
     }
 
     /**
-     * @return void
+     * @group provisioning
+     * @test
      */
     public function test_api_can_delete_provisioning_records_and_dnsmasq_file_is_removed()
     {
@@ -303,7 +323,7 @@ class ProvisioningTest extends TestCase
 
         $db_provisioning_record = ProvisioningRecord::whereLen($provisioning_record->len)->first();
 
-        $this->assertFileExists(storage_path('app/services/dnsmasq_test/dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf'));
+        $this->assertFileExists(storage_path('app/services/dnsmasq_testing/dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf'));
 
         $delete_response = $this->actingAs($this->user, 'api')->json('DELETE', '/api/provisioning/' . $db_provisioning_record->id);
 
@@ -317,7 +337,7 @@ class ProvisioningTest extends TestCase
             // 'notes' => $provisioning_record->notes,          // has issues with empty vs null
         ]);
 
-        $this->assertFileNotExists(storage_path('app/services/dnsmasq_test/dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf'));
+        $this->assertFileNotExists(storage_path('app/services/dnsmasq_testing/dnsmasq.d/'.$db_provisioning_record->port_tag.'.conf'));
     }
 
     /**

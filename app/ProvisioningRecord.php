@@ -4,11 +4,12 @@ namespace App;
 
 use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
+use App\GoldAccess\Dhcp\Contracts\Deployable;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class ProvisioningRecord extends Model implements HasMedia, AuditableContract
+class ProvisioningRecord extends Model implements HasMedia, AuditableContract, Deployable
 {
     use HasMediaTrait, Auditable;
 
@@ -23,6 +24,21 @@ class ProvisioningRecord extends Model implements HasMedia, AuditableContract
     ];
 
     protected $appends = ['port_tag', 'file', 'is_suspended'];
+
+    public $media_collections = [
+        'dhcp_management_ip' => "ManagementIp"
+    ];
+
+    public function allMediaCollections()
+    {
+        return collect(array_keys($this->media_collections));
+    }
+
+    public function registerMediaCollections() {
+        foreach (array_keys($this->media_collections) as $collection) {
+            $this->addMediaCollection($collection)->singleFile();
+        }
+    }
 
     public function service_location() {
         return $this->belongsTo(ServiceLocation::class);

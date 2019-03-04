@@ -3,25 +3,29 @@
 namespace App\GoldAccess\Dhcp\Options;
 
 use App\Subnet;
+use App\GoldAccess\Dhcp\Contracts\Deployable;
 use App\GoldAccess\Dhcp\Contracts\DhcpOption;
 
 class Option0 extends DhcpOption
 {
     /**
      * Create the content that will be used in the dnsmasq config file
-     * @param  string $dnsmasq_tag
-     * @param  string $value
+     * @param  App\Subnet $subnet
      * @return string
      */
-    public static function make(Subnet $subnet)
+    public static function make(Deployable $deployable)
     {
-        $name = $subnet->dhcp_shared_network->name;
-        $vlan = $subnet->dhcp_shared_network->vlan ?: 'none';
-        $dnsmasq_tag = self::subnetSlug($subnet);
+        $name = $deployable->dhcp_shared_network->name;
+        $vlan = $deployable->dhcp_shared_network->vlan ?: 'none';
+        $dnsmasq_tag = self::subnetSlug($deployable);
 
         return '# DHCP Range For ' . $name . ' On VLAN ' . $vlan . "\n" .
-            'dhcp-range=set:"'.$dnsmasq_tag.'",' . (new self)->rangeFor($subnet) . ',1h' . "\n" .
-            'dhcp-option=tag:"'.$dnsmasq_tag.'",3,'.$subnet->routers;
+            'dhcp-range=set:"'.$dnsmasq_tag.'",' . (new self)->rangeFor($deployable) . ',1h' . "\n" .
+            'tag-if=set:internet-pool,tag:' . $dnsmasq_tag . "\n" .
+            'dhcp-option=tag:"'.$dnsmasq_tag.'",3,'.$deployable->routers. "\n" .
+            'dhcp-option=tag:"' . $dnsmasq_tag . '",1,' . $deployable->subnet_netmask . "\n" .
+            'dhcp-option=tag:"' . $dnsmasq_tag . '",5,' . $deployable->dns_servers . "\n" .
+            'dhcp-option=tag:"' . $dnsmasq_tag . '",6,' . $deployable->dns_servers . "\n";
     }
 
     /**
@@ -29,9 +33,9 @@ class Option0 extends DhcpOption
      * @param  \App\Subnet $subnet
      * @return string
      */
-    public static function getFilename(Subnet $subnet)
+    public static function getFilename(Deployable $deployable)
     {
-        return self::subnetSlug($subnet) . '.conf';
+        return self::subnetSlug($deployable) . '.conf';
     }
 
     /**

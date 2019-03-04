@@ -8,6 +8,7 @@ use App\DhcpSharedNetwork;
 use Spatie\MediaLibrary\Models\Media;
 use App\GoldAccess\Dhcp\Options\Option0;
 use App\GoldAccess\Dhcp\Options\Option43;
+use App\GoldAccess\Dhcp\Contracts\Deployable;
 use App\GoldAccess\Utilities\MediaLibraryPathGenerator;
 
 class Dhcpbot
@@ -51,194 +52,151 @@ class Dhcpbot
 
     /**
      * Get current DHCP state for a subnet
-     * @param  Subnet $subnet
+     * @param  Deployable $deployable
      * @return collection
      */
-    public function report(Subnet $subnet)
+    public function report(Deployable $deployable)
     {
-        $subnet->refresh();
+        $deployable->refresh();
 
-        return $subnet->allMediaCollections()->map(function($collection_name, $key) use ($subnet) {
-            $filename = ($subnet->getFirstMedia($collection_name)) ? $subnet->getFirstMedia($collection_name)->file_name : false;
+        return $deployable->allMediaCollections()->map(function($collection_name, $key) use ($deployable) {
+            $filename = ($deployable->getFirstMedia($collection_name)) ? $deployable->getFirstMedia($collection_name)->file_name : false;
 
             return [
                 'collection' => $collection_name,
-                'origin_exists' => $this->isBuilt($subnet, $collection_name),
-                'origin_path' => $this->getOriginPath($subnet, $collection_name),
-                'is_deployed' => $this->isDeployed($subnet, $collection_name),
-                'deploy_path' => ($this->isDeployed($subnet, $collection_name)) ? $this->getDeployPath($subnet, $collection_name) : null,
+                'origin_exists' => $this->isBuilt($deployable, $collection_name),
+                'origin_path' => $this->getOriginPath($deployable, $collection_name),
+                'is_deployed' => $this->isDeployed($deployable, $collection_name),
+                'deploy_path' => ($this->isDeployed($deployable, $collection_name)) ? $this->getDeployPath($deployable, $collection_name) : null,
             ];
         });
     }
 
     /**
-     * @param  Subnet  $subnet
+     * @param  Subnet  $deployable
      * @param  string  $collection_name MediaLirbary collection name
      * @return boolean
      */
-    public function isBuilt(Subnet $subnet, $collection_name)
+    public function isBuilt(Deployable $deployable, $collection_name)
     {
-        return ($subnet->getFirstMedia($collection_name)) ? true : false;
+        return ($deployable->getFirstMedia($collection_name)) ? true : false;
     }
 
     /**
-     * @param  Subnet  $subnet
+     * @param  Subnet  $deployable
      * @param  string  $collection_name MediaLirbary collection name
      * @return boolean
      */
-    public function isDeployed(Subnet $subnet, $collection_name)
+    public function isDeployed(Deployable $deployable, $collection_name)
     {
-        return Storage::disk($this->dhcp_configs_disk)->exists($this->getDeployPath($subnet, $collection_name));
+        return Storage::disk($this->dhcp_configs_disk)->exists($this->getDeployPath($deployable, $collection_name));
     }
 
     /**
-     * @param  Subnet  $subnet
+     * @param  Subnet  $deployable
      * @param  string  $collection_name MediaLirbary collection name
      * @return string
      */
-    public function getDeployPath(Subnet $subnet, $collection_name)
+    public function getDeployPath(Deployable $deployable, $collection_name)
     {
-        if ($this->isBuilt($subnet, $collection_name)) {
-            return $this->medialibraray_path_generator->getDeployPath($subnet->getFirstMedia($collection_name));
+        if ($this->isBuilt($deployable, $collection_name)) {
+            return $this->medialibraray_path_generator->getDeployPath($deployable->getFirstMedia($collection_name));
         }
     }
 
     /**
-     * @param  Subnet  $subnet
+     * @param  Subnet  $deployable
      * @param  string  $collection_name MediaLirbary collection name
      * @return string
      */
-    public function getOriginPath(Subnet $subnet, $collection_name = 'dhcp_subnet_definition')
+    public function getOriginPath(Deployable $deployable, $collection_name = 'dhcp_subnet_definition')
     {
-        if ($this->isBuilt($subnet, $collection_name)) {
-            $path = $this->medialibraray_path_generator->getPath($subnet->getFirstMedia($collection_name));
-            $filename = $subnet->getFirstMedia($collection_name)->file_name;
+        if ($this->isBuilt($deployable, $collection_name)) {
+            $path = $this->medialibraray_path_generator->getPath($deployable->getFirstMedia($collection_name));
+            $filename = $deployable->getFirstMedia($collection_name)->file_name;
             return $path . $filename;
         }
     }
 
     /**
      * Create the MediaLibrary Media in the origins directory
-     * @param  Subnet $subnet
+     * @param  Deployable $deployable
      * @param  string $collection_name
      * @return Spatie\MediaLibrary\Models\Media
      */
-    public function build(Subnet $subnet, $collection_name = 'dhcp_subnet_definition')
+    public function build(Deployable $deployable, $collection_name = 'dhcp_subnet_definition')
     {
-        $media = $subnet->addMedia($this->commitFileToTempStorage($subnet, $collection_name))
+        $media = $deployable->addMedia($this->commitFileToTempStorage($deployable, $collection_name))
             ->toMediaCollection($collection_name, $this->dhcp_origins_disk);
-
-        app('logbot')->log(
-            'Dhcpbot built a ' .
-            $collection_name .
-            ' file for ' .
-            $subnet->network_address . '/' . $subnet->cidr .
-            ' in "' .
-            $subnet->dhcp_shared_network->name .
-            '"',
-            'notice'
-        );
 
         return $media;
     }
 
     /**
      * Remove the file from the DeployPath
-     * @param  Subnet $subnet
+     * @param  Deployable $deployable
      * @param  string $collection_name
      * @return App\Subnet
      */
-    public function deploy(Subnet $subnet, $collection_name = 'dhcp_subnet_definition')
+    public function deploy(Deployable $deployable, $collection_name = 'dhcp_subnet_definition')
     {
-        if ($this->isBuilt($subnet, $collection_name)) {
-            $media = $subnet->getFirstMedia($collection_name);
+        if ($this->isBuilt($deployable, $collection_name)) {
+            $media = $deployable->getFirstMedia($collection_name);
             $origin_path = $this->medialibraray_path_generator->getPath($media) . $media->file_name;
             $origin_file = Storage::disk($this->dhcp_origins_disk)->get($origin_path);
             $deployment = Storage::disk($this->dhcp_configs_disk)->put($this->medialibraray_path_generator->getDeployPath($media), $origin_file);
-
-            app('logbot')->log(
-                'Dhcpbot deployed a ' .
-                $collection_name .
-                ' file for ' .
-                $subnet->network_address . '/' . $subnet->cidr .
-                ' in "' .
-                $subnet->dhcp_shared_network->name .
-                '"',
-                'notice'
-            );
         }
 
-        return $subnet;
+        return $deployable;
     }
 
     /**
      * Remove the file from the DeployPath
-     * @param  Subnet $subnet
+     * @param  Deployable $deployable
      * @param  string $collection_name
      * @return App\Subnet
      */
-    public function undeploy(Subnet $subnet, $collection_name = 'dhcp_subnet_definition')
+    public function undeploy(Deployable $deployable, $collection_name = 'dhcp_subnet_definition')
     {
-        if ($this->isDeployed($subnet, $collection_name)) {
-            Storage::disk($this->dhcp_configs_disk)->delete($this->getDeployPath($subnet, $collection_name));
-            app('logbot')->log(
-                'Dhcpbot undeployed a ' .
-                $collection_name .
-                ' file for ' .
-                $subnet->network_address . '/' . $subnet->cidr .
-                ' in "' .
-                $subnet->dhcp_shared_network->name .
-                '"',
-                'notice'
-            );
+        if ($this->isDeployed($deployable, $collection_name)) {
+            Storage::disk($this->dhcp_configs_disk)->delete($this->getDeployPath($deployable, $collection_name));
         }
 
-        return $subnet;
+        return $deployable;
     }
 
     /**
      * Remove the file from the DeployPath and remove the Media item.
      * Note: this means we never rid ourselves of the Media item without
      * first removing the deployed file.
-     * @param  Subnet $subnet
+     * @param  Deployable $deployable
      * @param  string $collection_name
      * @return App\Subnet
      */
-    public function destroy(Subnet $subnet, $collection_name = 'dhcp_subnet_definition')
+    public function destroy(Deployable $deployable, $collection_name = 'dhcp_subnet_definition')
     {
-        if ($this->isDeployed($subnet, $collection_name)) {
-            Storage::disk($this->dhcp_configs_disk)->delete($this->getDeployPath($subnet, $collection_name));
+        if ($this->isDeployed($deployable, $collection_name)) {
+            Storage::disk($this->dhcp_configs_disk)->delete($this->getDeployPath($deployable, $collection_name));
         }
 
-        if ($this->isBuilt($subnet, $collection_name)) {
-            $subnet->clearMediaCollection($collection_name);
+        if ($this->isBuilt($deployable, $collection_name)) {
+            $deployable->clearMediaCollection($collection_name);
         }
 
-        app('logbot')->log(
-            'Dhcpbot destroyed a ' .
-            $collection_name .
-            ' file for ' .
-            $subnet->network_address . '/' . $subnet->cidr .
-            ' in "' .
-            $subnet->dhcp_shared_network->name .
-            '"',
-            'notice'
-        );
-
-        return $subnet;
+        return $deployable;
     }
 
     /**
-     * @param  Subnet $subnet
+     * @param  Deployable $deployable
      * @param  string $collection_name
      * @return string|false String will be disk path to file for addMedia() to use
      */
-    protected function commitFileToTempStorage(Subnet $subnet, $collection_name = 'dhcp_subnet_definition')
+    protected function commitFileToTempStorage(Deployable $deployable, $collection_name = 'dhcp_subnet_definition')
     {
-        $dhcp_option_class = '\App\GoldAccess\Dhcp\Options\\' . $subnet->media_collections[$collection_name];
+        $dhcp_option_class = '\App\GoldAccess\Dhcp\Options\\' . $deployable->media_collections[$collection_name];
 
-        $file_name = $dhcp_option_class::getFilename($subnet);
-        $file_content = $dhcp_option_class::make($subnet);
+        $file_name = $dhcp_option_class::getFilename($deployable);
+        $file_content = $dhcp_option_class::make($deployable);
 
         $path = $this->temp_storage->path($file_name);
 

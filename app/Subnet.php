@@ -5,10 +5,11 @@ namespace App;
 use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
+use App\GoldAccess\Dhcp\Contracts\Deployable;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Subnet extends Model implements AuditableContract, HasMedia
+class Subnet extends Model implements AuditableContract, HasMedia, Deployable
 {
     use Auditable, HasMediaTrait;
 

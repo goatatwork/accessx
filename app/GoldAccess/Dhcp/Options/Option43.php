@@ -3,6 +3,7 @@
 namespace App\GoldAccess\Dhcp\Options;
 
 use App\Subnet;
+use App\GoldAccess\Dhcp\Contracts\Deployable;
 use App\GoldAccess\Dhcp\Contracts\DhcpOption;
 
 class Option43 extends DhcpOption
@@ -22,28 +23,10 @@ class Option43 extends DhcpOption
 
     /**
      * Create the line that will be used in the dnsmasq config file
-     * @param  string $dnsmasq_tag
-     * @param  string $value
+     * @param  \App\Subnet $subnet
      * @return string
      */
-    // public static function make($dnsmasq_tag, $value)
-    // {
-    //     $prefix = (self::$forced) ? 'dhcp-option-force=' : 'dhcp-option=';
-
-    //     $tag = 'tag:"' . $dnsmasq_tag . '",';
-
-    //     $option = self::$option_number . ',';
-
-    //     return $prefix . $tag . $option . $value;
-    // }
-
-    /**
-     * Create the line that will be used in the dnsmasq config file
-     * @param  string $dnsmasq_tag
-     * @param  string $value
-     * @return string
-     */
-    public static function make(Subnet $subnet)
+    public static function make(Deployable $subnet)
     {
         $prefix = (self::$forced) ? 'dhcp-option-force=' : 'dhcp-option=';
 
@@ -59,7 +42,7 @@ class Option43 extends DhcpOption
      * @param  \App\Subnet $subnet
      * @return string
      */
-    public static function getFilename(Subnet $subnet)
+    public static function getFilename(Deployable $subnet)
     {
         return self::subnetSlug($subnet) . '-option43.conf';
     }

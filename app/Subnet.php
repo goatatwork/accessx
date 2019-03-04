@@ -27,7 +27,23 @@ class Subnet extends Model implements AuditableContract, HasMedia
         'notes'
     ];
 
-    protected $appends = ['has_provisioning_records'];
+    protected $appends = ['has_provisioning_records', 'has_option_43'];
+
+    public $media_collections = [
+        'dhcp_subnet_definition' => "Option0",
+        'dhcp_subnet_option43' => "Option43",
+    ];
+
+    public function allMediaCollections()
+    {
+        return collect(array_keys($this->media_collections));
+    }
+
+    public function registerMediaCollections() {
+        foreach (array_keys($this->media_collections) as $collection) {
+            $this->addMediaCollection($collection)->singleFile();
+        }
+    }
 
     public function dhcp_shared_network()
     {
@@ -52,5 +68,10 @@ class Subnet extends Model implements AuditableContract, HasMedia
     public function getIsManagementAttribute()
     {
         return ($this->dhcp_shared_network) ? $this->dhcp_shared_network->management : null;
+    }
+
+    public function getHasOption43Attribute()
+    {
+        return ($this->getFirstMedia('dhcp_subnet_option43')) ? true : false;
     }
 }

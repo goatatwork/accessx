@@ -19,6 +19,21 @@ class MediaLibraryPathGenerator implements PathGenerator
     }
 
     /*
+     * Get the path for the given model relative to the live/deployed
+     * dhcp directory.
+     */
+    public function getDeployPath(Media $media): string
+    {
+
+        if ($media->model instanceof Subnet) {
+
+            $origin = $media->model;
+
+            return 'dnsmasq.d/' . $media->file_name;
+        }
+    }
+
+    /*
      * Get the path for conversions of the given media, relative to the root storage path.
      */
     public function getPathForConversions(Media $media): string
@@ -62,7 +77,9 @@ class MediaLibraryPathGenerator implements PathGenerator
 
         if ($media->model instanceOf Subnet) {
 
-            return 'dnsmasq.d';
+            $origin = $media->model;
+
+            return $origin->dhcp_shared_network->slug . '-' . preg_replace('/\./', '_', $origin->network_address) . '_' . $origin->cidr . '/' . $media->getKey();
 
         }
 

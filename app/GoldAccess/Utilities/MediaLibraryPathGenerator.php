@@ -5,6 +5,7 @@ namespace App\GoldAccess\Utilities;
 use App\Subnet;
 use App\OntProfile;
 use App\OntSoftware;
+use App\ProvisioningRecord;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\PathGenerator\PathGenerator;
 
@@ -27,9 +28,14 @@ class MediaLibraryPathGenerator implements PathGenerator
 
         if ($media->model instanceof Subnet) {
 
-            $origin = $media->model;
+            return 'dnsmasq.d/' . $media->file_name;
+
+        }
+
+        if ($media->model instanceof ProvisioningRecord) {
 
             return 'dnsmasq.d/' . $media->file_name;
+
         }
     }
 
@@ -81,6 +87,13 @@ class MediaLibraryPathGenerator implements PathGenerator
 
             return $origin->dhcp_shared_network->slug . '-' . preg_replace('/\./', '_', $origin->network_address) . '_' . $origin->cidr . '/' . $media->getKey();
 
+        }
+
+        if ($media->model instanceof ProvisioningRecord) {
+
+            $origin = $media->model;
+
+            return 'management_ips/' . $origin->port_tag . '/' . $media->getKey();
         }
 
         return $media->getKey();

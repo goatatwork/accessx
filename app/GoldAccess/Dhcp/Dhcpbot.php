@@ -125,8 +125,21 @@ class Dhcpbot
      */
     public function build(Subnet $subnet, $collection_name = 'dhcp_subnet_definition')
     {
-        return $subnet->addMedia($this->commitFileToTempStorage($subnet, $collection_name))
+        $media = $subnet->addMedia($this->commitFileToTempStorage($subnet, $collection_name))
             ->toMediaCollection($collection_name, $this->dhcp_origins_disk);
+
+        app('logbot')->log(
+            'Dhcpbot built a ' .
+            $collection_name .
+            ' file for ' .
+            $subnet->network_address . '/' . $subnet->cidr .
+            ' in "' .
+            $subnet->dhcp_shared_network->name .
+            '"',
+            'notice'
+        );
+
+        return $media;
     }
 
     /**
@@ -142,6 +155,17 @@ class Dhcpbot
             $origin_path = $this->medialibraray_path_generator->getPath($media) . $media->file_name;
             $origin_file = Storage::disk($this->dhcp_origins_disk)->get($origin_path);
             $deployment = Storage::disk($this->dhcp_configs_disk)->put($this->medialibraray_path_generator->getDeployPath($media), $origin_file);
+
+            app('logbot')->log(
+                'Dhcpbot deployed a ' .
+                $collection_name .
+                ' file for ' .
+                $subnet->network_address . '/' . $subnet->cidr .
+                ' in "' .
+                $subnet->dhcp_shared_network->name .
+                '"',
+                'notice'
+            );
         }
 
         return $subnet;
@@ -157,6 +181,16 @@ class Dhcpbot
     {
         if ($this->isDeployed($subnet, $collection_name)) {
             Storage::disk($this->dhcp_configs_disk)->delete($this->getDeployPath($subnet, $collection_name));
+            app('logbot')->log(
+                'Dhcpbot undeployed a ' .
+                $collection_name .
+                ' file for ' .
+                $subnet->network_address . '/' . $subnet->cidr .
+                ' in "' .
+                $subnet->dhcp_shared_network->name .
+                '"',
+                'notice'
+            );
         }
 
         return $subnet;
@@ -179,6 +213,17 @@ class Dhcpbot
         if ($this->isBuilt($subnet, $collection_name)) {
             $subnet->clearMediaCollection($collection_name);
         }
+
+        app('logbot')->log(
+            'Dhcpbot destroyed a ' .
+            $collection_name .
+            ' file for ' .
+            $subnet->network_address . '/' . $subnet->cidr .
+            ' in "' .
+            $subnet->dhcp_shared_network->name .
+            '"',
+            'notice'
+        );
 
         return $subnet;
     }

@@ -10,19 +10,29 @@
     </ol>
 </nav>
 
-<div class="row mb-3">
-    <div class="col">
-        <h4>Current contents of the <span class="font-italic">dnsmasq.leases</span> file...</h4>
-    </div>
-</div>
-
 <div class="row">
-    <div class="col-7">
-        <div class="card">
-            <div class="card-body">
-                {{ $leases }}
-            </div>
-        </div>
+    <div class="col">
+
+        <table class="table table-dark">
+            <tr>
+                <th>Time</th>
+                <th>MAC</th>
+                <th>IP</th>
+                <th>Host Name</th>
+                <th>ClientID</th>
+            </tr>
+
+            @foreach($leases as $lease)
+                <tr>
+                    <td>{{$lease['time']}}</td>
+                    <td>{{$lease['mac']}}</td>
+                    <td>{{$lease['ip']}}</td>
+                    <td>{{$lease['hostname']}}</td>
+                    <td>{{$lease['client_id']}}</td>
+                </tr>
+            @endforeach
+        </table>
+
     </div>
 </div>
 

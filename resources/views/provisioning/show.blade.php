@@ -113,7 +113,12 @@
                             </div>
                             <div class="modal-body">
                                 <p>Here is the DHCP config that is being loaded for this service.</p>
-                                <pre>{{ $management_ip->get() }}</pre>
+
+                                @if (app('dhcpbot')->isDeployed($provisioning_record, 'dhcp_management_ip'))
+                                <pre>
+{{ \Storage::disk('dhcp_configs')->get(app('dhcpbot')->getDeployPath($provisioning_record, 'dhcp_management_ip'))}}
+                                </pre>
+                                @endif
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>

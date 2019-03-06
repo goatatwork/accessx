@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class DnsmasqLog extends Model
 {
     protected $fillable = ['event'];
+
+    protected $casts = [
+        'event' => 'array'
+    ];
+
 }

@@ -35,7 +35,21 @@ class DnsmasqLogsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $eventJson = $request->getContent();
+        $event1 = json_decode($eventJson, true);  // good assoc array
+        $log = DnsmasqLog::create(['event' => $event1]);
+
+        if ($log->event['ACTION'] == 'add') {
+            $message = 'New lease: ' . $log->event['IP'] . ' was leased to ' . $log->event['HOSTMAC'];
+        } elseif ($log->event['ACTION'] == 'old') {
+            $message = 'Old lease: ' . $log->event['IP'] . ' was previously leased to ' . $log->event['HOSTMAC'];
+        } elseif ($log->event['ACTION'] == 'del') {
+            $message = 'Delete lease: ' . $log->event['IP'] . ' was deleted from ' . $log->event['HOSTMAC'];
+        } else {
+            $message = 'Unknown DHCP action';
+        }
+
+        app('logbot')->log($message, 'notice');
     }
 
     /**

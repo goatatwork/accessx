@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Storage;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DhcpLeasesFileController extends Controller
@@ -14,7 +15,23 @@ class DhcpLeasesFileController extends Controller
      */
     public function index()
     {
-        $leases = Storage::disk('dhcp_configs')->get('leases/dnsmasq.leases');
+        $lease_file = Storage::disk('dhcp_configs')->get('leases/dnsmasq.leases');
+
+        $leases = collect(preg_split('/\n/', $lease_file));
+
+        $leases = $leases->map(function($lease) {
+            $lease_parts = preg_split('/\s+/', $lease);
+
+            if (sizeof($lease_parts) == 5) {
+                return [
+                    'time' => Carbon::createFromTimestamp($lease_parts[0])->diffForHumans(),
+                    'mac' => $lease_parts[1],
+                    'ip' => $lease_parts[2],
+                    'hostname' => $lease_parts[3],
+                    'client_id' => $lease_parts[4],
+                ];
+            }
+        });
 
         return view('dhcp.leases')->with('leases', $leases);
     }

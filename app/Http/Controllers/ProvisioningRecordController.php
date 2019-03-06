@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\ProvisioningRecord;
 use Illuminate\Http\Request;
 use App\Jobs\RebootOnt;
-use App\GoldAccess\Dhcp\ManagementIp;
 use App\Events\ProvisioningRecordWasUpdated;
 use App\Http\Requests\ProvisioningRecordRequest;
 use App\Http\Resources\ProvisioningRecordForTable;
@@ -53,12 +52,12 @@ class ProvisioningRecordController extends Controller
      */
     public function show(ProvisioningRecord $provisioning_record)
     {
-        $management_ip = new ManagementIp($provisioning_record);
+        // $management_ip = new ManagementIp($provisioning_record);
 
         $other_possible_packages_json = json_encode($provisioning_record->ont_profile->ont_software->ont_profiles->pluck('name', 'id'));
 
         return view('provisioning.show')
-            ->with('management_ip', $management_ip)
+            // ->with('management_ip', $management_ip)
             ->with('other_possible_packages_json', $other_possible_packages_json)
             ->with('provisioning_record', $provisioning_record);
     }

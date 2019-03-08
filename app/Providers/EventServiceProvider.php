@@ -32,6 +32,7 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ProvisioningRecordWasUpdated' => [
             'App\Listeners\UpdateDhcpServer',
         ],
+        'App\Events\DhcpEvent' => [],
 
         // Laravel Auth
         'Illuminate\Auth\Events\Registered' => [

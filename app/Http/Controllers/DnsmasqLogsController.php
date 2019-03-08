@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DnsmasqLog;
+use App\Events\DhcpEvent;
 use Illuminate\Http\Request;
 
 class DnsmasqLogsController extends Controller
@@ -38,6 +39,7 @@ class DnsmasqLogsController extends Controller
         $eventJson = $request->getContent();
         $event1 = json_decode($eventJson, true);  // good assoc array
         $log = DnsmasqLog::create(['event' => $event1]);
+        event(new DhcpEvent($log));
 
         if ($log->event['ACTION'] == 'add') {
             $message = 'New lease: ' . $log->event['IP'] . ' was leased to ' . $log->event['HOSTMAC'];

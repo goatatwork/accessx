@@ -26,6 +26,7 @@ Vue.component('media-file-list', require('./components/GoldAccess/Core/MediaFile
 Vue.component('file-uploader', require('./components/GoldAccess/Core/FileUploader.vue'));
 Vue.component('delete-modal', require('./components/GoldAccess/Core/DeleteModal.vue'));
 Vue.component('marked-content', require('./components/GoldAccess/Core/MarkedContent.vue'));
+Vue.component('toggle-switch', require('./components/GoldAccess/Core/ToggleSwitch.vue'));
 
 Vue.component('instant-edit-select', require('./components/GoldAccess/Forms/InstantSelect.vue'));
 
@@ -62,8 +63,13 @@ Vue.component('create-user-modal', require('./components/GoldAccess/Users/Create
 Vue.component('ont-software-file-uploader', require('./components/GoldAccess/Core/OntSoftwareFileUploader.vue'));
 Vue.component('ont-config-file-uploader', require('./components/GoldAccess/Core/OntConfigFileUploader.vue'));
 
+// Dhcp Leases Viewer
+Vue.component('dhcp-leases', require('./components/GoldAccess/Dhcp/Leases.vue'));
+
 window.EventBus = new Vue({});
 
 const app = new Vue({
     el: '#app'
 });
+
+window.moment = require('moment');

@@ -62,7 +62,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dhcp'], function() {
     Route::delete('shared_networks/{dhcp_shared_network}', 'DhcpSharedNetworksController@destroy');
     Route::patch('shared_networks/{dhcp_shared_network}', 'DhcpSharedNetworksController@update');
     Route::get('shared_networks/{dhcp_shared_network}/edit', 'DhcpSharedNetworksController@edit');
-    Route::get('leases', 'DhcpLeasesFileController@index');
+    Route::get('leases', 'DhcpLeasesFileController@index')->name('dhcp.leases');
     Route::get('{dhcp_shared_network}', 'DhcpSharedNetworksController@show');
 });
 

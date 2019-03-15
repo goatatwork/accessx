@@ -66,6 +66,8 @@ class SubnetApiTest extends TestCase
      */
     public function test_api_can_create_subnet()
     {
+        Event::fake();
+
         $sn = factory(DhcpSharedNetwork::class)->create();
         $subnet = factory(Subnet::class)->make(['dhcp_shared_network_id' => null]);
 
@@ -78,8 +80,7 @@ class SubnetApiTest extends TestCase
 
         $this->assertDatabaseHas('subnets', ['start_ip' => $subnet->start_ip]);
 
-        $subnet = Subnet::whereStartIp($subnet->start_ip)->first();
-        $this->assertCount(253, $subnet->ip_addresses);
+        Event::assertDispatched(SubnetWasCreated::class);
     }
 
     /**

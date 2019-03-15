@@ -98,6 +98,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'infrastructure'], functio
     Route::delete('aggregators/{aggregator}', 'AggregatorsApiController@destroy');
 
     Route::get('slots/{slot}/ports', 'SlotPortsApiController@index');
+    Route::post('slots/{slot}/ports', 'SlotPortsApiController@store');
     Route::post('slots/{slot}/populate', 'SlotPopulationApiController@store');
     Route::post('slots/{slot}/unpopulate', 'SlotPopulationApiController@destroy');
 });

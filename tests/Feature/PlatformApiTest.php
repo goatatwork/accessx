@@ -20,10 +20,12 @@ class PlatformApiTest extends TestCase
     }
 
     /**
-     * @return  void
+     * @group platforms-api
+     * @test
      */
     public function test_api_will_fetch_platforms()
     {
+        Platform::truncate();
         $platforms = factory(Platform::class, 35)->create();
 
         $response = $this->actingAs($this->user, 'api')->json('GET', '/api/infrastructure/platforms');
@@ -39,7 +41,8 @@ class PlatformApiTest extends TestCase
     }
 
     /**
-     * @return  void
+     * @group platforms-api
+     * @test
      */
     public function test_api_will_create_a_platform()
     {
@@ -53,7 +56,8 @@ class PlatformApiTest extends TestCase
     }
 
     /**
-     * @return  void
+     * @group platforms-api
+     * @test
      */
     public function test_api_will_delete_a_platform()
     {
@@ -67,7 +71,8 @@ class PlatformApiTest extends TestCase
     }
 
     /**
-     * @return  void
+     * @group platforms-api
+     * @test
      */
     public function test_api_will_update_a_platform()
     {

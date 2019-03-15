@@ -73,8 +73,9 @@ class ProvisioningRecord extends Model implements HasMedia, AuditableContract, D
     {
         $aggregator = $this->port->slot->aggregator->slug;
         $slot = $this->port->slot->slot_number;
+        $module = $this->port->module;
         $port = $this->port->port_number;
-        return $aggregator . '-' . $slot . '-' . $port;
+        return $aggregator . '-' . $slot . '-' . $module . '-' . $port;
     }
 
     public function getDhcpStringAttribute()

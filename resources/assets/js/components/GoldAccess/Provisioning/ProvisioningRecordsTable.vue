@@ -2,14 +2,17 @@
     <div class="row">
         <div class="col">
 
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col">
                     <label for="searchQuery" class="sr-only">Search Query</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">@</span>
+                            <span class="input-group-text">
+                                <span class="fas fa-at">
+                                </span>
+                            </span>
                         </div>
-                        <input type="text" class="form-control form-control-sm" v-model="searchQuery" placeholder="Search">
+                        <input type="text" class="form-control" v-model="searchQuery" placeholder="Search">
                     </div>
                 </div>
             </div>

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Subnet;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -17,6 +18,7 @@ class IpAddressExclusionsTest extends TestCase
      */
     public function test_subnet_can_be_created_by_the_factory()
     {
+        Event::fake();
         $subnet = factory(Subnet::class)->create();
 
         $start_ip = \Leth\IPAddress\IP\Address::factory($subnet->start_ip);

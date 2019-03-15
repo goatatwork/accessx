@@ -11,76 +11,74 @@
 </nav>
 
 <div class="row">
-<div class="col-md-3">
-    <div class="card mt-3 mb-3">
+    <div class="col-md-3">
+        <div class="card mt-3 mb-3">
 
-        <a href="/infrastructure/aggregators/{{ $aggregator->id }}" class="text-dark">
-            <div class="card-header text-center">
-                <span class="font-weight-bold"><i class="material-icons">storage</i> {{ $aggregator->name }}</span>
-            </div>
-        </a>
-
-        <div class="card-body">
-
-
-            <div class="row">
-                <div class="col text-center">
-
-                    <ul class="list-unstyled">
-                        <li>
-                            Platform: <span class="font-italic small">{{ $aggregator->platform->name }}</span>
-                        </li>
-                        <li>
-                            <span class="font-weight-bold">{{$aggregator->slots()->populatedOnly()->count()}}</span> of
-                            <span class="font-weight-bold">{{$aggregator->slots()->unpopulatedOnly()->count()}}</span> slots populated
-                        </li>
-                        <li>
-                            <span class="font-weight-bold">{{$aggregator->ports()->count()}}</span> total ports
-                        </li>
-                    </ul>
-
+            <a href="/infrastructure/aggregators/{{ $aggregator->id }}" class="text-dark">
+                <div class="card-header text-center">
+                    <span class="font-weight-bold"><i class="material-icons">storage</i> {{ $aggregator->name }}</span>
                 </div>
-            </div>
+            </a>
 
-            @if($aggregator->notes)
+            <div class="card-body">
                 <div class="row">
                     <div class="col text-center">
-                        <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#aggregateor-notes-{{ $aggregator->id }}">
-                            <i class="material-icons">chat</i> Notes for {{ $aggregator->name }}
+
+                        <ul class="list-unstyled">
+                            <li>
+                                Platform: <span class="font-italic small">{{ $aggregator->platform->name }}</span>
+                            </li>
+                            <li>
+                                <span class="font-weight-bold">{{$aggregator->slots()->populatedOnly()->count()}}</span> of
+                                <span class="font-weight-bold">{{$aggregator->slots()->unpopulatedOnly()->count()}}</span> slots populated
+                            </li>
+                            <li>
+                                <span class="font-weight-bold">{{$aggregator->ports()->count()}}</span> total ports
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+                @if($aggregator->notes)
+                    <div class="row">
+                        <div class="col text-center">
+                            <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#aggregateor-notes-{{ $aggregator->id }}">
+                                <i class="material-icons">chat</i> Notes for {{ $aggregator->name }}
+                            </button>
+                        </div>
+                    </div>
+                @endif
+
+                <div class="row mt-5">
+                    <div class="col text-center">
+                        <a href="/infrastructure/aggregators/{{ $aggregator->id }}/edit" class="btn btn-sm btn-outline-dark">Edit</a>
+                    </div>
+    <!--                 <div class="col text-center">
+                        <a href="/infrastructure/aggregators/{{ $aggregator->id }}" class="btn btn-sm btn-outline-dark">Show</a>
+                    </div> -->
+                    <div class="col text-center">
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-outline-dark"
+                            data-toggle="modal"
+                            data-target="#delete-aggregator-{{ $aggregator->id }}"
+                            @if ($aggregator->has_provisioning_records) {{ 'disabled' }} @endif
+                        >
+                            Delete
                         </button>
                     </div>
                 </div>
-            @endif
-
-            <div class="row mt-5">
-                <div class="col text-center">
-                    <a href="/infrastructure/aggregators/{{ $aggregator->id }}/edit" class="btn btn-sm btn-outline-dark">Edit</a>
-                </div>
-<!--                 <div class="col text-center">
-                    <a href="/infrastructure/aggregators/{{ $aggregator->id }}" class="btn btn-sm btn-outline-dark">Show</a>
-                </div> -->
-                <div class="col text-center">
-                    <button
-                        type="button"
-                        class="btn btn-sm btn-outline-dark"
-                        data-toggle="modal"
-                        data-target="#delete-aggregator-{{ $aggregator->id }}"
-                        @if ($aggregator->has_provisioning_records) {{ 'disabled' }} @endif
-                    >
-                        Delete
-                    </button>
-                </div>
+            </div>
+            <div class="card-footer">
+                <small>
+                    <span class="font-italic">
+                        Created on {{ $aggregator->created_at->toFormattedDateString() }} at {{ $aggregator->created_at->toTimeString() }}
+                    </span>
+                </small>
             </div>
         </div>
-        <div class="card-footer">
-            <small>
-                <span class="font-italic">
-                    Created on {{ $aggregator->created_at->toFormattedDateString() }} at {{ $aggregator->created_at->toTimeString() }}
-                </span>
-            </small>
-        </div>
     </div>
-</div>
 
     <div class="col pt-3">
         <div id="accordion"> <!-- accordion -->
@@ -147,6 +145,8 @@
                                     </div>
                                 </div>
                             @else
+
+                                <slot-port-creator :agg-slot="{{ $aggregator_slot }}"></slot-port-creator>
 
                                 @include('infrastructure.aggregators._populated_slot')
 

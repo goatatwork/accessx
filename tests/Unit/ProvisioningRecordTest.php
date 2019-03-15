@@ -23,7 +23,8 @@ class ProvisioningRecordTest extends TestCase
         $aggregator = $provisioning_record->port->slot->aggregator->slug;
         $slot = $provisioning_record->port->slot->slot_number;
         $port = $provisioning_record->port->port_number;
-        $tag = $aggregator . '-' . $slot . '-' . $port;
-        $this->assertEquals($provisioning_record->port_tag, $tag);
+        $module = $provisioning_record->port->module;
+        $tag = $aggregator . '-' . $slot . '-' . $module . '-' . $port;
+        $this->assertEquals($tag, $provisioning_record->port_tag);
     }
 }

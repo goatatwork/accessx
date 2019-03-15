@@ -10,6 +10,8 @@ $factory->define(App\Port::class, function (Faker $faker) {
     return [
         'slot_id' => $slot->id,
         'port_number' => 1,
-        'notes' => $faker->sentence()
+        'notes' => $faker->sentence(),
+        'module' => '1',
+        'port_name' => null,
     ];
 });

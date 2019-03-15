@@ -74,7 +74,7 @@ class ManagementIp extends DhcpOption
     {
         return $provisioning_record->port->slot->aggregator->slug . '/' .
             $provisioning_record->port->slot->slot_number . '/' .
-            '1/' .
+            $provisioning_record->port->module . '/' .
             $provisioning_record->port->port_number;
     }
 }

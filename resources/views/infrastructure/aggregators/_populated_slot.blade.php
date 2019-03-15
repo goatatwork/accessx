@@ -3,8 +3,7 @@
 
         <div class="row mb-3">
             <div class="col">
-                <span class="float-left">This slot is populated with a {{ $aggregator_slot->module_type->name }}</span>
-                <br>
+
                 <button
                     type="submit"
                     class="btn btn-danger btn-sm"
@@ -14,11 +13,13 @@
                     >
                     Unpopulate This Slot
                 </button>
+
                 @if ($aggregator_slot->has_provisioning_records)
                 <small class="font-italic">
                     <span class="fas fa-long-arrow-alt-left"></span> Disabled because there are provisioned ports here.
                 </small>
                 @endif
+
             </div>
         </div>
 
@@ -33,6 +34,9 @@
                                 <span class="float_left">
                                     <a href="/provisioning/{{ $port->provisioning_records[0]->id }}" class="btn btn-sm btn-primary">
                                         Port {{ $port->port_number }}
+                                        @if ($port->module != 1)
+                                            Module {{ $port->module }}
+                                        @endif
                                     </a>
                                 </span>
 
@@ -54,6 +58,9 @@
                             @else
                                 <a href="#" class="btn btn-sm btn-secondary disabled">
                                     Port {{ $port->port_number }}
+                                    @if ($port->module != 1)
+                                        Module {{ $port->module }}
+                                    @endif
                                 </a>
 
                                 <span class="font-italic">not provisioned</span>

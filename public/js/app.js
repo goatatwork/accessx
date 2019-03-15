@@ -85511,6 +85511,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 var ProvisioningRecordTableRow = Vue.extend(__webpack_require__(301));
 
@@ -85728,7 +85731,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col" }, [
-      _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "row mb-3" }, [
         _c("div", { staticClass: "col" }, [
           _c(
             "label",
@@ -85748,7 +85751,7 @@ var render = function() {
                   expression: "searchQuery"
                 }
               ],
-              staticClass: "form-control form-control-sm",
+              staticClass: "form-control",
               attrs: { type: "text", placeholder: "Search" },
               domProps: { value: _vm.searchQuery },
               on: {
@@ -85914,7 +85917,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "input-group-prepend" }, [
-      _c("span", { staticClass: "input-group-text" }, [_vm._v("@")])
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("span", { staticClass: "fas fa-at" })
+      ])
     ])
   }
 ]

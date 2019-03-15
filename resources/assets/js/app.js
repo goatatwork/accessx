@@ -66,6 +66,8 @@ Vue.component('ont-config-file-uploader', require('./components/GoldAccess/Core/
 // Dhcp Leases Viewer
 Vue.component('dhcp-leases', require('./components/GoldAccess/Dhcp/Leases.vue'));
 
+// Module to add ports to an aggregator slot
+Vue.component('slot-port-creator', require('./components/GoldAccess/Aggregators/SlotPortCreator.vue'));
 window.EventBus = new Vue({});
 
 const app = new Vue({

@@ -20,10 +20,14 @@ class AggregatorApiTest extends TestCase
     }
 
     /**
-     * @return  void
+     * @group aggregators-api
+     * @test
+     *
      */
     public function test_api_can_fetch_aggregators()
     {
+        Aggregator::truncate();
+
         $aggregators = factory(Aggregator::class, 5)->create();
 
         $response = $this->actingAs($this->user, 'api')->json('GET', '/api/infrastructure/aggregators');
@@ -41,7 +45,9 @@ class AggregatorApiTest extends TestCase
     }
 
     /**
-     * @return  void
+     * @group aggregators-api
+     * @test
+     *
      */
     public function test_api_can_create_aggregators()
     {
@@ -68,7 +74,9 @@ class AggregatorApiTest extends TestCase
     }
 
     /**
-     * @return  void
+     * @group aggregators-api
+     * @test
+     *
      */
     public function test_api_can_modify_an_aggregator()
     {
@@ -89,7 +97,9 @@ class AggregatorApiTest extends TestCase
     }
 
     /**
-     * @return  void
+     * @group aggregators-api
+     * @test
+     *
      */
     public function test_api_can_delete_an_aggregator()
     {
@@ -103,7 +113,8 @@ class AggregatorApiTest extends TestCase
     }
 
     /**
-     * @return  voide
+     * @group aggregators-api
+     * @test
      */
     public function test_api_will_fetch_slots_for_an_aggregator()
     {
@@ -126,7 +137,8 @@ class AggregatorApiTest extends TestCase
     }
 
     /**
-     * @return  void
+     * @group aggregators-api
+     * @test
      */
     public function test_api_will_return_module_types_for_an_aggregator()
     {

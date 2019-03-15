@@ -31,12 +31,15 @@ class SlotPortsApiController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param  \App\Slot $slot
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Slot $slot, Request $request)
     {
-        //
+        $new_port = $slot->ports()->create($request->all());
+
+        return $new_port;
     }
 
     /**

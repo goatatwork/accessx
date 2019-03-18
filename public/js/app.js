@@ -82050,6 +82050,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var bottom = this.ipSlider.data.indexOf(newValues[0]);
             var difference = top - bottom;
 
+            this.calculatedSubnet.start_ip = newValues[0];
+            this.calculatedSubnet.end_ip = newValues[1];
             this.calculatedSubnet.usable_addresses = difference + 1;
         },
         submit: function submit() {

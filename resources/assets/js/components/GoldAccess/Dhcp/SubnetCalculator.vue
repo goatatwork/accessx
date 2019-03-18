@@ -371,6 +371,8 @@
                 let bottom = this.ipSlider.data.indexOf(newValues[0]);
                 let difference = top - bottom;
 
+                this.calculatedSubnet.start_ip = newValues[0];
+                this.calculatedSubnet.end_ip = newValues[1];
                 this.calculatedSubnet.usable_addresses = difference + 1;
             },
             submit() {

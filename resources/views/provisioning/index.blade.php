@@ -9,7 +9,7 @@
         </ol>
     </nav>
 
-    <div class="row mb-5">
+    <div class="row mb-3">
         <div class="col">
 
             <span class="float-left">
@@ -22,6 +22,7 @@
         </div>
     </div>
 
-    <provisioning-records-table :provisioning-records="{{ $provisioning_records->toJson() }}"></provisioning-records-table>
+
+    <customers-index :provisioning-records="{{ $provisioning_records->toJson() }}"></customers-index>
 
 @endsection

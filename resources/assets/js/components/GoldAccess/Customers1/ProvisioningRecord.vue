@@ -1,7 +1,20 @@
 <template>
     <tr>
-        <td v-show="columns.name" scope="col">{{ customerName }}</td>
-        <td v-show="columns.service_address">{{ serviceAddress }}</td>
+        <td scope="col">
+            <a :href="recordUrl">
+                View
+            </a>
+        </td>
+        <td v-show="columns.name" scope="col">
+            <a :href="customerUrl">
+                {{ customerName }}
+            </a>
+        </td>
+        <td v-show="columns.service_address">
+            <a :href="serviceAddressUrl">
+                {{ serviceAddress }}
+            </a>
+        </td>
         <td v-show="columns.billing_address" scope="col">{{ billingAddress }}</td>
         <td v-show="columns.package" scope="col">{{ ontPackage }}</td>
         <td v-show="columns.ont" scope="col">{{ ontName }}</td>
@@ -32,6 +45,9 @@
             customerName() {
                 return this.record.service_location.customer.customer_name;
             },
+            customerUrl() {
+                return '/customers/'+this.record.service_location.customer.id;
+            },
             managementIp() {
                 return this.record.ip_address.address;
             },
@@ -50,8 +66,14 @@
             serviceAddress() {
                 return this.record.service_location.address1;
             },
+            serviceAddressUrl() {
+                return '/provisioning/service_locations/'+this.record.service_location.id+'/show';
+            },
             slotNumber() {
                 return this.record.port.slot.slot_number;
+            },
+            recordUrl() {
+                return '/provisioning/'+this.record.id;
             },
         },
     }

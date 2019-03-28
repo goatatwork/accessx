@@ -87983,6 +87983,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -87999,6 +88012,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         customerName: function customerName() {
             return this.record.service_location.customer.customer_name;
+        },
+        customerUrl: function customerUrl() {
+            return '/customers/' + this.record.service_location.customer.id;
         },
         managementIp: function managementIp() {
             return this.record.ip_address.address;
@@ -88018,8 +88034,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         serviceAddress: function serviceAddress() {
             return this.record.service_location.address1;
         },
+        serviceAddressUrl: function serviceAddressUrl() {
+            return '/provisioning/service_locations/' + this.record.service_location.id + '/show';
+        },
         slotNumber: function slotNumber() {
             return this.record.port.slot.slot_number;
+        },
+        recordUrl: function recordUrl() {
+            return '/provisioning/' + this.record.id;
         }
     }
 });
@@ -88033,6 +88055,12 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("tr", [
+    _c("td", { attrs: { scope: "col" } }, [
+      _c("a", { attrs: { href: _vm.recordUrl } }, [
+        _vm._v("\n            View\n        ")
+      ])
+    ]),
+    _vm._v(" "),
     _c(
       "td",
       {
@@ -88046,7 +88074,11 @@ var render = function() {
         ],
         attrs: { scope: "col" }
       },
-      [_vm._v(_vm._s(_vm.customerName))]
+      [
+        _c("a", { attrs: { href: _vm.customerUrl } }, [
+          _vm._v("\n            " + _vm._s(_vm.customerName) + "\n        ")
+        ])
+      ]
     ),
     _vm._v(" "),
     _c(
@@ -88061,7 +88093,11 @@ var render = function() {
           }
         ]
       },
-      [_vm._v(_vm._s(_vm.serviceAddress))]
+      [
+        _c("a", { attrs: { href: _vm.serviceAddressUrl } }, [
+          _vm._v("\n            " + _vm._s(_vm.serviceAddress) + "\n        ")
+        ])
+      ]
     ),
     _vm._v(" "),
     _c(
@@ -88359,173 +88395,91 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row mb-3" }, [
     _c("div", { staticClass: "col" }, [
-      _c("table", { staticClass: "table table-borderless" }, [
-        _c("thead", [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("tr", [
-            _c(
-              "th",
-              { staticClass: "p-0 border-0" },
-              [
-                _c("column-selector", {
-                  attrs: { name: "Name", "is-active": _vm.columns.name },
-                  on: { toggled: _vm.toggleColumn }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              { staticClass: "p-0 border-0" },
-              [
-                _c("column-selector", {
-                  attrs: {
-                    name: "Service Address",
-                    "is-active": _vm.columns.service_address
-                  },
-                  on: { toggled: _vm.toggleColumn }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              { staticClass: "p-0 border-0" },
-              [
-                _c("column-selector", {
-                  attrs: {
-                    name: "Billing Address",
-                    "is-active": _vm.columns.billing_address
-                  },
-                  on: { toggled: _vm.toggleColumn }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              { staticClass: "p-0 border-0" },
-              [
-                _c("column-selector", {
-                  attrs: { name: "Package", "is-active": _vm.columns.package },
-                  on: { toggled: _vm.toggleColumn }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              { staticClass: "p-0 border-0" },
-              [
-                _c("column-selector", {
-                  attrs: { name: "ONT", "is-active": _vm.columns.ont },
-                  on: { toggled: _vm.toggleColumn }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              { staticClass: "p-0 border-0" },
-              [
-                _c("column-selector", {
-                  attrs: {
-                    name: "Software",
-                    "is-active": _vm.columns.software
-                  },
-                  on: { toggled: _vm.toggleColumn }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              { staticClass: "p-0 border-0" },
-              [
-                _c("column-selector", {
-                  attrs: {
-                    name: "Management IP",
-                    "is-active": _vm.columns.management_ip
-                  },
-                  on: { toggled: _vm.toggleColumn }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              { staticClass: "p-0 border-0" },
-              [
-                _c("column-selector", {
-                  attrs: {
-                    name: "Aggregator",
-                    "is-active": _vm.columns.aggregator
-                  },
-                  on: { toggled: _vm.toggleColumn }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              { staticClass: "p-0 border-0" },
-              [
-                _c("column-selector", {
-                  attrs: { name: "Slot", "is-active": _vm.columns.slot },
-                  on: { toggled: _vm.toggleColumn }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              { staticClass: "p-0 border-0" },
-              [
-                _c("column-selector", {
-                  attrs: { name: "Port", "is-active": _vm.columns.port },
-                  on: { toggled: _vm.toggleColumn }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              { staticClass: "p-0 border-0" },
-              [
-                _c("column-selector", {
-                  attrs: { name: "LEN", "is-active": _vm.columns.len },
-                  on: { toggled: _vm.toggleColumn }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              { staticClass: "p-0 border-0" },
-              [
-                _c("column-selector", {
-                  attrs: {
-                    name: "CircuitID",
-                    "is-active": _vm.columns.circuit_id
-                  },
-                  on: { toggled: _vm.toggleColumn }
-                })
-              ],
-              1
-            )
-          ])
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "row mb-4" }, [
+        _c("div", { staticClass: "col" }, [
+          _c(
+            "div",
+            { staticClass: "btn-group" },
+            [
+              _c("column-selector", {
+                attrs: { name: "Name", "is-active": _vm.columns.name },
+                on: { toggled: _vm.toggleColumn }
+              }),
+              _vm._v(" "),
+              _c("column-selector", {
+                attrs: {
+                  name: "Service Address",
+                  "is-active": _vm.columns.service_address
+                },
+                on: { toggled: _vm.toggleColumn }
+              }),
+              _vm._v(" "),
+              _c("column-selector", {
+                attrs: {
+                  name: "Billing Address",
+                  "is-active": _vm.columns.billing_address
+                },
+                on: { toggled: _vm.toggleColumn }
+              }),
+              _vm._v(" "),
+              _c("column-selector", {
+                attrs: { name: "Package", "is-active": _vm.columns.package },
+                on: { toggled: _vm.toggleColumn }
+              }),
+              _vm._v(" "),
+              _c("column-selector", {
+                attrs: { name: "ONT", "is-active": _vm.columns.ont },
+                on: { toggled: _vm.toggleColumn }
+              }),
+              _vm._v(" "),
+              _c("column-selector", {
+                attrs: { name: "Software", "is-active": _vm.columns.software },
+                on: { toggled: _vm.toggleColumn }
+              }),
+              _vm._v(" "),
+              _c("column-selector", {
+                attrs: {
+                  name: "Management IP",
+                  "is-active": _vm.columns.management_ip
+                },
+                on: { toggled: _vm.toggleColumn }
+              }),
+              _vm._v(" "),
+              _c("column-selector", {
+                attrs: {
+                  name: "Aggregator",
+                  "is-active": _vm.columns.aggregator
+                },
+                on: { toggled: _vm.toggleColumn }
+              }),
+              _vm._v(" "),
+              _c("column-selector", {
+                attrs: { name: "Slot", "is-active": _vm.columns.slot },
+                on: { toggled: _vm.toggleColumn }
+              }),
+              _vm._v(" "),
+              _c("column-selector", {
+                attrs: { name: "Port", "is-active": _vm.columns.port },
+                on: { toggled: _vm.toggleColumn }
+              }),
+              _vm._v(" "),
+              _c("column-selector", {
+                attrs: { name: "LEN", "is-active": _vm.columns.len },
+                on: { toggled: _vm.toggleColumn }
+              }),
+              _vm._v(" "),
+              _c("column-selector", {
+                attrs: {
+                  name: "CircuitID",
+                  "is-active": _vm.columns.circuit_id
+                },
+                on: { toggled: _vm.toggleColumn }
+              })
+            ],
+            1
+          )
         ])
       ]),
       _vm._v(" "),
@@ -88535,7 +88489,7 @@ var render = function() {
         [
           _c("thead", { staticClass: "thead" }, [
             _c("tr", [
-              _c("td", { attrs: { colspan: "12" } }, [
+              _c("td", { attrs: { colspan: "13" } }, [
                 _c(
                   "label",
                   { staticClass: "sr-only", attrs: { for: "searchQuery" } },
@@ -88571,6 +88525,8 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("tr", [
+              _c("th", { attrs: { scope: "col" } }),
+              _vm._v(" "),
               _c(
                 "th",
                 {
@@ -88907,11 +88863,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", { attrs: { colspan: "12" } }, [
+    return _c("div", { staticClass: "row mb-3" }, [
+      _c("div", { staticClass: "col" }, [
         _c("span", { staticClass: "far fa-clipboard" }),
         _vm._v(
-          "\n                        Use the buttons to select which columns to see in the table below\n                    "
+          "\n                Use the buttons to select which columns to see in the table below\n            "
         )
       ])
     ])

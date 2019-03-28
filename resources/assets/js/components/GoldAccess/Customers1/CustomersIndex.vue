@@ -2,36 +2,35 @@
     <div class="row mb-3">
         <div class="col">
 
-            <table class="table table-borderless">
-                <thead>
-                    <tr>
-                        <th colspan="12">
-                            <span class="far fa-clipboard"></span>
-                            Use the buttons to select which columns to see in the table below
-                        </th>
-                    </tr>
-                    <tr>
-                        <th class="p-0 border-0"><column-selector name="Name" :is-active="columns.name" @toggled="toggleColumn"></column-selector></th>
-                        <th class="p-0 border-0"><column-selector name="Service Address" :is-active="columns.service_address" @toggled="toggleColumn"></column-selector></th>
-                        <th class="p-0 border-0"><column-selector name="Billing Address" :is-active="columns.billing_address" @toggled="toggleColumn"></column-selector></th>
-                        <th class="p-0 border-0"><column-selector name="Package" :is-active="columns.package" @toggled="toggleColumn"></column-selector></th>
-                        <th class="p-0 border-0"><column-selector name="ONT" :is-active="columns.ont" @toggled="toggleColumn"></column-selector></th>
-                        <th class="p-0 border-0"><column-selector name="Software" :is-active="columns.software" @toggled="toggleColumn"></column-selector></th>
-                        <th class="p-0 border-0"><column-selector name="Management IP" :is-active="columns.management_ip" @toggled="toggleColumn"></column-selector></th>
-                        <th class="p-0 border-0"><column-selector name="Aggregator" :is-active="columns.aggregator" @toggled="toggleColumn"></column-selector></th>
-                        <th class="p-0 border-0"><column-selector name="Slot" :is-active="columns.slot" @toggled="toggleColumn"></column-selector></th>
-                        <th class="p-0 border-0"><column-selector name="Port" :is-active="columns.port" @toggled="toggleColumn"></column-selector></th>
-                        <th class="p-0 border-0"><column-selector name="LEN" :is-active="columns.len" @toggled="toggleColumn"></column-selector></th>
-                        <th class="p-0 border-0"><column-selector name="CircuitID" :is-active="columns.circuit_id" @toggled="toggleColumn"></column-selector></th>
-                    </tr>
-                </thead>
-            </table>
-
+            <div class="row mb-3">
+                <div class="col">
+                    <span class="far fa-clipboard"></span>
+                    Use the buttons to select which columns to see in the table below
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col">
+                    <div class="btn-group">
+                        <column-selector name="Name" :is-active="columns.name" @toggled="toggleColumn"></column-selector>
+                        <column-selector name="Service Address" :is-active="columns.service_address" @toggled="toggleColumn"></column-selector>
+                        <column-selector name="Billing Address" :is-active="columns.billing_address" @toggled="toggleColumn"></column-selector>
+                        <column-selector name="Package" :is-active="columns.package" @toggled="toggleColumn"></column-selector>
+                        <column-selector name="ONT" :is-active="columns.ont" @toggled="toggleColumn"></column-selector>
+                        <column-selector name="Software" :is-active="columns.software" @toggled="toggleColumn"></column-selector>
+                        <column-selector name="Management IP" :is-active="columns.management_ip" @toggled="toggleColumn"></column-selector>
+                        <column-selector name="Aggregator" :is-active="columns.aggregator" @toggled="toggleColumn"></column-selector>
+                        <column-selector name="Slot" :is-active="columns.slot" @toggled="toggleColumn"></column-selector>
+                        <column-selector name="Port" :is-active="columns.port" @toggled="toggleColumn"></column-selector>
+                        <column-selector name="LEN" :is-active="columns.len" @toggled="toggleColumn"></column-selector>
+                        <column-selector name="CircuitID" :is-active="columns.circuit_id" @toggled="toggleColumn"></column-selector>
+                    </div>
+                </div>
+            </div>
 
             <table class="table table-sm table-borderless table-hover">
                 <thead class="thead">
                     <tr>
-                        <td colspan="12">
+                        <td colspan="13">
                             <label for="searchQuery" class="sr-only">Search Query</label>
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
@@ -45,6 +44,7 @@
                         </td>
                     </tr>
                     <tr>
+                        <th scope="col"></th>
                         <th v-show="columns.name" scope="col" @click="sortBy('service_location.customer.customer_name')">
                             Name
                             <span class="fas fa-sort"></span>

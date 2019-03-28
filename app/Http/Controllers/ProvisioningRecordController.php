@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Jobs\RebootOnt;
 use App\Events\ProvisioningRecordWasUpdated;
 use App\Http\Requests\ProvisioningRecordRequest;
-use App\Http\Resources\ProvisioningRecordForTable;
 
 class ProvisioningRecordController extends Controller
 {
@@ -18,7 +17,12 @@ class ProvisioningRecordController extends Controller
      */
     public function index()
     {
-        $provisioning_records = ProvisioningRecordForTable::collection(ProvisioningRecord::all());
+        $provisioning_records = ProvisioningRecord::with([
+            'service_location.customer.billing_record',
+            'ont_profile.ont_software.ont',
+            'port.slot.aggregator',
+            'ip_address.subnet.dhcp_shared_network'
+        ])->get();
 
         return view('provisioning.index')->with('provisioning_records', $provisioning_records);
     }

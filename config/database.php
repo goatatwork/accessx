@@ -57,6 +57,23 @@ return [
             'options'   => [PDO::ATTR_EMULATE_PREPARES => true,]
         ],
 
+        'mysql_access3' => [
+            'driver' => 'mysql',
+            'host' => '192.168.99.201',
+            'port' => '3306',
+            'database' => 'goldaccess',
+            'username' => 'admin',
+            'password' => '1q2w3e4r',
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'options'   => [PDO::ATTR_EMULATE_PREPARES => true,]
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', '127.0.0.1'),

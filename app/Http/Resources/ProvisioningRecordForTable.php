@@ -6,6 +6,11 @@ use Illuminate\Http\Resources\Json\Resource;
 
 class ProvisioningRecordForTable extends Resource
 {
+
+    /**
+     * Works with components/GoldAccess/Customers/*
+     */
+
     /**
      * Transform the resource into an array.
      *

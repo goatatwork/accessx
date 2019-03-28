@@ -55,6 +55,7 @@ Vue.component('edit-provisioning-record-page', require('./components/GoldAccess/
 Vue.component('provisioning-records-table', require('./components/GoldAccess/Provisioning/ProvisioningRecordsTable.vue'));
 Vue.component('provision-by-service-location', require('./components/GoldAccess/Provisioning/ProvisionByServiceLocation.vue'));
 
+Vue.component('customers-index', require('./components/GoldAccess/Customers1/CustomersIndex.vue'));
 Vue.component('customers-table', require('./components/GoldAccess/Customers/CustomersTable.vue'));
 
 Vue.component('user-management', require('./components/GoldAccess/Users/UserManagement.vue'));

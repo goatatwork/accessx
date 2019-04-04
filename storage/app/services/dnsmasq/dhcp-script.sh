@@ -5,8 +5,8 @@
 #
 # dhcp-script=/usr/local/bin/dhcp-script.sh
 
-#destination="10.200.200.1"
-destination="10.13.13.10:8088"
+destination="10.200.200.1"
+#destination="10.13.13.10:8088"
 
 action=${1:-none}
 mac=${2:-none}

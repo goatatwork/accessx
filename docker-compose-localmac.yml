@@ -7,6 +7,8 @@ services:
       - goldaccessnet
   dhcp:
     container_name: accessx_dhcp
+    cap_add:
+      - NET_ADMIN
     build:
       context: ./docker/dnsmasq
       dockerfile: Dockerfile

@@ -1,12 +1,19 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
-RUN apt-get update \
-    && apt-get install -y curl zip unzip dnsmasq dhcpdump dhcping software-properties-common iputils-ping nano tzdata \
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt-get update \
+    && apt-get install -y git curl zip unzip dhcpdump dhcping software-properties-common iputils-ping nano tzdata build-essential \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && rm -rf /etc/localtime \
     && ln -s /usr/share/zoneinfo/America/Chicago /etc/localtime \
     && dpkg-reconfigure -f noninteractive tzdata
+
+RUN cd /opt \
+    && git clone git://thekelleys.org.uk/dnsmasq.git \
+    && cd dnsmasq \
+    && make \
+    && make install
 
 EXPOSE 53 53/udp
 EXPOSE 67 67/udp

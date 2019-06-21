@@ -21,9 +21,11 @@
     </div>
 
     <div class="col">
+        @can('manage_dhcp')
         <span class="float-right">
             <a href="/dhcp/shared_networks/create" class="btn btn-secondary"><i class="material-icons mr-2">add</i>Add A Shared Network</a>
         </span>
+        @endcan
     </div>
 </div>
 
@@ -128,9 +130,12 @@
                         <div class="col text-center">
                             <a href="/dhcp/shared_networks/{{ $dhcp_shared_network->id }}" class="btn btn-sm btn-outline-dark">Show</a>
                         </div>
+                        @can('manage_dhcp')
                         <div class="col text-center">
                             <a href="/dhcp/shared_networks/{{ $dhcp_shared_network->id }}/edit" class="btn btn-sm btn-outline-dark">Edit</a>
                         </div>
+                        @endcan
+                        @can('manage_dhcp')
                         <div class="col text-center">
                             <button
                                 type="button"
@@ -141,6 +146,7 @@
                                 Delete
                             </button>
                         </div>
+                        @endcan
                     </div>
 
                 </div>

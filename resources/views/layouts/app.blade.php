@@ -94,6 +94,7 @@
                             <hr class="bg-dark">
                         </li>
 
+                        @can('view_customers')
                         <li class="nav-item text-warning nav-parent px-1">
                             <span class="fas fa-fw fa-users"></span> CUSTOMERS
                             <ul class="nav flex-column">
@@ -105,38 +106,52 @@
                                 </li>
                             </ul>
                         </li>
+                        @endcan
 
 
                         <li class="nav-item">
                             <hr class="bg-dark">
                         </li>
 
+                        @can('view_network')
                         <li class="nav-item text-warning nav-parent px-1">
                             <span class="fas fa-fw fa-sitemap"></span> NETWORK
                             <ul class="nav flex-column">
+                                @can('view_aggregators')
                                 <li class="nav-item">
                                     <a class="nav-link px-0 py-0 text-white" href="/infrastructure/aggregators">Aggregators</a>
                                 </li>
+                                @endcan
+                                @can('view_dhcp')
                                 <li class="nav-item">
                                     <a class="nav-link px-0 py-0 text-white" href="/dhcp">DHCP</a>
                                 </li>
+                                @endcan
+                                @can('view_onts')
                                 <li class="nav-item">
                                     <a class="nav-link px-0 py-0 text-white" href="/onts">ONTs</a>
                                 </li>
+                                @endcan
                             </ul>
                         </li>
+                        @endcan
 
 
                         <li class="nav-item">
                             <hr class="bg-dark">
                         </li>
 
+                        @can('view_system')
                         <li class="nav-item text-warning nav-parent px-1">
                             <span class="fas fa-fw fa-cogs"></span> SYSTEM
                             <ul class="nav flex-column">
+
+                                @can('view_users')
                                 <li class="nav-item">
                                     <a class="nav-link px-0 py-0 text-white" href="/users">Users</a>
                                 </li>
+                                @endcan
+
                                 <li class="nav-item">
                                     <a class="nav-link px-0 py-0 text-white" href="/settings">Settings</a>
                                 </li>
@@ -145,10 +160,11 @@
                                 </li>
                             </ul>
                         </li>
+                        @endcan
                     </ul>
                 </div> <!-- /sidebar -->
 
-                <div class="col main">
+                <div class="col main" style="overflow:scroll;">
 
                     @yield('content')
 

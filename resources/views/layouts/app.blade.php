@@ -164,7 +164,7 @@
                     </ul>
                 </div> <!-- /sidebar -->
 
-                <div class="col main">
+                <div class="col main" style="overflow:scroll;">
 
                     @yield('content')
 

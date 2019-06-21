@@ -104,9 +104,12 @@
                         <div class="col text-center">
                             <a href="/dhcp/shared_networks/{{ $dhcp_shared_network->id }}" class="btn btn-sm btn-outline-dark">Show</a>
                         </div>
+                        @can('manage_dhcp')
                         <div class="col text-center">
                             <a href="/dhcp/shared_networks/{{ $dhcp_shared_network->id }}/edit" class="btn btn-sm btn-outline-dark">Edit</a>
                         </div>
+                        @endcan
+                        @can('manage_dhcp')
                         <div class="col text-center">
                             <button
                                 type="button"
@@ -117,6 +120,7 @@
                                 Delete
                             </button>
                         </div>
+                        @endcan
                     </div>
 
                 </div>
@@ -133,7 +137,9 @@
 
         <div class="col-8 pt-3">
 
+            @can('manage_dhcp')
             <subnet-calculator :shared-network="{{ $dhcp_shared_network }}"></subnet-calculator>
+            @endcan
 
             <div id="accordion"> <!-- accordion -->
 
@@ -152,7 +158,9 @@
                         <div id="collapseArea-{{ $subnet->id }}" class="collapse" aria-labelledby="slotHeading-{{ $subnet->id }}" data-parent="#accordion">
                             <div class="card-body">
 
+                                @can('manage_dhcp')
                                 <dhcpbot-option43-toggle :subnet="{{ $subnet }}"></dhcpbot-option43-toggle>
+                                @endcan
 
                                 <ul class="list-unstyled">
                                     @foreach ($subnet->ip_addresses as $ip)

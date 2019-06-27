@@ -48,7 +48,7 @@ class DnsmasqLogsController extends Controller
         } elseif ($log->event['ACTION'] == 'del') {
             $message = 'Delete lease: ' . $log->event['IP'] . ' was deleted from ' . $log->event['HOSTMAC'];
         } else {
-            $message = 'Unknown DHCP action';
+            $message = 'Unknown DHCP action ' . $log->event['ACTION'];
         }
 
         app('logbot')->log($message, 'notice');

@@ -146,4 +146,17 @@ class ProvisioningRecordController extends Controller
         return redirect('/provisioning/' . $provisioning_record->id)->with('status', 'unsuspended');
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\ProvisioningRecordRequest  $request
+     * @param  \App\ProvisioningRecord  $provisioning_record
+     * @return \Illuminate\Http\Response
+     */
+    public function factoryReset(ProvisioningRecordRequest $request, ProvisioningRecord $provisioning_record)
+    {
+        RebootOnt::dispatch($provisioning_record);
+
+        return redirect('/provisioning/' . $provisioning_record->id)->with('status', 'factory');
+    }
 }

@@ -21,6 +21,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'provisioning'], function() {
     Route::get('{provisioning_record}/edit', 'ProvisioningRecordController@edit');
     Route::patch('{provisioning_record}/suspend', 'ProvisioningRecordController@suspend');
     Route::patch('{provisioning_record}/unsuspend', 'ProvisioningRecordController@unsuspend');
+    Route::patch('{provisioning_record}/factory', 'ProvisioningRecordController@factoryReset');
     Route::delete('{provisioning_record}', 'ProvisioningRecordController@destroy');
     Route::get('service_locations/{service_location}/show', 'ServiceLocationProvisioningController@show');
     Route::get('service_locations/{service_location}/create', 'ServiceLocationProvisioningController@create');

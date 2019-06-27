@@ -18,3 +18,4 @@ yarn-error.log
 *.img
 .env.backup
 .env.backup
+.DS_Store

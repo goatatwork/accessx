@@ -83,6 +83,19 @@
                         </div>
                         @endif
 
+                        <div class="row mb-2">
+                            <div class="col">
+                                <button
+                                    type="button"
+                                    class="btn btn-sm btn-primary"
+                                    data-toggle="modal"
+                                    data-target="#factory-reset-ont-modal-{{ $provisioning_record->id }}"
+                                >
+                                    <span class="fas fa-recycle mr-1"></span> Reset To Factory Defaults
+                                </button>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col">
                                 <a href="http://{{ $provisioning_record->ip_address->address }}" target="_blank"
@@ -152,6 +165,73 @@
                                     <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>
                                     <button type="submit" class="btn btn-link text-dark float-right">Delete</button>
                                 </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade"
+                    tabindex="-1"
+                    role="dialog"
+                    id="factory-reset-ont-modal-{{ $provisioning_record->id }}"
+                    aria-labelledby="factory-reset-ont-modal-{{ $provisioning_record->id }}-label"
+                    aria-hidden="true"
+                >
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5  id="factory-reset-ont-modal-{{ $provisioning_record->id }}-label" class="modal-title">Factory Reset</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <form method="POST" action="/provisioning/{{ $provisioning_record->id }}/factory">
+                                {{ csrf_field() }}
+                                {{ method_field('PATCH') }}
+                                <div class="modal-body">
+
+                                    Are you sure you wish to reset this ONT to factory defaults?
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>
+
+                                    <button type="submit" class="btn btn-link text-dark float-right">Yes, Reset This ONT To Factory Defaults</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade show"
+                    tabindex="-1"
+                    role="dialog"
+                    id="factory-reset-status-modal"
+                    aria-labelledby="factory-reset-status-modal-label"
+                    aria-hidden="true"
+                >
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5  id="factory-reset-status-modal-label" class="modal-title">Status</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                Resetting!
+                                </p>
+
+                                <p>
+                                    The ONT is being reset to factory defaults. This can take up to 10 minutes. Please see the <a href="/activity_logs">Activity Logs</a> for more information.
+                                </p>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light float-right" data-dismiss="modal">Dismiss</button>
                             </div>
                         </div>
                     </div>
@@ -426,11 +506,19 @@
         </script>
     @endif
 
-        @if (session('status') == 'unsuspended')
-        <script type="text/javascript">
-            $(document).ready(function(){
-                $("#unsuspend-status-modal").modal('show');
-            });
-        </script>
+    @if (session('status') == 'unsuspended')
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#unsuspend-status-modal").modal('show');
+        });
+    </script>
+    @endif
+
+    @if (session('status') == 'factory')
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#factory-reset-status-modal").modal('show');
+        });
+    </script>
     @endif
 @endsection

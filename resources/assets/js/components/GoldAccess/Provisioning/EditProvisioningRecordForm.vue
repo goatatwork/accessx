@@ -40,6 +40,7 @@
                             <div v-show="readyToUpdateOnt" class="row">
                                 <div class="col">
                                     <button class="btn btn-sm btn-success float-right" @click="submitChanges">
+                                        <i v-show="working" class="fa fa-spinner fa-spin"></i>
                                         Save
                                     </button>
                                 </div>
@@ -123,6 +124,7 @@
                             <div v-show="readyToUpdateNetworkLocation" class="row">
                                 <div class="col">
                                     <button class="btn btn-sm btn-success float-right" @click="submitChanges">
+                                        <i v-show="working" class="fa fa-spinner fa-spin"></i>
                                         Save
                                     </button>
                                 </div>
@@ -139,6 +141,7 @@
                             <div v-show="readyToUpdateManagementIp" class="row">
                                 <div class="col">
                                     <button class="btn btn-sm btn-success float-right" @click="submitChanges">
+                                        <i v-show="working" class="fa fa-spinner fa-spin"></i>
                                         Save
                                     </button>
                                 </div>
@@ -168,7 +171,10 @@
                                         <td class="text-right">
                                             <button v-show="! editingLen" class="btn btn-sm btn-dark" @click="editLen">EDIT</button>
                                             <div v-show="editingLen" class="btn-group" role="group" aria-label="LEN Editing Form Controls">
-                                                <button class="btn btn-sm btn-success" @click="submitLenChange">Save</button>
+                                                <button class="btn btn-sm btn-success" @click="submitLenChange">
+                                                    <i v-show="working" class="fa fa-spinner fa-spin"></i>
+                                                    Save
+                                                </button>
                                                 <button class="btn btn-sm btn-secondary" @click="cancelEditLen">Cancel</button>
                                             </div>
                                         </td>
@@ -185,7 +191,10 @@
                                         <td class="text-right">
                                             <button v-show="! editingCircuitid" class="btn btn-sm btn-dark" @click="editCircuitid">EDIT</button>
                                             <div v-show="editingCircuitid" class="btn-group" role="group" aria-label="Circuit ID Editing Form Controls">
-                                                <button class="btn btn-sm btn-success" @click="submitCircuitidChange">Save</button>
+                                                <button class="btn btn-sm btn-success" @click="submitCircuitidChange">
+                                                    <i v-show="working" class="fa fa-spinner fa-spin"></i>
+                                                    Save
+                                                </button>
                                                 <button class="btn btn-sm btn-secondary" @click="cancelEditCircuitid">Cancel</button>
                                             </div>
                                         </td>
@@ -239,7 +248,8 @@
                     len: this.provisioningRecord.len,
                     circuit_id: this.provisioningRecord.circuit_id,
                     reboot: true,
-                }
+                },
+                working: false
             }
         },
 
@@ -346,29 +356,38 @@
             },
 
             submitChanges: function() {
+                this.working = true;
                 axios.patch('/api/provisioning/'+this.provisioningRecord.id, this.formData).then( (response) => {
                     this.resetForm();
-                    window.location.href = "/provisioning/"+this.provisioningRecord.id;
+                    window.location.href = "/provisioning/"+this.provisioningRecord.id+"/edit";
+                    this.working = false;
                 }).catch( (error) => {
                     console.log(error.response.data);
+                    this.working = false;
                 });
             },
             submitLenChange: function() {
                 this.formData.reboot = false;
+                this.working = true;
                 axios.patch('/api/provisioning/'+this.provisioningRecord.id, this.formData).then( (response) => {
                     this.formData.len = response.data.len;
                     this.editingLen = false;
+                    this.working = false;
                 }).catch( (error) => {
                     console.log(error.response.data);
+                    this.working = false;
                 });
             },
             submitCircuitidChange: function() {
                 this.formData.reboot = false;
+                this.working = true;
                 axios.patch('/api/provisioning/'+this.provisioningRecord.id, this.formData).then( (response) => {
                     this.formData.circuit_id = response.data.circuit_id;
                     this.editingCircuitid = false;
+                    this.working = false;
                 }).catch( (error) => {
                     console.log(error.response.data);
+                    this.working = false;
                 });
             },
             updateIpId: function(id) {

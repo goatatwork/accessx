@@ -79,6 +79,8 @@ class ProvisioningRecordsApiController extends Controller
      */
     public function update(ProvisioningRecordRequest $request, ProvisioningRecord $provisioning_record)
     {
+        app('dhcpbot')->destroy($provisioning_record, 'dhcp_management_ip');
+
         $provisioning_record = tap($provisioning_record)->update($request->all());
 
         event (new ProvisioningRecordWasUpdated($provisioning_record));

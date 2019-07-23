@@ -83706,6 +83706,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var OntSelector = Vue.extend(__webpack_require__(20));
 var AggregatorSelector = Vue.extend(__webpack_require__(21));
@@ -83743,7 +83752,8 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(22));
                 len: this.provisioningRecord.len,
                 circuit_id: this.provisioningRecord.circuit_id,
                 reboot: true
-            }
+            },
+            working: false
         };
     },
 
@@ -83848,33 +83858,42 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(22));
         submitChanges: function submitChanges() {
             var _this = this;
 
+            this.working = true;
             axios.patch('/api/provisioning/' + this.provisioningRecord.id, this.formData).then(function (response) {
                 _this.resetForm();
-                window.location.href = "/provisioning/" + _this.provisioningRecord.id;
+                window.location.href = "/provisioning/" + _this.provisioningRecord.id + "/edit";
+                _this.working = false;
             }).catch(function (error) {
                 console.log(error.response.data);
+                _this.working = false;
             });
         },
         submitLenChange: function submitLenChange() {
             var _this2 = this;
 
             this.formData.reboot = false;
+            this.working = true;
             axios.patch('/api/provisioning/' + this.provisioningRecord.id, this.formData).then(function (response) {
                 _this2.formData.len = response.data.len;
                 _this2.editingLen = false;
+                _this2.working = false;
             }).catch(function (error) {
                 console.log(error.response.data);
+                _this2.working = false;
             });
         },
         submitCircuitidChange: function submitCircuitidChange() {
             var _this3 = this;
 
             this.formData.reboot = false;
+            this.working = true;
             axios.patch('/api/provisioning/' + this.provisioningRecord.id, this.formData).then(function (response) {
                 _this3.formData.circuit_id = response.data.circuit_id;
                 _this3.editingCircuitid = false;
+                _this3.working = false;
             }).catch(function (error) {
                 console.log(error.response.data);
+                _this3.working = false;
             });
         },
         updateIpId: function updateIpId(id) {
@@ -84778,6 +84797,17 @@ var render = function() {
                           on: { click: _vm.submitChanges }
                         },
                         [
+                          _c("i", {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.working,
+                                expression: "working"
+                              }
+                            ],
+                            staticClass: "fa fa-spinner fa-spin"
+                          }),
                           _vm._v(
                             "\n                                    Save\n                                "
                           )
@@ -84939,6 +84969,17 @@ var render = function() {
                             on: { click: _vm.submitChanges }
                           },
                           [
+                            _c("i", {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.working,
+                                  expression: "working"
+                                }
+                              ],
+                              staticClass: "fa fa-spinner fa-spin"
+                            }),
                             _vm._v(
                               "\n                                    Save\n                                "
                             )
@@ -84988,6 +85029,17 @@ var render = function() {
                             on: { click: _vm.submitChanges }
                           },
                           [
+                            _c("i", {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.working,
+                                  expression: "working"
+                                }
+                              ],
+                              staticClass: "fa fa-spinner fa-spin"
+                            }),
                             _vm._v(
                               "\n                                    Save\n                                "
                             )
@@ -85117,7 +85169,22 @@ var render = function() {
                               staticClass: "btn btn-sm btn-success",
                               on: { click: _vm.submitLenChange }
                             },
-                            [_vm._v("Save")]
+                            [
+                              _c("i", {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.working,
+                                    expression: "working"
+                                  }
+                                ],
+                                staticClass: "fa fa-spinner fa-spin"
+                              }),
+                              _vm._v(
+                                "\n                                                Save\n                                            "
+                              )
+                            ]
                           ),
                           _vm._v(" "),
                           _c(
@@ -85247,7 +85314,22 @@ var render = function() {
                               staticClass: "btn btn-sm btn-success",
                               on: { click: _vm.submitCircuitidChange }
                             },
-                            [_vm._v("Save")]
+                            [
+                              _c("i", {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.working,
+                                    expression: "working"
+                                  }
+                                ],
+                                staticClass: "fa fa-spinner fa-spin"
+                              }),
+                              _vm._v(
+                                "\n                                                Save\n                                            "
+                              )
+                            ]
                           ),
                           _vm._v(" "),
                           _c(

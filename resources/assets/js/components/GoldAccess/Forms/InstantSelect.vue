@@ -30,7 +30,10 @@
                             <input type="hidden" name="_method" value="PATCH">
 
                             <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>
-                            <button type="submit" class="btn btn-link text-dark float-right" @click="submitChange">Yes</button>
+                            <button type="submit" class="btn btn-link text-dark float-right" @click="submitChange">
+                                <i v-show="working" class="fas fa-spinner fa-spin"></i>
+                                Yes
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -99,6 +102,7 @@
                 },
                 csrf: window.axios.defaults.headers.common['X-CSRF-TOKEN'],
                 formData: {},
+                working: false,
             }
         },
 
@@ -116,10 +120,14 @@
                 window.location.href = this.successAction;
             },
             submitChange: function() {
+                this.working = true;
+                this.$set(this.formData, 'reboot', true);
                 axios.patch(this.formAction, this.formData).then( (response) => {
                     this.onSuccess(response.data);
+                    this.working = false;
                 }).catch( (error) => {
                     this.onFail(error.response.data);
+                    this.working = false;
                 });
             },
             updateChangeValue: function(x) {

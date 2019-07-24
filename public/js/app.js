@@ -76121,6 +76121,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -76179,7 +76182,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 label: 'instant-select-confirm-modal-label'
             },
             csrf: window.axios.defaults.headers.common['X-CSRF-TOKEN'],
-            formData: {}
+            formData: {},
+            working: false
         };
     },
 
@@ -76199,10 +76203,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         submitChange: function submitChange() {
             var _this = this;
 
+            this.working = true;
+            this.$set(this.formData, 'reboot', true);
             axios.patch(this.formAction, this.formData).then(function (response) {
                 _this.onSuccess(response.data);
+                _this.working = false;
             }).catch(function (error) {
                 _this.onFail(error.response.data);
+                _this.working = false;
             });
         },
         updateChangeValue: function updateChangeValue(x) {
@@ -76314,7 +76322,22 @@ var render = function() {
                         attrs: { type: "submit" },
                         on: { click: _vm.submitChange }
                       },
-                      [_vm._v("Yes")]
+                      [
+                        _c("i", {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.working,
+                              expression: "working"
+                            }
+                          ],
+                          staticClass: "fas fa-spinner fa-spin"
+                        }),
+                        _vm._v(
+                          "\n                            Yes\n                        "
+                        )
+                      ]
                     )
                   ]
                 )
@@ -83413,6 +83436,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 var EditProvisioningRecordForm = Vue.extend(__webpack_require__(289));
 
@@ -85439,7 +85465,39 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-fluid" }, [
-    _vm._m(0),
+    _c("nav", { attrs: { "aria-label": "breadcrumb" } }, [
+      _c("ol", { staticClass: "breadcrumb" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _vm._m(1),
+        _vm._v(" "),
+        _c("li", { staticClass: "breadcrumb-item" }, [
+          _c(
+            "a",
+            { attrs: { href: "/provisioning/" + _vm.provisioningRecord.id } },
+            [
+              _vm._v(
+                "Return to " +
+                  _vm._s(_vm.provisioningRecord.service_location.name)
+              )
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "li",
+          {
+            staticClass: "breadcrumb-item active",
+            attrs: { "aria-current": "page" }
+          },
+          [
+            _vm._v(
+              "Editing " + _vm._s(_vm.provisioningRecord.service_location.name)
+            )
+          ]
+        )
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c(
@@ -85473,27 +85531,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("nav", { attrs: { "aria-label": "breadcrumb" } }, [
-      _c("ol", { staticClass: "breadcrumb" }, [
-        _c("li", { staticClass: "breadcrumb-item" }, [
-          _c("a", { attrs: { href: "/" } }, [_vm._v("Dashboard")])
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "breadcrumb-item" }, [
-          _c("a", { attrs: { href: "/provisioning" } }, [
-            _vm._v("Provisioning")
-          ])
-        ]),
-        _vm._v(" "),
-        _c(
-          "li",
-          {
-            staticClass: "breadcrumb-item active",
-            attrs: { "aria-current": "page" }
-          },
-          [_vm._v("Provisioning By Service Location")]
-        )
-      ])
+    return _c("li", { staticClass: "breadcrumb-item" }, [
+      _c("a", { attrs: { href: "/" } }, [_vm._v("Dashboard")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "breadcrumb-item" }, [
+      _c("a", { attrs: { href: "/provisioning" } }, [_vm._v("Provisioning")])
     ])
   }
 ]

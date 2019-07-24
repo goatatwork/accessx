@@ -5,7 +5,10 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
                 <li class="breadcrumb-item"><a href="/provisioning">Provisioning</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Provisioning By Service Location</li>
+                <li class="breadcrumb-item">
+                    <a :href="'/provisioning/'+provisioningRecord.id">Return to {{ provisioningRecord.service_location.name }}</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Editing {{ provisioningRecord.service_location.name }}</li>
             </ol>
         </nav>
 

@@ -12,7 +12,7 @@ COPY www.conf /usr/local/etc/php/php-fpm.d/www.conf
 COPY php-fpm.conf /usr/local/etc/php/php-fpm.conf
 COPY php.ini /usr/local/etc/php/php.ini
 
-RUN docker-php-ext-install pdo_mysql pcntl zip gd
+RUN docker-php-ext-install pdo_mysql pcntl zip gd bcmath
 
 RUN mkdir /var/www/.composer && chown www-data.www-data /var/www/.composer
 RUN mkdir /var/www/.config && chown www-data.www-data /var/www/.config

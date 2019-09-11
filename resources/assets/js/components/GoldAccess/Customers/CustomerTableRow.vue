@@ -10,12 +10,6 @@
             </a>
         </td>
         <td class="text-center">
-            {{ theCustomer.number_of_service_locations }}
-        </td>
-        <td class="text-center">
-            {{ theCustomer.number_of_provisioning_records }}
-        </td>
-        <td class="text-center">
             <delete-modal :title="theCustomer.customer_name" :to-be-deleted="theCustomer" @delete-the-object="deleteObject()">
                 <div slot="button">
                     <button

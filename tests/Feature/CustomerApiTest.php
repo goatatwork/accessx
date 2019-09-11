@@ -28,20 +28,20 @@ class CustomerApiTest extends TestCase
 
         $response = $this->actingAs($this->user, 'api')->json('GET', '/api/customers');
 
-        $response->assertJson([
-            0 => [
-                'company_name' => $customers[0]->company_name
-            ],
-            10 => [
-                'company_name' => $customers[10]->company_name
-            ],
-            20 => [
-                'company_name' => $customers[20]->company_name
-            ],
-            30 => [
-                'company_name' => $customers[30]->company_name
-            ],
-        ]);
+        $response->assertJson(['data' => [
+                    0 => [
+                        'company_name' => $customers[0]->company_name
+                    ],
+                    10 => [
+                        'company_name' => $customers[10]->company_name
+                    ],
+                    20 => [
+                        'company_name' => $customers[20]->company_name
+                    ],
+                    30 => [
+                        'company_name' => $customers[30]->company_name
+                    ],
+                ]]);
     }
 
     /**

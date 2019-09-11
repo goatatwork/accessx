@@ -15,7 +15,9 @@ class CustomersApiController extends Controller
      */
     public function index()
     {
-        return Customer::with('billing_record')->with('service_locations')->get();
+        $customers = Customer::with('service_locations')->orderBy('created_at', 'desc')->paginate(500);
+
+        return $customers;
     }
 
     /**

@@ -89098,20 +89098,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 var CustomerTableRow = Vue.extend(__webpack_require__(322));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: {
-        customersList: {}
-    },
+    // props: {
+    //     customersList: {},
+    // },
 
     components: {
         'customer-table-row': CustomerTableRow
     },
 
+    mounted: function mounted() {
+        this.fetchCustomers();
+    },
+
+
     data: function data() {
         return {
+            customersList: {},
             sortKey: 'id',
             sortOrder: 'asc'
         };
@@ -89124,6 +89132,18 @@ var CustomerTableRow = Vue.extend(__webpack_require__(322));
     },
 
     methods: {
+        fetchCustomers: function fetchCustomers() {
+            var _this = this;
+
+            console.log('FETCHING CUSTOMERS');
+            axios.get('/api/customers').then(function (response) {
+                console.log(response.data);
+                _this.customersList = response.data.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+
         sortBy: function sortBy(field) {
             if (field == this.sortKey) {
                 this.sortOrder = this.sortOrder == 'asc' ? 'desc' : 'asc';
@@ -89221,12 +89241,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -89286,22 +89300,6 @@ var render = function() {
             "\n        "
         )
       ])
-    ]),
-    _vm._v(" "),
-    _c("td", { staticClass: "text-center" }, [
-      _vm._v(
-        "\n        " +
-          _vm._s(_vm.theCustomer.number_of_service_locations) +
-          "\n    "
-      )
-    ]),
-    _vm._v(" "),
-    _c("td", { staticClass: "text-center" }, [
-      _vm._v(
-        "\n        " +
-          _vm._s(_vm.theCustomer.number_of_provisioning_records) +
-          "\n    "
-      )
     ]),
     _vm._v(" "),
     _c(
@@ -89373,83 +89371,86 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col" }, [
-      _c("table", { staticClass: "table" }, [
-        _c("thead", [
-          _c("tr", [
-            _c(
-              "th",
-              {
-                staticClass: "text-center",
-                on: {
-                  click: function($event) {
-                    _vm.sortBy("created_at")
+      _c(
+        "span",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.customersList.length,
+              expression: "!customersList.length"
+            }
+          ]
+        },
+        [
+          _c("span", { staticClass: "fas fa-spinner fa-spin" }),
+          _vm._v(" Fetching customers...")
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "table",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.customersList.length,
+              expression: "customersList.length"
+            }
+          ],
+          staticClass: "table"
+        },
+        [
+          _c("thead", [
+            _c("tr", [
+              _c(
+                "th",
+                {
+                  staticClass: "text-center",
+                  on: {
+                    click: function($event) {
+                      _vm.sortBy("created_at")
+                    }
                   }
-                }
-              },
-              [_vm._v("Created "), _c("span", { staticClass: "fas fa-sort" })]
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              {
-                staticClass: "text-left",
-                on: {
-                  click: function($event) {
-                    _vm.sortBy("customer_name")
+                },
+                [_vm._v("Created "), _c("span", { staticClass: "fas fa-sort" })]
+              ),
+              _vm._v(" "),
+              _c(
+                "th",
+                {
+                  staticClass: "text-left",
+                  on: {
+                    click: function($event) {
+                      _vm.sortBy("customer_name")
+                    }
                   }
-                }
-              },
-              [_vm._v("Customer "), _c("span", { staticClass: "fas fa-sort" })]
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              {
-                staticClass: "text-center",
-                on: {
-                  click: function($event) {
-                    _vm.sortBy("number_of_service_locations")
-                  }
-                }
-              },
-              [
-                _vm._v("# Of Locations "),
-                _c("span", { staticClass: "fas fa-sort" })
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              {
-                staticClass: "text-center",
-                on: {
-                  click: function($event) {
-                    _vm.sortBy("number_of_provisioning_records")
-                  }
-                }
-              },
-              [
-                _vm._v("# Of Provisioning Records "),
-                _c("span", { staticClass: "fas fa-sort" })
-              ]
-            ),
-            _vm._v(" "),
-            _c("th")
-          ])
-        ]),
-        _vm._v(" "),
-        _c(
-          "tbody",
-          _vm._l(_vm.customerListSorted, function(customer) {
-            return _c("customer-table-row", {
-              key: customer.id,
-              tag: "tr",
-              attrs: { "the-customer": customer }
-            })
-          }),
-          1
-        )
-      ])
+                },
+                [
+                  _vm._v("Customer "),
+                  _c("span", { staticClass: "fas fa-sort" })
+                ]
+              ),
+              _vm._v(" "),
+              _c("th")
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.customerListSorted, function(customer) {
+              return _c("customer-table-row", {
+                key: customer.id,
+                tag: "tr",
+                attrs: { "the-customer": customer }
+              })
+            }),
+            1
+          )
+        ]
+      )
     ])
   ])
 }

@@ -24,9 +24,9 @@ class Customer extends Model implements AuditableContract
         'customer_type',
         'created_at_for_humans',
         'has_provisioning_records',
-        'number_of_provisioning_records',
-        'has_service_locations',
-        'number_of_service_locations',
+        // 'number_of_provisioning_records',
+        // 'has_service_locations',
+        // 'number_of_service_locations',
     ];
 
     public function billing_record()

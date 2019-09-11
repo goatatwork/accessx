@@ -14,7 +14,7 @@
 
         <dl class="float-left">
             <dt>Total Customers</dt>
-            <dd>There are {{ $customers->count() }} customers.</dd>
+            <dd>There are {{ \App\Customer::count() }} customers.</dd>
         </dl>
 
         @can('manage_customers')
@@ -26,6 +26,6 @@
     </div>
 </div>
 
-<customers-table :customers-list="{{ $customers->toJson() }}"></customers-table>
+<customers-table></customers-table>
 
 @endsection

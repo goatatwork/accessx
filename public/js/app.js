@@ -89096,8 +89096,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 var CustomerTableRow = Vue.extend(__webpack_require__(322));
 
@@ -89221,12 +89219,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -89286,22 +89278,6 @@ var render = function() {
             "\n        "
         )
       ])
-    ]),
-    _vm._v(" "),
-    _c("td", { staticClass: "text-center" }, [
-      _vm._v(
-        "\n        " +
-          _vm._s(_vm.theCustomer.number_of_service_locations) +
-          "\n    "
-      )
-    ]),
-    _vm._v(" "),
-    _c("td", { staticClass: "text-center" }, [
-      _vm._v(
-        "\n        " +
-          _vm._s(_vm.theCustomer.number_of_provisioning_records) +
-          "\n    "
-      )
     ]),
     _vm._v(" "),
     _c(
@@ -89400,38 +89376,6 @@ var render = function() {
                 }
               },
               [_vm._v("Customer "), _c("span", { staticClass: "fas fa-sort" })]
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              {
-                staticClass: "text-center",
-                on: {
-                  click: function($event) {
-                    _vm.sortBy("number_of_service_locations")
-                  }
-                }
-              },
-              [
-                _vm._v("# Of Locations "),
-                _c("span", { staticClass: "fas fa-sort" })
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              {
-                staticClass: "text-center",
-                on: {
-                  click: function($event) {
-                    _vm.sortBy("number_of_provisioning_records")
-                  }
-                }
-              },
-              [
-                _vm._v("# Of Provisioning Records "),
-                _c("span", { staticClass: "fas fa-sort" })
-              ]
             ),
             _vm._v(" "),
             _c("th")

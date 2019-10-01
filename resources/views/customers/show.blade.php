@@ -12,10 +12,15 @@
 
 <div class="row">
     <div class="col text-left">
-        <span class="h4">
+        <span class="h4" style="display:inline;">
             <i class="material-icons">{{ ($customer->customer_type == 'Business') ? 'business' : 'person' }}</i>
             {{ $customer->customer_name }}
         </span>
+
+        @if($customer->customer_type == 'Residential')
+        @include('customers.change-customer-name')
+        @endif
+
     </div>
 </div>
 

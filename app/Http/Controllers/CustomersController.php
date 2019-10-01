@@ -70,12 +70,30 @@ class CustomersController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Customer $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Customer $customer)
     {
-        //
+        $update_data = $request->all();
+
+        $customer->update($update_data);
+
+        if ($customer->customer_type == 'Residential') {
+            $customer->service_locations->each(function($service_location) use ($update_data) {
+                $service_location->update([
+                    'poc_name' => $update_data['first_name'] . ' ' . $update_data['last_name'],
+                    'poc_email' => ''
+                ]);
+            });
+
+            $customer->billing_record->update([
+                'poc_name' => $update_data['first_name'] . ' ' . $update_data['last_name'],
+                'poc_email' => ''
+            ]);
+        }
+
+        return back();
     }
 
     /**

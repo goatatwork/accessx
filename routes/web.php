@@ -33,7 +33,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'customers'], function() {
     Route::post('/', 'CustomersController@store');
     Route::get('create', 'CustomersController@create');
     Route::get('{customer}', 'CustomersController@show');
-    Route::get('{customer}', 'CustomersController@show');
+    Route::patch('{customer}', 'CustomersController@update');
 });
 Route::patch('/billing_records/{billing_record}', 'BillingRecordsController@update')->middleware('auth');
 

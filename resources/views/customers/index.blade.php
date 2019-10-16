@@ -14,7 +14,7 @@
 
         <dl class="float-left">
             <dt>Total Customers</dt>
-            <dd>There are {{ \App\Customer::count() }} customers.</dd>
+            <dd>There are {{ $customers->total() }} customers.</dd>
         </dl>
 
         @can('manage_customers')
@@ -26,6 +26,18 @@
     </div>
 </div>
 
-<customers-table></customers-table>
+<div class="row">
+    <div class="col d-flex justify-content-end">
+        {{ $customers->links() }}
+    </div>
+    <div class="w-100"></div>
+    <div class="col">
+        <small>
+            <span class="font-italic float-right">Records {{ $customers->firstItem() }} of {{ $customers->lastItem() }}</span>
+        </small>
+    </div>
+</div>
+
+<customers-table :customers="{{$customers->toJson()}}"></customers-table>
 
 @endsection

@@ -15,9 +15,7 @@ class CustomersApiController extends Controller
      */
     public function index()
     {
-        $customers = Customer::with('service_locations')->orderBy('created_at', 'desc')->paginate(500);
-
-        return $customers;
+        return Customer::orderBy('company_name', 'asc')->orderBy('last_name', 'asc')->paginate(50);
     }
 
     /**

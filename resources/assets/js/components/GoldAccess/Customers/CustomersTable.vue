@@ -18,6 +18,7 @@
                     <tr is="customer-table-row" v-for="customer in customerListSorted" :key="customer.id" :the-customer="customer">
                     </tr>
                 </tbody>
+
             </table>
 
         </div>
@@ -28,21 +29,24 @@
     var CustomerTableRow = Vue.extend(require('./CustomerTableRow.vue'));
 
     export default {
-        // props: {
-        //     customersList: {},
-        // },
+        props: {
+            customers: {
+                required: false
+            },
+        },
 
         components: {
             'customer-table-row': CustomerTableRow,
         },
 
         mounted() {
-            this.fetchCustomers();
+            this.initCustomers();
         },
 
         data: function() {
             return {
                 customersList: {},
+                customerDataWithPagination: {},
                 sortKey: 'id',
                 sortOrder: 'asc'
             }
@@ -56,13 +60,20 @@
 
         methods: {
             fetchCustomers() {
-                console.log('FETCHING CUSTOMERS');
                 axios.get('/api/customers').then(response => {
-                    console.log(response.data);
                     this.customersList = response.data.data;
+                    this.customerDataWithPagination = response.data;
                 }).catch(error => {
                     console.log(error);
                 });
+            },
+            initCustomers() {
+                if (this.customers) {
+                    this.customersList = this.customers.data;
+                    this.customerDataWithPagination = this.customers;
+                } else {
+                    this.fetchCustomers();
+                }
             },
             sortBy: function(field) {
                 if (field == this.sortKey) {

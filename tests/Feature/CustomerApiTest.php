@@ -7,6 +7,7 @@ use App\Customer;
 use Tests\TestCase;
 use App\BillingRecord;
 use App\ServiceLocation;
+use Illuminate\Support\Arr;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CustomerApiTest extends TestCase
@@ -28,20 +29,9 @@ class CustomerApiTest extends TestCase
 
         $response = $this->actingAs($this->user, 'api')->json('GET', '/api/customers');
 
-        $response->assertJson(['data' => [
-                    0 => [
-                        'company_name' => $customers[0]->company_name
-                    ],
-                    10 => [
-                        'company_name' => $customers[10]->company_name
-                    ],
-                    20 => [
-                        'company_name' => $customers[20]->company_name
-                    ],
-                    30 => [
-                        'company_name' => $customers[30]->company_name
-                    ],
-                ]]);
+        $customers_db = Customer::orderBy('company_name', 'asc')->orderBy('last_name', 'asc')->paginate(50);
+
+        $response->assertJson($customers_db->toArray());
     }
 
     /**

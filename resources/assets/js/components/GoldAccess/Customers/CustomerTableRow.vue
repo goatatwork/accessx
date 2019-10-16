@@ -1,7 +1,7 @@
 <template>
     <tr>
         <td class="text-center">
-            <span class="font-italic small">{{ theCustomer.created_at_for_humans }}</span>
+            <span class="font-italic small">{{ theCustomer.created_at }}</span>
         </td>
         <td class="text-left">
             <i class="material-icons">{{ customerTypeIcon }}</i>

@@ -22,7 +22,7 @@ class Customer extends Model implements AuditableContract
     protected $appends = [
         'customer_name',
         'customer_type',
-        'created_at_for_humans',
+        // 'created_at_for_humans',
         'has_provisioning_records',
         // 'number_of_provisioning_records',
         // 'has_service_locations',

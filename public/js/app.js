@@ -89100,26 +89100,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 var CustomerTableRow = Vue.extend(__webpack_require__(322));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    // props: {
-    //     customersList: {},
-    // },
+    props: {
+        customers: {
+            required: false
+        }
+    },
 
     components: {
         'customer-table-row': CustomerTableRow
     },
 
     mounted: function mounted() {
-        this.fetchCustomers();
+        this.initCustomers();
     },
 
 
     data: function data() {
         return {
             customersList: {},
+            customerDataWithPagination: {},
             sortKey: 'id',
             sortOrder: 'asc'
         };
@@ -89135,13 +89139,20 @@ var CustomerTableRow = Vue.extend(__webpack_require__(322));
         fetchCustomers: function fetchCustomers() {
             var _this = this;
 
-            console.log('FETCHING CUSTOMERS');
             axios.get('/api/customers').then(function (response) {
-                console.log(response.data);
                 _this.customersList = response.data.data;
+                _this.customerDataWithPagination = response.data;
             }).catch(function (error) {
                 console.log(error);
             });
+        },
+        initCustomers: function initCustomers() {
+            if (this.customers) {
+                this.customersList = this.customers.data;
+                this.customerDataWithPagination = this.customers;
+            } else {
+                this.fetchCustomers();
+            }
         },
 
         sortBy: function sortBy(field) {

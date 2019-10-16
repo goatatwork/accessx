@@ -89295,7 +89295,7 @@ var render = function() {
   return _c("tr", [
     _c("td", { staticClass: "text-center" }, [
       _c("span", { staticClass: "font-italic small" }, [
-        _vm._v(_vm._s(_vm.theCustomer.created_at_for_humans))
+        _vm._v(_vm._s(_vm.theCustomer.created_at))
       ])
     ]),
     _vm._v(" "),

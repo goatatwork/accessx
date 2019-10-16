@@ -17,6 +17,7 @@ class PlatformApiTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
+        \App\Platform::truncate();
     }
 
     /**
@@ -25,19 +26,12 @@ class PlatformApiTest extends TestCase
      */
     public function test_api_will_fetch_platforms()
     {
-        Platform::truncate();
+        // Platform::truncate();
         $platforms = factory(Platform::class, 35)->create();
 
         $response = $this->actingAs($this->user, 'api')->json('GET', '/api/infrastructure/platforms');
 
-        $response->assertJson([
-            0 => [
-                'name' => $platforms[0]->name
-            ],
-            20 => [
-                'name' => $platforms[20]->name
-            ],
-        ]);
+        $response->assertJson($platforms->toArray());
     }
 
     /**
@@ -50,9 +44,7 @@ class PlatformApiTest extends TestCase
 
         $response = $this->actingAs($this->user, 'api')->json('POST', '/api/infrastructure/platforms', $platform->toArray());
 
-        $response->assertJson([
-            'name' => $platform->name
-        ]);
+        $response->assertJson($platform->toArray());
     }
 
     /**

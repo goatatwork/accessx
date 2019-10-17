@@ -19,4 +19,3 @@ yarn-error.log
 .env.backup
 .env.backup
 .DS_Store
-storage/app/services/dnsmasq/leases/dnsmasq.leases

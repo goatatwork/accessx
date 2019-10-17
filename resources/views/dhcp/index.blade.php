@@ -9,8 +9,9 @@
     </ol>
 </nav>
 
-<div class="row mb-3">
+<div class="row px-3 mb-3">
     <div class="col">
+
         <dl class="float-left">
             <dt>Total Shared Networks</dt>
             <dd>There are {{ $dhcp_shared_networks->count() }} shared networks.</dd>
@@ -18,151 +19,60 @@
                 <small>As per the <a href="/settings" class="text-info">system settings</a></small>
             </dd>
         </dl>
+
     </div>
-
-    <div class="col">
-        @can('manage_dhcp')
-        <span class="float-right">
-            <a href="/dhcp/shared_networks/create" class="btn btn-secondary"><i class="material-icons mr-2">add</i>Add A Shared Network</a>
-        </span>
-        @endcan
-    </div>
-</div>
-
-<div class="row mt-3">
-    <div class="col text-right">
-        <a href="{{ route('dhcp.leases') }}" class="btn btn-dark">DHCP Leases</a>
-        <button class="btn btn-dark" data-toggle="modal" data-target="#dhcp-config-modal">View DHCP Configuration</button>
-    </div>
-</div>
-
-<div class="row">
-    @foreach($dhcp_shared_networks as $dhcp_shared_network)
-        <div class="col-4">
-            <div class="card mt-3 mb-3">
-                <div class="card-header">
-
-                    <span class="float-left">
-                        <a href="/dhcp/shared_networks/{{ $dhcp_shared_network->id }}" class="text-dark">{{ $dhcp_shared_network->name }}</a>
-                    </span>
-
-                    <span class="float-right">
-                        @if ($dhcp_shared_network->management)
-                            <span class="fas fa-certificate"></span> <small class="font-italic">Management</small>
-                        @endif
-                    </span>
-
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <span class="badge badge-info float-right" style="margin-top:-1.5em;margin-right:-1.5em;">
-                                VLAN <span class="badge badge-info">{{ $dhcp_shared_network->vlan }}</span>
-                                <span class="sr-only">VLAN for this shared network</span>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="media mt-3">
-                                <span class="fas fa-2x fa-cloud text-dark mr-3"></span>
-                                <div class="media-body">
-                                    @if ($dhcp_shared_network->subnets()->count() > 1)
-                                        <span class="font-weight-bold">{{ $dhcp_shared_network->subnets()->count() }}</span> Subnets
-                                    @elseif ($dhcp_shared_network->subnets()->count() == 1)
-                                        <span class="font-weight-bold">1</span> Subnet
-                                    @else
-                                        <span class="font-weight-bold">0</span> Subnets
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="media mt-3">
-                                <span class="fas fa-2x fa-leaf text-dark mr-3"></span>
-                                <div class="media-body">
-                                    @if ($dhcp_shared_network->ip_addresses()->count() > 1)
-                                        <span class="font-weight-bold">{{ $dhcp_shared_network->ip_addresses()->count() }}</span> IP Addresses
-                                    @elseif ($dhcp_shared_network->ip_addresses()->count() == 1)
-                                        <span class="font-weight-bold">1</span> IP Address
-                                    @else
-                                        <span class="font-weight-bold">0</span> IP Addresses
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="media mt-3">
-                                <span class="fas fa-2x fa-file-alt text-dark mr-3"></span>
-                                <div class="media-body">
-                                    @if ($dhcp_shared_network->notes)
-                                        <button
-                                            ype="button"
-                                            class="btn btn-link text-dark"
-                                            data-toggle="modal"
-                                            data-target="#shared-network-notes-{{ $dhcp_shared_network->id }}"
-                                        >
-                                            View Notes
-                                        </button>
-                                    @else
-                                        <button
-                                            type="button"
-                                            class="btn btn-link text-dark"
-                                            data-toggle="modal"
-                                            data-target="#shared-network-notes-{{ $dhcp_shared_network->id }}" disabled
-                                        >
-                                            No Notes
-                                        </button>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mt-5 align-self-end">
-                        <div class="col text-center">
-                            <a href="/dhcp/shared_networks/{{ $dhcp_shared_network->id }}" class="btn btn-sm btn-outline-dark">Show</a>
-                        </div>
-                        @can('manage_dhcp')
-                        <div class="col text-center">
-                            <a href="/dhcp/shared_networks/{{ $dhcp_shared_network->id }}/edit" class="btn btn-sm btn-outline-dark">Edit</a>
-                        </div>
-                        @endcan
-                        @can('manage_dhcp')
-                        <div class="col text-center">
-                            <button
-                                type="button"
-                                class="btn btn-sm btn-outline-dark"
-                                data-toggle="modal"
-                                data-target="#delete-shared-network-{{ $dhcp_shared_network->id }}"
-                            >
-                                Delete
-                            </button>
-                        </div>
-                        @endcan
-                    </div>
-
-                </div>
-                <div class="card-footer">
-                    <small>
-                        <span class="font-italic">
-                            Created on {{ $dhcp_shared_network->created_at->toFormattedDateString() }} at {{ $dhcp_shared_network->created_at->toTimeString() }}
-                        </span>
-                    </small>
-                </div>
-            </div>
+    <div class="col col-auto d-flex align-items-end pb-3">
+        <div class="mr-2">
+            <a href="{{ route('dhcp.leases') }}" class="btn btn-sm btn-primary">DHCP Leases</a>
         </div>
-    @endforeach
+        <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#dhcp-config-modal">View DHCP Configuration</button>
+    </div>
+</div>
 
+<div class="row px-3">
     <div class="col">
+        <table class="table table-sm table-hover">
+            <thead class="">
+                <tr>
+                    <th>Shared Network</th>
+                    <th>Subnets</th>
+                    <th>IPs</th>
+                    <th>VLAN</th>
+                    <th>Notes</th>
+                    <th class="text-right">
+                        <a href="/dhcp/shared_networks/create" class="btn btn-sm btn-outline-dark">
+                            <i class="material-icons mr-1">add</i>
+                            Add A Shared Network
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($dhcp_shared_networks as $sn)
+                <tr>
+                    <td>
+                        <a href="/dhcp/shared_networks/{{ $sn->id }}" class="text-dark">{{ $sn->name }}</a>
+                    </td>
+                    <td>{{ $sn->subnets_count }}</td>
+                    <td>{{ $sn->ip_addresses_count }}</td>
+                    <td>{{ $sn->vlan }}</td>
+                    <td>{{ \Illuminate\Support\Str::limit($sn->notes, 50) }}</td>
+                    <td class="text-right">
 
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-outline-dark"
+                            data-toggle="modal"
+                            data-target="#delete-shared-network-{{ $sn->id }}"
+                        >
+                            Delete
+                        </button>
+
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 </div>
 

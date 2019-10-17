@@ -19,7 +19,8 @@ class DhcpSharedNetworksController extends Controller
         $dnsmasq_config = Storage::disk('dhcp_configs')->get('dnsmasq.conf');
         $leases_file = Storage::disk('dhcp_configs')->get('leases/dnsmasq.leases');
 
-        $dhcp_shared_networks = DhcpSharedNetwork::with('subnets')->get();
+        // $dhcp_shared_networks = DhcpSharedNetwork::withCount('ip_addresses')->with('subnets')->get();
+        $dhcp_shared_networks = DhcpSharedNetwork::withCount('ip_addresses')->withCount('subnets')->get();
 
         return view('dhcp.index')
             ->with('dhcp_shared_networks', $dhcp_shared_networks)

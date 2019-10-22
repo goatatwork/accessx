@@ -165,7 +165,9 @@
                                 <ul class="list-unstyled">
                                     @foreach ($subnet->ip_addresses as $ip)
                                         <li class="list-group-item">{{ $ip->address }}
-
+                                            @if($ip->has_provisioning_records)
+                                                <span class="text-danger">in use</span>
+                                            @endif
                                         </li>
                                     @endforeach
                                 </ul>

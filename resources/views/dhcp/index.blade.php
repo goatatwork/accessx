@@ -51,7 +51,16 @@
                 @foreach($dhcp_shared_networks as $sn)
                 <tr>
                     <td>
-                        <a href="/dhcp/shared_networks/{{ $sn->id }}" class="text-dark">{{ $sn->name }}</a>
+                        <a href="/dhcp/shared_networks/{{ $sn->id }}" class="text-dark">
+                            <i class="material-icons">
+                                @if($sn->management)
+                                settings_ethernet
+                                @else
+                                public
+                                @endif
+                            </i>
+                            {{ $sn->name }}
+                        </a>
                     </td>
                     <td>{{ $sn->subnets_count }}</td>
                     <td>{{ $sn->ip_addresses_count }}</td>

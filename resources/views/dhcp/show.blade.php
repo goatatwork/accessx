@@ -42,9 +42,9 @@
                             <div class="media mt-3">
                                 <span class="fas fa-2x fa-cloud text-dark mr-3"></span>
                                 <div class="media-body">
-                                    @if ($dhcp_shared_network->subnets()->count() > 1)
-                                        <span class="font-weight-bold">{{ $dhcp_shared_network->subnets()->count() }}</span> Subnets
-                                    @elseif ($dhcp_shared_network->subnets()->count() == 1)
+                                    @if ( count($dhcp_shared_network->subnets) > 1)
+                                        <span class="font-weight-bold">{{  count($dhcp_shared_network->subnets) }}</span> Subnets
+                                    @elseif ( count($dhcp_shared_network->subnets) == 1)
                                         <span class="font-weight-bold">1</span> Subnet
                                     @else
                                         <span class="font-weight-bold">0</span> Subnets
@@ -59,9 +59,9 @@
                             <div class="media mt-3">
                                 <span class="fas fa-2x fa-leaf text-dark mr-3"></span>
                                 <div class="media-body">
-                                    @if ($dhcp_shared_network->ip_addresses()->count() > 1)
-                                        <span class="font-weight-bold">{{ $dhcp_shared_network->ip_addresses()->count() }}</span> IP Addresses
-                                    @elseif ($dhcp_shared_network->ip_addresses()->count() == 1)
+                                    @if ( count($dhcp_shared_network->ip_addresses) > 1)
+                                        <span class="font-weight-bold">{{  count($dhcp_shared_network->ip_addresses) }}</span> IP Addresses
+                                    @elseif ( count($dhcp_shared_network->ip_addresses) == 1)
                                         <span class="font-weight-bold">1</span> IP Address
                                     @else
                                         <span class="font-weight-bold">0</span> IP Addresses
@@ -166,7 +166,7 @@
                                     @foreach ($subnet->ip_addresses as $ip)
                                         <li class="list-group-item">{{ $ip->address }}
                                             @if($ip->has_provisioning_records)
-                                                *has provisioning records
+                                                <span class="text-danger">in use</span>
                                             @endif
                                         </li>
                                     @endforeach

@@ -19,7 +19,7 @@ class DhcpSharedNetwork extends Model implements AuditableContract
         'notes'
     ];
 
-    protected $appends = ['has_provisioning_records'];
+    // protected $appends = ['has_provisioning_records'];
 
     public function subnets()
     {

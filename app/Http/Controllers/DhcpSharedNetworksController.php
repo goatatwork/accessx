@@ -19,7 +19,8 @@ class DhcpSharedNetworksController extends Controller
         $dnsmasq_config = Storage::disk('dhcp_configs')->get('dnsmasq.conf');
         $leases_file = Storage::disk('dhcp_configs')->get('leases/dnsmasq.leases');
 
-        $dhcp_shared_networks = DhcpSharedNetwork::with('subnets')->get();
+        // $dhcp_shared_networks = DhcpSharedNetwork::withCount('ip_addresses')->with('subnets')->get();
+        $dhcp_shared_networks = DhcpSharedNetwork::withCount('ip_addresses')->withCount('subnets')->get();
 
         return view('dhcp.index')
             ->with('dhcp_shared_networks', $dhcp_shared_networks)
@@ -45,7 +46,9 @@ class DhcpSharedNetworksController extends Controller
      */
     public function store(DhcpSharedNetworkRequest $request)
     {
-        $request->persist();
+        $new_shared_network = $request->persist();
+
+        app('logbot')->log($request->user()->name . ' added dhcp shared network ' . $new_shared_network->name . '.');
 
         return redirect('/dhcp');
     }
@@ -90,11 +93,14 @@ class DhcpSharedNetworksController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\DhcpSharedNetwork  $dhcp_shared_network
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DhcpSharedNetwork $dhcp_shared_network)
+    public function destroy(Request $request, DhcpSharedNetwork $dhcp_shared_network)
     {
+        app('logbot')->log($request->user()->name . ' deleted dhcp shared network ' . $dhcp_shared_network->name . '.');
+
         $dhcp_shared_network->delete();
 
         return redirect('/dhcp');

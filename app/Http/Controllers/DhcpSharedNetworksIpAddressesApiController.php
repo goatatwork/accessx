@@ -15,7 +15,15 @@ class DhcpSharedNetworksIpAddressesApiController extends Controller
      */
     public function index(DhcpSharedNetwork $dhcp_shared_network)
     {
-        return $dhcp_shared_network->ip_addresses;
+        return $dhcp_shared_network->ip_addresses->map(function($ip) {
+            return [
+                'id' => $ip->id,
+                'address' => $ip->address,
+                'vlan' => $ip->vlan,
+                'exclude_from_dhcp' => $ip->exclude_from_dhcp,
+                'has_provisioning_records' => $ip->has_provisioning_records
+            ];
+        });
     }
 
     /**

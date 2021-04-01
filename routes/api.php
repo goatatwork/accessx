@@ -156,3 +156,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'dhcpbot'], function() {
         }
     });
 });
+
+Route::get('packages', 'PackageApiController@index')->name('api.packages.index');
+Route::post('packages', 'PackageApiController@store')->name('api.packages.store');
+Route::patch('packages/{package}', 'PackageApiController@update')->name('api.packages.update');
+Route::delete('packages/{package}', 'PackageApiController@destroy')->name('api.packages.destroy');

@@ -10,12 +10,12 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "devDependencies": {
-    "axios": "^0.18",
-    "bootstrap": "^4.0.0",
+    "axios": "^0.21.1",
+    "bootstrap": "^4.6.0",
     "cross-env": "^5.1",
-    "jquery": "^3.2",
+    "jquery": "^3.6.0",
     "laravel-mix": "^1.0",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.21",
     "popper.js": "^1.12",
     "vue": "^2.5.7"
   },
@@ -27,6 +27,6 @@
     "moment": "^2.24.0",
     "uiv": "^0.14.4",
     "vue-carousel-3d": "^0.1.19",
-    "vue-slider-component": "^2.8.2"
+    "vue-slider-component": "^3.2.5"
   }
 }

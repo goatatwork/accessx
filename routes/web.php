@@ -86,4 +86,5 @@ Route::get('users', 'UsersController@index')->middleware('auth');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'settings'], function() {
     Route::get('/', 'GaSettingsController@index');
+    Route::get('/offerings', 'OfferingsController@index')->name('offerings.index');
 });

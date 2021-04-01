@@ -55,7 +55,7 @@ services:
     build:
       context: ./docker/npm
       dockerfile: Dockerfile
-    image: goldaccess/npm:production
+    image: goldaccess/npm:test
     volumes:
       - ./:/var/www/html
     networks:

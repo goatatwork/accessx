@@ -11,6 +11,9 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+Vue.component('ga-offerings', require('./components/Offerings/Offerings.vue'));
+Vue.component('form-slider', require('./components/Sliders/Slider.vue'));
+
 Vue.component('dhcpbot-option43-toggle', require('./components/Dhcpbot/Option43Toggle.vue'));
 
 Vue.component('passport-clients', require('./components/passport/Clients.vue'));
@@ -69,6 +72,7 @@ Vue.component('dhcp-leases', require('./components/GoldAccess/Dhcp/Leases.vue'))
 
 // Module to add ports to an aggregator slot
 Vue.component('slot-port-creator', require('./components/GoldAccess/Aggregators/SlotPortCreator.vue'));
+
 window.EventBus = new Vue({});
 
 const app = new Vue({

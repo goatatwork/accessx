@@ -59,6 +59,11 @@ class ProvisioningRecord extends Model implements HasMedia, AuditableContract, D
         return $this->belongsTo(IpAddress::class);
     }
 
+    public function packages()
+    {
+        return $this->morphToMany(Package::class, 'packageable');
+    }
+
     public function getFileAttribute()
     {
         return $this->getFirstMedia();

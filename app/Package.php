@@ -22,4 +22,9 @@ class Package extends Model
             ->saveSlugsTo('slug')
             ->slugsShouldBeNoLongerThan(50);
     }
+
+    public function provisioning_records()
+    {
+        return $this->morphedByMany(ProvisioningRecord::class, 'packageable');
+    }
 }

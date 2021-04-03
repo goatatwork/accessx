@@ -403,22 +403,26 @@
                 </div>
             </div>
         @endif
-        <div class="card">
-            <div class="card-body text-center">
-                <iframe
-                    width="400"
-                    height="200"
-                    frameborder="0"
-                    style="border:0"
-                    src="{{ $provisioning_record->service_location->google_maps_embed_api_string }}"
-                    allowfullscreen
-                ></iframe>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <iframe
+                            width="400"
+                            height="200"
+                            frameborder="0"
+                            style="border:0"
+                            src="{{ $provisioning_record->service_location->google_maps_embed_api_string }}"
+                            allowfullscreen
+                        ></iframe>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row mt-5 justify-content-center">
+<div class="row mt-5 mb-5 justify-content-center">
     <div class="col">
         <table class="table table-sm">
             <thead>
@@ -431,7 +435,8 @@
                     <th class="text-center border-0"></th>
                     <th class="text-center border-0">Management IP</th>
                     <th class="text-center border-0">NetLocation</th>
-                    <th class="text-center border-0">ONT/Software</th>
+                    <th class="text-center border-0 d-none">ONT/Software</th>
+                    <th class="text-center border-0">Package</th>
                     <th class="text-center border-0">Package</th>
                     <th class="text-center border-0">LEN</th>
                     @if ($provisioning_record->circuit_id != '')
@@ -456,10 +461,17 @@
                         <span class="fas fa-long-arrow-alt-right"></span>
                         Port {{ $provisioning_record->port->port_number }}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center d-none">
                         {{ $provisioning_record->ont_profile->ont_software->ont->model_number }}
                         <span class="fas fa-long-arrow-alt-right"></span>
                         {{ $provisioning_record->ont_profile->ont_software->version }}
+                    </td>
+                    <td class="text-center">
+                        <package-selector
+                            :record-id="{{ $provisioning_record->id }}"
+                            :all-packages="{{App\Package::all()->sortBy('name')->toJson()}}"
+                            :current-package="{{ $provisioning_record->packages()->latest()->first() }}"
+                        ></package-selector>
                     </td>
                     <td class="text-center">
 

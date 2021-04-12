@@ -30,11 +30,12 @@ class SetRateLimit implements ShouldQueue
      * @param  ProvisioningRecord  $provisioning_record
      * @return void
      */
-    public function __construct(int $package_id, ProvisioningRecord $provisioning_record)
+    public function __construct($package_id, ProvisioningRecord $provisioning_record)
     {
         $this->package_id = $package_id;
         $this->provisioning_record = $provisioning_record;
-        $this->onQueue('rate-changes');
+        $this->onQueue('onts');
+        \Log::info('Contstructing SetRateLimit::class. with a package id of ' . $this->package_id);
     }
 
     /**
@@ -44,7 +45,7 @@ class SetRateLimit implements ShouldQueue
      */
     public function handle()
     {
-        \Log::info('Set Rate Limit');
+        \Log::info('Handling SetRateLimit::class.');
     }
 
 }

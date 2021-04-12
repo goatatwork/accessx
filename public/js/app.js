@@ -46789,7 +46789,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(154);
-module.exports = __webpack_require__(399);
+module.exports = __webpack_require__(402);
 
 
 /***/ }),
@@ -98184,7 +98184,7 @@ var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(397)
 /* template */
-var __vue_template__ = __webpack_require__(398)
+var __vue_template__ = __webpack_require__(401)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -98256,7 +98256,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-var ChangePackageModal = Vue.extend(__webpack_require__(401));
+var ChangePackageModal = Vue.extend(__webpack_require__(398));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -98303,76 +98303,12 @@ var ChangePackageModal = Vue.extend(__webpack_require__(401));
 /* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c(
-        "select",
-        {
-          staticClass: "custom-select",
-          attrs: { name: "package", id: _vm.selectId },
-          on: {
-            change: function($event) {
-              _vm.changePackage($event.target.value)
-            }
-          }
-        },
-        _vm._l(_vm.packages, function(package) {
-          return _c(
-            "option",
-            {
-              attrs: { id: package.id },
-              domProps: {
-                value: package.id,
-                selected: package.id == _vm.currentPackage.id
-              }
-            },
-            [_vm._v("\n            " + _vm._s(package.name) + "\n        ")]
-          )
-        })
-      ),
-      _vm._v(" "),
-      _vm._l(_vm.packages, function(package) {
-        return _c("change-package-modal", {
-          key: package.id,
-          attrs: { "rate-package": package, "record-id": _vm.recordId }
-        })
-      })
-    ],
-    2
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-a34e36f2", module.exports)
-  }
-}
-
-/***/ }),
-/* 399 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 400 */,
-/* 401 */
-/***/ (function(module, exports, __webpack_require__) {
-
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(402)
+var __vue_script__ = __webpack_require__(399)
 /* template */
-var __vue_template__ = __webpack_require__(403)
+var __vue_template__ = __webpack_require__(400)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -98411,7 +98347,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 402 */
+/* 399 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -98507,6 +98443,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         confirm: function confirm() {
             this.submitChange();
         },
+        onFail: function onFail(error) {
+            console.log(error);
+        },
         onSuccess: function onSuccess(pr) {
             this.response = pr;
         },
@@ -98528,7 +98467,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 403 */
+/* 400 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -98668,6 +98607,69 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-6f177af6", module.exports)
   }
 }
+
+/***/ }),
+/* 401 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "select",
+        {
+          staticClass: "custom-select",
+          attrs: { name: "package", id: _vm.selectId },
+          on: {
+            change: function($event) {
+              _vm.changePackage($event.target.value)
+            }
+          }
+        },
+        _vm._l(_vm.packages, function(package) {
+          return _c(
+            "option",
+            {
+              attrs: { id: package.id },
+              domProps: {
+                value: package.id,
+                selected: package.id == _vm.currentPackage.id
+              }
+            },
+            [_vm._v("\n            " + _vm._s(package.name) + "\n        ")]
+          )
+        })
+      ),
+      _vm._v(" "),
+      _vm._l(_vm.packages, function(package) {
+        return _c("change-package-modal", {
+          key: package.id,
+          attrs: { "rate-package": package, "record-id": _vm.recordId }
+        })
+      })
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-a34e36f2", module.exports)
+  }
+}
+
+/***/ }),
+/* 402 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

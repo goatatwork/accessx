@@ -88,6 +88,9 @@
             confirm: function() {
                 this.submitChange();
             },
+            onFail(error) {
+                console.log(error);
+            },
             onSuccess(pr) {
                 this.response = pr;
             },

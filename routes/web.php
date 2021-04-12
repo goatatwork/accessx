@@ -18,6 +18,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => 'auth', 'prefix' => 'provisioning'], function() {
     Route::get('/', 'ProvisioningRecordController@index');
     Route::get('{provisioning_record}', 'ProvisioningRecordController@show');
+    Route::get('{provisioning_record}/package/edit', 'ProvisioningRecordPackageController@edit')->name('change-package');
+    Route::patch('{provisioning_record}/package/edit', 'ProvisioningRecordPackageController@update')->name('change-package-action');
     Route::get('{provisioning_record}/edit', 'ProvisioningRecordController@edit');
     Route::patch('{provisioning_record}/suspend', 'ProvisioningRecordController@suspend');
     Route::patch('{provisioning_record}/unsuspend', 'ProvisioningRecordController@unsuspend');

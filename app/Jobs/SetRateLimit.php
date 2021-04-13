@@ -34,8 +34,7 @@ class SetRateLimit implements ShouldQueue
     {
         $this->package_id = $package_id;
         $this->provisioning_record = $provisioning_record;
-        $this->onQueue('onts');
-        \Log::info('Contstructing SetRateLimit::class. with a package id of ' . $this->package_id);
+        $this->onQueue('speeds');
     }
 
     /**
@@ -45,7 +44,81 @@ class SetRateLimit implements ShouldQueue
      */
     public function handle()
     {
-        \Log::info('Handling SetRateLimit::class.');
+        $this->doIt();
+        $this->logIt();
     }
 
+    public function doIt()
+    {
+        $url = config('goldaccess.settings.switchtool_url') . '/api/ports/ratelimit';
+
+        $options = [
+            'http' => [
+                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method' => 'PATCH',
+                'content' => http_build_query($this->patchData())
+            ]
+        ];
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        return $result;
+    }
+
+    public function logIt()
+    {
+        \Log::info('SetRateLimit for PR:' .
+            $this->provisioning_record->id .
+            ' on switch ' .
+            $this->switchIp() .
+            ' port ' .
+            $this->portToChange() .
+            ' to ' .
+            $this->package()->down_rate . ' down and ' .
+            $this->package()->up_rate . ' up.'
+        );
+    }
+
+    /**
+     * The selected speed package
+     * @return \App\Package
+     */
+    protected function package()
+    {
+        return Package::find($this->package_id);
+    }
+
+    /**
+     * Data for inclusion in PATCH to the switchtool
+     * @return array Data for switchtool
+     */
+    protected function patchData()
+    {
+        return [
+            'switch_ip' => $this->switchIp(),
+            'port_name' => $this->portToChange(),
+            'down_rate' => $this->package()->down_rate,
+            'up_rate'   => $this->package()->up_rate
+        ];
+    }
+
+    /**
+     * Name of the switchport as the switch expects it
+     * @return string
+     */
+    protected function portToChange()
+    {
+        return 'ethernet' .
+            $this->provisioning_record->port->slot->slot_number .
+            '/1/' .
+            $this->provisioning_record->port->port_number;
+    }
+
+    /**
+     * The IP of the switch that this provisioning record is on
+     * @return string IP of switch
+     */
+    protected function switchIp()
+    {
+        return $this->provisioning_record->port->slot->aggregator->management_ip;
+    }
 }

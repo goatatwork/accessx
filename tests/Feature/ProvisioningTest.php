@@ -6,6 +6,7 @@ use Storage;
 use App\Ont;
 use App\Port;
 use App\User;
+use App\Package;
 use App\IpAddress;
 use App\OntProfile;
 use Tests\TestCase;
@@ -28,6 +29,7 @@ class ProvisioningTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
+        $this->package = factory(Package::class)->create();
     }
 
     /**

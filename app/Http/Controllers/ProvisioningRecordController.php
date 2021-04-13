@@ -51,10 +51,11 @@ class ProvisioningRecordController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  \App\Http\Requests\ProvisioningRecordRequest  $request
      * @param  \App\ProvisioningRecord  $provisioning_record
      * @return \Illuminate\Http\Response
      */
-    public function show(ProvisioningRecord $provisioning_record)
+    public function show(ProvisioningRecordRequest $request, ProvisioningRecord $provisioning_record)
     {
         // $management_ip = new ManagementIp($provisioning_record);
 

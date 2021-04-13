@@ -443,7 +443,7 @@
                     <th class="text-center border-0">Management IP</th>
                     <th class="text-center border-0">NetLocation</th>
                     <th class="text-center border-0 d-none">ONT/Software</th>
-                    <th class="text-center border-0">Package</th>
+                    <th class="text-center border-0">Speed</th>
                     <th class="text-center border-0">Package</th>
                     <th class="text-center border-0">LEN</th>
                     @if ($provisioning_record->circuit_id != '')
@@ -477,14 +477,14 @@
                     <td class="text-center">
                         @if ($provisioning_record->packages()->first())
                             {{ $provisioning_record->packages->sortByDesc('pivot.created_at')->first()->name }}
-
-                            <a href="{{ route('change-package', [
-                                'provisioning_record'=>$provisioning_record->id,
-                            ]) }}" class="text-info">[Edit]</a>
-                            </a>
                         @else
                             No Package Selected
                         @endif
+
+                        <a href="{{ route('change-package', [
+                            'provisioning_record'=>$provisioning_record->id,
+                        ]) }}" class="text-info">[Edit]</a>
+                        </a>
                     </td>
                     <td class="text-center">
 

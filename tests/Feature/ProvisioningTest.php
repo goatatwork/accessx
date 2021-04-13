@@ -383,6 +383,49 @@ class ProvisioningTest extends TestCase
     }
 
     /**
+     * @group provisioning
+     * @group ratelimit
+     * @group external-api
+     * @test
+     * @return void
+     */
+    // public function test_can_send_get_to_accessr_to_set_rate_limits()
+    // {
+    //     $url = 'http:/10.0.0.4:3000/api/ports/ratelimit';
+
+    //     $response = $this->json('GET', $url);
+
+    //     $response->assertJson([
+    //         'success' => true
+    //     ]);
+    // }
+
+    /**
+     * @group provisioning
+     * @group ratelimit
+     * @group external-api
+     * @test
+     * @return void
+     */
+    // public function test_can_send_patch_to_accessr_to_set_rate_limits()
+    // {
+    //     $url = 'http:/10.0.0.4:3000/api/ports/ratelimit';
+
+    //     $patch_data = [
+    //         'switch_ip' => '192.168.99.1',
+    //         'port_name' => 'ethernet1/1/2',
+    //         'down_rate' => '10000',
+    //         'up_rate'   => '10000'
+    //     ];
+
+    //     $response = $this->json('PATCH', $url, $patch_data);
+
+    //     $response->assertJson([
+    //         'success' => "On the switch at 192.168.99.1, change port ethernet1/1/2 to have 10000 down and 10000 up."
+    //     ]);
+    // }
+
+    /**
      * The options we assign all new management IPs
      *
      * @param Storage $file

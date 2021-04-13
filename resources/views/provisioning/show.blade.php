@@ -16,6 +16,13 @@
 </nav>
 
 <div class="row">
+  <div class="col">
+    @if(session('status')) status @endif
+    @if(session('flash')) flash @endif
+  </div>
+</div>
+
+<div class="row">
     <div class="col-4">
 
         <div class="row">
@@ -466,12 +473,18 @@
                         <span class="fas fa-long-arrow-alt-right"></span>
                         {{ $provisioning_record->ont_profile->ont_software->version }}
                     </td>
+
                     <td class="text-center">
-                        <package-selector
-                            :record-id="{{ $provisioning_record->id }}"
-                            :all-packages="{{App\Package::all()->sortBy('name')->toJson()}}"
-                            :current-package="{{ $provisioning_record->packages()->latest()->first() }}"
-                        ></package-selector>
+                        @if ($provisioning_record->packages()->first())
+                            {{ $provisioning_record->packages->sortByDesc('pivot.created_at')->first()->name }}
+
+                            <a href="{{ route('change-package', [
+                                'provisioning_record'=>$provisioning_record->id,
+                            ]) }}" class="text-info">[Edit]</a>
+                            </a>
+                        @else
+                            No Package Selected
+                        @endif
                     </td>
                     <td class="text-center">
 

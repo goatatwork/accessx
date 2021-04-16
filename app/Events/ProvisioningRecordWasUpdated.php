@@ -16,17 +16,15 @@ class ProvisioningRecordWasUpdated
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $provisioning_record;
-    public $package_id;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(ProvisioningRecord $provisioning_record, $package_id = null)
+    public function __construct(ProvisioningRecord $provisioning_record)
     {
         $this->provisioning_record = $provisioning_record;
-        $this->package_id = $package_id;
     }
 
     /**

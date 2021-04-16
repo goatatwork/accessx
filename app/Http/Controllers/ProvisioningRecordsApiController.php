@@ -81,8 +81,7 @@ class ProvisioningRecordsApiController extends Controller
      */
     public function update(ProvisioningRecordRequest $request, ProvisioningRecord $provisioning_record)
     {
-        \Log::info('Sent package that has package_id '.$request->package_id);
-        // package_change is only on the package selection form
+        // package_change is only on the package selection form on change-page
         if ($request->package_change) {
             SetRateLimit::dispatch($request->package_id, $provisioning_record);
             return ['success' => true];
@@ -92,7 +91,7 @@ class ProvisioningRecordsApiController extends Controller
 
         $provisioning_record = $request->persistUpdate($provisioning_record);
 
-        event (new ProvisioningRecordWasUpdated($provisioning_record, $request->package_id));
+        event (new ProvisioningRecordWasUpdated($provisioning_record));
 
         if ($request->reboot) {
             RebootOnt::dispatch($provisioning_record);

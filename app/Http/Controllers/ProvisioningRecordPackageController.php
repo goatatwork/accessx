@@ -75,7 +75,7 @@ class ProvisioningRecordPackageController extends Controller
         $package = Package::find($request->package);
         $provisioningRecord->packages()->save($package);
 
-        SetRateLimit::dispatch($request->package, $provisioningRecord);
+        SetRateLimit::dispatch($package->id, $provisioningRecord);
 
         return redirect()->route('provisioning-show',['provisioning_record'=>$provisioningRecord->id]);
     }

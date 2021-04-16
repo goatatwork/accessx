@@ -29,6 +29,8 @@ class ProvisioningRecordForEditingResource extends Resource
             'ip' => $this->ip_address,
             'len' => $this->len,
             'circuit_id' => $this->circuit_id,
+            'package_id' => $this->packages ? $this->packages->sortByDesc('pivot.created_at')->first()->id : null,
+            'package_name' => $this->packages ? $this->packages->sortByDesc('pivot.created_at')->first()->name : null
         ];
     }
 }

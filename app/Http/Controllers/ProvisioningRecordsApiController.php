@@ -45,7 +45,7 @@ class ProvisioningRecordsApiController extends Controller
     {
         $provisioning_record = $request->persist();
 
-        event (new ServiceWasProvisioned($provisioning_record));
+        event (new ServiceWasProvisioned($provisioning_record, $request->package_id));
 
         return $provisioning_record;
     }
@@ -81,6 +81,8 @@ class ProvisioningRecordsApiController extends Controller
      */
     public function update(ProvisioningRecordRequest $request, ProvisioningRecord $provisioning_record)
     {
+        \Log::info('Sent package that has package_id '.$request->package_id);
+        // package_change is only on the package selection form
         if ($request->package_change) {
             SetRateLimit::dispatch($request->package_id, $provisioning_record);
             return ['success' => true];
@@ -88,19 +90,16 @@ class ProvisioningRecordsApiController extends Controller
 
         app('dhcpbot')->destroy($provisioning_record, 'dhcp_management_ip');
 
-        $provisioning_record = tap($provisioning_record)->update($request->all());
+        $provisioning_record = $request->persistUpdate($provisioning_record);
 
-        $package_id = $request->package_id ? $request->package_id : Package::first()->id;
-
-        SetRateLimit::dispatch($package_id, $provisioning_record);
-
-        event (new ProvisioningRecordWasUpdated($provisioning_record));
+        event (new ProvisioningRecordWasUpdated($provisioning_record, $request->package_id));
 
         if ($request->reboot) {
             RebootOnt::dispatch($provisioning_record);
         }
 
-        return $provisioning_record;
+        return new ProvisioningRecordForEditingResource($provisioning_record);
+        // return $provisioning_record;
     }
 
     /**

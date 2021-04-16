@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Package;
 use App\ProvisioningRecord;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -43,6 +44,32 @@ class ProvisioningRecordRequest extends FormRequest
      */
     public function persist()
     {
-        return ProvisioningRecord::create($this->all());
+        $pr = ProvisioningRecord::create($this->all());
+
+        if ($this->package_id) {
+            $package = Package::find($this->package_id);
+            $pr->packages()->save($package);
+        }
+
+        return $pr;
+    }
+
+    /**
+     * @param  \App\ProvisioningRecord $pr
+     *
+     * @return  \App\ProvisioningRecord The new ProvisioningRecord
+     */
+    public function persistUpdate(ProvisioningRecord $pr)
+    {
+        $pr = tap($pr)->update($this->all());
+
+        if ($this->package_id) {
+            if ($this->package_id != $pr->package->id) {
+                $package = Package::find($this->package_id);
+                $pr->packages()->save($package);
+            }
+        }
+
+        return $pr;
     }
 }

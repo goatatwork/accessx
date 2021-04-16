@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Package;
 use App\ProvisioningRecord;
 use Illuminate\Http\Request;
 use App\Jobs\RebootOnt;
@@ -77,7 +78,12 @@ class ProvisioningRecordController extends Controller
     {
         $service_location = $provisioning_record->service_location;
 
-        return view('provisioning.edit')->with('provisioning_record', $provisioning_record)->with('service_location', $service_location);
+        $speed_packages = Package::all();
+
+        return view('provisioning.edit')
+            ->with('provisioning_record', $provisioning_record)
+            ->with('service_location', $service_location)
+            ->with('speed_packages', $speed_packages);
     }
 
     /**

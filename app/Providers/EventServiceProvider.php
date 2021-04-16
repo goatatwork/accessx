@@ -31,7 +31,6 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\RemoveManagementIp',
         ],
         'App\Events\ProvisioningRecordWasUpdated' => [
-            'App\Listeners\UpdateRateLimit',
             'App\Listeners\UpdateDhcpServer',
         ],
         'App\Events\DhcpEvent' => [],

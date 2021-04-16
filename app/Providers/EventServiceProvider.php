@@ -24,12 +24,14 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\CreateDhcpFileForSubnet',
         ],
         'App\Events\ServiceWasProvisioned' => [
+            'App\Listeners\SetRateLimitForNewProvisioningRecord',
             'App\Listeners\CreateDhcpForProvisioningRecord',
         ],
         'App\Events\DeletingProvisioningRecord' => [
             'App\Listeners\RemoveManagementIp',
         ],
         'App\Events\ProvisioningRecordWasUpdated' => [
+            'App\Listeners\UpdateRateLimit',
             'App\Listeners\UpdateDhcpServer',
         ],
         'App\Events\DhcpEvent' => [],

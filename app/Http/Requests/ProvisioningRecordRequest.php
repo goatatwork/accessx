@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Jobs\SetRateLimit;
 use App\Package;
 use App\ProvisioningRecord;
 use Illuminate\Foundation\Http\FormRequest;
@@ -67,6 +68,8 @@ class ProvisioningRecordRequest extends FormRequest
             if ($this->package_id != $pr->package->id) {
                 $package = Package::find($this->package_id);
                 $pr->packages()->save($package);
+
+                SetRateLimit::dispatch($this->package_id, $pr);
             }
         }
 

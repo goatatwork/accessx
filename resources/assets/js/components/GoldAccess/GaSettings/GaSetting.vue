@@ -119,7 +119,7 @@
                     this.settingProp = response.data;
                     setTimeout( () => {
                         this.closeButtonClasses = '';
-                    }, 4000);
+                    }, 1000);
                 }).catch( (error) => {
                     this.errors = error.response.data.errors;
                 });

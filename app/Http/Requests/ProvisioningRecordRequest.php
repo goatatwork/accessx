@@ -50,6 +50,8 @@ class ProvisioningRecordRequest extends FormRequest
         if ($this->package_id) {
             $package = Package::find($this->package_id);
             $pr->packages()->save($package);
+
+            SetRateLimit::dispatch($this->package_id, $pr);
         }
 
         return $pr;

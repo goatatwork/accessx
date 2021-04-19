@@ -24,7 +24,6 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\CreateDhcpFileForSubnet',
         ],
         'App\Events\ServiceWasProvisioned' => [
-            'App\Listeners\SetRateLimitForNewProvisioningRecord',
             'App\Listeners\CreateDhcpForProvisioningRecord',
         ],
         'App\Events\DeletingProvisioningRecord' => [

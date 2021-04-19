@@ -45,7 +45,7 @@ class ProvisioningRecordsApiController extends Controller
     {
         $provisioning_record = $request->persist();
 
-        event (new ServiceWasProvisioned($provisioning_record, $request->package_id));
+        event (new ServiceWasProvisioned($provisioning_record));
 
         return $provisioning_record;
     }

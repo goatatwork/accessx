@@ -98,14 +98,11 @@ class ProvisioningTest extends TestCase
         $edit_response = $this->actingAs($this->user, 'api')
             ->json('PATCH', '/api/provisioning/' . $db_provisioning_record->id, ['ont_profile_id' => $new_ont_profile->id]);
 
+        // Make assertions on the data returned from ProvisioningRecordForEditingResource::class
         $edit_response->assertJson([
-            'service_location_id' => $service_location->id,
-            'ont_profile_id' => $new_ont_profile->id,
-            'port_id' => $port->id,
-            'ip_address_id' => $ip_address->id,
-            'len' => $provisioning_record->len,
-            'circuit_id' => $provisioning_record->circuit_id,
-            'notes' => $provisioning_record->notes,
+            'id' => $db_provisioning_record->id,
+            'len' => $db_provisioning_record->len,
+            'circuit_id' => $db_provisioning_record->circuit_id,
         ]);
 
         $this->assertDatabaseHas('provisioning_records', [

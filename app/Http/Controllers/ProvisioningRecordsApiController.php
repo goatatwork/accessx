@@ -81,7 +81,6 @@ class ProvisioningRecordsApiController extends Controller
      */
     public function update(ProvisioningRecordRequest $request, ProvisioningRecord $provisioning_record)
     {
-        // package_change is only on the package selection form on change-page
         if ($request->package_change) {
             SetRateLimit::dispatch($request->package_id, $provisioning_record);
             return ['success' => true];
@@ -98,7 +97,6 @@ class ProvisioningRecordsApiController extends Controller
         }
 
         return new ProvisioningRecordForEditingResource($provisioning_record);
-        // return $provisioning_record;
     }
 
     /**

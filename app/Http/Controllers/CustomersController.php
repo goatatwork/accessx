@@ -79,19 +79,22 @@ class CustomersController extends Controller
 
         $customer->update($update_data);
 
-        if ($customer->customer_type == 'Residential') {
-            $customer->service_locations->each(function($service_location) use ($update_data) {
-                $service_location->update([
-                    'poc_name' => $update_data['first_name'] . ' ' . $update_data['last_name'],
-                    'poc_email' => ''
-                ]);
-            });
-
-            $customer->billing_record->update([
+        $customer->service_locations->each(function($service_location) use ($update_data) {
+            $service_location->update([
                 'poc_name' => $update_data['first_name'] . ' ' . $update_data['last_name'],
                 'poc_email' => ''
             ]);
-        }
+        });
+
+        $customer->billing_record->update([
+            'poc_name' => $update_data['first_name'] . ' ' . $update_data['last_name'],
+            'poc_email' => ''
+        ]);
+
+        $customer->provisioning_records()->each(function($pr) {
+            app('dhcpbot')->build($pr, 'dhcp_management_ip');
+            app('dhcpbot')->deploy($pr, 'dhcp_management_ip');
+        });
 
         return back();
     }

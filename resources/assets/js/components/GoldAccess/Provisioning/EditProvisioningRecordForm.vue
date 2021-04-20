@@ -155,6 +155,56 @@
                             <table class="table table-sm">
                                 <thead class="thead-dark">
                                     <tr>
+                                        <th class="text-center" colspan="3">Speed Package</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">Package: </td>
+                                        <td class="text-left">
+                                            <span v-show="! editingSpeed">{{ package_name }}</span>
+                                            <span v-show="editingSpeed">
+                                                <label for="Package" class="sr-only">Package</label>
+
+        <select name="package_id"
+            class="custom-select"
+            id="package_id"
+            v-model="formData.package_id"
+            @change="selectPackage($event.target)"
+        >
+            <option v-for="package in speed_packages"
+                :id="package.id"
+                :value="package.id"
+                :selected="package.id == provisioningRecord.package_id"
+            >
+                {{ package.name }}
+            </option>
+
+        </select>
+
+                                            </span>
+                                        </td>
+                                        <td class="text-right">
+                                            <button v-show="! editingSpeed" class="btn btn-sm btn-dark" @click="editSpeed">EDIT</button>
+                                            <div v-show="editingSpeed" class="btn-group" role="group" aria-label="Speed Package Selection">
+                                                <button class="btn btn-sm btn-success" @click="submitSpeedChange">
+                                                    <i v-show="working" class="fa fa-spinner fa-spin"></i>
+                                                    Save
+                                                </button>
+                                                <button class="btn btn-sm btn-secondary" @click="cancelEditSpeed">Cancel</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <table class="table table-sm">
+                                <thead class="thead-dark">
+                                    <tr>
                                         <th class="text-center" colspan="3">Plant Identifiers</th>
                                     </tr>
                                 </thead>
@@ -218,7 +268,8 @@
 
     export default {
         props: {
-            provisioningRecord: {},
+            recordToEdit: {},
+            speedPackages: {}
         },
 
         components: {
@@ -239,16 +290,22 @@
             return {
                 editingOnt: false,
                 editingLen: false,
+                editingSpeed: false,
                 editingCircuitid: false,
                 editingNetworkOrIp: false,
                 formData: {
-                    ont_profile_id: this.provisioningRecord.ont_profile.id,
-                    ip_address_id: this.provisioningRecord.ip.id,
-                    port_id: this.provisioningRecord.port.id,
-                    len: this.provisioningRecord.len,
-                    circuit_id: this.provisioningRecord.circuit_id,
+                    ont_profile_id: this.recordToEdit.ont_profile.id,
+                    ip_address_id: this.recordToEdit.ip.id,
+                    port_id: this.recordToEdit.port.id,
+                    len: this.recordToEdit.len,
+                    circuit_id: this.recordToEdit.circuit_id,
+                    package_id: this.recordToEdit.package_id,
                     reboot: true,
                 },
+                package_id: this.recordToEdit.package_id,
+                package_name: this.recordToEdit.package_name,
+                provisioningRecord: this.recordToEdit,
+                speed_packages: this.speedPackages,
                 working: false
             }
         },
@@ -280,15 +337,23 @@
                 this.editingLen = false;
                 this.formData.len = this.provisoiningRecord.len;
             },
+            cancelEditSpeed: function() {
+                this.editingSpeed = false;
+                this.package_id = this.provisioningRecord.package_id;
+                this.package_name = this.provisioningRecord.package_name;
+                this.formData.package_id = this.provisoiningRecord.package_id;
+            },
             editCircuitid: function() {
                 this.editingOnt = false;
                 this.editingLen = false;
+                this.editingSpeed = false;
                 this.editingCircuitid = true;
                 this.editingNetworkOrIp = false;
             },
             editIp: function() {
                 this.editingOnt = false;
                 this.editingLen = false;
+                this.editingSpeed = false;
                 this.editingCircuitid = false;
                 this.editingNetworkOrIp = true;
                 $('#network-location-selector').collapse('hide');
@@ -297,12 +362,14 @@
             editLen: function() {
                 this.editingOnt = false;
                 this.editingLen = true;
+                this.editingSpeed = false;
                 this.editingCircuitid = false;
                 this.editingNetworkOrIp = false;
             },
             editLocation: function() {
                 this.editingOnt = false;
                 this.editingLen = false;
+                this.editingSpeed = false;
                 this.editingCircuitid = false;
                 this.editingNetworkOrIp = true;
                 $('#network-location-selector').collapse('show');
@@ -312,6 +379,7 @@
                 this.editingOnt = false;
                 this.editingLen = false;
                 this.editingCircuitid = false;
+                this.editingSpeed = false;
                 this.editingNetworkOrIp = ! this.editingNetworkOrIp;
                 $('#network-location-selector').collapse('hide');
                 $('#dhcp-management-network-selector').collapse('hide');
@@ -320,9 +388,17 @@
                 this.editingLen = false;
                 this.editingCircuitid = false;
                 this.editingNetworkOrIp = false;
+                this.editingSpeed = false;
                 this.editingOnt = ! this.editingOnt;
                 $('#network-location-selector').collapse('hide');
                 $('#dhcp-management-network-selector').collapse('hide');
+            },
+            editSpeed: function() {
+                this.editingOnt = false;
+                this.editingLen = false;
+                this.editingCircuitid = false;
+                this.editingNetworkOrIp = false;
+                this.editingSpeed = ! this.editingSpeed;
             },
 
             initializeEventBus: function() {
@@ -344,15 +420,26 @@
                     port_id: this.provisioningRecord.port.id,
                     len: this.provisioningRecord.len,
                     circuit_id: this.provisioningRecord.circuit_id,
+                    package_id: this.provisioningRecord.package_id,
                     reboot: true,
                 },
                 this.editingOnt = false,
                 this.editingLen = false,
+                this.editingSpeed = false,
                 this.editingCircuitid = false,
                 this.editingNetworkOrIp = false;
                 $('#ont-selector').collapse('hide');
                 $('#network-location-selector').collapse('hide');
                 $('#dhcp-management-network-selector').collapse('hide');
+            },
+
+            selectPackage: function(target) {
+                var new_package = _.filter(this.speed_packages, (speed_package) => {
+                    return target.value == speed_package.id;
+                });
+
+                this.package_id = new_package[0].id;
+                this.package_name = new_package[0].name;
             },
 
             submitChanges: function() {
@@ -384,6 +471,17 @@
                 axios.patch('/api/provisioning/'+this.provisioningRecord.id, this.formData).then( (response) => {
                     this.formData.circuit_id = response.data.circuit_id;
                     this.editingCircuitid = false;
+                    this.working = false;
+                }).catch( (error) => {
+                    console.log(error.response.data);
+                    this.working = false;
+                });
+            },
+            submitSpeedChange: function() {
+                this.formData.reboot = false;
+                this.working = true;
+                axios.patch('/api/provisioning/'+this.provisioningRecord.id, this.formData).then( (response) => {
+                    this.editingSpeed = false;
                     this.working = false;
                 }).catch( (error) => {
                     console.log(error.response.data);

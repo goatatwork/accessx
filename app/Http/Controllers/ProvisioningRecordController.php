@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Package;
 use App\ProvisioningRecord;
 use Illuminate\Http\Request;
 use App\Jobs\RebootOnt;
@@ -51,10 +52,11 @@ class ProvisioningRecordController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  \App\Http\Requests\ProvisioningRecordRequest  $request
      * @param  \App\ProvisioningRecord  $provisioning_record
      * @return \Illuminate\Http\Response
      */
-    public function show(ProvisioningRecord $provisioning_record)
+    public function show(ProvisioningRecordRequest $request, ProvisioningRecord $provisioning_record)
     {
         // $management_ip = new ManagementIp($provisioning_record);
 
@@ -76,7 +78,12 @@ class ProvisioningRecordController extends Controller
     {
         $service_location = $provisioning_record->service_location;
 
-        return view('provisioning.edit')->with('provisioning_record', $provisioning_record)->with('service_location', $service_location);
+        $speed_packages = Package::all();
+
+        return view('provisioning.edit')
+            ->with('provisioning_record', $provisioning_record)
+            ->with('service_location', $service_location)
+            ->with('speed_packages', $speed_packages);
     }
 
     /**

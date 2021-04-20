@@ -62,6 +62,18 @@
             </div>
 
             <div class="row">
+                <div class="col">
+                    <hr>
+                </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <speed-selector @speed-was-selected="speedWasSelected"></speed-selector>
+              </div>
+            </div>
+
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="len">LEN</label>
@@ -95,6 +107,7 @@
 
 <script>
     var OntSelector = Vue.extend(require('./OntSelector.vue'));
+    var SpeedSelector = Vue.extend(require('./SpeedSelector.vue'));
     var AggregatorSelector = Vue.extend(require('./AggregatorSelector.vue'));
     var DhcpManagementNetworkSelector = Vue.extend(require('./DhcpManagementNetworkSelector.vue'));
 
@@ -105,6 +118,7 @@
 
         components: {
             'ont-selector': OntSelector,
+            'speed-selector': SpeedSelector,
             'aggregator-selector': AggregatorSelector,
             'dhcp-management-network-selector': DhcpManagementNetworkSelector,
         },
@@ -119,12 +133,14 @@
                     len: '',
                     circuit_id: '',
                     notes: '',
+                    package_id: '',
                 },
                 formErrors: {
                     'service_location_id': [],
                     'ont_profile_id': [],
                     'port_id': [],
                     'ip_address_id': [],
+                    'package_id': [],
                 },
                 submitIsDisabled: false,
             }
@@ -193,6 +209,7 @@
                     len: '',
                     circuit_id: '',
                     notes: '',
+                    package_id: '',
                 }
             },
             resetFormErrors: function() {
@@ -202,6 +219,9 @@
                     'port_id': [],
                     'ip_address_id': [],
                 }
+            },
+            speedWasSelected: function(id) {
+                this.form.package_id = id;
             },
             submitForm: function() {
                 this.submitIsDisabled = true;

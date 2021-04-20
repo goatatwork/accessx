@@ -17,7 +17,11 @@
                 <service-location-card :location="serviceLocation"></service-location-card>
             </div>
             <div class="col-8">
-                <edit-provisioning-record-form v-if="provisioningRecordToEdit.id" :provisioning-record="provisioningRecordToEdit"></edit-provisioning-record-form>
+                <edit-provisioning-record-form
+                    v-if="provisioningRecordToEdit.id"
+                    :record-to-edit="provisioningRecordToEdit"
+                    :speed-packages="speedPackages"
+                ></edit-provisioning-record-form>
             </div>
         </div>
 
@@ -31,6 +35,7 @@
         props: {
             provisioningRecord: {},
             serviceLocation: {},
+            speedPackages: {}
         },
 
         components: {

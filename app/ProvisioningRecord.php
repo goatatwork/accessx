@@ -59,23 +59,28 @@ class ProvisioningRecord extends Model implements HasMedia, AuditableContract, D
         return $this->belongsTo(IpAddress::class);
     }
 
-    public function getFileAttribute()
+    public function packages()
     {
-        return $this->getFirstMedia();
+        return $this->morphToMany(Package::class, 'packageable')
+            ->withPivot(['created_at','updated_at'])->withTimestamps();
     }
 
-    /**
-     * Get the port tag associated with this provisioning record. This will
-     * also be used as the DHCP Option82 subscriber-id
-     * @return string The port tag
-     */
-    public function getPortTagAttribute()
+    public function getCustomerName()
     {
-        $aggregator = $this->port->slot->aggregator->slug;
-        $slot = $this->port->slot->slot_number;
-        $module = $this->port->module;
-        $port = $this->port->port_number;
-        return $aggregator . '-' . $slot . '-' . $module . '-' . $port;
+        if ($this->service_location) {
+            if ($this->service_location->customer) {
+                return $this->service_location->customer->customer_name;
+            }
+            return null;
+        }
+        return null;
+    }
+
+    public function getDeets()
+    {
+        return [
+            'customer_name' => $this->getCustomerName(),
+        ];
     }
 
     public function getDhcpStringAttribute()
@@ -95,9 +100,46 @@ class ProvisioningRecord extends Model implements HasMedia, AuditableContract, D
             $dhcp_string;
     }
 
+    public function getFileAttribute()
+    {
+        return $this->getFirstMedia();
+    }
+
     public function getIsSuspendedAttribute()
     {
         return $this->ont_profile->name == 'Suspended';
+    }
+
+    /*
+     * @return App\Package::class|null
+     */
+    public function getPackageAttribute()
+    {
+        return $this->packages ?
+            $this->packages->sortByDesc('pivot.created_at')->first() : null;
+    }
+
+    /*
+     * @return App\Package::class|null
+     */
+    public function getPackageIdAttribute()
+    {
+        return $this->packages ?
+            $this->packages->sortByDesc('pivot.created_at')->first()->id : null;
+    }
+
+    /**
+     * Get the port tag associated with this provisioning record. This will
+     * also be used as the DHCP Option82 subscriber-id
+     * @return string The port tag
+     */
+    public function getPortTagAttribute()
+    {
+        $aggregator = $this->port->slot->aggregator->slug;
+        $slot = $this->port->slot->slot_number;
+        $module = $this->port->module;
+        $port = $this->port->port_number;
+        return $aggregator . '-' . $slot . '-' . $module . '-' . $port;
     }
 
     /**

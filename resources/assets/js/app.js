@@ -73,6 +73,8 @@ Vue.component('dhcp-leases', require('./components/GoldAccess/Dhcp/Leases.vue'))
 // Module to add ports to an aggregator slot
 Vue.component('slot-port-creator', require('./components/GoldAccess/Aggregators/SlotPortCreator.vue'));
 
+Vue.component('package-selector', require('./components/GoldAccess/Packages/PackageSelector.vue'));
+
 window.EventBus = new Vue({});
 
 const app = new Vue({

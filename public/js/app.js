@@ -46789,7 +46789,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(154);
-module.exports = __webpack_require__(396);
+module.exports = __webpack_require__(402);
 
 
 /***/ }),
@@ -46870,6 +46870,8 @@ Vue.component('dhcp-leases', __webpack_require__(382));
 
 // Module to add ports to an aggregator slot
 Vue.component('slot-port-creator', __webpack_require__(391));
+
+Vue.component('package-selector', __webpack_require__(396));
 
 window.EventBus = new Vue({});
 
@@ -75841,7 +75843,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.settingProp = response.data;
                 setTimeout(function () {
                     _this.closeButtonClasses = '';
-                }, 4000);
+                }, 1000);
             }).catch(function (error) {
                 _this.errors = error.response.data.errors;
             });
@@ -86350,13 +86352,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 var EditProvisioningRecordForm = Vue.extend(__webpack_require__(309));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
         provisioningRecord: {},
-        serviceLocation: {}
+        serviceLocation: {},
+        speedPackages: {}
     },
 
     components: {
@@ -86652,6 +86659,56 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var OntSelector = Vue.extend(__webpack_require__(23));
 var AggregatorSelector = Vue.extend(__webpack_require__(24));
@@ -86659,7 +86716,8 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(25));
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
-        provisioningRecord: {}
+        recordToEdit: {},
+        speedPackages: {}
     },
 
     components: {
@@ -86680,16 +86738,22 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(25));
         return {
             editingOnt: false,
             editingLen: false,
+            editingSpeed: false,
             editingCircuitid: false,
             editingNetworkOrIp: false,
             formData: {
-                ont_profile_id: this.provisioningRecord.ont_profile.id,
-                ip_address_id: this.provisioningRecord.ip.id,
-                port_id: this.provisioningRecord.port.id,
-                len: this.provisioningRecord.len,
-                circuit_id: this.provisioningRecord.circuit_id,
+                ont_profile_id: this.recordToEdit.ont_profile.id,
+                ip_address_id: this.recordToEdit.ip.id,
+                port_id: this.recordToEdit.port.id,
+                len: this.recordToEdit.len,
+                circuit_id: this.recordToEdit.circuit_id,
+                package_id: this.recordToEdit.package_id,
                 reboot: true
             },
+            package_id: this.recordToEdit.package_id,
+            package_name: this.recordToEdit.package_name,
+            provisioningRecord: this.recordToEdit,
+            speed_packages: this.speedPackages,
             working: false
         };
     },
@@ -86721,15 +86785,23 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(25));
             this.editingLen = false;
             this.formData.len = this.provisoiningRecord.len;
         },
+        cancelEditSpeed: function cancelEditSpeed() {
+            this.editingSpeed = false;
+            this.package_id = this.provisioningRecord.package_id;
+            this.package_name = this.provisioningRecord.package_name;
+            this.formData.package_id = this.provisoiningRecord.package_id;
+        },
         editCircuitid: function editCircuitid() {
             this.editingOnt = false;
             this.editingLen = false;
+            this.editingSpeed = false;
             this.editingCircuitid = true;
             this.editingNetworkOrIp = false;
         },
         editIp: function editIp() {
             this.editingOnt = false;
             this.editingLen = false;
+            this.editingSpeed = false;
             this.editingCircuitid = false;
             this.editingNetworkOrIp = true;
             $('#network-location-selector').collapse('hide');
@@ -86738,12 +86810,14 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(25));
         editLen: function editLen() {
             this.editingOnt = false;
             this.editingLen = true;
+            this.editingSpeed = false;
             this.editingCircuitid = false;
             this.editingNetworkOrIp = false;
         },
         editLocation: function editLocation() {
             this.editingOnt = false;
             this.editingLen = false;
+            this.editingSpeed = false;
             this.editingCircuitid = false;
             this.editingNetworkOrIp = true;
             $('#network-location-selector').collapse('show');
@@ -86753,6 +86827,7 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(25));
             this.editingOnt = false;
             this.editingLen = false;
             this.editingCircuitid = false;
+            this.editingSpeed = false;
             this.editingNetworkOrIp = !this.editingNetworkOrIp;
             $('#network-location-selector').collapse('hide');
             $('#dhcp-management-network-selector').collapse('hide');
@@ -86761,9 +86836,17 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(25));
             this.editingLen = false;
             this.editingCircuitid = false;
             this.editingNetworkOrIp = false;
+            this.editingSpeed = false;
             this.editingOnt = !this.editingOnt;
             $('#network-location-selector').collapse('hide');
             $('#dhcp-management-network-selector').collapse('hide');
+        },
+        editSpeed: function editSpeed() {
+            this.editingOnt = false;
+            this.editingLen = false;
+            this.editingCircuitid = false;
+            this.editingNetworkOrIp = false;
+            this.editingSpeed = !this.editingSpeed;
         },
 
         initializeEventBus: function initializeEventBus() {
@@ -86785,11 +86868,21 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(25));
                 port_id: this.provisioningRecord.port.id,
                 len: this.provisioningRecord.len,
                 circuit_id: this.provisioningRecord.circuit_id,
+                package_id: this.provisioningRecord.package_id,
                 reboot: true
-            }, this.editingOnt = false, this.editingLen = false, this.editingCircuitid = false, this.editingNetworkOrIp = false;
+            }, this.editingOnt = false, this.editingLen = false, this.editingSpeed = false, this.editingCircuitid = false, this.editingNetworkOrIp = false;
             $('#ont-selector').collapse('hide');
             $('#network-location-selector').collapse('hide');
             $('#dhcp-management-network-selector').collapse('hide');
+        },
+
+        selectPackage: function selectPackage(target) {
+            var new_package = _.filter(this.speed_packages, function (speed_package) {
+                return target.value == speed_package.id;
+            });
+
+            this.package_id = new_package[0].id;
+            this.package_name = new_package[0].name;
         },
 
         submitChanges: function submitChanges() {
@@ -86831,6 +86924,19 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(25));
             }).catch(function (error) {
                 console.log(error.response.data);
                 _this3.working = false;
+            });
+        },
+        submitSpeedChange: function submitSpeedChange() {
+            var _this4 = this;
+
+            this.formData.reboot = false;
+            this.working = true;
+            axios.patch('/api/provisioning/' + this.provisioningRecord.id, this.formData).then(function (response) {
+                _this4.editingSpeed = false;
+                _this4.working = false;
+            }).catch(function (error) {
+                console.log(error.response.data);
+                _this4.working = false;
             });
         },
         updateIpId: function updateIpId(id) {
@@ -87998,6 +88104,197 @@ var render = function() {
                 _vm._v(" "),
                 _c("tbody", [
                   _c("tr", [
+                    _c("td", { staticClass: "text-center" }, [
+                      _vm._v("Package: ")
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-left" }, [
+                      _c(
+                        "span",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: !_vm.editingSpeed,
+                              expression: "! editingSpeed"
+                            }
+                          ]
+                        },
+                        [_vm._v(_vm._s(_vm.package_name))]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.editingSpeed,
+                              expression: "editingSpeed"
+                            }
+                          ]
+                        },
+                        [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "sr-only",
+                              attrs: { for: "Package" }
+                            },
+                            [_vm._v("Package")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.formData.package_id,
+                                  expression: "formData.package_id"
+                                }
+                              ],
+                              staticClass: "custom-select",
+                              attrs: { name: "package_id", id: "package_id" },
+                              on: {
+                                change: [
+                                  function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.formData,
+                                      "package_id",
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  },
+                                  function($event) {
+                                    _vm.selectPackage($event.target)
+                                  }
+                                ]
+                              }
+                            },
+                            _vm._l(_vm.speed_packages, function(package) {
+                              return _c(
+                                "option",
+                                {
+                                  attrs: { id: package.id },
+                                  domProps: {
+                                    value: package.id,
+                                    selected:
+                                      package.id ==
+                                      _vm.provisioningRecord.package_id
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n            " +
+                                      _vm._s(package.name) +
+                                      "\n        "
+                                  )
+                                ]
+                              )
+                            })
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right" }, [
+                      _c(
+                        "button",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: !_vm.editingSpeed,
+                              expression: "! editingSpeed"
+                            }
+                          ],
+                          staticClass: "btn btn-sm btn-dark",
+                          on: { click: _vm.editSpeed }
+                        },
+                        [_vm._v("EDIT")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.editingSpeed,
+                              expression: "editingSpeed"
+                            }
+                          ],
+                          staticClass: "btn-group",
+                          attrs: {
+                            role: "group",
+                            "aria-label": "Speed Package Selection"
+                          }
+                        },
+                        [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-success",
+                              on: { click: _vm.submitSpeedChange }
+                            },
+                            [
+                              _c("i", {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.working,
+                                    expression: "working"
+                                  }
+                                ],
+                                staticClass: "fa fa-spinner fa-spin"
+                              }),
+                              _vm._v(
+                                "\n                                                Save\n                                            "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-sm btn-secondary",
+                              on: { click: _vm.cancelEditSpeed }
+                            },
+                            [_vm._v("Cancel")]
+                          )
+                        ]
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col" }, [
+              _c("table", { staticClass: "table table-sm" }, [
+                _vm._m(5),
+                _vm._v(" "),
+                _c("tbody", [
+                  _c("tr", [
                     _c("td", { staticClass: "text-center" }, [_vm._v("LEN")]),
                     _vm._v(" "),
                     _c("td", { staticClass: "text-left" }, [
@@ -88352,6 +88649,18 @@ var staticRenderFns = [
     return _c("thead", { staticClass: "thead-dark" }, [
       _c("tr", [
         _c("th", { staticClass: "text-center", attrs: { colspan: "3" } }, [
+          _vm._v("Speed Package")
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-dark" }, [
+      _c("tr", [
+        _c("th", { staticClass: "text-center", attrs: { colspan: "3" } }, [
           _vm._v("Plant Identifiers")
         ])
       ])
@@ -88428,7 +88737,10 @@ var render = function() {
         [
           _vm.provisioningRecordToEdit.id
             ? _c("edit-provisioning-record-form", {
-                attrs: { "provisioning-record": _vm.provisioningRecordToEdit }
+                attrs: {
+                  "record-to-edit": _vm.provisioningRecordToEdit,
+                  "speed-packages": _vm.speedPackages
+                }
               })
             : _vm._e()
         ],
@@ -90206,8 +90518,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var OntSelector = Vue.extend(__webpack_require__(23));
+var SpeedSelector = Vue.extend(__webpack_require__(404));
 var AggregatorSelector = Vue.extend(__webpack_require__(24));
 var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(25));
 
@@ -90218,6 +90543,7 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(25));
 
     components: {
         'ont-selector': OntSelector,
+        'speed-selector': SpeedSelector,
         'aggregator-selector': AggregatorSelector,
         'dhcp-management-network-selector': DhcpManagementNetworkSelector
     },
@@ -90231,13 +90557,15 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(25));
                 ip_address_id: '',
                 len: '',
                 circuit_id: '',
-                notes: ''
+                notes: '',
+                package_id: ''
             },
             formErrors: {
                 'service_location_id': [],
                 'ont_profile_id': [],
                 'port_id': [],
-                'ip_address_id': []
+                'ip_address_id': [],
+                'package_id': []
             },
             submitIsDisabled: false
         };
@@ -90305,7 +90633,8 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(25));
                 ip_address_id: '',
                 len: '',
                 circuit_id: '',
-                notes: ''
+                notes: '',
+                package_id: ''
             };
         },
         resetFormErrors: function resetFormErrors() {
@@ -90315,6 +90644,9 @@ var DhcpManagementNetworkSelector = Vue.extend(__webpack_require__(25));
                 'port_id': [],
                 'ip_address_id': []
             };
+        },
+        speedWasSelected: function speedWasSelected(id) {
+            this.form.package_id = id;
         },
         submitForm: function submitForm() {
             var _this = this;
@@ -90447,6 +90779,21 @@ var render = function() {
         },
         [_vm._m(4)]
       ),
+      _vm._v(" "),
+      _vm._m(5),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "div",
+          { staticClass: "col" },
+          [
+            _c("speed-selector", {
+              on: { "speed-was-selected": _vm.speedWasSelected }
+            })
+          ],
+          1
+        )
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-6" }, [
@@ -90622,6 +90969,14 @@ var staticRenderFns = [
       _c("strong", [_vm._v("Management Network")]),
       _vm._v(" and an "),
       _c("strong", [_vm._v("IP Address")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col" }, [_c("hr")])
     ])
   }
 ]
@@ -98175,9 +98530,667 @@ if (false) {
 
 /***/ }),
 /* 396 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(397)
+/* template */
+var __vue_template__ = __webpack_require__(401)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/GoldAccess/Packages/PackageSelector.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-a34e36f2", Component.options)
+  } else {
+    hotAPI.reload("data-v-a34e36f2", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 397 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var ChangePackageModal = Vue.extend(__webpack_require__(398));
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        allPackages: {},
+        currentPackage: {
+            required: false
+        },
+        recordId: ''
+    },
+
+    components: {
+        'change-package-modal': ChangePackageModal
+    },
+
+    data: function data() {
+        return {
+            packages: this.allPackages
+        };
+    },
+
+
+    computed: {
+        selectId: function selectId() {
+            return 'select_for_';
+        }
+    },
+
+    mounted: function mounted() {
+        console.log('package selector is here');
+    },
+
+
+    methods: {
+        changePackage: function changePackage(x) {
+            $('#changePackageModal-' + x).modal('show');
+            // $('#'+this.confirmModal.id).modal('show');
+            // this.changeValue = x;
+            // this.$set(this.formData, this.fieldToPatch, x);
+        }
+    }
+});
+
+/***/ }),
+/* 398 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(399)
+/* template */
+var __vue_template__ = __webpack_require__(400)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/GoldAccess/Packages/ChangePackageModal.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6f177af6", Component.options)
+  } else {
+    hotAPI.reload("data-v-6f177af6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 399 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        ratePackage: {},
+        recordId: ''
+    },
+
+    computed: {
+        modalLabel: function modalLabel() {
+            return 'changePackageModalLabel-' + this.ratePackage.id;
+        },
+        modalId: function modalId() {
+            return 'changePackageModal-' + this.ratePackage.id;
+        },
+        modalRef: function modalRef() {
+            return '#changePackageModal-' + this.ratePackage.id;
+        }
+    },
+
+    data: function data() {
+        return {
+            formAction: '/api/provisioning/' + this.recordId,
+            formData: {
+                package_change: true,
+                provisioning_record_id: this.recordId,
+                package_id: this.ratePackage.id
+            },
+            response: {},
+            working: false
+        };
+    },
+
+
+    methods: {
+        confirm: function confirm() {
+            this.submitChange();
+        },
+        onFail: function onFail(error) {
+            console.log(error);
+        },
+        onSuccess: function onSuccess(pr) {
+            this.response = pr;
+        },
+
+        submitChange: function submitChange() {
+            var _this = this;
+
+            this.working = true;
+            this.$set(this.formData, 'package_change', true);
+            axios.patch(this.formAction, this.formData).then(function (response) {
+                _this.onSuccess(response.data);
+                _this.working = false;
+            }).catch(function (error) {
+                _this.onFail(error.response.data);
+                _this.working = false;
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 400 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          tabindex: "-1",
+          role: "dialog",
+          id: _vm.modalId,
+          "aria-labelledby": _vm.modalLabel,
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h5",
+                  { staticClass: "modal-title", attrs: { id: _vm.modalLabel } },
+                  [_vm._v("Change Package")]
+                ),
+                _vm._v(" "),
+                _vm._m(0)
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "modal-body" },
+                [
+                  _vm._t("body", [
+                    _vm._v(
+                      "\n                        Switch " +
+                        _vm._s(_vm.recordId) +
+                        " to the " +
+                        _vm._s(_vm.ratePackage.name) +
+                        " package?\n                        "
+                    ),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("pre", [_vm._v(_vm._s(_vm.formData))]),
+                    _vm._v(" "),
+                    _c("pre", [_vm._v(_vm._s(_vm.response))])
+                  ])
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "modal-footer" },
+                [
+                  _vm._t("footer", [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-dark float-right",
+                        attrs: { type: "button", "data-dismiss": "modal" }
+                      },
+                      [
+                        _vm._v(
+                          "\n                            Dismiss\n                        "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-link text-dark float-right",
+                        attrs: { type: "submit" },
+                        on: {
+                          click: function($event) {
+                            _vm.confirm()
+                          }
+                        }
+                      },
+                      [
+                        _c("span", {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.working,
+                              expression: "working"
+                            }
+                          ],
+                          staticClass: "fa fa-spinner fa-spin"
+                        }),
+                        _vm._v(" Confirm Change\n                        ")
+                      ]
+                    )
+                  ])
+                ],
+                2
+              )
+            ])
+          ]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6f177af6", module.exports)
+  }
+}
+
+/***/ }),
+/* 401 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "select",
+        {
+          staticClass: "custom-select",
+          attrs: { name: "package", id: _vm.selectId },
+          on: {
+            change: function($event) {
+              _vm.changePackage($event.target.value)
+            }
+          }
+        },
+        _vm._l(_vm.packages, function(package) {
+          return _c(
+            "option",
+            {
+              attrs: { id: package.id },
+              domProps: {
+                value: package.id,
+                selected: package.id == _vm.currentPackage.id
+              }
+            },
+            [_vm._v("\n            " + _vm._s(package.name) + "\n        ")]
+          )
+        })
+      ),
+      _vm._v(" "),
+      _vm._l(_vm.packages, function(package) {
+        return _c("change-package-modal", {
+          key: package.id,
+          attrs: { "rate-package": package, "record-id": _vm.recordId }
+        })
+      })
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-a34e36f2", module.exports)
+  }
+}
+
+/***/ }),
+/* 402 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 403 */,
+/* 404 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(405)
+/* template */
+var __vue_template__ = __webpack_require__(406)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/GoldAccess/Provisioning/SpeedSelector.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4fd4bcf0", Component.options)
+  } else {
+    hotAPI.reload("data-v-4fd4bcf0", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 405 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            fetching: false,
+            packages: {}
+        };
+    },
+    mounted: function mounted() {
+        this.fetchPackages();
+    },
+
+
+    methods: {
+        fetchPackages: function fetchPackages() {
+            var _this = this;
+
+            this.fetching = true;
+            axios.get('/api/packages').then(function (response) {
+                _this.packages = response.data;
+                _this.fetching = false;
+            }).catch(function (error) {
+                console.log(error);
+                _this.fetching = false;
+            });
+        },
+        speedWasSelected: function speedWasSelected(id) {
+            this.$emit('speed-was-selected', id);
+        }
+    }
+});
+
+/***/ }),
+/* 406 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col" }, [
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "ont_id" } }, [_vm._v("Speed")]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            staticClass: "form-control",
+            attrs: { name: "ont_id" },
+            on: {
+              change: function($event) {
+                _vm.speedWasSelected($event.target.value)
+              }
+            }
+          },
+          [
+            _c("option", { attrs: { value: "" } }, [_vm._v("Select")]),
+            _vm._v(" "),
+            _vm._l(_vm.packages, function(package) {
+              return _c("option", { domProps: { value: package.id } }, [
+                _vm._v(_vm._s(package.name))
+              ])
+            })
+          ],
+          2
+        ),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.fetching,
+                expression: "fetching"
+              }
+            ],
+            staticClass: "text-danger"
+          },
+          [_vm._v("Fetching Speed Packages...")]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4fd4bcf0", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

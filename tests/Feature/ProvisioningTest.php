@@ -6,6 +6,7 @@ use Storage;
 use App\Ont;
 use App\Port;
 use App\User;
+use App\Package;
 use App\IpAddress;
 use App\OntProfile;
 use Tests\TestCase;
@@ -28,6 +29,7 @@ class ProvisioningTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
+        $this->package = factory(Package::class)->create();
     }
 
     /**
@@ -96,14 +98,11 @@ class ProvisioningTest extends TestCase
         $edit_response = $this->actingAs($this->user, 'api')
             ->json('PATCH', '/api/provisioning/' . $db_provisioning_record->id, ['ont_profile_id' => $new_ont_profile->id]);
 
+        // Make assertions on the data returned from ProvisioningRecordForEditingResource::class
         $edit_response->assertJson([
-            'service_location_id' => $service_location->id,
-            'ont_profile_id' => $new_ont_profile->id,
-            'port_id' => $port->id,
-            'ip_address_id' => $ip_address->id,
-            'len' => $provisioning_record->len,
-            'circuit_id' => $provisioning_record->circuit_id,
-            'notes' => $provisioning_record->notes,
+            'id' => $db_provisioning_record->id,
+            'len' => $db_provisioning_record->len,
+            'circuit_id' => $db_provisioning_record->circuit_id,
         ]);
 
         $this->assertDatabaseHas('provisioning_records', [
@@ -381,6 +380,49 @@ class ProvisioningTest extends TestCase
         //     // 'option-logserver' => 'dhcp-option=tag:"BasementStack/1/3/2",7,10.0.0.4',
         // ];
     }
+
+    /**
+     * @group provisioning
+     * @group ratelimit
+     * @group external-api
+     * @test
+     * @return void
+     */
+    // public function test_can_send_get_to_accessr_to_set_rate_limits()
+    // {
+    //     $url = 'http:/10.0.0.4:3000/api/ports/ratelimit';
+
+    //     $response = $this->json('GET', $url);
+
+    //     $response->assertJson([
+    //         'success' => true
+    //     ]);
+    // }
+
+    /**
+     * @group provisioning
+     * @group ratelimit
+     * @group external-api
+     * @test
+     * @return void
+     */
+    // public function test_can_send_patch_to_accessr_to_set_rate_limits()
+    // {
+    //     $url = 'http:/10.0.0.4:3000/api/ports/ratelimit';
+
+    //     $patch_data = [
+    //         'switch_ip' => '192.168.99.1',
+    //         'port_name' => 'ethernet1/1/2',
+    //         'down_rate' => '10000',
+    //         'up_rate'   => '10000'
+    //     ];
+
+    //     $response = $this->json('PATCH', $url, $patch_data);
+
+    //     $response->assertJson([
+    //         'success' => "On the switch at 192.168.99.1, change port ethernet1/1/2 to have 10000 down and 10000 up."
+    //     ]);
+    // }
 
     /**
      * The options we assign all new management IPs

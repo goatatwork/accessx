@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Package;
 use App\Jobs\RebootOnt;
+use App\Jobs\SetRateLimit;
 use App\ProvisioningRecord;
 use Illuminate\Http\Request;
 use App\Events\ServiceWasProvisioned;
@@ -79,9 +81,14 @@ class ProvisioningRecordsApiController extends Controller
      */
     public function update(ProvisioningRecordRequest $request, ProvisioningRecord $provisioning_record)
     {
+        if ($request->package_change) {
+            SetRateLimit::dispatch($request->package_id, $provisioning_record);
+            return ['success' => true];
+        }
+
         app('dhcpbot')->destroy($provisioning_record, 'dhcp_management_ip');
 
-        $provisioning_record = tap($provisioning_record)->update($request->all());
+        $provisioning_record = $request->persistUpdate($provisioning_record);
 
         event (new ProvisioningRecordWasUpdated($provisioning_record));
 
@@ -89,7 +96,7 @@ class ProvisioningRecordsApiController extends Controller
             RebootOnt::dispatch($provisioning_record);
         }
 
-        return $provisioning_record;
+        return new ProvisioningRecordForEditingResource($provisioning_record);
     }
 
     /**

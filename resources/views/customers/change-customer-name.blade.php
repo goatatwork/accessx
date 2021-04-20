@@ -11,7 +11,7 @@
         <div class="modal-content">
             <div class="modal-header">
 
-                <div class="modal-title" id="edit-customer-name-modal-label">Modal Title</div>
+                <div class="modal-title" id="edit-customer-name-modal-label">Change Customer Name</div>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -24,6 +24,10 @@
                 @method('PATCH')
 
                 <div class="modal-body">
+                    <div class="form-group">
+                        <label for="company_name">Company Name</label>
+                        <input type="text" class="form-control form-control-sm" name="company_name" value="{{ $customer->company_name }}">
+                    </div>
                     <div class="form-group">
                         <label for="first_name">First Name</label>
                         <input type="text" class="form-control form-control-sm" name="first_name" value="{{ $customer->first_name }}">

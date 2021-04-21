@@ -442,7 +442,7 @@
                     <th class="text-center border-0"></th>
                     <th class="text-center border-0">Management IP</th>
                     <th class="text-center border-0">NetLocation</th>
-                    <th class="text-center border-0 d-none">ONT/Software</th>
+                    <th class="text-center border-0">ONT/Software</th>
                     <th class="text-center border-0">Speed</th>
                     <th class="text-center border-0">Package</th>
                     <th class="text-center border-0">LEN</th>
@@ -462,29 +462,35 @@
                         {{ $provisioning_record->ip_address->address }}</a>
                     </td>
                     <td class="text-center">
-                        {{ $provisioning_record->port->slot->aggregator->name }}
-                        <span class="fas fa-long-arrow-alt-right"></span>
-                        Slot {{ $provisioning_record->port->slot->slot_number }}
-                        <span class="fas fa-long-arrow-alt-right"></span>
-                        Port {{ $provisioning_record->port->port_number }}
+                        <small>
+                            {{ $provisioning_record->port->slot->aggregator->name }}
+                            <span class="fas fa-long-arrow-alt-right"></span>
+                            Slot {{ $provisioning_record->port->slot->slot_number }}
+                            <span class="fas fa-long-arrow-alt-right"></span>
+                            Port {{ $provisioning_record->port->port_number }}
+                        </small>
                     </td>
-                    <td class="text-center d-none">
-                        {{ $provisioning_record->ont_profile->ont_software->ont->model_number }}
-                        <span class="fas fa-long-arrow-alt-right"></span>
-                        {{ $provisioning_record->ont_profile->ont_software->version }}
+                    <td class="text-center">
+                        <small>
+                            {{ $provisioning_record->ont_profile->ont_software->ont->model_number }}
+                            <span class="fas fa-long-arrow-alt-right"></span>
+                            {{ $provisioning_record->ont_profile->ont_software->version }}
+                        </small>
                     </td>
 
                     <td class="text-center">
-                        @if ($provisioning_record->packages()->first())
-                            {{ $provisioning_record->packages->sortByDesc('pivot.created_at')->first()->name }}
-                        @else
-                            No Package Selected
-                        @endif
+                        <small>
+                            @if ($provisioning_record->packages()->first())
+                                {{ $provisioning_record->packages->sortByDesc('pivot.created_at')->first()->name }}
+                            @else
+                                No Package Selected
+                            @endif
 
-                        <a href="{{ route('change-package', [
-                            'provisioning_record'=>$provisioning_record->id,
-                        ]) }}" class="text-info">[Edit]</a>
-                        </a>
+                            <a href="{{ route('change-package', [
+                                'provisioning_record'=>$provisioning_record->id,
+                            ]) }}" class="text-info">[Edit]</a>
+                            </a>
+                        </small>
                     </td>
                     <td class="text-center">
 

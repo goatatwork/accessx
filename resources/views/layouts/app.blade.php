@@ -132,11 +132,11 @@
                                     <a class="nav-link px-0 py-0 text-white" href="/onts">ONTs</a>
                                 </li>
                                 @endcan
-
+                                @can('manage_speeds')
                                 <li class="nav-item">
                                     <a class="nav-link px-0 py-0 text-white" href="/settings/offerings">Speeds</a>
                                 </li>
-
+                                @endcan
                             </ul>
                         </li>
                         @endcan

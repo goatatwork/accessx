@@ -35,6 +35,7 @@ services:
       - "8088:80"
     networks:
       - goldaccessnet
+      - accessx_api_net
     depends_on:
       - php
   php:
@@ -144,3 +145,5 @@ services:
 networks:
   goldaccessnet:
     driver: "bridge"
+  accessx_api_net:
+    external: true

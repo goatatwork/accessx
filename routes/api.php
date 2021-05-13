@@ -21,7 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['middleware' => 'auth:api', 'prefix' => 'customers'], function() {
+Route::group(['middleware' => 'api', 'prefix' => 'customers'], function() {
     Route::get('/', 'CustomersApiController@index');
     Route::post('/', 'CustomersApiController@store');
     Route::get('{customer}', 'CustomersApiController@show');

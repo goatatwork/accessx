@@ -74,7 +74,7 @@ return [
         'production' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['default', 'onts', 'docker', 'speeds'],
+                'queue' => ['default', 'onts', 'docker', 'speeds', 'switchtool'],
                 'balance' => 'simple',
                 'processes' => 10,
                 'tries' => 1,
@@ -84,7 +84,7 @@ return [
         'local' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['default', 'onts', 'docker', 'speeds'],
+                'queue' => ['default', 'onts', 'docker', 'speeds', 'switchtool'],
                 'balance' => 'simple',
                 'processes' => 3,
                 'tries' => 1,

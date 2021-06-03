@@ -62,7 +62,7 @@
                             </div>
                         </div>
 
-                        @if($provisioning_record->is_suspended)
+                        @if($provisioning_record->suspended)
                         <div class="row mb-2">
                             <div class="col">
                                 <button
@@ -262,26 +262,18 @@
                             <form method="POST" action="/provisioning/{{ $provisioning_record->id }}/suspend">
                                 <div class="modal-body">
 
-                                    @if (! $provisioning_record->ont_profile->ont_software->has_suspend_config)
-                                        <p>
-                                            The {{ $provisioning_record->ont_profile->ont_software->version }} software does not currently have a "Suspended" profile.  You can create one <a href="/onts/{{ $provisioning_record->ont_profile->ont_software->ont->id }}">here.</a><br>
-                                        </p>
-                                    @else
-                                        <p>This will suspend service. Are you sure?</p>
-                                        <div class="form-group">
-                                            <label for="notes">Notes</label>
-                                            <textarea class="form-control" name="notes"></textarea>
-                                        </div>
-                                    @endif
+                                    <p>This will suspend service. Are you sure?</p>
+                                    <div class="form-group">
+                                        <label for="notes">Notes</label>
+                                        <textarea class="form-control" name="notes"></textarea>
+                                    </div>
 
                                 </div>
                                 <div class="modal-footer">
                                         {{ csrf_field() }}
                                         {{ method_field('PATCH') }}
                                         <button type="button" class="btn btn-dark float-right" data-dismiss="modal">Dismiss</button>
-                                        @if ($provisioning_record->ont_profile->ont_software->has_suspend_config)
-                                            <button type="submit" class="btn btn-link text-dark float-right">Yes, Suspend Service</button>
-                                        @endif
+                                        <button type="submit" class="btn btn-link text-dark float-right">Yes, Suspend Service</button>
                                 </div>
                             </form>
 
@@ -299,7 +291,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5  id="unsuspend-service-modal-{{ $provisioning_record->id }}-label" class="modal-title">Suspend Service</h5>
+                                <h5  id="unsuspend-service-modal-{{ $provisioning_record->id }}-label" class="modal-title">Unsuspend Service</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -345,13 +337,8 @@
                             </div>
                             <div class="modal-body">
                                 <p>
-                                Suspended!
+                                Suspended! This service has been suspended.
                                 </p>
-
-                                <p>
-                                    The ONT is rebooting. This can take up to 10 minutes. Please see the <a href="/activity_logs">Activity Logs</a> for more information.
-                                </p>
-
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light float-right" data-dismiss="modal">Dismiss</button>
@@ -377,13 +364,8 @@
                             </div>
                             <div class="modal-body">
                                 <p>
-                                Unuspended! Service has been set back to the <strong>{{ $provisioning_record->ont_profile->name }}</strong> profile.
+                                Unspended! This service has been restored.
                                 </p>
-
-                                <p>
-                                    The ONT is rebooting. This can take up to 10 minutes. Please see the <a href="/activity_logs">Activity Logs</a> for more information.
-                                </p>
-
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light float-right" data-dismiss="modal">Dismiss</button>
@@ -398,7 +380,7 @@
 
     </div>
     <div class="col-8">
-        @if($provisioning_record->is_suspended)
+        @if($provisioning_record->suspended)
             <div class="row">
                 <div class="col">
                     <div class="alert alert-info alert-dismissible fade show" role="alert">

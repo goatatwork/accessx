@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Package;
 use App\ProvisioningRecord;
 use Illuminate\Http\Request;
+use App\Jobs\DisablePort;
+use App\Jobs\EnablePort;
 use App\Jobs\RebootOnt;
-use App\Events\ProvisioningRecordWasUpdated;
 use App\Http\Requests\ProvisioningRecordRequest;
 
 class ProvisioningRecordController extends Controller
@@ -122,13 +123,13 @@ class ProvisioningRecordController extends Controller
     {
         $notes = $request->notes ? $request->notes : '';
 
-        $suspended_config = $provisioning_record->ont_profile->ont_software->ont_profiles()->whereName('Suspended')->first();
-
-        $provisioning_record = tap($provisioning_record)->update(['ont_profile_id' => $suspended_config->id, 'notes' => $notes . ' ::: ' . $provisioning_record->notes]);
+        $provisioning_record = tap($provisioning_record)->update([
+            'notes' => $notes . ' ::: ' . $provisioning_record->notes,
+            'suspended' => true
+        ]);
 
         $pr = ProvisioningRecord::find($provisioning_record->id);
-        event (new ProvisioningRecordWasUpdated($pr));
-        RebootOnt::dispatch($pr);
+        DisablePort::dispatch($pr);
 
         return redirect('/provisioning/' . $provisioning_record->id)->with('status', 'suspended');
     }
@@ -144,11 +145,13 @@ class ProvisioningRecordController extends Controller
     {
         $notes = $request->notes ? $request->notes : '';
 
-        $provisioning_record = tap($provisioning_record)->update(['ont_profile_id' => $provisioning_record->previous_profile_id, 'notes' => $notes . ' ::: ' . $provisioning_record->notes]);
+        $provisioning_record = tap($provisioning_record)->update([
+            'notes' => $notes . ' ::: ' . $provisioning_record->notes,
+            'suspended' => false
+        ]);
 
         $pr = ProvisioningRecord::find($provisioning_record->id);
-        event (new ProvisioningRecordWasUpdated($pr));
-        RebootOnt::dispatch($pr);
+        EnablePort::dispatch($pr);
 
         return redirect('/provisioning/' . $provisioning_record->id)->with('status', 'unsuspended');
     }

@@ -23,5 +23,6 @@ $factory->define(App\ProvisioningRecord::class, function (Faker $faker) {
         'len' => $faker->bothify('LEN##-##-#?-#?'),
         'circuit_id' => $faker->bothify('CIR##-##-#?-#?'),
         'notes' => $faker->sentence,
+        'suspended' => false
     ];
 });

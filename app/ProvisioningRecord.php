@@ -20,10 +20,20 @@ class ProvisioningRecord extends Model implements HasMedia, AuditableContract, D
         'ip_address_id',
         'len',
         'circuit_id',
-        'notes'
+        'notes',
+        'suspended'
     ];
 
     protected $appends = ['port_tag', 'file', 'is_suspended'];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'suspended' => 'boolean',
+    ];
 
     public $media_collections = [
         'dhcp_management_ip' => "ManagementIp"

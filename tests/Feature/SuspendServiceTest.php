@@ -6,6 +6,8 @@ use App\User;
 use Tests\TestCase;
 use App\OntProfile;
 use App\OntSoftware;
+use App\Jobs\DisablePort;
+use App\Jobs\EnablePort;
 use App\Jobs\RebootOnt;
 use App\ProvisioningRecord;
 use Illuminate\Support\Facades\Event;
@@ -122,18 +124,17 @@ class SuspendServiceTest extends TestCase
 
         $pr->fresh();
 
-        $this->assertFalse($pr->is_suspended);
+        $this->assertFalse($pr->suspended);
 
         $response = $this->actingAs($this->user)->patch('/provisioning/'.$pr->id.'/suspend');
 
         $response->assertStatus(302);
 
         $pr_again = ProvisioningRecord::find($pr->id);
-        $this->assertTrue($pr_again->is_suspended);
+        $this->assertTrue($pr_again->suspended);
         $this->assertEquals($pr_again->previous_profile_id, $regular_config->id);
 
-        Event::assertDispatched(ProvisioningRecordWasUpdated::class);
-        Queue::assertPushed(RebootOnt::class);
+        Queue::assertPushed(DisablePort::class);
     }
 
     public function test_patch_can_unsuspend_provisioning_record()
@@ -146,22 +147,19 @@ class SuspendServiceTest extends TestCase
         $unlimited = factory(OntProfile::class)->create(['ont_software_id' => $software->id, 'name' => 'Unlimited', 'slug' => 'unlimited']);
         $suspend_config = factory(OntProfile::class)->create(['ont_software_id' => $software->id, 'name' => 'Suspended', 'slug' => 'suspended']);
 
-        $pr = factory(ProvisioningRecord::class)->create(['ont_profile_id' => $suspend_config->id]);
+        $pr = factory(ProvisioningRecord::class)->create(['ont_profile_id' => $suspend_config->id, 'suspended' => true]);
 
         $pr->fresh();
 
-        $this->assertTrue($pr->is_suspended);
+        $this->assertTrue($pr->suspended);
 
         $response = $this->actingAs($this->user)->patch('/provisioning/'.$pr->id.'/unsuspend');
 
         $response->assertStatus(302);
 
         $pr_again = ProvisioningRecord::find($pr->id);
-        $this->assertFalse($pr_again->is_suspended);
+        $this->assertFalse($pr_again->suspended);
 
         $this->assertEquals($pr_again->previous_profile_id, $unlimited->id);
-
-        Event::assertDispatched(ProvisioningRecordWasUpdated::class);
-        Queue::assertPushed(RebootOnt::class);
     }
 }

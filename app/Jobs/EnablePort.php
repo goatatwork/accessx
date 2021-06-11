@@ -81,7 +81,8 @@ class EnablePort implements ShouldQueue
     {
         return [
             'switch_ip' => $this->switchIp(),
-            'port_name' => $this->portToChange()
+            'port_name' => $this->portToChange(),
+            'vlans' => config('goldaccess.settings.vlans_to_suspend')
         ];
     }
 

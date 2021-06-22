@@ -27,6 +27,7 @@
     <script>
         window.Laravel = {!! json_encode([
             'user_id' => Auth::id(),
+            'query_params' => request()->query(),
         ]) !!};
     </script>
     @endif

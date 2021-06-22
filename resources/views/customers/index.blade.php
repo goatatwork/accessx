@@ -12,10 +12,9 @@
 <div class="row mb-5">
     <div class="col">
 
-        <dl class="float-left">
-            <dt>Total Customers</dt>
-            <dd>There are {{ $customers->total() }} customers.</dd>
-        </dl>
+        <span class="float-left">
+            Total Customers: {{ $customer_count }}
+        </span>
 
         @can('manage_customers')
         <span class="float-right">
@@ -26,18 +25,6 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col d-flex justify-content-end">
-        {{ $customers->links() }}
-    </div>
-    <div class="w-100"></div>
-    <div class="col">
-        <small>
-            <span class="font-italic float-right">Records {{ $customers->firstItem() }} of {{ $customers->lastItem() }}</span>
-        </small>
-    </div>
-</div>
-
-<customers-table :customers="{{$customers->toJson()}}"></customers-table>
+<customers-table></customers-table>
 
 @endsection

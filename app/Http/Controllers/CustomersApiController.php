@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
+use App\Http\Resources\CustomerCollection;
 use Illuminate\Http\Request;
 use App\Http\Requests\NewCustomerFormRequest;
 
@@ -11,11 +12,21 @@ class CustomersApiController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Customer::orderBy('company_name', 'asc')->orderBy('last_name', 'asc')->paginate(50);
+        $sort_key = $request->query('sort_key', 'customer_name');
+        $sort_order = $request->query('sort_order', 'asc');
+
+        if ($sort_order == 'desc') {
+            $customers = Customer::all()->sortByDesc($sort_key, SORT_NATURAL|SORT_FLAG_CASE);
+        } else {
+            $customers = Customer::all()->sortBy($sort_key, SORT_NATURAL|SORT_FLAG_CASE);
+        }
+
+        return new CustomerCollection($customers);
     }
 
     /**

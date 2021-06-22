@@ -11,13 +11,13 @@ class CustomersController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $customers = Customer::orderBy('company_name', 'asc')->orderBy('last_name', 'asc')->paginate(50);
-
-        return view('customers.index')->with('customers', $customers);
+        $customer_count = Customer::count();
+        return view('customers.index')->with('customer_count', $customer_count);
     }
 
     /**

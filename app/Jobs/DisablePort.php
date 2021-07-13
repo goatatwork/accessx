@@ -47,7 +47,7 @@ class DisablePort implements ShouldQueue
 
     public function doIt()
     {
-        $url = config('goldaccess.settings.switchtool_url') . '/api/ports/disable';
+        $url = config('goldaccess.settings.switchtool_url') . '/api/ports/suspend';
 
         $options = [
             'http' => [

@@ -6,6 +6,8 @@
  */
 
 return [
+    'version_tag' => 'v0.1',
+
     /*
     |--------------------------------------------------------------------------
     | Via AppServiceProvider, settings are read in from the ga_settings table

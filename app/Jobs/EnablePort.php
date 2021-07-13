@@ -47,7 +47,7 @@ class EnablePort implements ShouldQueue
 
     public function doIt()
     {
-        $url = config('goldaccess.settings.switchtool_url') . '/api/ports/enable';
+        $url = config('goldaccess.settings.switchtool_url') . '/api/ports/unsuspend';
 
         $options = [
             'http' => [

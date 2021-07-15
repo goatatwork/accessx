@@ -12,15 +12,10 @@ class Port extends Model implements AuditableContract
 
     protected $fillable = ['port_number', 'notes', 'module', 'port_name'];
 
-    protected $appends = ['has_provisioning_records', 'subscriber_id'];
+    protected $appends = ['has_provisioning_records'];
 
     public function slot()
     {
         return $this->belongsTo(Slot::class);
-    }
-
-    public function getSubscriberIdAttribute()
-    {
-        return $this->slot->aggregator->name . '-' . $this->slot->slot_number . '-' . $this->port_number;
     }
 }

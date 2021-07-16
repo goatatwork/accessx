@@ -2,12 +2,14 @@
 
 namespace App;
 
-use OwenIt\Auditing\Auditable;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
 use App\GoldAccess\Dhcp\Contracts\Deployable;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+
 
 class ProvisioningRecord extends Model implements HasMedia, AuditableContract, Deployable
 {

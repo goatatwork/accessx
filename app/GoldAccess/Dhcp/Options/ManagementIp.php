@@ -39,7 +39,6 @@ class ManagementIp extends DhcpOption
         $name = $provisioning_record->service_location->customer->customer_name;
         $id = $provisioning_record->service_location->customer->id;
         $subscriberId = $this->getSubscriberId($provisioning_record);
-        $subscriberId = strtoupper($subscriberId);
         $ip = $provisioning_record->ip_address->address;
         $netmask = $provisioning_record->ip_address->subnet->subnet_mask;
         $leasetime = $this->getDhcpDefaultLeaseTime();

@@ -72,9 +72,6 @@ class ManagementIp extends DhcpOption
      */
     protected function getSubscriberId(Deployable $provisioning_record)
     {
-        return $provisioning_record->port->slot->aggregator->slug . '/' .
-            $provisioning_record->port->slot->slot_number . '/' .
-            $provisioning_record->port->module . '/' .
-            $provisioning_record->port->port_number;
+        return $provisioning_record->port->subscriber_id;
     }
 }

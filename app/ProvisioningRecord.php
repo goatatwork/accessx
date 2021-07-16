@@ -147,11 +147,7 @@ class ProvisioningRecord extends Model implements HasMedia, AuditableContract, D
      */
     public function getPortTagAttribute()
     {
-        $aggregator = $this->port->slot->aggregator->slug;
-        $slot = $this->port->slot->slot_number;
-        $module = $this->port->module;
-        $port = $this->port->port_number;
-        return $aggregator . '-' . $slot . '-' . $module . '-' . $port;
+        return str_replace('/','-',$this->port->subscriber_id);
     }
 
     /**

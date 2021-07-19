@@ -44,8 +44,6 @@ class CreateDhcpForProvisioningRecord implements ShouldQueue
             $servicelocationname . '(' . $servicelocationid . ').'
         );
 
-        // $management_ip->make();
-
         if (env('APP_ENV') != 'testing') {
             app('dockerbot')->containerRestart(config('goldaccess.dockerbot.services.dhcp.container_name'));
         }

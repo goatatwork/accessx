@@ -45,7 +45,7 @@ class ProvisioningRecordsApiController extends Controller
     {
         $provisioning_record = $request->persist();
 
-        event (new ServiceWasProvisioned($provisioning_record));
+        event (new ServiceWasProvisioned($provisioning_record, $request->all()));
 
         return $provisioning_record;
     }
@@ -81,11 +81,6 @@ class ProvisioningRecordsApiController extends Controller
      */
     public function update(ProvisioningRecordRequest $request, ProvisioningRecord $provisioning_record)
     {
-        if ($request->package_change) {
-            SetRateLimit::dispatch($request->package_id, $provisioning_record);
-            return ['success' => true];
-        }
-
         app('dhcpbot')->destroy($provisioning_record, 'dhcp_management_ip');
 
         $provisioning_record = $request->persistUpdate($provisioning_record);

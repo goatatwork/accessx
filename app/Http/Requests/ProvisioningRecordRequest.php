@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Jobs\SetRateLimit;
+use App\Jobs\SetSubscriberId;
 use App\Package;
 use App\ProvisioningRecord;
 use Illuminate\Foundation\Http\FormRequest;
@@ -47,13 +48,6 @@ class ProvisioningRecordRequest extends FormRequest
     {
         $pr = ProvisioningRecord::create($this->all());
 
-        if ($this->package_id) {
-            $package = Package::find($this->package_id);
-            $pr->packages()->save($package);
-
-            SetRateLimit::dispatch($this->package_id, $pr);
-        }
-
         return $pr;
     }
 
@@ -64,8 +58,19 @@ class ProvisioningRecordRequest extends FormRequest
      */
     public function persistUpdate(ProvisioningRecord $pr)
     {
+        if ($this->port_id != $pr->port_id) {
+            SetSubscriberId::dispatch($pr);
+        }
+
+        /* This would indicate a new package was selected on the change package modal */
+        if ($this->package_change) {
+            SetRateLimit::dispatch($this->package_id, $pr);
+            return ['success' => true];
+        }
+
         $pr = tap($pr)->update($this->all());
 
+        /* This would indicate a new package was selected on the edit provisioning record form */
         if ($this->package_id) {
             if ($this->package_id != $pr->package->id) {
                 $package = Package::find($this->package_id);

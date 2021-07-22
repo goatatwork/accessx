@@ -12,15 +12,23 @@ class Port extends Model implements AuditableContract
 
     protected $fillable = ['port_number', 'notes', 'module', 'port_name'];
 
-    protected $appends = ['has_provisioning_records', 'subscriber_id'];
+    protected $appends = ['has_provisioning_records','subscriber_id'];
 
     public function slot()
     {
         return $this->belongsTo(Slot::class);
     }
 
+    /**
+     * See App\GoldAccess\Dhcp\Options\ManagementIp::class
+     *
+     * @return  string The Subscriber ID to match and use as the tag
+     */
     public function getSubscriberIdAttribute()
     {
-        return $this->slot->aggregator->name . '-' . $this->slot->slot_number . '-' . $this->port_number;
+        return $this->slot->aggregator->slug . '/' .
+            $this->slot->slot_number . '/' .
+            $this->module . '/' .
+            $this->port_number;
     }
 }

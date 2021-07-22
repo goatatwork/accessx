@@ -2,16 +2,17 @@
 
 namespace Tests\Feature;
 
-use App\User;
-use App\Port;
+use App\Events\ServiceWasProvisioned;
 use App\IpAddress;
-use Tests\TestCase;
+use App\Port;
+use App\ProvisioningRecord;
 use App\OntProfile;
 use App\ServiceLocation;
-use App\ProvisioningRecord;
-// use App\GoldAccess\Dhcp\ManagementIp;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Event;
+use Tests\TestCase;
 
 class ManagementIpClassTest extends TestCase
 {
@@ -79,6 +80,5 @@ class ManagementIpClassTest extends TestCase
         // $management_ip = new ManagementIp($db_provisioning_record);
 
         $this->assertTrue(app('dhcpbot')->isDeployed($db_provisioning_record, 'dhcp_management_ip'));
-
     }
 }

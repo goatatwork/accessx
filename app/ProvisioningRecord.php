@@ -2,12 +2,14 @@
 
 namespace App;
 
-use OwenIt\Auditing\Auditable;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
 use App\GoldAccess\Dhcp\Contracts\Deployable;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+
 
 class ProvisioningRecord extends Model implements HasMedia, AuditableContract, Deployable
 {
@@ -145,11 +147,7 @@ class ProvisioningRecord extends Model implements HasMedia, AuditableContract, D
      */
     public function getPortTagAttribute()
     {
-        $aggregator = $this->port->slot->aggregator->slug;
-        $slot = $this->port->slot->slot_number;
-        $module = $this->port->module;
-        $port = $this->port->port_number;
-        return $aggregator . '-' . $slot . '-' . $module . '-' . $port;
+        return str_replace('/','-',$this->port->subscriber_id);
     }
 
     /**

@@ -15,6 +15,7 @@ class ServiceWasProvisioned
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $form_data;
     public $provisioning_record;
 
     /**
@@ -22,9 +23,10 @@ class ServiceWasProvisioned
      *
      * @return void
      */
-    public function __construct(ProvisioningRecord $provisioning_record)
+    public function __construct(ProvisioningRecord $provisioning_record, $form_data = [])
     {
         $this->provisioning_record = $provisioning_record;
+        $this->form_data = $form_data;
     }
 
     /**

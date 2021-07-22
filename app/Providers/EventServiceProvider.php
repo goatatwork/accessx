@@ -25,6 +25,8 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\ServiceWasProvisioned' => [
             'App\Listeners\CreateDhcpForProvisioningRecord',
+            'App\Listeners\SetRateLimit',
+            'App\Listeners\SetSubscriberId'
         ],
         'App\Events\DeletingProvisioningRecord' => [
             'App\Listeners\RemoveManagementIp',

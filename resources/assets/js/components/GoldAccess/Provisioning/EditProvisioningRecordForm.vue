@@ -172,12 +172,13 @@
             v-model="formData.package_id"
             @change="selectPackage($event.target)"
         >
-            <option v-for="package in speed_packages"
-                :id="package.id"
-                :value="package.id"
-                :selected="package.id == provisioningRecord.package_id"
+            <option v-for="speedPacakge in speed_packages"
+                :id="speedPacakge.id"
+                :key="speedPacakge.id"
+                :value="speedPacakge.id"
+                :selected="speedPacakge.id == provisioningRecord.package_id"
             >
-                {{ package.name }}
+                {{ speedPacakge.name }}
             </option>
 
         </select>
@@ -331,17 +332,17 @@
         methods: {
             cancelEditCircuitid: function() {
                 this.editingCircuitid = false;
-                this.formData.circuit_id = this.provisoiningRecord.circuit_id;
+                this.formData.circuit_id = this.provisioningRecord.circuit_id;
             },
             cancelEditLen: function() {
                 this.editingLen = false;
-                this.formData.len = this.provisoiningRecord.len;
+                this.formData.len = this.provisioningRecord.len;
             },
             cancelEditSpeed: function() {
                 this.editingSpeed = false;
                 this.package_id = this.provisioningRecord.package_id;
                 this.package_name = this.provisioningRecord.package_name;
-                this.formData.package_id = this.provisoiningRecord.package_id;
+                this.formData.package_id = this.provisioningRecord.package_id;
             },
             editCircuitid: function() {
                 this.editingOnt = false;

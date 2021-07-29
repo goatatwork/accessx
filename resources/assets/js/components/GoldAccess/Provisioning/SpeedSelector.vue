@@ -6,7 +6,7 @@
                 <label for="ont_id">Speed</label>
                 <select class="form-control" name="ont_id" @change="speedWasSelected($event.target.value)">
                     <option value="">Select</option>
-                    <option v-for="package in packages" :value="package.id">{{ package.name }}</option>
+                    <option v-for="speedPackage in packages" :key="speedPackage.id" :value="speedPackage.id">{{ speedPackage.name }}</option>
                 </select>
                 <span v-show="fetching" class="text-danger">Fetching Speed Packages...</span>
             </div>

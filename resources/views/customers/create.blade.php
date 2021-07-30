@@ -206,7 +206,6 @@
                             class="form-control{{ $errors->has('phone1') ? ' is-invalid' : '' }}"
                             name="phone1"
                             value="{{ old('phone1') }}"
-                            required
                     >
 
                     @if ($errors->has('phone1'))
@@ -249,7 +248,6 @@
                             class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
                             name="email"
                             value="{{ old('email') }}"
-                            required
                     >
 
                     @if ($errors->has('email'))

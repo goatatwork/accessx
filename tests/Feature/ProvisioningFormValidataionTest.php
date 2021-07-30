@@ -96,6 +96,20 @@ class ProvisioningFormValidataionTest extends TestCase
     }
 
     /**
+     * @return  void
+     */
+    public function test_api_will_fail_pr_validation_if_missing_package_id()
+    {
+        $this->postNew()->assertJson([
+            'errors' => [
+                'package_id' => [
+                    'The package id field is required.'
+                ]
+            ]
+        ]);
+    }
+
+    /**
      * 'POST' $this->pr to the API in whatever state it is currently in
      * @return
      */

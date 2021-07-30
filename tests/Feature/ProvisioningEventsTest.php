@@ -64,6 +64,7 @@ class ProvisioningEventsTest extends TestCase
             'len' => $provisioning_record->len,
             'circuit_id' => $provisioning_record->circuit_id,
             'notes' => $provisioning_record->notes,
+            'package_id' => $this->package->id
         ];
 
         $response = $this->actingAs($this->user, 'api')->json('POST', '/api/provisioning', $form_data);

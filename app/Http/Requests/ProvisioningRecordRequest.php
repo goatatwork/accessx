@@ -33,6 +33,7 @@ class ProvisioningRecordRequest extends FormRequest
                 'ont_profile_id' => 'required',
                 'port_id' => 'required',
                 'ip_address_id' => 'required',
+                'package_id' => 'required'
             ];
         }
 
@@ -72,12 +73,18 @@ class ProvisioningRecordRequest extends FormRequest
 
         /* This would indicate a new package was selected on the edit provisioning record form */
         if ($this->package_id) {
-            if ($this->package_id != $pr->package->id) {
+
+            /* only SetRateLimit in these two scenarios */
+            if (is_null($pr->package)) {
                 $package = Package::find($this->package_id);
                 $pr->packages()->save($package);
-
+                SetRateLimit::dispatch($this->package_id, $pr);
+            } elseif ($this->package_id != $pr->package->id) {
+                $package = Package::find($this->package_id);
+                $pr->packages()->save($package);
                 SetRateLimit::dispatch($this->package_id, $pr);
             }
+
         }
 
         return $pr;

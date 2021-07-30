@@ -73,6 +73,12 @@
               </div>
             </div>
 
+            <div v-show="packageSelectorHasErrors" class="row mb-4">
+                <div class="col text-danger">
+                    You must select a <strong>Package</strong>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -156,6 +162,9 @@
             ontSelectorHasErrors: function() {
                 return this.formErrors.ont_profile_id.length ? true : false;
             },
+            packageSelectorHasErrors: function() {
+                return this.formErrors.package_id.length ? true : false;
+            },
             aggregatorSelectorClasses: function() {
                 return this.formErrors.port_id.length ? '' : '';
             },
@@ -169,6 +178,7 @@
 
         created: function() {
             this.initializeEventBus();
+            console.log("The form is ready again");
         },
 
         beforeDestroy: function() {
@@ -188,6 +198,9 @@
             },
             clearOntErrors: function() {
                 this.formErrors.ont_profile_id = [];
+            },
+            clearPackageErrors: function() {
+                this.formErrors.package_id = [];
             },
             initializeEventBus: function() {
                 EventBus.$on('provisioning-profile-was-selected', function(profileId) {
@@ -218,10 +231,12 @@
                     'ont_profile_id': [],
                     'port_id': [],
                     'ip_address_id': [],
+                    'package_id': [],
                 }
             },
             speedWasSelected: function(id) {
                 this.form.package_id = id;
+                this.clearPackageErrors();
             },
             submitForm: function() {
                 this.submitIsDisabled = true;
@@ -234,7 +249,21 @@
                     this.resetFormErrors();
                     this.submitIsDisabled = false;
                     this.$nextTick().then( () => {
-                        this.formErrors = error.response.data.errors;
+                        if (error.response.data.errors.service_location_id) {
+                            this.formErrors.service_location_id = error.response.data.errors.service_location_id
+                        }
+                        if (error.response.data.errors.ont_profile_id) {
+                            this.formErrors.ont_profile_id = error.response.data.errors.ont_profile_id
+                        }
+                        if (error.response.data.errors.port_id) {
+                            this.formErrors.port_id = error.response.data.errors.port_id
+                        }
+                        if (error.response.data.errors.ip_address_id) {
+                            this.formErrors.ip_address_id = error.response.data.errors.ip_address_id
+                        }
+                        if (error.response.data.errors.package_id) {
+                            this.formErrors.package_id = error.response.data.errors.package_id
+                        }
                     });
                 });
             }

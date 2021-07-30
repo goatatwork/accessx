@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Events\ServiceWasProvisioned;
 use App\IpAddress;
+use App\Package;
 use App\Port;
 use App\ProvisioningRecord;
 use App\OntProfile;
@@ -22,6 +23,7 @@ class ManagementIpClassTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
+        $this->package = factory(Package::class)->create();
     }
 
     /**
@@ -49,6 +51,7 @@ class ManagementIpClassTest extends TestCase
             'len' => $provisioning_record->len,
             'circuit_id' => $provisioning_record->circuit_id,
             'notes' => $provisioning_record->notes,
+            'package_id' => $this->package->id
         ];
 
         $response = $this->actingAs($this->user, 'api')->json('POST', '/api/provisioning', $form_data);

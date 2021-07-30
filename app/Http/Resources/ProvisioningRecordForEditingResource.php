@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Ont;
-use App\Package;
 use Illuminate\Http\Resources\Json\Resource;
 
 class ProvisioningRecordForEditingResource extends Resource
@@ -40,15 +38,7 @@ class ProvisioningRecordForEditingResource extends Resource
         if ($this->packages->sortByDesc('pivot.created_at')->first()) {
             return $this->packages->sortByDesc('pivot.created_at')->first()->id;
         } else {
-            if (Package::whereName('None')->first()) {
-                $package = Package::whereName('None')->first();
-                $this->packages()->save($package);
-                return $package->id;
-            } else {
-                $package = Package::create(['name'=>'None','down_rate'=>1,'up_rate'=>1]);
-                $this->packages()->save($package);
-                return $package->id;
-            }
+            return 0;
         }
     }
 
@@ -57,15 +47,7 @@ class ProvisioningRecordForEditingResource extends Resource
         if ($this->packages->sortByDesc('pivot.created_at')->first()) {
             return $this->packages->sortByDesc('pivot.created_at')->first()->name;
         } else {
-            if (Package::whereName('None')->first()) {
-                $package = Package::whereName('None')->first();
-                $this->packages()->save($package);
-                return $package->name;
-            } else {
-                $package = Package::create(['name'=>'None','down_rate'=>1,'up_rate'=>1]);
-                $this->packages()->save($package);
-                return $package->name;
-            }
+            return 'None';
         }
     }
 }

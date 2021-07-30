@@ -1,5 +1,9 @@
 # accessx
 
+**v0.2.2 - 20210730**
+- Selecting a speed package is now required when creating a new provisioning record.
+- The email and phone fields are no longer required when adding a customer.
+
 **v0.2.1 - 20210722**
 The update adds the following directories to the list of directories to be excluded from backups. 
    - `base_path('backups')`

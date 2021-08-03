@@ -25,6 +25,32 @@
                                         ></paginator>
                                     </td>
                                 </tr>
+                               <tr>
+                                    <td colspan="4">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="searchQuery" class="sr-only">Search Query</label>
+                                                <div class="input-group input-group-sm">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <span class="fas fa-search">
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control form-control-sm" v-model="searchQuery" placeholder="Search">
+                                                </div>
+                                            </div>
+                                            <div class="col text-right">
+                                                <small>
+                                                    <a href="#" 
+                                                        class="text-dark" 
+                                                        @click.prevent="sort_by_suspended"
+                                                    >Click here to sort by suspended status</a>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                             </thead>
                             <thead>
                                 <tr>
@@ -51,7 +77,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr is="customer-table-row" v-for="customer in customerListSorted" :key="customer.id" :the-customer="customer">
+                                <tr is="customer-table-row" v-for="customer in customerList" :key="customer.id" :the-customer="customer">
                                 </tr>
                             </tbody>
                         </table>
@@ -97,12 +123,21 @@
                     sort_key: 'customer_name',
                     sort_order: 'asc'
                 },
-                // sortKey: 'customer_name',
-                // sortOrder: 'asc'
+                searchQuery: '',
             }
         },
 
         computed: {
+            customerList() {
+                return this.searchQuery ? this.customerListFiltered : this.customerListSorted;
+            },
+            customerListFiltered() {
+                let self = this;
+                return _.filter(this.customerCollection.data, function(customer) {
+                    var searchRegex = new RegExp(self.searchQuery, 'i');
+                    return searchRegex.test(customer.customer_name);
+                })
+            },
             customerListSorted() {
                 let chunk = this.query_params.page - 1;
                 let page_data = this.customerCollection.paginated[chunk];
@@ -186,15 +221,11 @@
                 }
                 this.fetch_customers();
             },
-            // sortBy: function(field) {
-            //     console.log('sortby');
-            //     if (field == this.sortKey) {
-            //         this.sortOrder = (this.sortOrder == 'asc') ? 'desc' : 'asc';
-            //     } else {
-            //         this.sortKey = field;
-            //         this.sortOrder = 'asc';
-            //     }
-            // }
+            sort_by_suspended: function() {
+                this.query_params.sort_order = 'desc';
+                this.query_params.sort_key = 'has_suspended_services';
+                this.fetch_customers();
+            }
         }
     }
 </script>

@@ -92634,6 +92634,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var CustomerTableRow = Vue.extend(__webpack_require__(345));
 var CustomerPaginator = Vue.extend(__webpack_require__(348));
@@ -92665,13 +92691,22 @@ var CustomerPaginator = Vue.extend(__webpack_require__(348));
                 records_per_page: 0,
                 sort_key: 'customer_name',
                 sort_order: 'asc'
-            }
-            // sortKey: 'customer_name',
-            // sortOrder: 'asc'
+            },
+            searchQuery: ''
         };
     },
 
     computed: {
+        customerList: function customerList() {
+            return this.searchQuery ? this.customerListFiltered : this.customerListSorted;
+        },
+        customerListFiltered: function customerListFiltered() {
+            var self = this;
+            return _.filter(this.customerCollection.data, function (customer) {
+                var searchRegex = new RegExp(self.searchQuery, 'i');
+                return searchRegex.test(customer.customer_name);
+            });
+        },
         customerListSorted: function customerListSorted() {
             var chunk = this.query_params.page - 1;
             var page_data = this.customerCollection.paginated[chunk];
@@ -92750,16 +92785,12 @@ var CustomerPaginator = Vue.extend(__webpack_require__(348));
                 this.query_params.sort_order = 'asc';
             }
             this.fetch_customers();
+        },
+        sort_by_suspended: function sort_by_suspended() {
+            this.query_params.sort_order = 'desc';
+            this.query_params.sort_key = 'has_suspended_services';
+            this.fetch_customers();
         }
-        // sortBy: function(field) {
-        //     console.log('sortby');
-        //     if (field == this.sortKey) {
-        //         this.sortOrder = (this.sortOrder == 'asc') ? 'desc' : 'asc';
-        //     } else {
-        //         this.sortKey = field;
-        //         this.sortOrder = 'asc';
-        //     }
-        // }
     }
 });
 
@@ -92850,6 +92881,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -92871,6 +92913,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         customerTypeIcon: function customerTypeIcon() {
             return this.theCustomer.customer_type == 'Business' ? 'business' : 'person';
+        },
+        rowClasses: function rowClasses() {
+            return {
+                'table-secondary': this.theCustomer.has_suspended_services
+            };
         }
     },
 
@@ -92893,20 +92940,53 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("tr", [
+  return _c("tr", { class: _vm.rowClasses }, [
     _c("td", { staticClass: "text-left", staticStyle: { width: "20%" } }, [
       _c("span", { staticClass: "font-italic small" }, [
         _vm._v(_vm._s(_vm.theCustomer.created_at))
       ])
     ]),
     _vm._v(" "),
-    _c("td", { staticClass: "text-left" }, [
-      _c("i", { staticClass: "material-icons" }, [
-        _vm._v(_vm._s(_vm.customerTypeIcon))
-      ]),
-      _vm._v(" "),
-      _c("a", { attrs: { href: _vm.showCustomerHref } }, [
-        _vm._v("\n            " + _vm._s(_vm.customer_name) + "\n        ")
+    _c("td", [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col col-auto" }, [
+          _c("i", { staticClass: "material-icons" }, [
+            _vm._v(_vm._s(_vm.customerTypeIcon))
+          ]),
+          _vm._v(" "),
+          _c("a", { attrs: { href: _vm.showCustomerHref } }, [
+            _vm._v(
+              "\n                    " +
+                _vm._s(_vm.customer_name) +
+                "\n                "
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col text-center" }, [
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.theCustomer.has_suspended_services,
+                  expression: "theCustomer.has_suspended_services"
+                }
+              ]
+            },
+            [
+              _c("i", { staticClass: "material-icons" }, [
+                _vm._v("hide_source")
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "ml-3" }, [
+                _vm._v("SERVICES SUSPENDED")
+              ])
+            ]
+          )
+        ])
       ])
     ]),
     _vm._v(" "),
@@ -93478,6 +93558,80 @@ var render = function() {
                             ],
                             1
                           )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { colspan: "4" } }, [
+                            _c("div", { staticClass: "row" }, [
+                              _c("div", { staticClass: "col" }, [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "sr-only",
+                                    attrs: { for: "searchQuery" }
+                                  },
+                                  [_vm._v("Search Query")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "input-group input-group-sm" },
+                                  [
+                                    _vm._m(1),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.searchQuery,
+                                          expression: "searchQuery"
+                                        }
+                                      ],
+                                      staticClass:
+                                        "form-control form-control-sm",
+                                      attrs: {
+                                        type: "text",
+                                        placeholder: "Search"
+                                      },
+                                      domProps: { value: _vm.searchQuery },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.searchQuery = $event.target.value
+                                        }
+                                      }
+                                    })
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col text-right" }, [
+                                _c("small", [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "text-dark",
+                                      attrs: { href: "#" },
+                                      on: {
+                                        click: function($event) {
+                                          $event.preventDefault()
+                                          return _vm.sort_by_suspended($event)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "Click here to sort by suspended status"
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ])
+                            ])
+                          ])
                         ])
                       ]),
                       _vm._v(" "),
@@ -93589,7 +93743,7 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "tbody",
-                        _vm._l(_vm.customerListSorted, function(customer) {
+                        _vm._l(_vm.customerList, function(customer) {
                           return _c("customer-table-row", {
                             key: customer.id,
                             tag: "tr",
@@ -93616,6 +93770,16 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col" }, [
       _c("span", { staticClass: "fas fa-spinner fa-spin" }),
       _vm._v(" ...fetching customers\n          ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("span", { staticClass: "fas fa-search" })
+      ])
     ])
   }
 ]

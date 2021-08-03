@@ -1,13 +1,24 @@
 <template>
-    <tr>
+    <tr :class="rowClasses">
         <td class="text-left" style="width:20%;">
             <span class="font-italic small">{{ theCustomer.created_at }}</span>
         </td>
-        <td class="text-left">
-            <i class="material-icons">{{ customerTypeIcon }}</i>
-            <a :href="showCustomerHref">
-                {{ customer_name }}
-            </a>
+        <td>
+            <div class="row">
+                <div class="col col-auto">
+                    <i class="material-icons">{{ customerTypeIcon }}</i>
+                    <a :href="showCustomerHref">
+                        {{ customer_name }}
+                    </a>
+                </div>
+                <div class="col text-center">
+                    <div v-show="theCustomer.has_suspended_services">
+                        <i class="material-icons">hide_source</i>
+                        <span class="ml-3">SERVICES SUSPENDED</span>
+                    </div>
+                </div>
+            </div>
+
         </td>
         <td></td>
         <td class="text-right">
@@ -55,6 +66,11 @@
             },
             customerTypeIcon: function() {
                 return (this.theCustomer.customer_type == 'Business') ? 'business' : 'person';
+            },
+            rowClasses: function() {
+                return {
+                    'table-secondary': this.theCustomer.has_suspended_services
+                }
             }
         },
 

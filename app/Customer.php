@@ -26,6 +26,7 @@ class Customer extends Model implements AuditableContract
         'has_provisioning_records',
         // 'number_of_provisioning_records',
         // 'has_service_locations',
+        'has_suspended_services',
         // 'number_of_service_locations',
     ];
 
@@ -82,6 +83,11 @@ class Customer extends Model implements AuditableContract
     public function getHasServiceLocationsAttribute()
     {
         return $this->service_locations()->exists();
+    }
+
+    public function getHasSuspendedServicesAttribute()
+    {
+        return $this->provisioning_records()->where('suspended', true)->count() > 0;
     }
 
     public function getNumberOfServiceLocationsAttribute()

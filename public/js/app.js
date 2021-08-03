@@ -99261,7 +99261,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -99536,14 +99535,7 @@ var staticRenderFns = [
             staticClass: "btn btn-dark",
             attrs: { "data-toggle": "collapse", "data-target": "#add-a-port" }
           },
-          [
-            _c(
-              "span",
-              { staticClass: "badge badge-pill badge-warning rotate-15" },
-              [_vm._v("NEW")]
-            ),
-            _vm._v("\n                    Add A Port\n                ")
-          ]
+          [_vm._v("\n                    Add A Port\n                ")]
         )
       ])
     ])

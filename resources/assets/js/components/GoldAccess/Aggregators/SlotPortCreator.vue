@@ -5,7 +5,6 @@
             <div class="row">
                 <div class="col text-right">
                     <button class="btn btn-dark" data-toggle="collapse" data-target="#add-a-port">
-                        <span class="badge badge-pill badge-warning rotate-15">NEW</span>
                         Add A Port
                     </button>
                 </div>

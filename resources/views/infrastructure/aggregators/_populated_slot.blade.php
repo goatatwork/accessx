@@ -4,6 +4,7 @@
         <div class="row mb-3">
             <div class="col">
 
+                @can('manage_network')
                 <button
                     type="submit"
                     class="btn btn-danger btn-sm"
@@ -19,7 +20,8 @@
                     <span class="fas fa-long-arrow-alt-left"></span> Disabled because there are provisioned ports here.
                 </small>
                 @endif
-
+                @endcan
+                
             </div>
         </div>
 

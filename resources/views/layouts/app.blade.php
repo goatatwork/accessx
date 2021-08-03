@@ -167,6 +167,8 @@
                             </ul>
                         </li>
                         @endcan
+
+                        <li class="nav-item text-center mt-5">{{ config('goldaccess.version_tag') }}</li>
                     </ul>
                 </div> <!-- /sidebar -->
 

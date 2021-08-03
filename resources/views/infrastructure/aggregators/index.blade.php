@@ -18,8 +18,10 @@
         </dl>
 
         <span class="float-right">
+        @can('manage_network')
             <a href="/infrastructure/aggregators/create" class="btn btn-secondary"><i class="material-icons mr-2">add</i>Add An Aggregator</a>
         </span>
+        @endcan
 
     </div>
 </div>

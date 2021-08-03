@@ -41,6 +41,7 @@
             <div class="col text-center">
                 <a href="/infrastructure/aggregators/{{ $aggregator->id }}" class="btn btn-sm btn-outline-dark">Show</a>
             </div>
+            @can('manage_network')
             <div class="col text-center">
                 <a href="/infrastructure/aggregators/{{ $aggregator->id }}/edit" class="btn btn-sm btn-outline-dark">Edit</a>
             </div>
@@ -55,6 +56,7 @@
                     Delete
                 </button>
             </div>
+            @endcan
         </div>
     </div>
     <div class="card-footer">

@@ -51,6 +51,7 @@
                 @endif
 
                 <div class="row mt-5">
+                    @can('manage_network')
                     <div class="col text-center">
                         <a href="/infrastructure/aggregators/{{ $aggregator->id }}/edit" class="btn btn-sm btn-outline-dark">Edit</a>
                     </div>
@@ -68,6 +69,7 @@
                             Delete
                         </button>
                     </div>
+                    @endcan
                 </div>
             </div>
             <div class="card-footer">
@@ -102,6 +104,7 @@
                         <div class="card-body">
 
                             @if(!$aggregator_slot->populated)
+                                @can('manage_network')
                                 <div class="row">
                                     <div class="col">
                                         <form method="POST" action="/infrastructure/slots/{{ $aggregator_slot->id }}/populate">
@@ -144,9 +147,12 @@
                                         </form>
                                     </div>
                                 </div>
+                                @endcan
                             @else
 
+                                @can('manage_network')
                                 <slot-port-creator :agg-slot="{{ $aggregator_slot }}"></slot-port-creator>
+                                @endcan
 
                                 @include('infrastructure.aggregators._populated_slot')
 

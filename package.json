@@ -22,7 +22,7 @@
     "dependencies": {
         "autosize": "^4.0.0",
         "dropzone": "^5.2.0",
-        "marked": "^0.3.16",
+        "marked": "^4.0.10",
         "uiv": "^0.14.4",
         "vue-carousel-3d": "^0.1.19",
         "vue-slider-component": "^2.4.7"
